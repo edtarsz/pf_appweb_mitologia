@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles/style.css" />
+    <script defer src="scripts/script.js"></script>
     <link
       rel="stylesheet"
       href="path/to/font-awesome/css/font-awesome.min.css"
@@ -32,55 +33,102 @@
               ornare
             </p>
           </div>
-          <form action="">
-            <div class="input-group">
-              <div class="label-input-g">
-                <label for="nombre">Nombre</label>
-                <input type="text" class="register-input" />
+          <form action="" class="form-register">
+            <div class="register-page1">
+              <div class="input-group">
+                <div class="label-input-g">
+                  <label for="nombre">Nombre</label>
+                  <input type="text" class="register-input" />
+                </div>
+              </div>
+
+              <div class="input-group">
+                <div class="label-input-g">
+                  <label for="primerApellido">Primer apellido</label>
+                  <input type="text" class="register-input" />
+                </div>
+
+                <div class="label-input-g">
+                  <label for="segundoApellido">Segundo apellido</label>
+                  <input type="text" class="register-input" />
+                </div>
+              </div>
+
+              <div class="input-group">
+                <div class="label-input-g">
+                  <label for="estado">Estado</label>
+                  <input type="text" class="register-input" />
+                </div>
+
+                <div class="label-input-g">
+                  <label for="ciudad">Ciudad</label>
+                  <input type="text" class="register-input" />
+                </div>
+              </div>
+
+              <div class="input-group">
+                <div class="label-input-g">
+                  <label for="municipio">Municipio</label>
+                  <input type="text" class="register-input" />
+                </div>
+
+                <div class="label-input-g">
+                  <label for="ciudad">Fecha de nacimiento</label>
+                  <input type="date" class="register-input" />
+                </div>
               </div>
             </div>
 
-            <div class="input-group">
-              <div class="label-input-g">
-                <label for="primerApellido">Primer apellido</label>
-                <input type="text" class="register-input" />
+            <div class="register-page2">
+              <div class="input-group">
+                <div class="label-input-g">
+                  <label for="nombre">Correo</label>
+                  <input type="text" class="register-input" />
+                </div>
               </div>
 
-              <div class="label-input-g">
-                <label for="segundoApellido">Segundo apellido</label>
-                <input type="text" class="register-input" />
-              </div>
-            </div>
+              <div class="input-group">
+                <div class="label-input-g">
+                  <label for="primerApellido">Contraseña</label>
+                  <input type="password" class="register-input" />
+                </div>
 
-            <div class="input-group">
-              <div class="label-input-g">
-                <label for="estado">Estado</label>
-                <input type="text" class="register-input" />
-              </div>
-
-              <div class="label-input-g">
-                <label for="ciudad">Ciudad</label>
-                <input type="text" class="register-input" />
-              </div>
-            </div>
-
-            <div class="input-group">
-              <div class="label-input-g">
-                <label for="municipio">Municipio</label>
-                <input type="text" class="register-input" />
+                <div class="label-input-g">
+                  <label for="segundoApellido">Confirmar Contraseña</label>
+                  <input type="password" class="register-input" />
+                </div>
               </div>
 
-              <div class="label-input-g">
-                <label for="ciudad">Fecha de nacimiento</label>
-                <input type="date" class="register-input" />
+              <div class="input-group">
+                <div class="label-input-g">
+                  <label for="estado">Estado</label>
+                  <input type="text" class="register-input" />
+                </div>
+
+                <div class="label-input-g">
+                  <label for="ciudad">Ciudad</label>
+                  <input type="text" class="register-input" />
+                </div>
+              </div>
+
+              <div class="input-group">
+                <div class="label-input-g">
+                  <label for="municipio">Municipio</label>
+                  <input type="text" class="register-input" />
+                </div>
+
+                <div class="label-input-g">
+                  <label for="ciudad">Fecha de nacimiento</label>
+                  <input type="date" class="register-input" />
+                </div>
               </div>
             </div>
           </form>
 
           <div class="radio-nav-register">
             <div class="group-radio">
-              <input type="radio" name="register" id="" />
-              <input type="radio" name="register" id="" />
+              <input type="radio" name="register" id="leftRadio" checked />
+              <input type="radio" name="register" id="rightRadio" />
             </div>
             <div class="container-btn-register">
               <button type="submit" class="arrow-register">

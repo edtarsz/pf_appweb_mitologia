@@ -99,55 +99,76 @@
                 </div>
               </div>
 
-              <div class="input-group">
+              <div class="input-group-col">
                 <div class="label-input-g">
                   <label for="estado">Estado</label>
-                  <input type="text" class="register-input" />
+                  <div class="container-avatar">
+                    <img src="" alt="" id="imgAvatar" />
+                  </div>
+                  <div class="container-btn-upload">
+                    <label for="file-upload" class="btn-upload"
+                      >Subir avatar</label
+                    >
+                    <input type="file" accept=".png, .jpg" id="file-upload" />
+                  </div>
                 </div>
 
-                <div class="label-input-g">
-                  <label for="ciudad">Ciudad</label>
-                  <input type="text" class="register-input" />
-                </div>
-              </div>
+                <div class="input-group-register">
+                  <div class="label-input-g">
+                    <label for="telefono">Telefono</label>
+                    <input type="text" class="register-input" />
+                  </div>
 
-              <div class="input-group">
-                <div class="label-input-g">
-                  <label for="municipio">Municipio</label>
-                  <input type="text" class="register-input" />
-                </div>
-
-                <div class="label-input-g">
-                  <label for="ciudad">Fecha de nacimiento</label>
-                  <input type="date" class="register-input" />
+                  <div class="label-input-g">
+                    <label for="genero">Genero</label>
+                    <input type="text" class="register-input" />
+                  </div>
                 </div>
               </div>
             </div>
+
+            <button class="btn-format-black">Registrar</button>
           </form>
 
           <div class="radio-nav-register">
+            <button type="submit" class="arrow-register-left">
+              <?xml version="1.0" ?><svg
+                class="feather feather-chevron-left"
+                fill="none"
+                height="34"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="34"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </button>
+
             <div class="group-radio">
               <input type="radio" name="register" id="leftRadio" checked />
               <input type="radio" name="register" id="rightRadio" />
             </div>
-            <div class="container-btn-register">
-              <button type="submit" class="arrow-register">
-                <?xml version="1.0" ?><svg
-                  class="feather feather-chevron-right"
-                  fill="none"
-                  height="34"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  viewBox="0 0 24 24"
-                  width="34"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <polyline points="9 18 15 12 9 6" />
-                </svg>
-              </button>
-            </div>
+
+            <button type="submit" class="arrow-register-right">
+              <?xml version="1.0" ?><svg
+                class="feather feather-chevron-right"
+                fill="none"
+                height="34"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="34"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </button>
           </div>
         </div>
       </div>

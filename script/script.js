@@ -5,7 +5,7 @@ const rightRadio = document.querySelector("#rightRadio")
 const arrowRight = document.querySelector(".arrow-register-right");
 const arrowLeft = document.querySelector(".arrow-register-left");
 const formRegister = document.querySelector(".form-register");
-const btnRegister = document.querySelector(".btn-format-black");
+const containerBtn = document.querySelector(".transition-btn");
 const avatar = document.querySelector("#file-upload");
 const img = document.querySelector("#imgAvatar");
 
@@ -36,7 +36,8 @@ function cambiarPantalla(isPageOneVisible) {
 		leftRadio.checked = true;
 		page2.style.left = "100px";
 		page2.style.opacity = "0";
-		btnRegister.style.display = "none";
+		containerBtn.style.display = "none";
+		containerBtn.style.left = "100px";
 		setTimeout(() => {
 			page1.style.right = "0";
 			page1.style.opacity = "1";
@@ -49,8 +50,9 @@ function cambiarPantalla(isPageOneVisible) {
 		rightRadio.checked = true;
 		page1.style.right = "100px";
 		page1.style.opacity = "0";
-		btnRegister.style.display = "block";
+		containerBtn.style.display = "block";
 		setTimeout(() => {
+			containerBtn.style.left = "0";
 			page2.style.left = "0";
 			page2.style.opacity = "1";
 		}, 10)

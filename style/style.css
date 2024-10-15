@@ -127,6 +127,7 @@ ul {
 
 /* registrar.html */
 .container-register {
+	height: 90vh;
 	/* Nav type shit */
 	position: relative;
 	left: 0;
@@ -154,8 +155,7 @@ ul {
 	border-width: 0 0 4px 4px;
 	border-style: solid;
 	border-color: var(--border-second-color);
-	margin: 40px 0;
-	padding: 40px;
+	padding: 2.5%;
 	display: flex;
 	justify-content: center;
 	color: var(--letter-color);
@@ -293,6 +293,12 @@ ul {
 	left: 100px;
 	width: 100%;
 	transition: all 0.3s ease-in-out;
+}
+
+.select-custom {
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
 }
 
 @media (max-width: 600px) {

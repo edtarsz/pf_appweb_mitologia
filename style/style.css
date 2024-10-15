@@ -193,7 +193,7 @@ ul {
 }
 
 .label-input-g {
-	margin: 10px 0;
+	margin: 1.8% 0;
 	width: 100%;
 }
 
@@ -296,12 +296,39 @@ ul {
 }
 
 .select-custom {
+	padding: 11px;
 	appearance: none;
 	-webkit-appearance: none;
 	-moz-appearance: none;
 }
 
 @media (max-width: 600px) {
+	:root {
+		--font-size-small: .8rem;
+		--font-size-medium: .75rem;
+		--font-size-large: 1.5rem;
+	}
+
+	h1 {
+		font-size: var(--font-size-large);
+	}
+
+	p {
+		font-size: var(--font-size-small);
+	}
+
+	label {
+		font-size: var(--font-size-small);
+	}
+
+	.nav-bar {
+		padding: 25px 9%;
+	}
+
+	.input-format {
+		padding: .8em;
+	}
+
 	.container-main {
 		gap: 0;
 		flex-flow: column;
@@ -315,6 +342,10 @@ ul {
 	.main-conent span {
 		display: block;
 	}
+
+	/* select option {
+		font-size: var(--font-size-small);
+	} */
 
 	/* Falta corregir */
 	.main-register {

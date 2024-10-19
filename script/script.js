@@ -8,11 +8,19 @@ const formRegister = document.querySelector(".form-register");
 const containerBtn = document.querySelector(".transition-btn");
 const avatar = document.querySelector("#file-upload");
 const img = document.querySelector("#imgAvatar");
+const titleRegister = document.querySelector(".title-register");
+// const forms = document.querySelectorAll("form");
 
 rightRadio.addEventListener("click", () => cambiarPantalla(false));
 leftRadio.addEventListener("click", () => cambiarPantalla(true));
 arrowRight.addEventListener("click", () => cambiarPantalla(false));
 arrowLeft.addEventListener("click", () => cambiarPantalla(true));
+
+// forms.forEach(form => {
+// 	addEventListener("submit", (e) => {
+// 		e.preventDefault();
+// 	});
+// });
 
 avatar.addEventListener("change", (e) => {
 	if (e.target.files[0]) {
@@ -38,7 +46,9 @@ function cambiarPantalla(isPageOneVisible) {
 		page2.style.opacity = "0";
 		containerBtn.style.display = "none";
 		containerBtn.style.left = "100px";
+		titleRegister.style.display = "block";
 		setTimeout(() => {
+			titleRegister.style.right = "0";
 			page1.style.right = "0";
 			page1.style.opacity = "1";
 		}, 10)
@@ -51,6 +61,9 @@ function cambiarPantalla(isPageOneVisible) {
 		page1.style.right = "100px";
 		page1.style.opacity = "0";
 		containerBtn.style.display = "block";
+		containerBtn.style.right = "100px";
+		titleRegister.style.display = "none";
+		titleRegister.style.right = "100px";
 		setTimeout(() => {
 			containerBtn.style.left = "0";
 			page2.style.left = "0";

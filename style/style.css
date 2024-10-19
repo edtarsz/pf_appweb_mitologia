@@ -184,6 +184,8 @@ ul {
 }
 
 .title-register {
+	transition: all 0.3s ease-in-out;
+	position: relative;
 	margin: 20px 0;
 }
 

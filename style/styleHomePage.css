@@ -120,5 +120,64 @@ header .user-profile {
     cursor: pointer;
 }
 
+.comment-section {
+    grid-area: comment;
+    margin-top: 20px;
+    align: center;
+}
 
+.comment-section button {
+    background-color: #555;
+    padding: 10px;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.sort-comments {
+    display: flex-center;
+    align-items: right; /* Alinea verticalmente el contenido */
+}
+
+.sort-comments label {
+    font-size: 14px;
+    margin-right: 10px; /* Se reduce el espacio entre el texto y el select */
+}
+
+.sort-comments select {
+    padding: 10px;
+    background-color: #555;
+    border: none;
+    color: white;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.comment {
+    background-color: #333;
+    padding: 25px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    text-indent: -20px; 
+    padding-left: 30px; 
+}
+
+.comment-footer {
+    display: flex;
+    justify-content: flex-start; 
+    gap: 15px; 
+    align-items: center;
+    margin-top: 10px;
+}
+
+.comment-footer button {
+    background-color: #ece9e9;
+    padding: 5px 10px;
+    border: none;
+    color: black;
+    border-radius: 5px;
+    cursor: pointer;
+}
 

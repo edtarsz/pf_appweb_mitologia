@@ -1,5 +1,7 @@
 * {
-	font-family: "Inter", sans-serif;
+	/* font-family: "Inter", sans-serif; */
+	/* Esta fuente me gusta más la vdd pero ahí q opinan las plebes */
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
@@ -17,6 +19,8 @@ body {
 	--letter-color: rgba(255, 255, 255);
 	--border-second-color: rgba(25, 25, 25);
 	--border-white-color: rgba(204, 204, 204);
+
+	--black-color: rgb(0, 0, 0);
 
 	/* Fonts */
 	--font-size-small: 1rem;
@@ -68,13 +72,11 @@ ul {
 	align-self: center;
 }
 
-.main-conent h1,
-.main-conent p {
+.main-conent h1, .main-conent p {
 	text-align: center;
 }
 
-.main-conent label,
-.main-register label {
+.main-conent label, .main-register label {
 	font-weight: var(--font-weight-medium);
 	margin: 10px 0;
 	display: block;
@@ -84,8 +86,7 @@ ul {
 	font-weight: var(--font-weight-strong);
 }
 
-.main-conent .description,
-.main-register p {
+.main-conent .description, .main-register p {
 	margin-bottom: 30px;
 }
 
@@ -117,10 +118,7 @@ ul {
 	font-weight: var(--font-weight-medium);
 }
 
-.btn-format:hover,
-.btn-format-black:hover,
-.btn-upload:hover,
-.btn-create-post {
+.btn-format:hover, .btn-format-black:hover, .btn-upload:hover {
 	cursor: pointer;
 	background-color: var(--hover-btn-color);
 }
@@ -181,8 +179,7 @@ ul {
 	font-weight: var(--font-weight-strong);
 }
 
-.main-register h1,
-.main-register p {
+.main-register h1, .main-register p {
 	text-align: center;
 }
 
@@ -311,6 +308,114 @@ ul {
 	-moz-appearance: none;
 }
 
+/* Tala stuff */
+.post-header {
+	background-color: aliceblue;
+	width: 100%;
+}
+
+.register-header {
+	width: 100%;
+}
+
+.post-container {
+	gap: 3.5%;
+	justify-content: center;
+	margin: auto;
+	width: 89%;
+	display: flex;
+	color: var(--letter-color);
+}
+
+.pfp-post {
+	align-self: center;
+	object-fit: contain;
+	width: 100%;
+}
+
+.container-pfp-post {
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	border-radius: 50%;
+	background-color: var(--letter-color);
+	width: 2em;
+	height: 2em;
+}
+
+.head-article-post {
+	padding: 30px 0 0 0;
+	justify-content: space-between;
+	align-content: center;
+	display: flex;
+}
+
+.article-post h3 {
+	padding: 20px 0;
+}
+
+.left-head-article, .right-head-article, .span-post-header, .span-post-label {
+	gap: 10px;
+	align-self: center;
+	display: flex;
+}
+
+.span-post-label {
+	border-width: 2px;
+	border-style: solid;
+	border-color: var(--border-white-color);
+	border-radius: 15px;
+	padding: 0 15px;
+	color: var(--black-color);
+	background-color: var(--letter-color);
+	font-weight: var(--font-weight-light);
+}
+
+.article-post {
+	border-width: 0 0 4px 4px;
+	border-style: solid;
+	border-color: var(--border-second-color);
+	padding: 0 30px;
+	margin: 3% 0;
+	width: 100%;
+	background-color: var(--second-color);
+	border-radius: 10px;
+}
+
+.footer-post {
+	padding: 20px 0 30px 0;
+	gap: 10px;
+	align-content: center;
+	justify-content: flex-start;
+	display: flex;
+}
+
+.btn-footer {
+	gap: 5px;
+	align-items: center;
+	display: flex;
+	border-width: 0 0 2px 2px;
+	border-style: solid;
+	border-color: var(--border-white-color);
+	font-size: var(--font-size-small);
+	background-color: var(--letter-color);
+	border-radius: 10px;
+	padding: 7px 12px;
+	font-weight: var(--font-weight-light);
+}
+
+.left-post-container {
+	background-color: rgb(134, 117, 94);
+}
+
+aside {
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	background-color: rgb(134, 117, 94);
+}
+
 @media (max-width: 600px) {
 	:root {
 		--font-size-small: .8rem;
@@ -352,11 +457,6 @@ ul {
 		display: block;
 	}
 
-	/* select option {
-		font-size: var(--font-size-small);
-	} */
-
-	/* Falta corregir */
 	.main-register {
 		min-width: 90%;
 		padding: 40px 0;
@@ -377,5 +477,5 @@ ul {
 	justify-content: center;
 	font-weight: 400;
 	font-size: 18px;
-	gap: 14px;	
+	gap: 14px;
 }

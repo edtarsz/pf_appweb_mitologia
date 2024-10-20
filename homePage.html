@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nor Vos Forum</title>
     <link rel="stylesheet" href="style/styleHomePage.css">
 </head>
+
 <body>
     <!-- Header -->
     <header>
@@ -15,71 +17,73 @@
         </div>
     </header>
 
-        
-         <div class="create-post">
-            <button>CREATE NEW POST</button>
+
+    <div class="create-post">
+        <button>CREATE NEW POST</button>
+    </div>
+
+    <!-- Main Posts Section -->
+    <main class="main-content">
+
+        <div class="post">
+            <div class="post-header">
+                <span>@user </span>
+                <span> hace 4 horas </span>
+                <span class="location"> MÉXICO</span>
+            </div>
+            <h2>Eu nemo sit Nullam</h2>
+            <p>
+                Enim am semper commod priident ex esse culpa cum si magna, dui es fuga numquam mihi faucio vero
+                faucio...
+            </p>
+            <div class="post-footer">
+                <button>❤️ 241</button>
+                <button>241 comments</button>
+            </div>
         </div>
 
-        <!-- Main Posts Section -->
-        <main class="main-content">
-
-            <div class="post">
-                <div class="post-header">
-                    <span>@user </span>
-                    <span> hace 4 horas </span>
-                    <span class="location"> MÉXICO</span>
-                </div>
-                <h2>Eu nemo sit Nullam</h2>
-                <p>
-                    Enim am semper commod priident ex esse culpa cum si magna, dui es fuga numquam mihi faucio vero faucio...
-                </p>
-                <div class="post-footer">
-                    <button>❤️ 241</button>
-                    <button>241 comments</button>
-                </div>
+        <!-- Comment Section -->
+        <div class="comment-section">
+            <button>+ Añadir un comentario</button>
+            <div class="sort-comments">
+                <label>Ordenar por:</label>
+                <select>
+                    <option>Mejores</option>
+                    <option>Recientes</option>
+                </select>
             </div>
-
-            <!-- Comment Section -->
-            <div class="comment-section">
-                <button>+ Añadir un comentario</button>
-                <div class="sort-comments">
-                    <label>Ordenar por:</label>
-                    <select>
-                        <option>Mejores</option>
-                        <option>Recientes</option>
-                    </select>
-                </div>
-                <div class="comment">
-                    <span>@user replied to @user</span>
-                    <p>Esse non commod quidam dignissi...</p>
-                    <div class="comment-footer">
-                        <button>❤️ 42</button>
-                        <button>Responder</button>
-                    </div>
-                </div>
-            </div>
-        </main>
-
-        <!-- Hot Posts Section -->
-        <aside class="hot-posts">
-            <h3>HOT POSTS</h3>
-            <div class="hot-post">
-                <span>@user</span>
-                <p>Nunc te egestas ornare porttito...</p>
-                <div class="hot-post-footer">
-                    <button>❤️ 1033</button>
+            <div class="comment">
+                <span>@user replied to @user</span>
+                <p>Esse non commod quidam dignissi...</p>
+                <div class="comment-footer">
+                    <button>❤️ 42</button>
                     <button>Responder</button>
                 </div>
             </div>
-            <div class="hot-post">
-                <span>@user</span>
-                <p>Nunc te egestas ornare porttito...</p>
-                <div class="hot-post-footer">
-                    <button>❤️ 1033</button>
-                    <button>Responder</button>
-                </div>
+        </div>
+    </main>
+
+    <!-- Hot Posts Section -->
+    <aside class="hot-posts">
+        <h3>HOT POSTS</h3>
+        <div class="hot-post">
+            <span>@user</span>
+            <p>Nunc te egestas ornare porttito...</p>
+            <div class="hot-post-footer">
+                <button>❤️ 1033</button>
+                <button>Responder</button>
             </div>
-        </aside>
+        </div>
+        <div class="hot-post">
+            <span>@user</span>
+            <p>Nunc te egestas ornare porttito...</p>
+            <div class="hot-post-footer">
+                <button>❤️ 1033</button>
+                <button>Responder</button>
+            </div>
+        </div>
+    </aside>
     </div>
 </body>
+
 </html>

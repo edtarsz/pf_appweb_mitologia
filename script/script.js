@@ -9,12 +9,15 @@ const containerBtn = document.querySelector(".transition-btn");
 const avatar = document.querySelector("#file-upload");
 const img = document.querySelector("#imgAvatar");
 const titleRegister = document.querySelector(".title-register");
+const mythologySelect = document.getElementById('mythologySelect');
 // const forms = document.querySelectorAll("form");
 
-rightRadio.addEventListener("click", () => cambiarPantalla(false));
-leftRadio.addEventListener("click", () => cambiarPantalla(true));
-arrowRight.addEventListener("click", () => cambiarPantalla(false));
-arrowLeft.addEventListener("click", () => cambiarPantalla(true));
+if (rightRadio != null) {
+  rightRadio.addEventListener("click", () => cambiarPantalla(false));
+  leftRadio.addEventListener("click", () => cambiarPantalla(true));
+  arrowRight.addEventListener("click", () => cambiarPantalla(false));
+  arrowLeft.addEventListener("click", () => cambiarPantalla(true));
+}
 
 // forms.forEach(form => {
 // 	addEventListener("submit", (e) => {
@@ -22,17 +25,19 @@ arrowLeft.addEventListener("click", () => cambiarPantalla(true));
 // 	});
 // });
 
-avatar.addEventListener("change", (e) => {
-  if (e.target.files[0]) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      img.src = e.target.result;
-    };
-    reader.readAsDataURL(e.target.files[0]);
-  } else {
-    img.src = defaultFile;
-  }
-});
+if (avatar != null) {
+  avatar.addEventListener("change", (e) => {
+    if (e.target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    } else {
+      img.src = defaultFile;
+    }
+  });
+}
 
 // Se podrían llegar a utilizar promises/async/await si queremos utilizar transiciones más complejas
 function cambiarPantalla(isPageOneVisible) {
@@ -72,7 +77,6 @@ function cambiarPantalla(isPageOneVisible) {
   }
 }
 
-function redirect() {
-  var select = document.getElementById("mythologySelect");
-  window.location.href = select.value;
-}
+mythologySelect.addEventListener("change", () => {
+  window.location.href = mythologySelect.value;
+});

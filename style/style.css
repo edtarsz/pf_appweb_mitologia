@@ -6,103 +6,99 @@
 }
 
 .post-header {
-  display: flex; /* Habilita flexbox */
-  justify-content: space-between; /* Espacia los elementos */
-  align-items: center; /* Centra verticalmente */
-  position: relative; /* Necesario para los elementos posicionados absolutamente */
-  background-color: #161313; /* Color de fondo del header */
-  height: 103px; /* Altura del header */
-  padding: 0 100px; /* Padding de 100px a la derecha e izquierda */
+  margin: auto;
+  border-bottom: 1px solid white;
+  width: 89%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 0;
 }
 
 /* Contenedor para el SVG */
 .header-svg-container {
-  display: flex; /* Permite centrar el SVG */
+  width: 25%;
+  gap: 20px;
+  display: flex;
   align-items: center;
+}
+
+.container-avatar-header {
+  display: flex;
+  justify-content: flex-end;
+  width: 25%;
   margin-right: 15px; /* Espacio entre el logo y el título */
 }
 
 /* Control del tamaño del SVG */
 .header-svg {
-  width: 60px; /* Controla el ancho del logo */
-  height: auto; /* Mantiene la proporción */
-  margin-right: 15px;
+  width: 60px;
 }
 
 .header-text {
   font-family: "EB Garamond", serif;
   color: white;
   font-size: 40px;
-  font-weight: 900;
-  line-height: 1;
-  margin-right: 240px;
-}
-
-.header-line {
-  width: 90%;
-  max-width: 2000px;
-  height: 0.2px;
-  background-color: white;
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.search-container {
-  position: relative; /* Necesario para posicionar el ícono dentro del input */
-  flex: 1; /* Ocupa el espacio disponible */
-  display: flex; /* Habilita flexbox para alinear elementos dentro */
-  align-items: center; /* Alinea verticalmente */
+  font-weight: var(--font-weight-super-strong);
 }
 
 .search-bar {
-  width: 719px; /* Ancho de la barra de búsqueda */
-  height: 45px; /* Alto de la barra de búsqueda */
-  padding: 10px 40px; /* Espaciado interno, izquierda y derecha para el ícono */
-  border: 2px solid rgb(109, 64, 64); /* Borde de la barra de búsqueda */
-  border-radius: 30px; /* Bordes redondeados */
-  background-color: white; /* Fondo blanco */
-  color: gray; /* Color del texto (gris) */
-  font-size: 16px; /* Tamaño de la fuente */
-  transition: border 0.3s; /* Transición suave para el borde */
-  margin-right: 490px; /* Espacio a la derecha para el ícono */
+  padding: 5px;
+  border: none;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.search-bar-container {
+  gap: 5px;
+  justify-content: center;
+  display: flex;
+  flex-direction: row-reverse;
+  width: 47%;
+  border: 2px solid rgb(109, 64, 64);
+  border-radius: 30px;
+  background-color: white;
+  color: gray;
+  font-size: 16px;
+  padding: 6px 10px;
 }
 
 .search-icon {
-  position: absolute; /* Permite posicionar el ícono en relación al contenedor */
-  left: 10px; /* Espacio desde el borde izquierdo del input */
-  top: 50%; /* Centra verticalmente el ícono */
-  transform: translateY(-50%); /* Ajusta la posición del ícono */
-  width: 20px; /* Ajusta el tamaño del ícono */
-  height: auto; /* Mantiene la proporción */
+  width: 15px;
 }
 
 /* Estilo para el placeholder */
 .search-bar::placeholder {
-  color: rgba(0, 0, 0, 0.5); /* Color gris claro para el placeholder */
+  color: rgba(0, 0, 0, 0.5);
+  /* Color gris claro para el placeholder */
 }
 
 .search-bar:focus {
-  outline: none; /* Quita el borde de enfoque */
-  border-color: #6b6a6a; /* Color del borde al enfocarse */
+  outline: none;
+  /* Quita el borde de enfoque */
+  border-color: #6b6a6a;
+  /* Color del borde al enfocarse */
 }
 
 .profile-container {
-  display: flex; /* Permite alinear la imagen y el texto */
-  align-items: center; /* Centra verticalmente */
-  margin-left: 20px; /* Espacio a la izquierda de la imagen de perfil */
+  display: flex;
+  /* Permite alinear la imagen y el texto */
+  align-items: center;
+  /* Centra verticalmente */
+  margin-left: 20px;
+  /* Espacio a la izquierda de la imagen de perfil */
 }
 
 .profile-pic {
-  width: 40px; /* Ajusta el tamaño de la imagen de perfil */
-  height: auto; /* Mantiene la proporción */
-  margin-right: 20px; /* Espacio de 20px entre la imagen y el texto */
+  width: 40px;
 }
 
 .username {
-  color: white; /* Color del texto del usuario */
-  font-size: 16px; /* Tamaño del texto */
+  color: white;
+  /* Color del texto del usuario */
+  font-size: 16px;
+  /* Tamaño del texto */
 }
 
 body {
@@ -127,6 +123,7 @@ body {
   --font-weight-light: 100;
   --font-weight-medium: 600;
   --font-weight-strong: 700;
+  --font-weight-super-strong: 900;
 }
 
 input[type="file"] {
@@ -540,9 +537,14 @@ aside {
   /* transition: transform 0ms ease; */
 }
 
-.hot-post:hover {
+.hot-post:hover, .btn-mythology:hover, .btn-mythology-select:hover {
   cursor: pointer;
   transform: scale(1.01);
+}
+
+.article-post:hover {
+  cursor: pointer;
+  transform: scale(1.003);
 }
 
 .head-article-hot-posts {
@@ -552,7 +554,9 @@ aside {
   display: flex;
 }
 
+/* Esto está medio weird, a lo mejor lo termino cambiando por un label/p ya que no tiene botones los hotposts */
 .btn-footer-hot-post {
+  cursor: pointer;
   color: var(--letter-color);
   gap: 5px;
   align-items: center;

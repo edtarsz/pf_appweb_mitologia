@@ -354,6 +354,13 @@ ul {
 	padding: 20px 0;
 }
 
+.hot-posts-title {
+	width: 100%;
+	text-align: left;
+	font-weight: var(--font-weight-medium);
+	padding-top: 20px;
+}
+
 .left-head-article, .right-head-article, .span-post-header, .span-post-label {
 	gap: 10px;
 	align-self: center;
@@ -376,7 +383,7 @@ ul {
 	border-style: solid;
 	border-color: var(--border-second-color);
 	padding: 0 30px;
-	margin: 3% 0;
+	margin: 1em 0;
 	width: 100%;
 	background-color: var(--second-color);
 	border-radius: 10px;
@@ -404,16 +411,60 @@ ul {
 	font-weight: var(--font-weight-light);
 }
 
-.left-post-container {
-	background-color: rgb(134, 117, 94);
+.btn-footer:hover, .btn-create-post:hover {
+	cursor: pointer;
+	background-color: var(--border-white-color);
 }
 
 aside {
 	align-items: center;
 	display: flex;
 	flex-direction: column;
+	width: 70%;
+	/* background-color: rgb(134, 117, 94); */
+}
+
+.hot-post {
+	border-width: 0 0 4px 4px;
+	border-style: solid;
+	border-color: var(--border-second-color);
+	padding: 0 30px;
 	width: 100%;
-	background-color: rgb(134, 117, 94);
+	background-color: var(--second-color);
+	border-radius: 10px;
+	margin: 1em 0;
+	/* transition: transform 0ms ease; */
+}
+
+.hot-post:hover {
+	cursor: pointer;
+	transform: scale(1.01);
+}
+
+.head-article-hot-posts {
+	padding: 30px 0 20px 0;
+	justify-content: space-between;
+	align-content: center;
+	display: flex;
+}
+
+.btn-footer-hot-post {
+	color: var(--letter-color);
+	gap: 5px;
+	align-items: center;
+	display: flex;
+	border-style: none;
+	font-size: var(--font-size-small);
+	border-radius: 10px;
+	padding: 7px 12px;
+	background-color: inherit;
+	font-weight: var(--font-weight-medium);
+}
+
+.footer-hot-post {
+	padding: 20px 0 30px 0;
+	align-content: center;
+	display: flex;
 }
 
 @media (max-width: 600px) {
@@ -464,18 +515,16 @@ aside {
 }
 
 .btn-create-post {
+	border-width: 0 0 2px 2px;
+	border-style: solid;
+	border-color: var(--border-white-color);
+	border-radius: 13px;
 	background-color: white;
-	color: var(--main-color);
-	margin: 20px 0 10px 0;
-	width: 300px;
-	height: 53px;
-	border-radius: 10px;
-	padding: 15px;
-	font-weight: var(--font-weight-medium);
+	margin: 20px 0;
+	padding: 0.6em 4em;
 	display: flex;
 	align-items: center;
-	justify-content: center;
-	font-weight: 400;
-	font-size: 18px;
+	font-size: var(--font-size-small);
+	font-weight: var(--font-weight-medium);
 	gap: 14px;
 }

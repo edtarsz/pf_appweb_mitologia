@@ -72,11 +72,13 @@ ul {
 	align-self: center;
 }
 
-.main-conent h1, .main-conent p {
+.main-conent h1,
+.main-conent p {
 	text-align: center;
 }
 
-.main-conent label, .main-register label {
+.main-conent label,
+.main-register label {
 	font-weight: var(--font-weight-medium);
 	margin: 10px 0;
 	display: block;
@@ -86,11 +88,12 @@ ul {
 	font-weight: var(--font-weight-strong);
 }
 
-.main-conent .description, .main-register p {
+.main-conent .description,
+.main-register p {
 	margin-bottom: 30px;
 }
 
-.btn-format {
+.btn-format{
 	border-width: 0 0 4px 4px;
 	border-style: solid;
 	border-color: var(--border-second-color);
@@ -118,7 +121,9 @@ ul {
 	font-weight: var(--font-weight-medium);
 }
 
-.btn-format:hover, .btn-format-black:hover, .btn-upload:hover {
+.btn-format:hover,
+.btn-format-black:hover,
+.btn-upload:hover {
 	cursor: pointer;
 	background-color: var(--hover-btn-color);
 }
@@ -179,7 +184,8 @@ ul {
 	font-weight: var(--font-weight-strong);
 }
 
-.main-register h1, .main-register p {
+.main-register h1,
+.main-register p {
 	text-align: center;
 }
 
@@ -361,7 +367,10 @@ ul {
 	padding-top: 20px;
 }
 
-.left-head-article, .right-head-article, .span-post-header, .span-post-label {
+.left-head-article,
+.right-head-article,
+.span-post-header,
+.span-post-label {
 	gap: 10px;
 	align-self: center;
 	display: flex;
@@ -411,7 +420,8 @@ ul {
 	font-weight: var(--font-weight-light);
 }
 
-.btn-footer:hover, .btn-create-post:hover {
+.btn-footer:hover,
+.btn-create-post:hover {
 	cursor: pointer;
 	background-color: var(--border-white-color);
 }
@@ -521,10 +531,48 @@ aside {
 	border-radius: 13px;
 	background-color: white;
 	margin: 20px 0;
-	padding: 0.6em 4em;
+	padding: 13px 57px;
 	display: flex;
 	align-items: center;
 	font-size: var(--font-size-small);
 	font-weight: var(--font-weight-medium);
 	gap: 14px;
+	width: 100%;
+}
+
+.left-aside {
+	width: 300px;
+}
+
+.mythologies-list {
+	display: grid;
+	justify-content: center;
+	gap: 10px;
+	width: 300px;
+}
+
+.btn-mythology{
+	width: 100%;
+}
+
+.btn-mythology-select, .btn-mythology {
+	appearance: none; /* Oculta la flecha nativa */
+
+	border-width: 0 0 4px 4px;
+	border-style: solid;
+	border-color: var(--border-second-color);
+	font-size: 18px;
+	font-weight: 400;
+	background-color: #2C2929;
+	color: var(--letter-color);
+	width: 300px;
+	height: 40px;
+	border-radius: 10px;
+	text-align: center;            
+}
+
+.mythology-select:focus {
+	outline: none;
+	border-color: #007bff;
+	box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }

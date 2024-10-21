@@ -7,7 +7,11 @@
     <link rel="stylesheet" href="style/style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link
+      href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap"
+      rel="stylesheet"
+    />
+
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
       rel="stylesheet"
@@ -17,7 +21,24 @@
   </head>
 
   <body>
-    <header class="post-header">Aca va lo de la eliana</header>
+    <header class="post-header">
+      <div class="header-svg-container">
+        <img src="img/icon.svg" alt="Logo Mythify" class="header-svg" />
+        <span class="header-text">Mythify</span>
+      </div>
+      <div class="search-container">
+        <input type="text" class="search-bar" placeholder="Buscar..." />
+        <img src="img/search-icon.svg" alt="Buscar" class="search-icon" />
+        <img
+          src="img/profile-pic.svg"
+          alt="Profile Picture"
+          class="profile-pic"
+        />
+      </div>
+      <div class="header-line"></div>
+      <!-- Línea horizontal -->
+    </header>
+
     <div class="post-container">
       <aside class="left-aside">
         <button class="btn-create-post">
@@ -44,15 +65,15 @@
           onchange="redirect()"
         >
           <h2 class="mythologies-title">MITOLOGÍAS</h2>
-		  <button class="btn-mythology">EGIPCIA</button>
-		  <button class="btn-mythology">GRIEGA</button>
-		  <select class="btn-mythology-select">
-			<option value="" disabled selected hidden>MESOAMERICANA</option>
-			<option value="azteca.html">AZTECA</option>
-			<option value="maya.html">MAYA</option>
-		  </select>
-		  <button class="btn-mythology">NÓRDICA</button>
-		  <button class="btn-mythology">ROMANA</button>
+          <button class="btn-mythology">EGIPCIA</button>
+          <button class="btn-mythology">GRIEGA</button>
+          <select class="btn-mythology-select">
+            <option value="" disabled selected hidden>MESOAMERICANA</option>
+            <option value="azteca.html">AZTECA</option>
+            <option value="maya.html">MAYA</option>
+          </select>
+          <button class="btn-mythology">NÓRDICA</button>
+          <button class="btn-mythology">ROMANA</button>
         </div>
       </aside>
       <main>
@@ -199,16 +220,16 @@
       </aside>
     </div>
     <footer>
-		<div class="footer-content">
-			<div class="social-icons">
-				<a href="#"><i class="fab fa-facebook"></i></a>
-				<a href="#"><i class="fab fa-instagram"></i></a>
-				<a href="#"><i class="fab fa-twitter"></i></a>
-				<a href="#"><i class="fab fa-twitch"></i></a>
-				<a href="#"><i class="fab fa-discord"></i></a>
-			</div>
-			<p>Copyright 2024 © Mythify Team</p>
-		</div>
-	</footer>
+      <div class="footer-content">
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-twitch"></i></a>
+          <a href="#"><i class="fab fa-discord"></i></a>
+        </div>
+        <p>Copyright 2024 © Mythify Team</p>
+      </div>
+    </footer>
   </body>
 </html>

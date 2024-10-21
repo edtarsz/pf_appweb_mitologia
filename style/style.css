@@ -27,7 +27,8 @@
   display: flex;
   justify-content: flex-end;
   width: 25%;
-  margin-right: 15px; /* Espacio entre el logo y el título */
+  margin-right: 15px;
+  /* Espacio entre el logo y el título */
 }
 
 /* Control del tamaño del SVG */
@@ -221,8 +222,8 @@ ul {
 .btn-upload:hover,
 .btn-mythology-select:hover,
 .btn-mythology:hover {
-	cursor: pointer;
-	background-color: var(--hover-btn-color);
+  cursor: pointer;
+  background-color: var(--hover-btn-color);
 }
 
 #statue-img {
@@ -447,7 +448,7 @@ ul {
   display: flex;
 }
 
-.article-post h3 {
+.article-post h3, .comment-post h3, .second-comment-post h3 {
   padding: 20px 0;
 }
 
@@ -475,7 +476,7 @@ ul {
   padding: 0 15px;
   color: var(--black-color);
   background-color: var(--letter-color);
-  font-weight: var(--font-weight-light);
+  font-weight: var(--font-weight-medium);
 }
 
 .article-post {
@@ -508,11 +509,12 @@ ul {
   background-color: var(--letter-color);
   border-radius: 10px;
   padding: 7px 12px;
-  font-weight: var(--font-weight-light);
+  font-weight: var(--font-weight-medium);
 }
 
 .btn-footer:hover,
-.btn-create-post:hover {
+.btn-create-post:hover,
+.add-comment:hover {
   cursor: pointer;
   background-color: var(--border-white-color);
 }
@@ -653,19 +655,19 @@ aside {
 
 .btn-mythology-select,
 .btn-mythology {
-	appearance: none;
-	/* Oculta la flecha nativa */
-	border-width: 0 0 4px 4px;
-	border-style: solid;
-	border-color: var(--border-second-color);
-	font-size: 18px;
-	font-weight: 400;
-	background-color: #2C2929;
-	color: var(--letter-color);
-	width: 300px;
-	height: 40px;
-	border-radius: 10px;
-	text-align: center;
+  appearance: none;
+  /* Oculta la flecha nativa */
+  border-width: 0 0 4px 4px;
+  border-style: solid;
+  border-color: var(--border-second-color);
+  font-size: 18px;
+  font-weight: 400;
+  background-color: #2C2929;
+  color: var(--letter-color);
+  width: 300px;
+  height: 40px;
+  border-radius: 10px;
+  text-align: center;
 }
 
 .mythology-select:focus {
@@ -703,9 +705,79 @@ footer {
   color: #fff;
 }
 
-.mythologies-title{
+.mythologies-title {
   font-size: 24px;
   font-weight: 600;
   color: var(--letter-color);
   margin-bottom: 8px;
+}
+
+.svg-btn {
+  align-self: center;
+}
+
+.add-comment {
+  gap: 10px;
+  justify-content: center;
+  display: flex;
+  border-width: 0 0 4px 4px;
+  border-style: solid;
+  border-color: var(--border-second-color);
+  font-size: var(--font-size-small);
+  background-color: var(--letter-color);
+  margin: 20px 0 0 0;
+  width: 20%;
+  border-radius: 50px;
+  padding: 12px;
+  font-weight: var(--font-weight-medium);
+}
+
+.comment-post {
+  border-width: 0 0 4px 4px;
+  border-style: solid;
+  border-color: var(--border-second-color);
+  padding: 0 30px;
+  width: 100%;
+  background-color: var(--second-color);
+  border-radius: 10px;
+  margin: 20px 0;
+}
+
+.second-comment-post {
+  border-width: 0 0 4px 4px;
+  border-style: solid;
+  border-color: var(--border-second-color);
+  padding: 0 30px;
+  width: 90%;
+  background-color: var(--second-color);
+  border-radius: 10px;
+  margin: 20px 0;
+}
+
+.container-comments {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  width: 100%;
+}
+
+.group-footer-btn {
+  gap: 10px;
+  display: flex;
+}
+
+.footer-comments {
+  padding: 20px 0 30px 0;
+  gap: 10px;
+  align-content: center;
+  justify-content: space-between;
+  display: flex;
+}
+
+.order-comments {
+  font-weight: var(--font-weight-light);
+}
+
+.content-comment-post {
+  margin: 20px 0 0 0;
 }

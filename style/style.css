@@ -1,5 +1,5 @@
 * {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Inter", Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -19,7 +19,7 @@
 .header-svg-container {
   display: flex; /* Permite centrar el SVG */
   align-items: center;
-  margin-right: 19px; /* Espacio entre el logo y el título */
+  margin-right: 15px; /* Espacio entre el logo y el título */
 }
 
 /* Control del tamaño del SVG */
@@ -221,9 +221,11 @@ ul {
 
 .btn-format:hover,
 .btn-format-black:hover,
-.btn-upload:hover {
-  cursor: pointer;
-  background-color: var(--hover-btn-color);
+.btn-upload:hover,
+.btn-mythology-select:hover,
+.btn-mythology:hover {
+	cursor: pointer;
+	background-color: var(--hover-btn-color);
 }
 
 #statue-img {
@@ -639,29 +641,27 @@ aside {
 .mythologies-list {
   display: grid;
   justify-content: center;
-  gap: 10px;
+  gap: 12px;
   width: 300px;
+  margin-top: 10px;
 }
 
-.btn-mythology {
-  width: 100%;
-}
 
 .btn-mythology-select,
 .btn-mythology {
-  appearance: none; /* Oculta la flecha nativa */
-
-  border-width: 0 0 4px 4px;
-  border-style: solid;
-  border-color: var(--border-second-color);
-  font-size: 18px;
-  font-weight: 400;
-  background-color: #2c2929;
-  color: var(--letter-color);
-  width: 300px;
-  height: 40px;
-  border-radius: 10px;
-  text-align: center;
+	appearance: none;
+	/* Oculta la flecha nativa */
+	border-width: 0 0 4px 4px;
+	border-style: solid;
+	border-color: var(--border-second-color);
+	font-size: 18px;
+	font-weight: 400;
+	background-color: #2C2929;
+	color: var(--letter-color);
+	width: 300px;
+	height: 40px;
+	border-radius: 10px;
+	text-align: center;
 }
 
 .mythology-select:focus {
@@ -697,4 +697,11 @@ footer {
 
 .social-icons a:hover {
   color: #fff;
+}
+
+.mythologies-title{
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--letter-color);
+  margin-bottom: 8px;
 }

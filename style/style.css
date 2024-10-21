@@ -576,3 +576,41 @@ aside {
 	border-color: #007bff;
 	box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
+
+footer {
+    background-color: var(--main-color);
+    padding: 20px 0;
+    text-align: center;
+    border-top: 1px solid #444; 
+    color: #aaa; 
+    font-family: 'Arial', sans-serif;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.social-icons {
+    margin-bottom: 15px;
+}
+
+.social-icons a {
+    color: #aaa;
+    font-size: 24px;
+    margin: 0 15px;
+    text-decoration: none;
+}
+
+.social-icons a:hover {
+    color: #fff; 
+}
+
+p {
+    font-size: 14px;
+    color: #aaa;
+}
+
+p:hover {
+    color: #fff; 
+}

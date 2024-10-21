@@ -568,10 +568,11 @@ aside {
   border-radius: 10px;
   padding: 7px 12px;
   background-color: inherit;
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-light);
 }
 
 .footer-hot-post {
+  justify-content: space-between;
   padding: 20px 0 30px 0;
   align-content: center;
   display: flex;

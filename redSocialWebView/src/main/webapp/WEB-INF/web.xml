@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
+    <servlet>
+        <servlet-name>SVPost</servlet-name>
+        <servlet-class>com.mycompany.redsocial.Servlet.SVPost</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SVCerrarSesion</servlet-name>
+        <servlet-class>com.mycompany.redsocial.Servlet.SVCerrarSesion</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SVUsuario</servlet-name>
+        <servlet-class>com.mycompany.redsocial.Servlet.SVUsuario</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SVPost</servlet-name>
+        <url-pattern>/SVPost</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SVCerrarSesion</servlet-name>
+        <url-pattern>/SVCerrarSesion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SVUsuario</servlet-name>
+        <url-pattern>/SVUsuario</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+</web-app>

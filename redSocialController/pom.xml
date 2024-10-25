@@ -9,11 +9,6 @@
     <packaging>jar</packaging>
 
     <dependencies>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>redSocialModelo</artifactId>
-            <version>${project.version}</version>
-        </dependency>
         
         <dependency>
             <groupId>jakarta.servlet</groupId>
@@ -32,6 +27,11 @@
             <groupId>jakarta.ws.rs</groupId>
             <artifactId>jakarta.ws.rs-api</artifactId>
             <version>4.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>redSocialModel</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 

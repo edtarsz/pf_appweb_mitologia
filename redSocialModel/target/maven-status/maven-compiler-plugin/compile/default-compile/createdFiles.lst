@@ -1,0 +1,9 @@
+com\mycompany\redsocial\Conexion\InitialConfig.class
+com\mycompany\redsocial\Conexion\IConexion.class
+com\mycompany\redsocial\DAO\ModelException.class
+com\mycompany\redsocial\Entidad\Usuario.class
+com\mycompany\redsocial\Entidad\Municipio.class
+com\mycompany\redsocial\Conexion\Conexion.class
+com\mycompany\redsocial\DAO\IUsuarioDAO.class
+com\mycompany\redsocial\DAO\UsuarioDAO.class
+com\mycompany\redsocial\Entidad\Estado.class

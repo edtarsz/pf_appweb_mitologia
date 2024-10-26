@@ -46,15 +46,17 @@ public class SVUsuario extends HttpServlet {
             throws ServletException, IOException {
         String action = request.getParameter("action");
 
-        switch (action) {
-            case "registrar" ->
-                registrarUsuario(request, response);
-            case "iniciarSesion" ->
-                iniciarSesion(request, response);
-            case "cerrarSesion" ->
-                cerrarSesion(request, response);
-            default ->
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Acción no válida");
+        if (action != null) {
+            switch (action) {
+                case "registrar" ->
+                    registrarUsuario(request, response);
+                case "iniciarSesion" ->
+                    iniciarSesion(request, response);
+                case "cerrarSesion" ->
+                    cerrarSesion(request, response);
+                default ->
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Acción no válida");
+            }
         }
     }
 

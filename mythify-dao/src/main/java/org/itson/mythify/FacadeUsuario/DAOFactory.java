@@ -4,8 +4,8 @@
  */
 package org.itson.mythify.FacadeUsuario;
 
-import com.mycompany.redsocial.Conexion.IConexion;
-import com.mycompany.redsocial.DAO.UsuarioDAO;
+import org.itson.mythify.conexion.IConexion;
+import org.itson.mythify.dao.UsuarioDAO;
 
 /**
  *

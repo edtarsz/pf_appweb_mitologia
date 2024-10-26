@@ -1,7 +1,7 @@
-package org.itson.mythify.Conexion;
+package org.itson.mythify.conexion;
 
-import org.itson.mythify.Conexion.Conexion;
-import org.itson.mythify.Conexion.IConexion;
+import org.itson.mythify.conexion.Conexion;
+import org.itson.mythify.conexion.IConexion;
 
 /*
  * @author Eduardo Talavera Ramos

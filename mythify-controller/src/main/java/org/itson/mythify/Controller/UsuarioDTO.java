@@ -4,7 +4,7 @@
  */
 package org.itson.mythify.Controller;
 
-import com.mycompany.redsocial.Entidad.Municipio;
+import org.itson.mythify.entidad.Municipio;
 import java.util.Date;
 
 /*

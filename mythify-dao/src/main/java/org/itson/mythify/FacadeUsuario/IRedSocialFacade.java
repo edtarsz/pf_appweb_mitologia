@@ -4,15 +4,17 @@
  */
 package org.itson.mythify.FacadeUsuario;
 
+import org.itson.mythify.Controller.ControllerException;
+import org.itson.mythify.Controller.UsuarioDTO;
+import org.itson.mythify.entidad.Usuario;
+
 /*
  * @author Eduardo Talavera Ramos
  * @author Ana Cristina Castro Noriega
  * @author Eliana Monge Camara
  * @author Jesús Roberto García Armenta
  */
-import com.mycompany.redsocial.Controller.ControllerException;
-import com.mycompany.redsocial.Controller.UsuarioDTO;
-import com.mycompany.redsocial.Entidad.Usuario;
+
 
 /**
  *

@@ -1,7 +1,7 @@
-package org.itson.mythify.DAO;
+package org.itson.mythify.dao;
 
-import org.itson.mythify.Conexion.IConexion;
-import org.itson.mythify.Entidad.Usuario;
+import org.itson.mythify.conexion.IConexion;
+import org.itson.mythify.entidad.Usuario;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;

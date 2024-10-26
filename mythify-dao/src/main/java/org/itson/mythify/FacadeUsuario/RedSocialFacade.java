@@ -4,13 +4,13 @@
  */
 package org.itson.mythify.FacadeUsuario;
 
-import com.mycompany.redsocial.Controller.ControllerException;
-import com.mycompany.redsocial.Controller.UsuarioDTO;
-import com.mycompany.redsocial.Conexion.Conexion;
-import com.mycompany.redsocial.Conexion.IConexion;
-import com.mycompany.redsocial.DAO.IUsuarioDAO;
-import com.mycompany.redsocial.DAO.ModelException;
-import com.mycompany.redsocial.Entidad.Usuario;
+import org.itson.mythify.Controller.ControllerException;
+import org.itson.mythify.Controller.UsuarioDTO;
+import org.itson.mythify.conexion.Conexion;
+import org.itson.mythify.conexion.IConexion;
+import org.itson.mythify.dao.IUsuarioDAO;
+import org.itson.mythify.dao.ModelException;
+import org.itson.mythify.entidad.Usuario;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

@@ -1,4 +1,4 @@
-package org.itson.mythify.Conexion;
+package org.itson.mythify.conexion;
 
 import javax.persistence.EntityManager;
 

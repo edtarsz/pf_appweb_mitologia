@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package org.itson.mythify.FacadeUsuario;
+package org.itson.mythify.dao.usuario;
 
 import org.itson.mythify.conexion.IConexion;
 import org.itson.mythify.dao.IUsuarioDAO;
@@ -10,6 +10,9 @@ import org.itson.mythify.dao.ModelException;
 import org.itson.mythify.entidad.Usuario;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.itson.mythify.dao.DAOFactory;
+import org.itson.mythify.dao.IUsuarioDAO;
+import org.itson.mythify.dao.ModelException;
 
 /*
  * @author Eduardo Talavera Ramos

@@ -1,4 +1,4 @@
-package org.itson.mythify.Controller;
+package org.itson.mythify.controller;
 
 /**
  * Excepción personalizada para errores del modelo.

@@ -1,23 +1,25 @@
-<%-- 
-    Document   : post.jsp
-    Created on : 25 oct 2024, 4:00:48 p.m.
-    Author     : crist
---%>
+<%-- Document : post.jsp Created on : 25 oct 2024, 4:00:48 p.m. Author : crist --%>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
+
     <head>
         <meta charset="UTF-8" />
         <meta name="description" content="" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         <!-- CSS Stylesheets -->
-        <link rel="stylesheet" href="<%= request.getContextPath()%>/style/style.css" />
+
+        <link rel="stylesheet" href="<%= request.getContextPath()%>/style/style.css">
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap"
+            rel="stylesheet" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+            rel="stylesheet" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
         <!-- JavaScript -->
@@ -25,6 +27,7 @@
 
         <title>Mythify</title>
     </head>
+
     <body>
         <header class="post-header">
             <div class="header-svg-container">
@@ -36,14 +39,26 @@
                 <img src="<%= request.getContextPath()%>/img/search-icon.svg" alt="Buscar" class="search-icon" />
             </div>
             <div class="container-avatar-header">
-                <img src="<%= request.getContextPath()%>/img/profile-pic.svg" alt="Profile Picture" class="profile-pic" />
+                <div class="click-menu">
+                    <p>Ana Cristina Castrada Noruega</p>
+                    <img src="<%= request.getContextPath()%>/img/profile-pic.svg" alt="Profile Picture"
+                         class="profile-pic" />
+                </div>
+                <div class="items-menu">
+                    <ul>
+                        <li>Cerrar sesión</li>
+                        <li>Actualizar perfil</li>
+                        <li>Ver perfil</li>
+                    </ul>
+                </div>
             </div>
         </header>
 
         <div class="post-container">
             <aside class="left-aside">
                 <button class="btn-create-post">
-                    <img src="<%= request.getContextPath()%>/img/post-pic.svg" alt="Profile Picture" class="post-pic" />
+                    <img src="<%= request.getContextPath()%>/img/post-pic.svg" alt="Profile Picture"
+                         class="post-pic" />
                     CREAR UN POST
                 </button>
                 <div class="mythologies-list">
@@ -74,9 +89,16 @@
                     </div>
                     <h3>Eu nemo sit Nullam</h3>
                     <div class="content-post">
-                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt culpa porro, perferendis voluptate quaerat assumenda praesentium dignissimos eius esse ratione quas sed voluptatum inventore voluptates illo optio officiis sit harum? Reprehenderit facilis quis quae consequuntur ea, animi rem, natus necessitatibus velit rerum amet ex odit officiis magnam accusantium iste atque placeat aliquid, sequi qui. Modi consequuntur numquam dolorum qui laboriosam!</p>
+                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt culpa porro,
+                            perferendis voluptate quaerat assumenda praesentium dignissimos eius esse ratione quas
+                            sed voluptatum inventore voluptates illo optio officiis sit harum? Reprehenderit facilis
+                            quis quae consequuntur ea, animi rem, natus necessitatibus velit rerum amet ex odit
+                            officiis magnam accusantium iste atque placeat aliquid, sequi qui. Modi consequuntur
+                            numquam dolorum qui laboriosam!</p>
                         <br />
-                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sed quam temporibus nulla facere, deleniti optio molestiae assumenda, magni perferendis voluptatibus consequuntur. Quibusdam incidunt exercitationem neque ex, provident atque quae ea.</p>
+                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sed quam temporibus nulla
+                            facere, deleniti optio molestiae assumenda, magni perferendis voluptatibus consequuntur.
+                            Quibusdam incidunt exercitationem neque ex, provident atque quae ea.</p>
                     </div>
                     <div class="footer-post">
                         <button class="btn-footer">
@@ -104,7 +126,9 @@
                         </div>
                     </div>
                     <div class="content-post">
-                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt culpa porro, perferendis voluptate quaerat assumenda praesentium dignissimos eius esse ratione quas sed voluptatum inventore voluptates illo optio officiis sit harum?</p>
+                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt culpa porro,
+                            perferendis voluptate quaerat assumenda praesentium dignissimos eius esse ratione quas
+                            sed voluptatum inventore voluptates illo optio officiis sit harum?</p>
                     </div>
                     <div class="footer-hot-post">
                         <button class="btn-footer-hot-post">
@@ -132,4 +156,5 @@
             </div>
         </footer>
     </body>
+
 </html>

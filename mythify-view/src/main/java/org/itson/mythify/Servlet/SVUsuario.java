@@ -139,7 +139,7 @@ public class SVUsuario extends HttpServlet {
 
         if (usuario != null) {
             request.getSession().setAttribute("usuario", usuario);
-            response.sendRedirect("main.jsp");
+            response.sendRedirect("index.jsp");
         } else {
             System.out.println("Error");
         }

@@ -24,11 +24,31 @@
 }
 
 .container-avatar-header {
+  color: var(--letter-color);
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  align-items: flex-end;
   width: 25%;
-  margin-right: 15px;
-  /* Espacio entre el logo y el título */
+}
+
+.click-menu {
+  cursor: pointer;
+  gap: 10px;
+  align-items: center;
+  display: flex;
+}
+
+.items-menu {
+  border-radius: 10px;
+  background-color: #007bff;
+  padding: 10px 40px;
+  top: 90px;
+  position: absolute;
+  z-index: 1;
+}
+
+.items-menu li {
+  margin: 10px 0;
 }
 
 /* Control del tamaño del SVG */

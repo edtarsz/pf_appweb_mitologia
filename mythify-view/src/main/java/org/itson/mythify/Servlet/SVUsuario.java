@@ -21,10 +21,12 @@ import java.util.logging.Logger;
 import org.itson.mythify.controller.ControllerException;
 import org.itson.mythify.controller.usuario.FacadeUsuarioBO;
 import org.itson.mythify.controller.usuario.IFacadeUsuarioBO;
+import org.itson.mythify.controller.usuario.PermisoDTO;
 import org.itson.mythify.controller.usuario.UsuarioDTO;
 import org.itson.mythify.entidad.Estado;
 import org.itson.mythify.entidad.Municipio;
 import org.itson.mythify.entidad.Usuario;
+import org.itson.mythify.enumeradores.Genero;
 
 /**
  *
@@ -75,7 +77,6 @@ public class SVUsuario extends HttpServlet {
     private void registrarUsuario(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-//      String confirmarContrasena = request.getParameter("confirmarContrasena");
         String nombre = request.getParameter("nombre");
         String apellidoPaterno = request.getParameter("apellidoPaterno");
         String apellidoMaterno = request.getParameter("apellidoMaterno");
@@ -84,17 +85,13 @@ public class SVUsuario extends HttpServlet {
         String municipio = request.getParameter("municipio");
         String correo = request.getParameter("correo");
         String contrasena = request.getParameter("contrasena");
-
         String telefono = request.getParameter("telefono");
         String genero = request.getParameter("genero");
 
-        Part avatarPart = request.getPart("avatar");
-        byte[] byteAvatar = new byte[(int) avatarPart.getSize()];
-        avatarPart.getInputStream().read(byteAvatar);
-
+        //TO DO
+        String avatar = "";
         String fechaNacimiento = request.getParameter("fechaNacimiento");
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-
         Date fecha = null;
         try {
             fecha = formato.parse(fechaNacimiento);
@@ -102,19 +99,20 @@ public class SVUsuario extends HttpServlet {
             Logger.getLogger(SVUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        UsuarioDTO usuarioDTO
-                = new UsuarioDTO(
-                        nombre,
-                        apellidoPaterno,
-                        apellidoMaterno,
-                        correo,
-                        contrasena,
-                        telefono,
-                        byteAvatar,
-                        ciudad,
-                        genero,
-                        fecha,
-                        new Municipio(municipio, new Estado(estado.toLowerCase())));
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setNombre(nombre);
+        usuarioDTO.setApellidoPaterno(apellidoPaterno);
+        usuarioDTO.setApellidoMaterno(apellidoMaterno);
+        usuarioDTO.setCorreo(correo);
+        usuarioDTO.setEncryptedPassword(contrasena);
+        usuarioDTO.setTelefono(telefono);
+        usuarioDTO.setAvatar(avatar);
+        usuarioDTO.setCiudad(ciudad);
+        usuarioDTO.setGenero(Genero.valueOf(genero.toUpperCase()));
+        usuarioDTO.setFechaNacimiento(fecha);
+        usuarioDTO.setMunicipio(new Municipio(municipio, new Estado(estado.toLowerCase())));
+
+        usuarioDTO.setPermiso(new PermisoDTO());
 
         try {
             usuarioBO.crearUsuarioDTO(usuarioDTO);

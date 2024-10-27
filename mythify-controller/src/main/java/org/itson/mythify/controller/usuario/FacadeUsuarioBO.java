@@ -31,7 +31,7 @@ public class FacadeUsuarioBO implements IFacadeUsuarioBO {
 
     @Override
     public void crearUsuarioDTO(UsuarioDTO usuarioDTO) throws ControllerException {
-        Usuario usuario = conversorBO.UsuarioDTOAEntidad(usuarioDTO);
+        Usuario usuario = conversorBO.usuarioDTOAEntidad(usuarioDTO);
         usuarioFacade.crearUsuario(usuario);
     }
 
@@ -48,7 +48,7 @@ public class FacadeUsuarioBO implements IFacadeUsuarioBO {
     @Override
     public UsuarioDTO consultarUsuario(String correo, String password) throws ControllerException {
         Usuario usuario = usuarioFacade.consultarUsuario(correo, password);
-        UsuarioDTO usuarioNuevo = conversorBO.EntidadAUsuarioDTO(usuario);
+        UsuarioDTO usuarioNuevo = conversorBO.entidadAUsuarioDTO(usuario);
         return usuarioNuevo;
     }
 

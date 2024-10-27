@@ -5,6 +5,9 @@
     <class>org.itson.mythify.entidad.Usuario</class>
     <class>org.itson.mythify.entidad.Estado</class>
     <class>org.itson.mythify.entidad.Municipio</class>
+    <class>org.itson.mythify.entidad.Publicacion</class>
+    <class>org.itson.mythify.entidad.Comentario</class>
+    <class>org.itson.mythify.entidad.Permiso</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/redsocial?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

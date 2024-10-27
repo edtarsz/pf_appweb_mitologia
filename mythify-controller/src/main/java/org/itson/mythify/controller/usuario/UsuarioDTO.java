@@ -6,6 +6,8 @@ package org.itson.mythify.controller.usuario;
 
 import java.util.Date;
 import org.itson.mythify.entidad.Municipio;
+import org.itson.mythify.enumeradores.Genero;
+import org.itson.mythify.enumeradores.TipoUsuario;
 
 /*
  * @author Eduardo Talavera Ramos
@@ -15,22 +17,29 @@ import org.itson.mythify.entidad.Municipio;
  */
 public class UsuarioDTO {
 
+    private int id; // Atributo de ID
     private String nombre;
     private String apellidoPaterno;
     private String apellidoMaterno;
     private String correo;
     private String encryptedPassword;
     private String telefono;
-
-    // Byte de a mientras porque no hemos visto si vamos a guardar la imagen en alguna nube, de a mientras se va guardar con bytes en el sql
-    private byte[] avatar;
+    private String avatar;
     private String ciudad;
-    private String genero;
+    private Genero genero;
     private Date fechaNacimiento;
-
     private Municipio municipio;
+    private TipoUsuario tipoUsuario;
+    private PermisoDTO permiso; // Cambiado a PermisoDTO
 
-    public UsuarioDTO(String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String encryptedPassword, String telefono, byte[] avatar, String ciudad, String genero, Date fechaNacimiento, Municipio municipio) {
+    public UsuarioDTO() {
+    }
+
+    public UsuarioDTO(int id, String nombre, String apellidoPaterno, String apellidoMaterno, String correo,
+                      String encryptedPassword, String telefono, String avatar, String ciudad,
+                      Genero genero, Date fechaNacimiento, Municipio municipio,
+                      TipoUsuario tipoUsuario, PermisoDTO permiso) {
+        this.id = id; // Inicialización del ID
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
@@ -42,6 +51,16 @@ public class UsuarioDTO {
         this.genero = genero;
         this.fechaNacimiento = fechaNacimiento;
         this.municipio = municipio;
+        this.tipoUsuario = tipoUsuario;
+        this.permiso = permiso; // Inicialización del atributo permiso
+    }
+
+    public int getId() { // Método getter para id
+        return id;
+    }
+
+    public void setId(int id) { // Método setter para id
+        this.id = id;
     }
 
     public String getNombre() {
@@ -92,11 +111,11 @@ public class UsuarioDTO {
         this.telefono = telefono;
     }
 
-    public byte[] getAvatar() {
+    public String getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(byte[] avatar) {
+    public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
 
@@ -108,11 +127,11 @@ public class UsuarioDTO {
         this.ciudad = ciudad;
     }
 
-    public String getGenero() {
+    public Genero getGenero() {
         return genero;
     }
 
-    public void setGenero(String genero) {
+    public void setGenero(Genero genero) {
         this.genero = genero;
     }
 
@@ -132,4 +151,19 @@ public class UsuarioDTO {
         this.municipio = municipio;
     }
 
+    public TipoUsuario getTipoUsuario() {
+        return tipoUsuario;
+    }
+
+    public void setTipoUsuario(TipoUsuario tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
+    }
+
+    public PermisoDTO getPermiso() { // Método getter para permiso
+        return permiso;
+    }
+
+    public void setPermiso(PermisoDTO permiso) { // Método setter para permiso
+        this.permiso = permiso;
+    }
 }

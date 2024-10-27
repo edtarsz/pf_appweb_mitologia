@@ -7,12 +7,12 @@
     <packaging>war</packaging>
     <name>mythify-view</name>
     
-    <parent>
-        <groupId>org.itson</groupId>
+<!--    <parent>-->
+<!--        <groupId>org.itson</groupId>
         <artifactId>mythify</artifactId>
         <version>1.0-SNAPSHOT</version>         
-        <relativePath>../pom.xml</relativePath>
-    </parent>
+        <relativePath>../pom.xml</relativePath>-->
+<!--    </parent>-->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

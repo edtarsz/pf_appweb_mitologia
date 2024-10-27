@@ -4,13 +4,6 @@
  */
 package org.itson.mythify.Servlet;
 
-import com.mycompany.redsocial.Controller.ControllerException;
-import com.mycompany.redsocial.FacadeUsuario.IRedSocialFacade;
-import com.mycompany.redsocial.Controller.UsuarioDTO;
-import com.mycompany.redsocial.Entidad.Estado;
-import com.mycompany.redsocial.Entidad.Municipio;
-import com.mycompany.redsocial.Entidad.Usuario;
-import com.mycompany.redsocial.FacadeUsuario.RedSocialFacade;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -25,6 +18,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.itson.mythify.Controller.ControllerException;
+import org.itson.mythify.Controller.FacadeUsuarioBO;
+import org.itson.mythify.Controller.IFacadeUsuarioBO;
+import org.itson.mythify.Controller.UsuarioDTO;
+import org.itson.mythify.entidad.Estado;
+import org.itson.mythify.entidad.Municipio;
+import org.itson.mythify.entidad.Usuario;
 
 /**
  *
@@ -34,12 +34,12 @@ import java.util.logging.Logger;
 @WebServlet(name = "SVUsuario", urlPatterns = {"/SVUsuario"})
 public class SVUsuario extends HttpServlet {
 
-    private IRedSocialFacade redSocial;
+    private IFacadeUsuarioBO usuarioBO;
 
     @Override
     public void init() throws ServletException {
         super.init();
-        redSocial = new RedSocialFacade();
+        usuarioBO = new FacadeUsuarioBO();
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -117,7 +117,7 @@ public class SVUsuario extends HttpServlet {
                         new Municipio(municipio, new Estado(estado.toLowerCase())));
 
         try {
-            redSocial.crearUsuarioDTO(usuarioDTO);
+            usuarioBO.crearUsuarioDTO(usuarioDTO);
             response.sendRedirect("iniciarSesion.jsp");
         } catch (ControllerException ex) {
             Logger.getLogger(SVUsuario.class.getName()).log(Level.SEVERE, null, ex);
@@ -132,7 +132,7 @@ public class SVUsuario extends HttpServlet {
         Usuario usuario = null;
 
         try {
-            usuario = redSocial.consultarUsuarioSession(correo, contrasenia);
+            usuario = usuarioBO.consultarUsuarioSession(correo, contrasenia);
         } catch (ControllerException ex) {
             Logger.getLogger(SVUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }

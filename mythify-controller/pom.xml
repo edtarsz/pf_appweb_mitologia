@@ -14,7 +14,6 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <dependencies>
-        
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
@@ -35,7 +34,7 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>mythify-model</artifactId>
+            <artifactId>mythify-dao</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

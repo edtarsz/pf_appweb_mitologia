@@ -77,9 +77,9 @@
             <version>2.2.3</version>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>redSocialAccesoADatos</artifactId>
-            <version>${project.version}</version>
+            <groupId>org.itson</groupId>
+            <artifactId>mythify-controller</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
     

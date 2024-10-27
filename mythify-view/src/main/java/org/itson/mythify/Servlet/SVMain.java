@@ -6,13 +6,12 @@ package org.itson.mythify.Servlet;
 
 import java.io.IOException;
 
-import com.mycompany.redsocial.Conexion.InitialConfig;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.itson.mythify.conexion.InitialConfig;
 
 /**
  *

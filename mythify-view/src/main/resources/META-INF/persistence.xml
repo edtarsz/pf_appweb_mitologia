@@ -4,11 +4,15 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>com.mycompany.redsocial.Entidad.Estado</class>
     <class>com.mycompany.redsocial.Entidad.Municipio</class>
+    <class>com.mycompany.redsocial.Entidad.Comentario</class>
+    <class>com.mycompany.redsocial.Entidad.Permiso</class>
+    <class>com.mycompany.redsocial.Entidad.Post</class>
+    <class>com.mycompany.redsocial.Entidad.Usuario</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/redsocial?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-      <property name="javax.persistence.jdbc.password" value="78357Cas"/>
+      <property name="javax.persistence.jdbc.password" value="2004"/>
       <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>
     </properties>

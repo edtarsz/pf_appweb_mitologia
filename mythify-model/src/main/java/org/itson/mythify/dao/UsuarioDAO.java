@@ -10,6 +10,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.jasypt.util.password.StrongPasswordEncryptor;
 
 /**
  *
@@ -68,26 +69,32 @@ public class UsuarioDAO implements IUsuarioDAO {
     }
 
     @Override
-    public Usuario consultarUsuario(String correo, String password) throws ModelException {
-        try {
-            logger.log(Level.INFO, "Consulting user with email: {0}", correo);
-            CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-            CriteriaQuery<Usuario> criteriaQuery = criteriaBuilder.createQuery(Usuario.class);
-            Root<Usuario> root = criteriaQuery.from(Usuario.class);
+public Usuario consultarUsuario(String correo, String password) throws ModelException {
+    try {
+        logger.log(Level.INFO, "Consulting user with email: {0}", correo);
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Usuario> criteriaQuery = criteriaBuilder.createQuery(Usuario.class);
+        Root<Usuario> root = criteriaQuery.from(Usuario.class);
 
-            Predicate correoPredicate = criteriaBuilder.equal(root.get("correo"), correo);
-            Predicate passwordPredicate = criteriaBuilder.equal(root.get("contrasenia"), password);
+        Predicate correoPredicate = criteriaBuilder.equal(root.get("correo"), correo);
 
-            criteriaQuery.select(root).where(criteriaBuilder.and(correoPredicate, passwordPredicate));
-            Usuario usuario = entityManager.createQuery(criteriaQuery).getSingleResult();
-            logger.log(Level.INFO, "User found: {0}", usuario.getCorreo());
+        criteriaQuery.select(root).where(correoPredicate);
+        Usuario usuario = entityManager.createQuery(criteriaQuery).getSingleResult();
+
+        StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
+        if (passwordEncryptor.checkPassword(password, usuario.getContrasenia())) {
+            logger.log(Level.INFO, "Password matched for user: {0}", usuario.getCorreo());
             return usuario;
-        } catch (NoResultException e) {
-            logger.log(Level.WARNING, "No user found with email: {0}", correo);
-            return null;
-        } catch (Exception ex) {
-            logger.log(Level.SEVERE, "Error consulting user: " + correo, ex);
+        } else {
+            logger.log(Level.WARNING, "Incorrect password for user with email: {0}", correo);
             return null;
         }
+    } catch (NoResultException e) {
+        logger.log(Level.WARNING, "No user found with email: {0}", correo);
+        return null;
+    } catch (Exception ex) {
+        logger.log(Level.SEVERE, "Error consulting user: " + correo, ex);
+        return null;
     }
+}
 }

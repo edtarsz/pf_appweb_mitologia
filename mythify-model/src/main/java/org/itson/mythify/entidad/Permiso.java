@@ -23,19 +23,19 @@ import org.itson.mythify.enumeradores.TipoPermiso;
 @Table(name = "Permiso")
 public class Permiso implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idPermiso;
 
     @Column(name = "tipoPermiso", nullable = false, unique = true)
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING) 
     private TipoPermiso tipoPermiso;
 
+    
     public Permiso() {
     }
 
+    
     public int getIdPermiso() {
         return idPermiso;
     }

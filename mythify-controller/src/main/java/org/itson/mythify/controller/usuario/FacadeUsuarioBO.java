@@ -2,9 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package org.itson.mythify.controller.bo;
+package org.itson.mythify.controller.usuario;
 
-import org.itson.mythify.controller.dto.UsuarioDTO;
 import org.itson.mythify.dao.usuario.IUsuarioFacade;
 import org.itson.mythify.dao.usuario.UsuarioFacade;
 import org.itson.mythify.conexion.Conexion;

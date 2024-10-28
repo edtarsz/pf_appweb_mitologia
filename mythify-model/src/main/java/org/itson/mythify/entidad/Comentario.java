@@ -18,11 +18,10 @@ import javax.persistence.Table;
  *
  * @author elimo
  */
+
 @Entity
 @Table(name = "Comentario")
 public class Comentario implements Serializable {
-
-    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,6 +42,7 @@ public class Comentario implements Serializable {
     private Post post; // Post al que pertenece el comentario
 
     // Getters y Setters
+
     public int getIdComentario() {
         return idComentario;
     }

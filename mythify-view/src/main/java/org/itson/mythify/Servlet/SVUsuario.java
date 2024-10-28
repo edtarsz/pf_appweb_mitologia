@@ -19,17 +19,14 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.itson.mythify.controller.ControllerException;
-import org.itson.mythify.controller.bo.FacadeUsuarioBO;
-import org.itson.mythify.controller.bo.IFacadeUsuarioBO;
-import org.itson.mythify.controller.dto.PermisoDTO;
-import org.itson.mythify.controller.dto.UsuarioDTO;
+import org.itson.mythify.controller.usuario.FacadeUsuarioBO;
+import org.itson.mythify.controller.usuario.IFacadeUsuarioBO;
+import org.itson.mythify.controller.usuario.PermisoDTO;
+import org.itson.mythify.controller.usuario.UsuarioDTO;
 import org.itson.mythify.entidad.Estado;
 import org.itson.mythify.entidad.Municipio;
-import org.itson.mythify.entidad.Permiso;
 import org.itson.mythify.entidad.Usuario;
 import org.itson.mythify.enumeradores.Genero;
-import org.itson.mythify.enumeradores.TipoPermiso;
-import org.itson.mythify.enumeradores.TipoUsuario;
 
 /**
  *
@@ -40,6 +37,7 @@ import org.itson.mythify.enumeradores.TipoUsuario;
 public class SVUsuario extends HttpServlet {
 
     private IFacadeUsuarioBO usuarioBO;
+    
 
     @Override
     public void init() throws ServletException {
@@ -79,9 +77,6 @@ public class SVUsuario extends HttpServlet {
 
     private void registrarUsuario(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        PermisoDTO permiso = new PermisoDTO();
-        permiso.setTipoPermiso(TipoPermiso.COMENTAR);
-        EstadoDTO
 
         String nombre = request.getParameter("nombre");
         String apellidoPaterno = request.getParameter("apellidoPaterno");
@@ -95,7 +90,7 @@ public class SVUsuario extends HttpServlet {
         String genero = request.getParameter("genero");
 
         //TO DO
-        String avatar = "sfdssdfsdf";
+        String avatar = "";
         String fechaNacimiento = request.getParameter("fechaNacimiento");
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         Date fecha = null;
@@ -107,8 +102,6 @@ public class SVUsuario extends HttpServlet {
 
         UsuarioDTO usuarioDTO = new UsuarioDTO();
         usuarioDTO.setNombre(nombre);
-        usuarioDTO.setTipoUsuario(TipoUsuario.COMUN);
-        usuarioDTO.setPermiso(permiso);
         usuarioDTO.setApellidoPaterno(apellidoPaterno);
         usuarioDTO.setApellidoMaterno(apellidoMaterno);
         usuarioDTO.setCorreo(correo);
@@ -120,7 +113,7 @@ public class SVUsuario extends HttpServlet {
         usuarioDTO.setFechaNacimiento(fecha);
         usuarioDTO.setMunicipio(new Municipio(municipio, new Estado(estado.toLowerCase())));
 
-        System.out.println(usuarioDTO.getApellidoMaterno());
+        usuarioDTO.setPermiso(new PermisoDTO());
 
         try {
             usuarioBO.crearUsuarioDTO(usuarioDTO);

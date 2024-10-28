@@ -11,5 +11,6 @@ package org.itson.mythify.enumeradores;
 public enum Genero {
     MASCULINO,
     FEMENINO,
-    OTRO
+    OTRO,
+    PREFERIO_NO_DECIR
 }

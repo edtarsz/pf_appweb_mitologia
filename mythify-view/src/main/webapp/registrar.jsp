@@ -96,8 +96,8 @@
                                 </div>
 
                                 <div class="label-input-g">
-                                    <label for="confirmarContrasena">Confirmar Contraseña</label>
-                                    <input type="password" class="register-input" name="confirmarContrasena" />
+                                    <label for="segundoApellido">Confirmar Contraseña</label>
+                                    <input type="confirmarContrasena" class="register-input" name="confirmarContrasena" />
                                 </div>
                             </div>
 
@@ -164,18 +164,6 @@
                 </div>
             </div>
         </main>
-        <script>
-            document.getElementById('file-upload').addEventListener('change', function (event) {
-                const file = event.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function (e) {
-                        document.getElementById('imgAvatar').src = e.target.result;
-                    }
-                    reader.readAsDataURL(file);
-                }
-            });
-        </script>
     </body>
 
 </html>

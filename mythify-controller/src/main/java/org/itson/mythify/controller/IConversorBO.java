@@ -4,8 +4,8 @@
  */
 package org.itson.mythify.controller;
 
-import org.itson.mythify.controller.usuario.PermisoDTO;
-import org.itson.mythify.controller.usuario.UsuarioDTO;
+import org.itson.mythify.controller.dto.PermisoDTO;
+import org.itson.mythify.controller.dto.UsuarioDTO;
 import org.itson.mythify.entidad.Permiso;
 import org.itson.mythify.entidad.Usuario;
 

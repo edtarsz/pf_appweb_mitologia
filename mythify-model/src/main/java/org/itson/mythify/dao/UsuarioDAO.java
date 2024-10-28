@@ -27,7 +27,8 @@ public class UsuarioDAO implements IUsuarioDAO {
     /**
      * Constructor para inicializar la clase `UsuarioDAO`.
      *
-     * @param conexion La conexión a la base de datos utilizada para inicializar el `EntityManager`.
+     * @param conexion La conexión a la base de datos utilizada para inicializar
+     * el `EntityManager`.
      */
     public UsuarioDAO(IConexion conexion) {
         this.entityManager = conexion.crearConexion();
@@ -44,17 +45,11 @@ public class UsuarioDAO implements IUsuarioDAO {
             logger.log(Level.INFO, "User created successfully: {0}", usuario.getCorreo());
             return usuario;
         } catch (Exception ex) {
-            logger.log(Level.SEVERE, "Error creating user: " + usuario.getCorreo(), ex);
             if (entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();
                 logger.warning("Transaction rolled back.");
             }
-            return null;
-        } finally {
-            if (entityManager.isOpen()) {
-                entityManager.close();
-                logger.info("EntityManager closed.");
-            }
+            throw new ModelException(ex);
         }
     }
 
@@ -69,32 +64,32 @@ public class UsuarioDAO implements IUsuarioDAO {
     }
 
     @Override
-public Usuario consultarUsuario(String correo, String password) throws ModelException {
-    try {
-        logger.log(Level.INFO, "Consulting user with email: {0}", correo);
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Usuario> criteriaQuery = criteriaBuilder.createQuery(Usuario.class);
-        Root<Usuario> root = criteriaQuery.from(Usuario.class);
+    public Usuario consultarUsuario(String correo, String password) throws ModelException {
+        try {
+            logger.log(Level.INFO, "Consulting user with email: {0}", correo);
+            CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<Usuario> criteriaQuery = criteriaBuilder.createQuery(Usuario.class);
+            Root<Usuario> root = criteriaQuery.from(Usuario.class);
 
-        Predicate correoPredicate = criteriaBuilder.equal(root.get("correo"), correo);
+            Predicate correoPredicate = criteriaBuilder.equal(root.get("correo"), correo);
 
-        criteriaQuery.select(root).where(correoPredicate);
-        Usuario usuario = entityManager.createQuery(criteriaQuery).getSingleResult();
+            criteriaQuery.select(root).where(correoPredicate);
+            Usuario usuario = entityManager.createQuery(criteriaQuery).getSingleResult();
 
-        StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
-        if (passwordEncryptor.checkPassword(password, usuario.getContrasenia())) {
-            logger.log(Level.INFO, "Password matched for user: {0}", usuario.getCorreo());
-            return usuario;
-        } else {
-            logger.log(Level.WARNING, "Incorrect password for user with email: {0}", correo);
+            StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
+            if (passwordEncryptor.checkPassword(password, usuario.getContrasenia())) {
+                logger.log(Level.INFO, "Password matched for user: {0}", usuario.getCorreo());
+                return usuario;
+            } else {
+                logger.log(Level.WARNING, "Incorrect password for user with email: {0}", correo);
+                return null;
+            }
+        } catch (NoResultException e) {
+            logger.log(Level.WARNING, "No user found with email: {0}", correo);
+            return null;
+        } catch (Exception ex) {
+            logger.log(Level.SEVERE, "Error consulting user: " + correo, ex);
             return null;
         }
-    } catch (NoResultException e) {
-        logger.log(Level.WARNING, "No user found with email: {0}", correo);
-        return null;
-    } catch (Exception ex) {
-        logger.log(Level.SEVERE, "Error consulting user: " + correo, ex);
-        return null;
     }
-}
 }

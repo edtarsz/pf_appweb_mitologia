@@ -5,6 +5,7 @@
 package org.itson.mythify.entidad;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,6 +32,8 @@ import org.itson.mythify.enumeradores.TipoUsuario;
 @Entity
 @Table(name = "Usuario")
 public class Usuario implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -62,7 +65,7 @@ public class Usuario implements Serializable {
 
     @Column(name = "fechaNacimiento")
     @Temporal(TemporalType.DATE)
-    private Date fechaNacimiento;
+    private LocalDateTime fechaNacimiento;
 
     @Column(name = "genero")
     @Enumerated(EnumType.STRING)
@@ -83,7 +86,7 @@ public class Usuario implements Serializable {
     public Usuario() {
     }
 
-    public Usuario(int idUsuario, String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String contrasenia, String telefono, String avatar, String ciudad, Date fechaNacimiento, Genero genero, TipoUsuario tipoUsuario, Municipio municipio, Permiso permiso) {
+    public Usuario(int idUsuario, String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String contrasenia, String telefono, String avatar, String ciudad, LocalDateTime fechaNacimiento, Genero genero, TipoUsuario tipoUsuario, Municipio municipio, Permiso permiso) {
         this.idUsuario = idUsuario;
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
@@ -172,11 +175,11 @@ public class Usuario implements Serializable {
         this.ciudad = ciudad;
     }
 
-    public Date getFechaNacimiento() {
+    public LocalDateTime getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(java.sql.Date fechaNacimiento) {
+    public void setFechaNacimiento(LocalDateTime fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 

@@ -17,6 +17,8 @@ import java.sql.Timestamp;
 @Table(name = "Post")
 public class Post implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idPost;
@@ -38,10 +40,9 @@ public class Post implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "idUsuarioAnclado")
-    private Usuario usuarioAnclado; 
+    private Usuario usuarioAnclado;
 
     // Getters y Setters
-
     public int getIdPost() {
         return idPost;
     }
@@ -97,7 +98,5 @@ public class Post implements Serializable {
     public void setUsuarioAnclado(Usuario usuarioAnclado) {
         this.usuarioAnclado = usuarioAnclado;
     }
-
-    
 
 }

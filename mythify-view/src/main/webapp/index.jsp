@@ -45,10 +45,20 @@
             <div class="container-avatar-header">
                 <div class="clicking">
                     <div class="click-menu">
-                        <% Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");%> 
+                        <%
+                            Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+                            if (usuario != null) {
+                        %>
                         <p>
                             <%= usuario.getNombre() + " " + usuario.getApellidoPaterno() + " " + usuario.getApellidoMaterno()%>
                         </p>
+                        <%
+                        } else {
+                        %>
+                        <p>Usuario no autenticado</p>
+                        <%
+                            }
+                        %>
                         <img src="<%= request.getContextPath()%>/img/profile-pic.svg" alt="Profile Picture"
                              class="profile-pic" />
                     </div>

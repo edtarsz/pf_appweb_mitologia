@@ -35,10 +35,26 @@ public class UsuarioDTO {
     public UsuarioDTO() {
     }
 
+    public UsuarioDTO(String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String encryptedPassword, String telefono, String avatar, String ciudad, Genero genero, Date fechaNacimiento, Municipio municipio, TipoUsuario tipoUsuario, PermisoDTO permiso) {
+        this.nombre = nombre;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.correo = correo;
+        this.encryptedPassword = encryptedPassword;
+        this.telefono = telefono;
+        this.avatar = avatar;
+        this.ciudad = ciudad;
+        this.genero = genero;
+        this.fechaNacimiento = fechaNacimiento;
+        this.municipio = municipio;
+        this.tipoUsuario = tipoUsuario;
+        this.permiso = permiso;
+    }
+
     public UsuarioDTO(int id, String nombre, String apellidoPaterno, String apellidoMaterno, String correo,
-                      String encryptedPassword, String telefono, String avatar, String ciudad,
-                      Genero genero, Date fechaNacimiento, Municipio municipio,
-                      TipoUsuario tipoUsuario, PermisoDTO permiso) {
+            String encryptedPassword, String telefono, String avatar, String ciudad,
+            Genero genero, Date fechaNacimiento, Municipio municipio,
+            TipoUsuario tipoUsuario, PermisoDTO permiso) {
         this.id = id; // Inicialización del ID
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;

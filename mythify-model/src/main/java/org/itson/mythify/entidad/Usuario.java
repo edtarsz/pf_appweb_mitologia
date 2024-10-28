@@ -6,6 +6,7 @@ package org.itson.mythify.entidad;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -72,11 +73,11 @@ public class Usuario implements Serializable {
     @Enumerated(EnumType.STRING)
     private TipoUsuario tipoUsuario;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "idMunicipio")
     private Municipio municipio;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "idPermiso")
     private Permiso permiso;
 

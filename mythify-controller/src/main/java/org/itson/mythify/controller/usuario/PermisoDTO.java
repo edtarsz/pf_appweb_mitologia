@@ -18,6 +18,10 @@ public class PermisoDTO {
     public PermisoDTO() {
     }
 
+    public PermisoDTO(TipoPermiso tipoPermiso) {
+        this.tipoPermiso = tipoPermiso;
+    }
+
     public PermisoDTO(int idPermiso, TipoPermiso tipoPermiso) {
         this.idPermiso = idPermiso; // Inicialización del ID
         this.tipoPermiso = tipoPermiso; // Inicialización del tipo de permiso

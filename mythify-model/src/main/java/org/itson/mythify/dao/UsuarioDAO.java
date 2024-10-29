@@ -50,11 +50,6 @@ public class UsuarioDAO implements IUsuarioDAO {
                 logger.warning("Transaction rolled back.");
             }
             return null;
-        } finally {
-            if (entityManager.isOpen()) {
-                entityManager.close();
-                logger.info("EntityManager closed.");
-            }
         }
     }
 
@@ -69,32 +64,43 @@ public class UsuarioDAO implements IUsuarioDAO {
     }
 
     @Override
-public Usuario consultarUsuario(String correo, String password) throws ModelException {
-    try {
-        logger.log(Level.INFO, "Consulting user with email: {0}", correo);
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Usuario> criteriaQuery = criteriaBuilder.createQuery(Usuario.class);
-        Root<Usuario> root = criteriaQuery.from(Usuario.class);
+    public Usuario consultarUsuario(String correo, String password) throws ModelException {
+        try {
+            logger.log(Level.INFO, "Consulting user with email: {0}", correo);
 
-        Predicate correoPredicate = criteriaBuilder.equal(root.get("correo"), correo);
+            /*
+            A quien le toque hacer esto, primero tiene que encriptar la contraseña cuando se registra para consultar algo encriptado.
+            De la manera en la que estaba intentaba consultar una contraseña la cual no estaba encriptada.
+             */
+//            StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
+//            if (passwordEncryptor.checkPassword(password, usuario.getContrasenia())) {
+//            logger.log(Level.INFO, "Password matched for user: {0}", usuario.getCorreo());
+//            return usuario;
+//            } else {
+//                logger.log(Level.WARNING, "Incorrect password for user with email: {0}", correo);
+//                return null;
+//            }
+            CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<Usuario> criteriaQuery = criteriaBuilder.createQuery(Usuario.class);
+            Root<Usuario> root = criteriaQuery.from(Usuario.class);
 
-        criteriaQuery.select(root).where(correoPredicate);
-        Usuario usuario = entityManager.createQuery(criteriaQuery).getSingleResult();
+            Predicate correoPredicate = criteriaBuilder.equal(root.get("correo"), correo);
+            Predicate passwordPredicate = criteriaBuilder.equal(root.get("contrasenia"), password);
 
-        StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
-        if (passwordEncryptor.checkPassword(password, usuario.getContrasenia())) {
-            logger.log(Level.INFO, "Password matched for user: {0}", usuario.getCorreo());
+            criteriaQuery.select(root).where(criteriaBuilder.and(correoPredicate, passwordPredicate));
+
+            Usuario usuario = entityManager.createQuery(criteriaQuery).getSingleResult();
+            logger.log(Level.INFO, "User found with email: {0}", usuario.getCorreo());
+
             return usuario;
-        } else {
-            logger.log(Level.WARNING, "Incorrect password for user with email: {0}", correo);
+
+        } catch (NoResultException e) {
+            logger.log(Level.WARNING, "No user found with email and password provided.");
+            return null;
+        } catch (Exception ex) {
+            logger.log(Level.SEVERE, "Error consulting user with email: " + correo, ex);
             return null;
         }
-    } catch (NoResultException e) {
-        logger.log(Level.WARNING, "No user found with email: {0}", correo);
-        return null;
-    } catch (Exception ex) {
-        logger.log(Level.SEVERE, "Error consulting user: " + correo, ex);
-        return null;
     }
-}
+
 }

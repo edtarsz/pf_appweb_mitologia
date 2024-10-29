@@ -28,14 +28,17 @@ public class Permiso implements Serializable {
     private int idPermiso;
 
     @Column(name = "tipoPermiso", nullable = false, unique = true)
-    @Enumerated(EnumType.STRING) 
+    
+    @Enumerated(EnumType.STRING)
     private TipoPermiso tipoPermiso;
 
-    
     public Permiso() {
     }
 
-    
+    public Permiso(TipoPermiso tipoPermiso) {
+        this.tipoPermiso = tipoPermiso;
+    }
+
     public int getIdPermiso() {
         return idPermiso;
     }

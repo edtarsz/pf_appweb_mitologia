@@ -27,6 +27,8 @@ import org.itson.mythify.entidad.Estado;
 import org.itson.mythify.entidad.Municipio;
 import org.itson.mythify.entidad.Usuario;
 import org.itson.mythify.enumeradores.Genero;
+import org.itson.mythify.enumeradores.TipoPermiso;
+import org.itson.mythify.enumeradores.TipoUsuario;
 
 /**
  *
@@ -37,7 +39,6 @@ import org.itson.mythify.enumeradores.Genero;
 public class SVUsuario extends HttpServlet {
 
     private IFacadeUsuarioBO usuarioBO;
-    
 
     @Override
     public void init() throws ServletException {
@@ -90,7 +91,7 @@ public class SVUsuario extends HttpServlet {
         String genero = request.getParameter("genero");
 
         //TO DO
-        String avatar = "";
+        String avatar = "3232";
         String fechaNacimiento = request.getParameter("fechaNacimiento");
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         Date fecha = null;
@@ -100,20 +101,21 @@ public class SVUsuario extends HttpServlet {
             Logger.getLogger(SVUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        UsuarioDTO usuarioDTO = new UsuarioDTO();
-        usuarioDTO.setNombre(nombre);
-        usuarioDTO.setApellidoPaterno(apellidoPaterno);
-        usuarioDTO.setApellidoMaterno(apellidoMaterno);
-        usuarioDTO.setCorreo(correo);
-        usuarioDTO.setEncryptedPassword(contrasena);
-        usuarioDTO.setTelefono(telefono);
-        usuarioDTO.setAvatar(avatar);
-        usuarioDTO.setCiudad(ciudad);
-        usuarioDTO.setGenero(Genero.valueOf(genero.toUpperCase()));
-        usuarioDTO.setFechaNacimiento(fecha);
-        usuarioDTO.setMunicipio(new Municipio(municipio, new Estado(estado.toLowerCase())));
-
-        usuarioDTO.setPermiso(new PermisoDTO());
+        // Aqui nomás sería adaptarlo al genero que introduzca el usuario y el tipo de permiso según que, lo hice así nomás como prueba
+        UsuarioDTO usuarioDTO = new UsuarioDTO(
+                nombre,
+                apellidoPaterno,
+                apellidoMaterno,
+                correo,
+                contrasena,
+                telefono,
+                avatar,
+                ciudad,
+                Genero.FEMENINO,
+                fecha,
+                new Municipio(municipio, new Estado(estado.toLowerCase())),
+                TipoUsuario.NORMAL,
+                new PermisoDTO(TipoPermiso.COMENTAR));
 
         try {
             usuarioBO.crearUsuarioDTO(usuarioDTO);

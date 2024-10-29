@@ -12,5 +12,4 @@ public enum TipoUsuario {
     ADMINISTRADOR,
     COMUN,
     NORMAL
-    
 }

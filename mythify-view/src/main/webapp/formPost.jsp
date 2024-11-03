@@ -1,8 +1,8 @@
-<%-- Document : post.jsp Created on : 25 oct 2024, 4:00:48 p.m. Author : crist --%>
+<%-- Document : formPost Created on : 3 nov 2024, 2:41:01 p.m. Author : user --%>
 
-    <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+    <%@page contentType="text/html" pageEncoding="UTF-8" %>
         <!DOCTYPE html>
-        <html lang="en">
+        <html>
 
         <head>
             <meta charset="UTF-8" />
@@ -32,8 +32,8 @@
 
                 <div class="post-container">
                     <aside>
-                        <a href="formPost.jsp" class="btn-create-post">
-                            <button>
+                        <a href="formPost.jsp">
+                            <button class="btn-create-post">
                                 <img src="<%= request.getContextPath()%>/img/post-pic.svg" alt="Profile Picture"
                                     class="post-pic" />
                                 CREAR UN POST

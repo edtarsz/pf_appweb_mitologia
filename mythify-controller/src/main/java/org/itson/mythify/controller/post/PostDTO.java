@@ -2,47 +2,40 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package org.itson.mythify.entidad;
+package org.itson.mythify.controller.post;
 
-import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-import javax.persistence.*;
 import java.util.Date;
 
-@Entity
-@Table(name = "Post")
-public class Post implements Serializable {
+/**
+ *
+ * @author user
+ */
+public class PostDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idPost;
-
-    @Column(name = "titulo", nullable = false)
     private String titulo;
-
-    @Column(name = "contenido", nullable = false)
     private String contenido;
-
-    @Column(name = "fechaHoraCreacion", nullable = false, updatable = false)
-    @Temporal(TemporalType.DATE)
     private Date fechaHoraCreacion;
-
-    @Column(name = "fechaHoraEdicion", nullable = false)
-    @Temporal(TemporalType.DATE)
     private Date fechaHoraEdicion;
-
-    @Column(name = "anclado")
     private boolean anclado;
 
-    @ManyToOne
-    @JoinColumn(name = "idUsuarioAnclado")
-    private Usuario usuarioAnclado;
+    public PostDTO(int idPost, String titulo, String contenido, Date fechaHoraCreacion, Date fechaHoraEdicion, boolean anclado) {
+        this.idPost = idPost;
+        this.titulo = titulo;
+        this.contenido = contenido;
+        this.fechaHoraCreacion = fechaHoraCreacion;
+        this.fechaHoraEdicion = fechaHoraEdicion;
+        this.anclado = anclado;
+    }
 
-    // Getters y Setters
+    public PostDTO(String titulo, String contenido, Date fechaHoraCreacion, Date fechaHoraEdicion, boolean anclado) {
+        this.titulo = titulo;
+        this.contenido = contenido;
+        this.fechaHoraCreacion = fechaHoraCreacion;
+        this.fechaHoraEdicion = fechaHoraEdicion;
+        this.anclado = anclado;
+    }
+
     public int getIdPost() {
         return idPost;
     }
@@ -89,14 +82,6 @@ public class Post implements Serializable {
 
     public void setAnclado(boolean anclado) {
         this.anclado = anclado;
-    }
-
-    public Usuario getUsuarioAnclado() {
-        return usuarioAnclado;
-    }
-
-    public void setUsuarioAnclado(Usuario usuarioAnclado) {
-        this.usuarioAnclado = usuarioAnclado;
     }
 
 }

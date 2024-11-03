@@ -4,7 +4,7 @@
  */
 package org.itson.mythify.dao;
 
-import org.itson.mythify.conexion.IConexion;
+import org.itson.mythify.entidad.Usuario;
 
 /**
  *
@@ -13,13 +13,12 @@ import org.itson.mythify.conexion.IConexion;
  * @author Eliana Monge Camara
  * @author Jesús Roberto García Armenta
  */
-public class DAOFactory {
+public interface IPostDAO {
 
-    public static UsuarioDAO instanciaUsuarioDAO(IConexion conexion) {
-        return new UsuarioDAO(conexion);
-    }
+    public Usuario crearPost(Usuario usuario) throws ModelException;
 
-    public static PostDAO instanciaPostDAO(IConexion conexion) {
-        return new PostDAO(conexion);
-    }
+    public Usuario eliminarPost() throws ModelException;
+
+    public Usuario actualizarPost() throws ModelException;
+
 }

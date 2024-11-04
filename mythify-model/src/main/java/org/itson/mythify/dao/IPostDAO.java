@@ -23,6 +23,6 @@ public interface IPostDAO {
 
     public Post actualizarPost() throws ModelException;
 
-    public List<Post> consultarPosts(Usuario usuario) throws ModelException;
+    public List<Post> consultarPosts() throws ModelException;
 
 }

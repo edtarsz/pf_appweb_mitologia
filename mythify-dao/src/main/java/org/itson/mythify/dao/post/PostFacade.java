@@ -12,7 +12,6 @@ import org.itson.mythify.dao.DAOFactory;
 import org.itson.mythify.dao.IPostDAO;
 import org.itson.mythify.dao.ModelException;
 import org.itson.mythify.entidad.Post;
-import org.itson.mythify.entidad.Usuario;
 
 /*
  * @author Eduardo Talavera Ramos
@@ -29,12 +28,13 @@ public class PostFacade implements IPostFacade {
     }
 
     @Override
-    public void crearPost(Post post) {
+    public Post crearPost(Post post) {
         try {
-            postDAO.crearPost(post);
+            return postDAO.crearPost(post);
         } catch (ModelException ex) {
             Logger.getLogger(PostFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return null;
     }
 
     @Override
@@ -48,9 +48,9 @@ public class PostFacade implements IPostFacade {
     }
 
     @Override
-    public List<Post> consultarPosts(Usuario usuario) {
+    public List<Post> consultarPosts() {
         try {
-            return postDAO.consultarPosts(usuario);
+            return postDAO.consultarPosts();
         } catch (ModelException ex) {
             Logger.getLogger(PostFacade.class.getName()).log(Level.SEVERE, null, ex);
         }

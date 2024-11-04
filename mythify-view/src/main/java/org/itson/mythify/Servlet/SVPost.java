@@ -13,11 +13,14 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.itson.mythify.controller.ControllerException;
 import org.itson.mythify.controller.post.PostDTO;
+import org.itson.mythify.entidad.Post;
 import org.itson.mythify.entidad.Usuario;
 
 /**
@@ -80,8 +83,16 @@ public class SVPost extends HttpServlet {
 
         PostDTO postDTO = new PostDTO(titulo, contenido, categoria.toUpperCase(), new Date(), false, usuario);
 
+        List<Post> posts = (List<Post>) request.getSession().getAttribute("posts");
+
+        if (posts == null) {
+            posts = new ArrayList<>();
+        }
+
         try {
-            postBO.crearPostDTO(postDTO);
+            Post post = postBO.crearPostDTO(postDTO);
+            posts.add(post);
+            request.getSession().setAttribute("posts", posts);
             response.sendRedirect("index.jsp");
         } catch (ControllerException ex) {
             Logger.getLogger(SVUsuario.class.getName()).log(Level.SEVERE, null, ex);

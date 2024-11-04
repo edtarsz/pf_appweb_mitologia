@@ -13,7 +13,6 @@ import org.itson.mythify.controller.IConversorBO;
 import org.itson.mythify.dao.post.IPostFacade;
 import org.itson.mythify.dao.post.PostFacade;
 import org.itson.mythify.entidad.Post;
-import org.itson.mythify.entidad.Usuario;
 
 /**
  *
@@ -32,9 +31,9 @@ public class FacadePostBO implements IFacadePostBO {
     }
 
     @Override
-    public void crearPostDTO(PostDTO postDTO) throws ControllerException {
+    public Post crearPostDTO(PostDTO postDTO) throws ControllerException {
         Post post = conversorBO.postDTOAEntidad(postDTO);
-        postFacade.crearPost(post);
+        return postFacade.crearPost(post);
     }
 
     @Override
@@ -48,8 +47,8 @@ public class FacadePostBO implements IFacadePostBO {
     }
 
     @Override
-    public List<Post> consultarPosts(Usuario usuario) throws ControllerException {
-        return postFacade.consultarPosts(usuario);
+    public List<Post> consultarPosts() throws ControllerException {
+        return postFacade.consultarPosts();
     }
 
 }

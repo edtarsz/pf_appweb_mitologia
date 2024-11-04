@@ -6,7 +6,6 @@ package org.itson.mythify.dao.post;
 
 import java.util.List;
 import org.itson.mythify.entidad.Post;
-import org.itson.mythify.entidad.Usuario;
 
 /*
  * @author Eduardo Talavera Ramos
@@ -20,12 +19,12 @@ import org.itson.mythify.entidad.Usuario;
  */
 public interface IPostFacade {
 
-    public void crearPost(Post post);
+    public Post crearPost(Post post);
 
     public void eliminarPost();
 
     public void actualizarPost();
 
-    public List<Post> consultarPosts(Usuario usuario);
+    public List<Post> consultarPosts();
 
 }

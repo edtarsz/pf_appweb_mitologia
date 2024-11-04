@@ -143,7 +143,7 @@ public class SVUsuario extends HttpServlet {
 
         try {
             usuario = usuarioBO.consultarUsuarioSession(correo, contrasenia);
-            posts = postBO.consultarPosts(usuario);
+            posts = postBO.consultarPosts();
         } catch (ControllerException ex) {
             Logger.getLogger(SVUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }

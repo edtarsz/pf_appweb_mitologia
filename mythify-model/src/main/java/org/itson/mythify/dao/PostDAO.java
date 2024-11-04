@@ -6,7 +6,6 @@ import org.itson.mythify.conexion.IConexion;
 import javax.persistence.EntityManager;
 import java.util.logging.Logger;
 import org.itson.mythify.entidad.Post;
-import org.itson.mythify.entidad.Usuario;
 
 /**
  *
@@ -60,15 +59,14 @@ public class PostDAO implements IPostDAO {
     }
 
     @Override
-    public List<Post> consultarPosts(Usuario usuario) throws ModelException {
+    public List<Post> consultarPosts() throws ModelException {
         try {
-            logger.log(Level.INFO, "Attempting to query posts for user: {0}", usuario.getNombre());
-            return entityManager.createQuery("SELECT p FROM Post p WHERE p.usuario = :usuario", Post.class)
-                    .setParameter("usuario", usuario)
+            logger.log(Level.INFO, "Attempting to query all posts");
+            return entityManager.createQuery("SELECT p FROM Post p", Post.class)
                     .getResultList();
         } catch (Exception ex) {
-            logger.log(Level.SEVERE, "Error querying posts for user: " + usuario.getNombre(), ex);
-            throw new ModelException("Error al consultar los posts: " + ex.getMessage(), ex);
+            logger.log(Level.SEVERE, "Error querying all posts", ex);
+            throw new ModelException("Error al consultar todos los posts: " + ex.getMessage(), ex);
         }
     }
 

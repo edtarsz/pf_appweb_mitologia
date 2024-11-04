@@ -27,11 +27,14 @@ public class Post implements Serializable {
     @Column(name = "contenido", nullable = false)
     private String contenido;
 
+    @Column(name = "categoria", nullable = false)
+    private String categoria;
+
     @Column(name = "fechaHoraCreacion", nullable = false, updatable = false)
     @Temporal(TemporalType.DATE)
     private Date fechaHoraCreacion;
 
-    @Column(name = "fechaHoraEdicion", nullable = false)
+    @Column(name = "fechaHoraEdicion", nullable = true)
     @Temporal(TemporalType.DATE)
     private Date fechaHoraEdicion;
 
@@ -39,10 +42,22 @@ public class Post implements Serializable {
     private boolean anclado;
 
     @ManyToOne
-    @JoinColumn(name = "idUsuarioAnclado")
-    private Usuario usuarioAnclado;
+    @JoinColumn(name = "idUsuario")
+    private Usuario usuario;
 
-    // Getters y Setters
+    public Post() {
+    }
+
+    public Post(String titulo, String contenido, String categoria, Date fechaHoraCreacion, Date fechaHoraEdicion, boolean anclado, Usuario usuario) {
+        this.titulo = titulo;
+        this.contenido = contenido;
+        this.categoria = categoria;
+        this.fechaHoraCreacion = fechaHoraCreacion;
+        this.fechaHoraEdicion = fechaHoraEdicion;
+        this.anclado = anclado;
+        this.usuario = usuario;
+    }
+
     public int getIdPost() {
         return idPost;
     }
@@ -65,6 +80,14 @@ public class Post implements Serializable {
 
     public void setContenido(String contenido) {
         this.contenido = contenido;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
 
     public Date getFechaHoraCreacion() {
@@ -91,12 +114,12 @@ public class Post implements Serializable {
         this.anclado = anclado;
     }
 
-    public Usuario getUsuarioAnclado() {
-        return usuarioAnclado;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setUsuarioAnclado(Usuario usuarioAnclado) {
-        this.usuarioAnclado = usuarioAnclado;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
 }

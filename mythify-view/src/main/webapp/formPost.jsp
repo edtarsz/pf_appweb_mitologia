@@ -4,98 +4,100 @@
         <!DOCTYPE html>
         <html lang="en">
 
-            <head>
-                <meta charset="UTF-8" />
-                <meta name="description" content="" />
-                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <head>
+            <meta charset="UTF-8" />
+            <meta name="description" content="" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-                <!-- CSS Stylesheets -->
-                <link rel="stylesheet" href="<%= request.getContextPath()%>/style/style.css">
-                <link rel="preconnect" href="https://fonts.googleapis.com" />
-                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-                <link
-                    href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap"
-                    rel="stylesheet" />
-                <link
-                    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-                    rel="stylesheet" />
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+            <!-- CSS Stylesheets -->
+            <link rel="stylesheet" href="<%= request.getContextPath()%>/style/style.css">
+            <link rel="preconnect" href="https://fonts.googleapis.com" />
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+            <link
+                href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap"
+                rel="stylesheet" />
+            <link
+                href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+                rel="stylesheet" />
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-                <!-- JavaScript -->
-                <script defer src="<%= request.getContextPath()%>/script/script.js"></script>
+            <!-- JavaScript -->
+            <script defer src="<%= request.getContextPath()%>/script/script.js"></script>
 
-                <title>Mythify</title>
-            </head>
+            <title>Mythify</title>
+        </head>
 
-            <body>
-                <%@ include file="partials/header.jsp" %>
+        <body>
+            <%@ include file="partials/header.jsp" %>
                 <div class="main-page">
                     <div class="post-container">
                         <div></div>
                         <%@ include file="partials/aside.jsp" %>
-                        <main>
-                            <div class="container-crear-post">
-                                <h2 class="mythologies-title">Crear post</h2>
-                                <form action="createPostAction.jsp" method="POST">
-   
-                                    <input type="hidden" name="action" value="createPost">
+                            <main>
+                                <div class="container-crear-post">
+                                    <h2 class="mythologies-title">Crear post</h2>
+                                    <form action="SVPost" method="POST">
 
-                                    <div class="category-post">
-                                        <select name="category" class="select-category" required>
-                                            <option value="" disabled selected>SELECCIONAR CATEGORÍA</option>
-                                            <option value="azteca">AZTECA</option>
-                                            <option value="maya">MAYA</option>
-                                        </select>
-                                    </div>
+                                        <input type="hidden" name="action" value="publicarPost">
 
-                                    <ul class="section-post">
-                                        <li>Texto</li>
-                                        <li>Imagenes</li>
-                                        <li>Link</li>
-                                    </ul>
-
-                                    <input type="text" name="title" placeholder="Titulo" class="input-text-post" required>
-
-                                    <textarea name="content" placeholder="Comentario..." class="input-area-post" required></textarea>
-
-                                    <div class="post-buttons">
-                                        <button type="submit" class="btn-submit">Publicar</button>
-                                        <button type="reset" class="btn-cancel">Cancelar</button>
-                                    </div>
-                                </form>
-                            </div>
-                            <h2 class="mythologies-title">Preview</h2>
-                            <article class="article-post">
-                                <a href="post.jsp">
-                                    <div class="head-article-post">
-                                        <div class="left-head-article">
-                                            <div class="container-pfp-post"></div>
-                                            <span class="span-post-header">@user • hace 2 horas</span>
-                                            <span class="span-post-label">MÉXICO</span>
-                                            <img src="<%= request.getContextPath()%>/img/pin-white.svg" alt="">
+                                        <div class="category-post">
+                                            <select name="category" class="select-category" required>
+                                                <option value="" disabled selected>SELECCIONAR CATEGORÍA</option>
+                                                <option value="azteca">AZTECA</option>
+                                                <option value="maya">MAYA</option>
+                                            </select>
                                         </div>
-                                        <div class="right-head-article">
-                                            <img src="<%= request.getContextPath()%>/img/options-post.svg" alt="">
+
+                                        <ul class="section-post">
+                                            <li>Texto</li>
+                                            <li>Imagenes</li>
+                                            <li>Link</li>
+                                        </ul>
+
+                                        <input type="text" name="title" placeholder="Titulo" class="input-text-post"
+                                            required>
+
+                                        <textarea name="content" placeholder="Comentario..." class="input-area-post"
+                                            required></textarea>
+
+                                        <div class="post-buttons">
+                                            <button type="submit" class="btn-submit">Publicar</button>
+                                            <button type="reset" class="btn-cancel">Cancelar</button>
                                         </div>
-                                    </div>
-                                    <h3>Eu nemo sit Nullam</h3>
-                                    <div class="content-post">
-                                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt culpa
-                                            porro,
-                                            perferendis voluptate quaerat assumenda praesentium dignissimos eius
-                                            esse
-                                            ratione
-                                            quas
-                                            sed voluptatum inventore voluptates illo optio officiis sit harum?
-                                            Reprehenderit
-                                            facilis
-                                            quis quae consequuntur ea, animi rem, natus necessitatibus velit rerum
-                                            amet
-                                            ex
-                                            odit
-                                            officiis magnam accusantium iste atque placeat aliquid, sequi qui. Modi
-                                            consequuntur
-                                            numquam dolorum qui laboriosam!</p>
+                                    </form>
+                                </div>
+                                <h2 class="mythologies-title">Preview</h2>
+                                <article class="article-post">
+                                    <a href="post.jsp">
+                                        <div class="head-article-post">
+                                            <div class="left-head-article">
+                                                <div class="container-pfp-post"></div>
+                                                <span class="span-post-header">@user • hace 2 horas</span>
+                                                <span class="span-post-label">MÉXICO</span>
+                                                <img src="<%= request.getContextPath()%>/img/pin-white.svg" alt="">
+                                            </div>
+                                            <div class="right-head-article">
+                                                <img src="<%= request.getContextPath()%>/img/options-post.svg" alt="">
+                                            </div>
+                                        </div>
+                                        <h3>Eu nemo sit Nullam</h3>
+                                        <div class="content-post">
+                                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt culpa
+                                                porro,
+                                                perferendis voluptate quaerat assumenda praesentium dignissimos eius
+                                                esse
+                                                ratione
+                                                quas
+                                                sed voluptatum inventore voluptates illo optio officiis sit harum?
+                                                Reprehenderit
+                                                facilis
+                                                quis quae consequuntur ea, animi rem, natus necessitatibus velit rerum
+                                                amet
+                                                ex
+                                                odit
+                                                officiis magnam accusantium iste atque placeat aliquid, sequi qui. Modi
+                                                consequuntur
+                                                numquam dolorum qui laboriosam!</p>
                                             <br />
                                             <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sed quam
                                                 temporibus
@@ -107,11 +109,13 @@
                                         </div>
                                         <div class="footer-post">
                                             <button class="btn-footer">
-                                                <img src="${pageContext.request.contextPath}/img/heart-black.svg" alt="">
+                                                <img src="${pageContext.request.contextPath}/img/heart-black.svg"
+                                                    alt="">
                                                 102
                                             </button>
                                             <button class="btn-footer">
-                                                <img src="${pageContext.request.contextPath}/img/comments-black.svg" alt="">
+                                                <img src="${pageContext.request.contextPath}/img/comments-black.svg"
+                                                    alt="">
                                                 41 comentarios
                                             </button>
                                         </div>

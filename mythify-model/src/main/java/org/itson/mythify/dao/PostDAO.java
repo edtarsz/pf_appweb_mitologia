@@ -1,9 +1,10 @@
 package org.itson.mythify.dao;
 
+import java.util.logging.Level;
 import org.itson.mythify.conexion.IConexion;
 import javax.persistence.EntityManager;
 import java.util.logging.Logger;
-import org.itson.mythify.entidad.Usuario;
+import org.itson.mythify.entidad.Post;
 
 /**
  *
@@ -24,21 +25,35 @@ public class PostDAO implements IPostDAO {
      */
     public PostDAO(IConexion conexion) {
         this.entityManager = conexion.crearConexion();
-        logger.info("UsuarioDAO initialized with a new EntityManager.");
+        logger.info("PostDAO initialized with a new EntityManager.");
     }
 
     @Override
-    public Usuario crearPost(Usuario usuario) throws ModelException {
+    public Post crearPost(Post post) throws ModelException {
+        try {
+            logger.log(Level.INFO, "Attempting to create post: {0}", post.getTitulo());
+            entityManager.getTransaction().begin();
+            entityManager.persist(post);
+            entityManager.getTransaction().commit();
+            logger.log(Level.INFO, "Post created successfully: {0}", post.getTitulo());
+            return post;
+        } catch (Exception ex) {
+            logger.log(Level.SEVERE, "Error creating user: " + post.getTitulo(), ex);
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+                logger.warning("Transaction rolled back.");
+            }
+            return null;
+        }
+    }
+
+    @Override
+    public Post eliminarPost() throws ModelException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public Usuario eliminarPost() throws ModelException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public Usuario actualizarPost() throws ModelException {
+    public Post actualizarPost() throws ModelException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

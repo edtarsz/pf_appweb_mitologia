@@ -13,6 +13,12 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.itson.mythify.controller.ControllerException;
+import org.itson.mythify.controller.post.PostDTO;
+import org.itson.mythify.entidad.Usuario;
 
 /**
  *
@@ -64,8 +70,22 @@ public class SVPost extends HttpServlet {
         return "Short description";
     }
 
-    private void publicarPost(HttpServletRequest request, HttpServletResponse response) {
+    private void publicarPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
+        String categoria = request.getParameter("category");
+        String titulo = request.getParameter("title");
+        String contenido = request.getParameter("content");
+
+        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+
+        PostDTO postDTO = new PostDTO(titulo, contenido, categoria, new Date(), false, usuario);
+
+        try {
+            postBO.crearPostDTO(postDTO);
+            response.sendRedirect("index.jsp");
+        } catch (ControllerException ex) {
+            Logger.getLogger(SVUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void editarPost(HttpServletRequest request, HttpServletResponse response) {

@@ -4,9 +4,12 @@
  */
 package org.itson.mythify.dao.post;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.itson.mythify.conexion.IConexion;
 import org.itson.mythify.dao.DAOFactory;
 import org.itson.mythify.dao.IPostDAO;
+import org.itson.mythify.dao.ModelException;
 import org.itson.mythify.entidad.Post;
 
 /*
@@ -25,7 +28,11 @@ public class PostFacade implements IPostFacade {
 
     @Override
     public void crearPost(Post post) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            postDAO.crearPost(post);
+        } catch (ModelException ex) {
+            Logger.getLogger(PostFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override

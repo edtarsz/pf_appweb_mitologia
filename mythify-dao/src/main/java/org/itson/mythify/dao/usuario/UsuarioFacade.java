@@ -5,8 +5,6 @@
 package org.itson.mythify.dao.usuario;
 
 import org.itson.mythify.conexion.IConexion;
-import org.itson.mythify.dao.IUsuarioDAO;
-import org.itson.mythify.dao.ModelException;
 import org.itson.mythify.entidad.Usuario;
 import java.util.logging.Level;
 import java.util.logging.Logger;

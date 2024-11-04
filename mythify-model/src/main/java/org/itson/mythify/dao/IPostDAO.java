@@ -4,7 +4,7 @@
  */
 package org.itson.mythify.dao;
 
-import org.itson.mythify.entidad.Usuario;
+import org.itson.mythify.entidad.Post;
 
 /**
  *
@@ -15,10 +15,10 @@ import org.itson.mythify.entidad.Usuario;
  */
 public interface IPostDAO {
 
-    public Usuario crearPost(Usuario usuario) throws ModelException;
+    public Post crearPost(Post post) throws ModelException;
 
-    public Usuario eliminarPost() throws ModelException;
+    public Post eliminarPost() throws ModelException;
 
-    public Usuario actualizarPost() throws ModelException;
+    public Post actualizarPost() throws ModelException;
 
 }

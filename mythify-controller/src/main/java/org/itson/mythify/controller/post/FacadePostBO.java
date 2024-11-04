@@ -11,6 +11,7 @@ import org.itson.mythify.controller.ConversorBO;
 import org.itson.mythify.controller.IConversorBO;
 import org.itson.mythify.dao.post.IPostFacade;
 import org.itson.mythify.dao.post.PostFacade;
+import org.itson.mythify.entidad.Post;
 
 /**
  *
@@ -30,7 +31,8 @@ public class FacadePostBO implements IFacadePostBO {
 
     @Override
     public void crearPostDTO(PostDTO postDTO) throws ControllerException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Post post = conversorBO.postDTOAEntidad(postDTO);
+        postFacade.crearPost(post);
     }
 
     @Override

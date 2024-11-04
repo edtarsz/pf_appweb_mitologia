@@ -4,9 +4,11 @@
  */
 package org.itson.mythify.controller;
 
+import org.itson.mythify.controller.post.PostDTO;
 import org.itson.mythify.controller.usuario.PermisoDTO;
 import org.itson.mythify.controller.usuario.UsuarioDTO;
 import org.itson.mythify.entidad.Permiso;
+import org.itson.mythify.entidad.Post;
 import org.itson.mythify.entidad.Usuario;
 
 /**
@@ -67,10 +69,11 @@ public class ConversorBO implements IConversorBO {
     }
 
     @Override
-    public PermisoDTO entidadAPermisoDTO(Permiso permiso) throws ControllerException{
+    public PermisoDTO entidadAPermisoDTO(Permiso permiso) throws ControllerException {
         if (permiso == null) {
             return null;
         }
+
         return new PermisoDTO(
                 permiso.getIdPermiso(),
                 permiso.getTipoPermiso()
@@ -78,7 +81,7 @@ public class ConversorBO implements IConversorBO {
     }
 
     @Override
-    public Permiso permisoDTOAEntidad(PermisoDTO permisoDTO) throws ControllerException{
+    public Permiso permisoDTOAEntidad(PermisoDTO permisoDTO) throws ControllerException {
         if (permisoDTO == null) {
             return null;
         }
@@ -87,4 +90,40 @@ public class ConversorBO implements IConversorBO {
         permiso.setTipoPermiso(permisoDTO.getTipoPermiso());
         return permiso;
     }
+
+    @Override
+    public PostDTO entidadAPostDTO(Post post) throws ControllerException {
+        if (post == null) {
+            throw new ControllerException("El post no puede ser nulo");
+        }
+
+        return new PostDTO(
+                post.getTitulo(),
+                post.getContenido(),
+                post.getCategoria(),
+                post.getFechaHoraCreacion(),
+                post.getFechaHoraEdicion(),
+                post.isAnclado(),
+                post.getUsuario()
+        );
+    }
+
+    @Override
+    public Post postDTOAEntidad(PostDTO postDTO) throws ControllerException {
+        if (postDTO == null) {
+            throw new ControllerException("El PostDTO no puede ser nulo");
+        }
+
+        Post post = new Post();
+        post.setTitulo(postDTO.getTitulo());
+        post.setContenido(postDTO.getContenido());
+        post.setCategoria(postDTO.getCategoria());
+        post.setFechaHoraCreacion(postDTO.getFechaHoraCreacion());
+        post.setFechaHoraEdicion(postDTO.getFechaHoraEdicion());
+        post.setAnclado(postDTO.isAnclado());
+        post.setUsuario(postDTO.getUsuario());
+
+        return post;
+    }
+
 }

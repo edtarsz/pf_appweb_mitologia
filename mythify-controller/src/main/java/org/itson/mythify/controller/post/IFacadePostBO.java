@@ -4,7 +4,10 @@
  */
 package org.itson.mythify.controller.post;
 
+import java.util.List;
 import org.itson.mythify.controller.ControllerException;
+import org.itson.mythify.entidad.Post;
+import org.itson.mythify.entidad.Usuario;
 
 /**
  *
@@ -17,5 +20,7 @@ public interface IFacadePostBO {
     public void eliminarPost() throws ControllerException;
 
     public void actualizarPost() throws ControllerException;
+
+    public List<Post> consultarPosts(Usuario usuario) throws ControllerException;
 
 }

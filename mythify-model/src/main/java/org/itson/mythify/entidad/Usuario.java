@@ -74,11 +74,11 @@ public class Usuario implements Serializable {
     private TipoUsuario tipoUsuario;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "idMunicipio")
+    @JoinColumn(name = "idMunicipio", nullable = false)
     private Municipio municipio;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "idPermiso")
+    @JoinColumn(name = "idPermiso", nullable = false)
     private Permiso permiso;
 
     public Usuario() {

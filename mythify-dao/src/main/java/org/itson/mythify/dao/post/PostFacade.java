@@ -4,6 +4,7 @@
  */
 package org.itson.mythify.dao.post;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.itson.mythify.conexion.IConexion;
@@ -11,6 +12,7 @@ import org.itson.mythify.dao.DAOFactory;
 import org.itson.mythify.dao.IPostDAO;
 import org.itson.mythify.dao.ModelException;
 import org.itson.mythify.entidad.Post;
+import org.itson.mythify.entidad.Usuario;
 
 /*
  * @author Eduardo Talavera Ramos
@@ -43,6 +45,16 @@ public class PostFacade implements IPostFacade {
     @Override
     public void actualizarPost() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<Post> consultarPosts(Usuario usuario) {
+        try {
+            return postDAO.consultarPosts(usuario);
+        } catch (ModelException ex) {
+            Logger.getLogger(PostFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
 }

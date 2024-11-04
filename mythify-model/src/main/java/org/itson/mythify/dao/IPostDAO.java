@@ -4,7 +4,9 @@
  */
 package org.itson.mythify.dao;
 
+import java.util.List;
 import org.itson.mythify.entidad.Post;
+import org.itson.mythify.entidad.Usuario;
 
 /**
  *
@@ -20,5 +22,7 @@ public interface IPostDAO {
     public Post eliminarPost() throws ModelException;
 
     public Post actualizarPost() throws ModelException;
+
+    public List<Post> consultarPosts(Usuario usuario) throws ModelException;
 
 }

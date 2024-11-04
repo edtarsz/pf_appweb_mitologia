@@ -4,6 +4,7 @@
  */
 package org.itson.mythify.controller.post;
 
+import java.util.List;
 import org.itson.mythify.conexion.Conexion;
 import org.itson.mythify.conexion.IConexion;
 import org.itson.mythify.controller.ControllerException;
@@ -12,6 +13,7 @@ import org.itson.mythify.controller.IConversorBO;
 import org.itson.mythify.dao.post.IPostFacade;
 import org.itson.mythify.dao.post.PostFacade;
 import org.itson.mythify.entidad.Post;
+import org.itson.mythify.entidad.Usuario;
 
 /**
  *
@@ -43,6 +45,11 @@ public class FacadePostBO implements IFacadePostBO {
     @Override
     public void actualizarPost() throws ControllerException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<Post> consultarPosts(Usuario usuario) throws ControllerException {
+        return postFacade.consultarPosts(usuario);
     }
 
 }

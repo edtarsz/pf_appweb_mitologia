@@ -27,8 +27,7 @@ public class Permiso implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idPermiso;
 
-    @Column(name = "tipoPermiso", nullable = false, unique = true)
-    
+    @Column(name = "tipoPermiso", nullable = false)
     @Enumerated(EnumType.STRING)
     private TipoPermiso tipoPermiso;
 

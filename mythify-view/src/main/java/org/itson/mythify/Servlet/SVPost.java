@@ -78,7 +78,7 @@ public class SVPost extends HttpServlet {
 
         Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
 
-        PostDTO postDTO = new PostDTO(titulo, contenido, categoria, new Date(), false, usuario);
+        PostDTO postDTO = new PostDTO(titulo, contenido, categoria.toUpperCase(), new Date(), false, usuario);
 
         try {
             postBO.crearPostDTO(postDTO);

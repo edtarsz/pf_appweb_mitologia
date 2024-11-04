@@ -30,6 +30,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
+import org.itson.mythify.controller.post.FacadePostBO;
+import org.itson.mythify.controller.post.IFacadePostBO;
+import org.itson.mythify.entidad.Post;
 
 /**
  *
@@ -40,11 +44,13 @@ import jakarta.servlet.http.HttpSession;
 public class SVUsuario extends HttpServlet {
 
     private IFacadeUsuarioBO usuarioBO;
+    private IFacadePostBO postBO;
 
     @Override
     public void init() throws ServletException {
         super.init();
         usuarioBO = new FacadeUsuarioBO();
+        postBO = new FacadePostBO();
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -132,15 +138,18 @@ public class SVUsuario extends HttpServlet {
         String contrasenia = request.getParameter("contrasenia");
 
         Usuario usuario = null;
+        List<Post> posts = null;
 
         try {
             usuario = usuarioBO.consultarUsuarioSession(correo, contrasenia);
+            posts = postBO.consultarPosts(usuario);
         } catch (ControllerException ex) {
             Logger.getLogger(SVUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         if (usuario != null) {
             request.getSession().setAttribute("usuario", usuario);
+            request.getSession().setAttribute("posts", posts);
             response.sendRedirect("index.jsp");
         } else {
             System.out.println("Error");

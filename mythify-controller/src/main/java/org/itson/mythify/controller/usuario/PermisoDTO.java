@@ -22,11 +22,6 @@ public class PermisoDTO {
         this.tipoPermiso = tipoPermiso;
     }
 
-    public PermisoDTO(int idPermiso, TipoPermiso tipoPermiso) {
-        this.idPermiso = idPermiso; // Inicialización del ID
-        this.tipoPermiso = tipoPermiso; // Inicialización del tipo de permiso
-    }
-
     public int getIdPermiso() {
         return idPermiso;
     }

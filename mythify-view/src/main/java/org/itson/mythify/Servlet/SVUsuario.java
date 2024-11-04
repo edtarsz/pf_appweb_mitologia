@@ -85,6 +85,7 @@ public class SVUsuario extends HttpServlet {
 
     private void registrarUsuario(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        UsuarioDTO usuarioDTO = null;
 
         String nombre = request.getParameter("nombre");
         String apellidoPaterno = request.getParameter("apellidoPaterno");
@@ -109,7 +110,7 @@ public class SVUsuario extends HttpServlet {
         }
 
         // Aqui nomás sería adaptarlo al genero que introduzca el usuario y el tipo de permiso según que, lo hice así nomás como prueba
-        UsuarioDTO usuarioDTO = new UsuarioDTO(
+        usuarioDTO = new UsuarioDTO(
                 nombre,
                 apellidoPaterno,
                 apellidoMaterno,
@@ -122,7 +123,7 @@ public class SVUsuario extends HttpServlet {
                 fecha,
                 new Municipio(municipio, new Estado(estado.toLowerCase())),
                 TipoUsuario.NORMAL,
-                new PermisoDTO(TipoPermiso.COMENTAR));
+                TipoPermiso.COMENTAR);
 
         try {
             usuarioBO.crearUsuarioDTO(usuarioDTO);

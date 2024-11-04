@@ -5,9 +5,7 @@
 package org.itson.mythify.controller;
 
 import org.itson.mythify.controller.post.PostDTO;
-import org.itson.mythify.controller.usuario.PermisoDTO;
 import org.itson.mythify.controller.usuario.UsuarioDTO;
-import org.itson.mythify.entidad.Permiso;
 import org.itson.mythify.entidad.Post;
 import org.itson.mythify.entidad.Usuario;
 
@@ -40,7 +38,7 @@ public class ConversorBO implements IConversorBO {
                 usuario.getFechaNacimiento(),
                 usuario.getMunicipio(),
                 usuario.getTipoUsuario(),
-                entidadAPermisoDTO(usuario.getPermiso())
+                usuario.getPermiso()
         );
     }
 
@@ -64,31 +62,8 @@ public class ConversorBO implements IConversorBO {
                 usuarioDTO.getGenero(),
                 usuarioDTO.getTipoUsuario(),
                 usuarioDTO.getMunicipio(),
-                permisoDTOAEntidad(usuarioDTO.getPermiso())
+                usuarioDTO.getPermiso()
         );
-    }
-
-    @Override
-    public PermisoDTO entidadAPermisoDTO(Permiso permiso) throws ControllerException {
-        if (permiso == null) {
-            return null;
-        }
-
-        return new PermisoDTO(
-                permiso.getIdPermiso(),
-                permiso.getTipoPermiso()
-        );
-    }
-
-    @Override
-    public Permiso permisoDTOAEntidad(PermisoDTO permisoDTO) throws ControllerException {
-        if (permisoDTO == null) {
-            return null;
-        }
-        Permiso permiso = new Permiso();
-        permiso.setIdPermiso(permisoDTO.getIdPermiso());
-        permiso.setTipoPermiso(permisoDTO.getTipoPermiso());
-        return permiso;
     }
 
     @Override

@@ -7,6 +7,7 @@ package org.itson.mythify.controller.usuario;
 import java.util.Date;
 import org.itson.mythify.entidad.Municipio;
 import org.itson.mythify.enumeradores.Genero;
+import org.itson.mythify.enumeradores.TipoPermiso;
 import org.itson.mythify.enumeradores.TipoUsuario;
 
 /*
@@ -30,12 +31,12 @@ public class UsuarioDTO {
     private Date fechaNacimiento;
     private Municipio municipio;
     private TipoUsuario tipoUsuario;
-    private PermisoDTO permiso; // Cambiado a PermisoDTO
+    private TipoPermiso tipoPermiso;
 
     public UsuarioDTO() {
     }
 
-    public UsuarioDTO(String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String encryptedPassword, String telefono, String avatar, String ciudad, Genero genero, Date fechaNacimiento, Municipio municipio, TipoUsuario tipoUsuario, PermisoDTO permiso) {
+    public UsuarioDTO(String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String encryptedPassword, String telefono, String avatar, String ciudad, Genero genero, Date fechaNacimiento, Municipio municipio, TipoUsuario tipoUsuario, TipoPermiso tipoPermiso) {
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
@@ -48,13 +49,13 @@ public class UsuarioDTO {
         this.fechaNacimiento = fechaNacimiento;
         this.municipio = municipio;
         this.tipoUsuario = tipoUsuario;
-        this.permiso = permiso;
+        this.tipoPermiso = tipoPermiso;
     }
 
     public UsuarioDTO(int id, String nombre, String apellidoPaterno, String apellidoMaterno, String correo,
             String encryptedPassword, String telefono, String avatar, String ciudad,
             Genero genero, Date fechaNacimiento, Municipio municipio,
-            TipoUsuario tipoUsuario, PermisoDTO permiso) {
+            TipoUsuario tipoUsuario, TipoPermiso tipoPermiso) {
         this.id = id; // Inicialización del ID
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
@@ -68,14 +69,14 @@ public class UsuarioDTO {
         this.fechaNacimiento = fechaNacimiento;
         this.municipio = municipio;
         this.tipoUsuario = tipoUsuario;
-        this.permiso = permiso; // Inicialización del atributo permiso
+        this.tipoPermiso = tipoPermiso;
     }
 
-    public int getId() { // Método getter para id
+    public int getId() {
         return id;
     }
 
-    public void setId(int id) { // Método setter para id
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -175,11 +176,11 @@ public class UsuarioDTO {
         this.tipoUsuario = tipoUsuario;
     }
 
-    public PermisoDTO getPermiso() { // Método getter para permiso
-        return permiso;
+    public TipoPermiso getPermiso() {
+        return tipoPermiso;
     }
 
-    public void setPermiso(PermisoDTO permiso) { // Método setter para permiso
-        this.permiso = permiso;
+    public void setPermiso(TipoPermiso permiso) {
+        this.tipoPermiso = permiso;
     }
 }

@@ -20,6 +20,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import org.itson.mythify.enumeradores.Genero;
+import org.itson.mythify.enumeradores.TipoPermiso;
 import org.itson.mythify.enumeradores.TipoUsuario;
 
 /**
@@ -73,18 +74,18 @@ public class Usuario implements Serializable {
     @Enumerated(EnumType.STRING)
     private TipoUsuario tipoUsuario;
 
+    @Column(name = "tipoPermiso", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private TipoPermiso permiso;
+
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "idMunicipio", nullable = false)
     private Municipio municipio;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "idPermiso", nullable = false)
-    private Permiso permiso;
-
     public Usuario() {
     }
 
-    public Usuario(int idUsuario, String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String contrasenia, String telefono, String avatar, String ciudad, Date fechaNacimiento, Genero genero, TipoUsuario tipoUsuario, Municipio municipio, Permiso permiso) {
+    public Usuario(int idUsuario, String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String contrasenia, String telefono, String avatar, String ciudad, Date fechaNacimiento, Genero genero, TipoUsuario tipoUsuario, Municipio municipio, TipoPermiso permiso) {
         this.idUsuario = idUsuario;
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
@@ -205,11 +206,11 @@ public class Usuario implements Serializable {
         this.municipio = municipio;
     }
 
-    public Permiso getPermiso() {
+    public TipoPermiso getPermiso() {
         return permiso;
     }
 
-    public void setPermiso(Permiso permiso) {
+    public void setPermiso(TipoPermiso permiso) {
         this.permiso = permiso;
     }
 }

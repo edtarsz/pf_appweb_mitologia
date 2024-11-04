@@ -5,9 +5,7 @@
 package org.itson.mythify.controller;
 
 import org.itson.mythify.controller.post.PostDTO;
-import org.itson.mythify.controller.usuario.PermisoDTO;
 import org.itson.mythify.controller.usuario.UsuarioDTO;
-import org.itson.mythify.entidad.Permiso;
 import org.itson.mythify.entidad.Post;
 import org.itson.mythify.entidad.Usuario;
 
@@ -20,10 +18,6 @@ public interface IConversorBO {
     public UsuarioDTO entidadAUsuarioDTO(Usuario usuario) throws ControllerException;
 
     public Usuario usuarioDTOAEntidad(UsuarioDTO usuarioDTO) throws ControllerException;
-
-    public PermisoDTO entidadAPermisoDTO(Permiso permiso) throws ControllerException;
-
-    public Permiso permisoDTOAEntidad(PermisoDTO permisoDTO) throws ControllerException;
 
     public PostDTO entidadAPostDTO(Post post) throws ControllerException;
 

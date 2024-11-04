@@ -1,8 +1,8 @@
 <%-- Document : formPost Created on : 3 nov 2024, 2:41:01 p.m. Author : user --%>
 
-    <%@page contentType="text/html" pageEncoding="UTF-8" %>
+    <%@ page contentType="text/html;charset=UTF-8" language="java" %>
         <!DOCTYPE html>
-        <html>
+        <html lang="en">
 
         <head>
             <meta charset="UTF-8" />
@@ -29,124 +29,100 @@
 
         <body>
             <%@ include file="partials/header.jsp" %>
-
-                <div class="post-container">
-                    <aside>
-                        <a href="formPost.jsp">
-                            <button class="btn-create-post">
-                                <img src="<%= request.getContextPath()%>/img/post-pic.svg" alt="Profile Picture"
-                                    class="post-pic" />
-                                CREAR UN POST
-                            </button>
-                        </a>
-                        <h2 class="mythologies-title">MITOLOGÍAS</h2>
-                        <div class="container-mythologies">
-                            <button class="btn-mythology">EGIPCIA</button>
-                            <button class="btn-mythology">GRIEGA</button>
-                            <select class="btn-mythology-select" id="mythologySelect">
-                                <option value="" disabled selected hidden>MESOAMERICANA</option>
-                                <option value="azteca.html">AZTECA</option>
-                                <option value="maya.html">MAYA</option>
-                            </select>
-                            <button class="btn-mythology">NÓRDICA</button>
-                            <button class="btn-mythology">ROMANA</button>
-                        </div>
-                    </aside>
-                    <main>
-                        <article class="article-post">
-                            <a href="post.jsp">
-                                <div class="head-article-post">
-                                    <div class="left-head-article">
-                                        <div class="container-pfp-post"></div>
-                                        <span class="span-post-header">@user • hace 2 horas</span>
-                                        <span class="span-post-label">MÉXICO</span>
-                                        <img src="<%= request.getContextPath()%>/img/pin-white.svg" alt="">
+                <div class="main-page">
+                    <div class="post-container">
+                        <div></div>
+                        <%@ include file="partials/aside.jsp" %>
+                            <main>
+                                <div class="container-crear-post">
+                                    <h2 class="mythologies-title">Crear post</h2>
+                                    <div class="category-post">
+                                        <select class="select-category">
+                                            <option value="seleccionar" disabled selected>
+                                                SELECCIONAR CATEGORÍA
+                                            </option>
+                                            <option value="azteca.html">AZTECA</option>
+                                            <option value="maya.html">MAYA</option>
+                                        </select>
+                                        <img src="img/comments-black.svg" alt="">
                                     </div>
-                                    <div class="right-head-article">
-                                        <img src="<%= request.getContextPath()%>/img/options-post.svg" alt="">
-                                    </div>
+                                    <ul class="section-post">
+                                        <li>Texto</li>
+                                        <li>Imagenes</li>
+                                        <li>Link</li>
+                                    </ul>
+                                    <input type="text" placeholder="Titulo" class="input-text-post">
+                                    <textarea name="" id="" placeholder="Comentario..."
+                                        class="input-area-post"></textarea>
                                 </div>
-                                <h3>Eu nemo sit Nullam</h3>
-                                <div class="content-post">
-                                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt culpa
-                                        porro,
-                                        perferendis voluptate quaerat assumenda praesentium dignissimos eius esse
-                                        ratione
-                                        quas
-                                        sed voluptatum inventore voluptates illo optio officiis sit harum?
-                                        Reprehenderit
-                                        facilis
-                                        quis quae consequuntur ea, animi rem, natus necessitatibus velit rerum amet
-                                        ex
-                                        odit
-                                        officiis magnam accusantium iste atque placeat aliquid, sequi qui. Modi
-                                        consequuntur
-                                        numquam dolorum qui laboriosam!</p>
-                                    <br />
-                                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sed quam temporibus
-                                        nulla
-                                        facere, deleniti optio molestiae assumenda, magni perferendis voluptatibus
-                                        consequuntur.
-                                        Quibusdam incidunt exercitationem neque ex, provident atque quae ea.</p>
-                                </div>
-                                <div class="footer-post">
-                                    <button class="btn-footer">
-                                        <img src="<%= request.getContextPath()%>/img/heart-black.svg" alt="">
-                                        19
-                                    </button>
-                                    <button class="btn-footer">
-                                        <img src="<%= request.getContextPath()%>/img/comments-black.svg" alt="">
-                                        2 comments
-                                    </button>
-                                </div>
-                            </a>
-                        </article>
-                        <!-- Repite el artículo si es necesario -->
-                    </main>
-                    <aside>
-                        <h2 class="hot-posts-title">HOT POSTS</h2>
-                        <article class="hot-post">
-                            <div class="head-article-hot-posts">
-                                <div class="left-head-article">
-                                    <div class="container-pfp-post"></div>
-                                    <span class="span-post-header">@user</span>
-                                </div>
-                                <div class="right-head-article">
-                                    <img src="<%= request.getContextPath()%>/img/options-post.svg" alt="">
-                                </div>
-                            </div>
-                            <div class="content-post">
-                                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt culpa porro,
-                                    perferendis voluptate quaerat assumenda praesentium dignissimos eius esse
-                                    ratione
-                                    quas
-                                    sed voluptatum inventore voluptates illo optio officiis sit harum?</p>
-                            </div>
-                            <div class="footer-hot-post">
-                                <button class="btn-footer-hot-post">
-                                    <img src="<%= request.getContextPath()%>/img/heart-white.svg" alt="">
-                                    4014
-                                </button>
-                                <button class="btn-footer-hot-post">
-                                    <img src="<%= request.getContextPath()%>/img/comments-white.svg" alt="">
-                                    409
-                                </button>
-                            </div>
-                        </article>
-                    </aside>
-                </div>
-                <footer>
-                    <div class="footer-content">
-                        <div class="social-icons">
-                            <a href="#"><i class="fab fa-facebook"></i></a>
-                            <a href="#"><i class="fab fa-instagram"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fab fa-twitch"></i></a>
-                            <a href="#"><i class="fab fa-discord"></i></a>
-                        </div>
-                        <p>Copyright 2024 © Mythify Team</p>
+                                <h2 class="mythologies-title">Preview</h2>
+                                <article class="article-post">
+                                    <a href="post.jsp">
+                                        <div class="head-article-post">
+                                            <div class="left-head-article">
+                                                <div class="container-pfp-post"></div>
+                                                <span class="span-post-header">@user • hace 2 horas</span>
+                                                <span class="span-post-label">MÉXICO</span>
+                                                <img src="<%= request.getContextPath()%>/img/pin-white.svg" alt="">
+                                            </div>
+                                            <div class="right-head-article">
+                                                <img src="<%= request.getContextPath()%>/img/options-post.svg" alt="">
+                                            </div>
+                                        </div>
+                                        <h3>Eu nemo sit Nullam</h3>
+                                        <div class="content-post">
+                                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt culpa
+                                                porro,
+                                                perferendis voluptate quaerat assumenda praesentium dignissimos eius
+                                                esse
+                                                ratione
+                                                quas
+                                                sed voluptatum inventore voluptates illo optio officiis sit harum?
+                                                Reprehenderit
+                                                facilis
+                                                quis quae consequuntur ea, animi rem, natus necessitatibus velit rerum
+                                                amet
+                                                ex
+                                                odit
+                                                officiis magnam accusantium iste atque placeat aliquid, sequi qui. Modi
+                                                consequuntur
+                                                numquam dolorum qui laboriosam!</p>
+                                            <br />
+                                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sed quam
+                                                temporibus
+                                                nulla
+                                                facere, deleniti optio molestiae assumenda, magni perferendis
+                                                voluptatibus
+                                                consequuntur.
+                                                Quibusdam incidunt exercitationem neque ex, provident atque quae ea.</p>
+                                        </div>
+                                        <div class="footer-post">
+                                            <button class="btn-footer">
+                                                <img src="<%= request.getContextPath()%>/img/heart-black.svg" alt="">
+                                                19
+                                            </button>
+                                            <button class="btn-footer">
+                                                <img src="<%= request.getContextPath()%>/img/comments-black.svg" alt="">
+                                                2 comments
+                                            </button>
+                                        </div>
+                                    </a>
+                                </article>
+                            </main>
                     </div>
-                </footer>
+                    <footer>
+                        <div class="footer-content">
+                            <div class="social-icons">
+                                <a href="#"><i class="fab fa-facebook"></i></a>
+                                <a href="#"><i class="fab fa-instagram"></i></a>
+                                <a href="#"><i class="fab fa-twitter"></i></a>
+                                <a href="#"><i class="fab fa-twitch"></i></a>
+                                <a href="#"><i class="fab fa-discord"></i></a>
+                            </div>
+                            <p>Copyright 2024 © Mythify Team</p>
+                        </div>
+                    </footer>
+                </div>
         </body>
 
         </html>

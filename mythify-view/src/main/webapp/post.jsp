@@ -24,7 +24,6 @@
 
 		<body>
 			<%@ include file="partials/header.jsp" %>
-
 				<div class="post-container">
 					<aside class="left-aside">
 						<button class="btn-create-post">

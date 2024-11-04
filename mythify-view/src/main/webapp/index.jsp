@@ -29,111 +29,201 @@
 
         <body>
             <%@ include file="partials/header.jsp" %>
-
-                <div class="post-container">
-                    <aside>
-                        <a href="formPost.jsp" class="btn-create-post">
-                            <button>
-                                <img src="<%= request.getContextPath()%>/img/post-pic.svg" alt="Profile Picture"
-                                    class="post-pic" />
-                                CREAR UN POST
-                            </button>
-                        </a>
-                        <h2 class="mythologies-title">MITOLOGÍAS</h2>
-                        <div class="container-mythologies">
-                            <button class="btn-mythology">EGIPCIA</button>
-                            <button class="btn-mythology">GRIEGA</button>
-                            <select class="btn-mythology-select" id="mythologySelect">
-                                <option value="" disabled selected hidden>MESOAMERICANA</option>
-                                <option value="azteca.html">AZTECA</option>
-                                <option value="maya.html">MAYA</option>
-                            </select>
-                            <button class="btn-mythology">NÓRDICA</button>
-                            <button class="btn-mythology">ROMANA</button>
-                        </div>
-                    </aside>
-                    <main>
-                        <article class="article-post">
-                            <a href="post.jsp">
-                                <div class="head-article-post">
-                                    <div class="left-head-article">
-                                        <div class="container-pfp-post"></div>
-                                        <span class="span-post-header">@user • hace 2 horas</span>
-                                        <span class="span-post-label">MÉXICO</span>
-                                        <img src="<%= request.getContextPath()%>/img/pin-white.svg" alt="">
+                <div class="main-page">
+                    <div class="post-container">
+                        <div></div>
+                        <%@ include file="partials/aside.jsp" %>
+                            <main>
+                                <article class="article-post">
+                                    <a href="post.jsp">
+                                        <div class="head-article-post">
+                                            <div class="left-head-article">
+                                                <div class="container-pfp-post"></div>
+                                                <span class="span-post-header">@user • hace 2 horas</span>
+                                                <span class="span-post-label">MÉXICO</span>
+                                                <img src="<%= request.getContextPath()%>/img/pin-white.svg" alt="">
+                                            </div>
+                                            <div class="right-head-article">
+                                                <img src="<%= request.getContextPath()%>/img/options-post.svg" alt="">
+                                            </div>
+                                        </div>
+                                        <h3>Eu nemo sit Nullam</h3>
+                                        <div class="content-post">
+                                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt culpa
+                                                porro,
+                                                perferendis voluptate quaerat assumenda praesentium dignissimos eius
+                                                esse
+                                                ratione
+                                                quas
+                                                sed voluptatum inventore voluptates illo optio officiis sit harum?
+                                                Reprehenderit
+                                                facilis
+                                                quis quae consequuntur ea, animi rem, natus necessitatibus velit rerum
+                                                amet
+                                                ex
+                                                odit
+                                                officiis magnam accusantium iste atque placeat aliquid, sequi qui. Modi
+                                                consequuntur
+                                                numquam dolorum qui laboriosam!</p>
+                                            <br />
+                                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sed quam
+                                                temporibus
+                                                nulla
+                                                facere, deleniti optio molestiae assumenda, magni perferendis
+                                                voluptatibus
+                                                consequuntur.
+                                                Quibusdam incidunt exercitationem neque ex, provident atque quae ea.</p>
+                                        </div>
+                                        <div class="footer-post">
+                                            <button class="btn-footer">
+                                                <img src="<%= request.getContextPath()%>/img/heart-black.svg" alt="">
+                                                19
+                                            </button>
+                                            <button class="btn-footer">
+                                                <img src="<%= request.getContextPath()%>/img/comments-black.svg" alt="">
+                                                2 comments
+                                            </button>
+                                        </div>
+                                    </a>
+                                </article>
+                                <article class="article-post">
+                                    <a href="post.jsp">
+                                        <div class="head-article-post">
+                                            <div class="left-head-article">
+                                                <div class="container-pfp-post"></div>
+                                                <span class="span-post-header">@user • hace 2 horas</span>
+                                                <span class="span-post-label">MÉXICO</span>
+                                                <img src="<%= request.getContextPath()%>/img/pin-white.svg" alt="">
+                                            </div>
+                                            <div class="right-head-article">
+                                                <img src="<%= request.getContextPath()%>/img/options-post.svg" alt="">
+                                            </div>
+                                        </div>
+                                        <h3>Eu nemo sit Nullam</h3>
+                                        <div class="content-post">
+                                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt culpa
+                                                porro,
+                                                perferendis voluptate quaerat assumenda praesentium dignissimos eius
+                                                esse
+                                                ratione
+                                                quas
+                                                sed voluptatum inventore voluptates illo optio officiis sit harum?
+                                                Reprehenderit
+                                                facilis
+                                                quis quae consequuntur ea, animi rem, natus necessitatibus velit rerum
+                                                amet
+                                                ex
+                                                odit
+                                                officiis magnam accusantium iste atque placeat aliquid, sequi qui. Modi
+                                                consequuntur
+                                                numquam dolorum qui laboriosam!</p>
+                                            <br />
+                                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sed quam
+                                                temporibus
+                                                nulla
+                                                facere, deleniti optio molestiae assumenda, magni perferendis
+                                                voluptatibus
+                                                consequuntur.
+                                                Quibusdam incidunt exercitationem neque ex, provident atque quae ea.</p>
+                                        </div>
+                                        <div class="footer-post">
+                                            <button class="btn-footer">
+                                                <img src="<%= request.getContextPath()%>/img/heart-black.svg" alt="">
+                                                19
+                                            </button>
+                                            <button class="btn-footer">
+                                                <img src="<%= request.getContextPath()%>/img/comments-black.svg" alt="">
+                                                2 comments
+                                            </button>
+                                        </div>
+                                    </a>
+                                </article>
+                                <article class="article-post">
+                                    <a href="post.jsp">
+                                        <div class="head-article-post">
+                                            <div class="left-head-article">
+                                                <div class="container-pfp-post"></div>
+                                                <span class="span-post-header">@user • hace 2 horas</span>
+                                                <span class="span-post-label">MÉXICO</span>
+                                                <img src="<%= request.getContextPath()%>/img/pin-white.svg" alt="">
+                                            </div>
+                                            <div class="right-head-article">
+                                                <img src="<%= request.getContextPath()%>/img/options-post.svg" alt="">
+                                            </div>
+                                        </div>
+                                        <h3>Eu nemo sit Nullam</h3>
+                                        <div class="content-post">
+                                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt culpa
+                                                porro,
+                                                perferendis voluptate quaerat assumenda praesentium dignissimos eius
+                                                esse
+                                                ratione
+                                                quas
+                                                sed voluptatum inventore voluptates illo optio officiis sit harum?
+                                                Reprehenderit
+                                                facilis
+                                                quis quae consequuntur ea, animi rem, natus necessitatibus velit rerum
+                                                amet
+                                                ex
+                                                odit
+                                                officiis magnam accusantium iste atque placeat aliquid, sequi qui. Modi
+                                                consequuntur
+                                                numquam dolorum qui laboriosam!</p>
+                                            <br />
+                                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sed quam
+                                                temporibus
+                                                nulla
+                                                facere, deleniti optio molestiae assumenda, magni perferendis
+                                                voluptatibus
+                                                consequuntur.
+                                                Quibusdam incidunt exercitationem neque ex, provident atque quae ea.</p>
+                                        </div>
+                                        <div class="footer-post">
+                                            <button class="btn-footer">
+                                                <img src="<%= request.getContextPath()%>/img/heart-black.svg" alt="">
+                                                19
+                                            </button>
+                                            <button class="btn-footer">
+                                                <img src="<%= request.getContextPath()%>/img/comments-black.svg" alt="">
+                                                2 comments
+                                            </button>
+                                        </div>
+                                    </a>
+                                </article>
+                            </main>
+                            <aside class="aside-hot">
+                                <h2 class="hot-posts-title">HOT POSTS</h2>
+                                <article class="hot-post">
+                                    <div class="head-article-hot-posts">
+                                        <div class="left-head-article">
+                                            <div class="container-pfp-post"></div>
+                                            <span class="span-post-header">@user</span>
+                                        </div>
+                                        <div class="right-head-article">
+                                            <img src="<%= request.getContextPath()%>/img/options-post.svg" alt="">
+                                        </div>
                                     </div>
-                                    <div class="right-head-article">
-                                        <img src="<%= request.getContextPath()%>/img/options-post.svg" alt="">
+                                    <div class="content-post">
+                                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt culpa
+                                            porro,
+                                            perferendis voluptate quaerat assumenda praesentium dignissimos eius esse
+                                            ratione
+                                            quas
+                                            sed voluptatum inventore voluptates illo optio officiis sit harum?</p>
                                     </div>
-                                </div>
-                                <h3>Eu nemo sit Nullam</h3>
-                                <div class="content-post">
-                                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt culpa
-                                        porro,
-                                        perferendis voluptate quaerat assumenda praesentium dignissimos eius esse
-                                        ratione
-                                        quas
-                                        sed voluptatum inventore voluptates illo optio officiis sit harum?
-                                        Reprehenderit
-                                        facilis
-                                        quis quae consequuntur ea, animi rem, natus necessitatibus velit rerum amet
-                                        ex
-                                        odit
-                                        officiis magnam accusantium iste atque placeat aliquid, sequi qui. Modi
-                                        consequuntur
-                                        numquam dolorum qui laboriosam!</p>
-                                    <br />
-                                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sed quam temporibus
-                                        nulla
-                                        facere, deleniti optio molestiae assumenda, magni perferendis voluptatibus
-                                        consequuntur.
-                                        Quibusdam incidunt exercitationem neque ex, provident atque quae ea.</p>
-                                </div>
-                                <div class="footer-post">
-                                    <button class="btn-footer">
-                                        <img src="<%= request.getContextPath()%>/img/heart-black.svg" alt="">
-                                        19
-                                    </button>
-                                    <button class="btn-footer">
-                                        <img src="<%= request.getContextPath()%>/img/comments-black.svg" alt="">
-                                        2 comments
-                                    </button>
-                                </div>
-                            </a>
-                        </article>
-                        <!-- Repite el artículo si es necesario -->
-                    </main>
-                    <aside>
-                        <h2 class="hot-posts-title">HOT POSTS</h2>
-                        <article class="hot-post">
-                            <div class="head-article-hot-posts">
-                                <div class="left-head-article">
-                                    <div class="container-pfp-post"></div>
-                                    <span class="span-post-header">@user</span>
-                                </div>
-                                <div class="right-head-article">
-                                    <img src="<%= request.getContextPath()%>/img/options-post.svg" alt="">
-                                </div>
-                            </div>
-                            <div class="content-post">
-                                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt culpa porro,
-                                    perferendis voluptate quaerat assumenda praesentium dignissimos eius esse
-                                    ratione
-                                    quas
-                                    sed voluptatum inventore voluptates illo optio officiis sit harum?</p>
-                            </div>
-                            <div class="footer-hot-post">
-                                <button class="btn-footer-hot-post">
-                                    <img src="<%= request.getContextPath()%>/img/heart-white.svg" alt="">
-                                    4014
-                                </button>
-                                <button class="btn-footer-hot-post">
-                                    <img src="<%= request.getContextPath()%>/img/comments-white.svg" alt="">
-                                    409
-                                </button>
-                            </div>
-                        </article>
-                    </aside>
+                                    <div class="footer-hot-post">
+                                        <button class="btn-footer-hot-post">
+                                            <img src="<%= request.getContextPath()%>/img/heart-white.svg" alt="">
+                                            4014
+                                        </button>
+                                        <button class="btn-footer-hot-post">
+                                            <img src="<%= request.getContextPath()%>/img/comments-white.svg" alt="">
+                                            409
+                                        </button>
+                                    </div>
+                                </article>
+                            </aside>
+                    </div>
                 </div>
                 <footer>
                     <div class="footer-content">

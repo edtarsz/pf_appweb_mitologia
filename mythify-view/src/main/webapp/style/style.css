@@ -7,14 +7,19 @@
 }
 
 .post-header {
+    z-index: 2;
+    background-color: var(--main-color);
     margin: auto;
+    position: fixed;
+    left: 0;
+    right: 0;
     border-bottom: 1px solid white;
-    width: 89%;
     display: grid;
     grid-template-columns: 1fr 60% 1fr;
     justify-content: center;
     align-items: center;
     padding: 30px 0;
+    width: 89%;
 }
 
 /* Contenedor para el SVG */
@@ -610,12 +615,20 @@ ul {
     background-color: var(--border-white-color);
 }
 
-aside {
+.aside-mythology {
+    position: fixed;
+    top: 120px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    width: 19%;
+}
+
+.aside-hot {
     align-items: center;
     display: flex;
     flex-direction: column;
     width: 100%;
-    /* background-color: rgb(134, 117, 94); */
 }
 
 .hot-post {
@@ -714,6 +727,10 @@ aside {
         min-width: 90%;
         padding: 40px 0;
     }
+}
+
+.a-create-post {
+    width: 100%;
 }
 
 .btn-create-post {
@@ -867,4 +884,85 @@ footer {
 
 .content-comment-post {
     margin: 20px 0 0 0;
+}
+
+.category-post {
+    gap: 10px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    padding: 8px 0;
+    width: 20%;
+    border-width: 0 0 2px 2px;
+    border-style: solid;
+    border-color: var(--border-second-color);
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-medium);
+    background-color: #ffffff;
+    border-radius: 10px;
+}
+
+.select-category {
+    border: none;
+    appearance: none;
+}
+
+.section-post {
+    display: flex;
+    margin: auto;
+    width: 99%;
+    margin-top: 5%;
+    font-weight: var(--font-size-medium);
+    gap: 10%;
+}
+
+.section-post li {
+    padding: 0 5px;
+    cursor: pointer;
+    font-weight: var(--font-weight-medium);
+}
+
+.input-text-post {
+    border-width: 0 0 2px 2px;
+    border-style: solid;
+    border-color: var(--border-white-color);
+    border-radius: 13px;
+    background-color: white;
+    margin: 20px 0;
+    padding: 1em;
+    display: flex;
+    align-items: center;
+    font-size: var(--font-size-small);
+    width: 100%;
+}
+
+.input-area-post {
+    border-width: 0 0 2px 2px;
+    border-style: solid;
+    border-color: var(--border-white-color);
+    border-radius: 13px;
+    background-color: rgb(255, 255, 255);
+    margin: 20px 0;
+    padding: 1em;
+    display: flex;
+    align-items: center;
+    font-size: var(--font-size-small);
+    width: 100%;
+    min-height: 200px;
+    max-width: 100%;
+    min-width: 100%;
+}
+
+main {
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+.container-crear-post {
+    border-bottom: 1px solid white;
+    padding: .5em;
+}
+
+.main-page {
+    padding-top: 130px;
 }

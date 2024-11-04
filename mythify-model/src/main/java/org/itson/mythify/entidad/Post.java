@@ -12,6 +12,7 @@ import javax.persistence.Id;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "Post")
@@ -20,6 +21,12 @@ public class Post implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idPost;
+
+    @Column(name = "likes", nullable = true)
+    private int likes;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private List<Comentario> comentarios;
 
     @Column(name = "titulo", nullable = false)
     private String titulo;
@@ -48,7 +55,9 @@ public class Post implements Serializable {
     public Post() {
     }
 
-    public Post(String titulo, String contenido, String categoria, Date fechaHoraCreacion, Date fechaHoraEdicion, boolean anclado, Usuario usuario) {
+    public Post(int likes, List<Comentario> comentarios, String titulo, String contenido, String categoria, Date fechaHoraCreacion, Date fechaHoraEdicion, boolean anclado, Usuario usuario) {
+        this.likes = likes;
+        this.comentarios = comentarios;
         this.titulo = titulo;
         this.contenido = contenido;
         this.categoria = categoria;
@@ -64,6 +73,22 @@ public class Post implements Serializable {
 
     public void setIdPost(int idPost) {
         this.idPost = idPost;
+    }
+
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
+    public List<Comentario> getComentarios() {
+        return comentarios;
+    }
+
+    public void setComentarios(List<Comentario> comentarios) {
+        this.comentarios = comentarios;
     }
 
     public String getTitulo() {

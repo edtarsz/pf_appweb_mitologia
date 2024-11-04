@@ -14,7 +14,6 @@ import java.util.logging.Logger;
 import org.itson.mythify.controller.ControllerException;
 import org.itson.mythify.controller.usuario.FacadeUsuarioBO;
 import org.itson.mythify.controller.usuario.IFacadeUsuarioBO;
-import org.itson.mythify.controller.usuario.PermisoDTO;
 import org.itson.mythify.controller.usuario.UsuarioDTO;
 import org.itson.mythify.entidad.Estado;
 import org.itson.mythify.entidad.Municipio;

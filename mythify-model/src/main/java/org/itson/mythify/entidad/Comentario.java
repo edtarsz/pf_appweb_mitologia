@@ -5,6 +5,8 @@
 package org.itson.mythify.entidad;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,12 +15,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
  * @author elimo
  */
-
 @Entity
 @Table(name = "Comentario")
 public class Comentario implements Serializable {
@@ -31,7 +34,8 @@ public class Comentario implements Serializable {
     private String contenido;
 
     @Column(name = "fechaHora", nullable = false)
-    private java.sql.Timestamp fechaHora;
+    @Temporal(TemporalType.DATE)
+    private Date fechaHora;
 
     @ManyToOne
     @JoinColumn(name = "idUsuario", nullable = false)
@@ -39,9 +43,17 @@ public class Comentario implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "idPost", nullable = false)
-    private Post post; // Post al que pertenece el comentario
+    private Post post;
 
-    // Getters y Setters
+    public Comentario() {
+    }
+
+    public Comentario(String contenido, Date fechaHora, Usuario usuario, Post post) {
+        this.contenido = contenido;
+        this.fechaHora = fechaHora;
+        this.usuario = usuario;
+        this.post = post;
+    }
 
     public int getIdComentario() {
         return idComentario;
@@ -59,11 +71,11 @@ public class Comentario implements Serializable {
         this.contenido = contenido;
     }
 
-    public java.sql.Timestamp getFechaHora() {
+    public Date getFechaHora() {
         return fechaHora;
     }
 
-    public void setFechaHora(java.sql.Timestamp fechaHora) {
+    public void setFechaHora(Date fechaHora) {
         this.fechaHora = fechaHora;
     }
 
@@ -82,4 +94,5 @@ public class Comentario implements Serializable {
     public void setPost(Post post) {
         this.post = post;
     }
+
 }

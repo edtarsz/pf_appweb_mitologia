@@ -23,4 +23,6 @@ public interface IUsuarioDAO {
 
     public Usuario consultarUsuario(String correo, String password) throws ModelException;
 
+    public boolean usuarioExiste(String correo, String password) throws ModelException;
+
 }

@@ -17,8 +17,13 @@
                 <% Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
                     if (usuario != null) {%>
                 <p>
-                    <%= usuario.getNombre() + " " + usuario.getApellidoPaterno() + " "
-                            + usuario.getApellidoMaterno()%>
+                        <% if (!usuario.getPermiso().toString().equalsIgnoreCase("COMENTAR")) {%>
+                        <i> <%= usuario.getNombre() + " " + usuario.getApellidoPaterno() + " "
+                            + usuario.getApellidoMaterno()%></i>
+                        <% } else {%>
+                        <%= usuario.getNombre() + " " + usuario.getApellidoPaterno() + " "
+                                + usuario.getApellidoMaterno()%>
+                        <% } %>
                 </p>
                 <% } else { %>
                 <p>Usuario no autenticado</p>

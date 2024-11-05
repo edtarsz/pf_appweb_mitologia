@@ -85,6 +85,22 @@ public class Usuario implements Serializable {
     public Usuario() {
     }
 
+    public Usuario(String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String contrasenia, String telefono, String avatar, String ciudad, Date fechaNacimiento, Genero genero, TipoUsuario tipoUsuario, TipoPermiso permiso, Municipio municipio) {
+        this.nombre = nombre;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.correo = correo;
+        this.contrasenia = contrasenia;
+        this.telefono = telefono;
+        this.avatar = avatar;
+        this.ciudad = ciudad;
+        this.fechaNacimiento = fechaNacimiento;
+        this.genero = genero;
+        this.tipoUsuario = tipoUsuario;
+        this.permiso = permiso;
+        this.municipio = municipio;
+    }
+
     public Usuario(int idUsuario, String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String contrasenia, String telefono, String avatar, String ciudad, Date fechaNacimiento, Genero genero, TipoUsuario tipoUsuario, Municipio municipio, TipoPermiso permiso) {
         this.idUsuario = idUsuario;
         this.nombre = nombre;

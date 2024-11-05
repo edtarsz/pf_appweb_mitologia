@@ -23,4 +23,6 @@ public interface IFacadeUsuarioBO {
 
     public Usuario consultarUsuarioSession(String correo, String password) throws ControllerException;
 
+    public boolean usuarioExiste(String correo, String password) throws ControllerException;
+
 }

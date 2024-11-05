@@ -41,9 +41,12 @@ public class SVPost extends HttpServlet {
             throws ServletException, IOException {
         String action = request.getParameter("action");
         String categoria = request.getParameter("mythology");
+        String specificMythology = request.getParameter("specificMythology");
 
         if (categoria != null) {
             consultarPorCategoria(request, response, categoria);
+        } else if (specificMythology != null) {
+            consultarPorCategoria(request, response, specificMythology);
         }
 
         if (action != null) {

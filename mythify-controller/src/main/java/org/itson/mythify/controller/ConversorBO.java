@@ -8,6 +8,9 @@ import org.itson.mythify.controller.post.PostDTO;
 import org.itson.mythify.controller.usuario.UsuarioDTO;
 import org.itson.mythify.entidad.Post;
 import org.itson.mythify.entidad.Usuario;
+import org.itson.mythify.enumeradores.Genero;
+import org.itson.mythify.enumeradores.TipoPermiso;
+import org.itson.mythify.enumeradores.TipoUsuario;
 
 /**
  *
@@ -25,7 +28,6 @@ public class ConversorBO implements IConversorBO {
         }
 
         return new UsuarioDTO(
-                usuario.getIdUsuario(),
                 usuario.getNombre(),
                 usuario.getApellidoPaterno(),
                 usuario.getApellidoMaterno(),
@@ -34,12 +36,11 @@ public class ConversorBO implements IConversorBO {
                 usuario.getTelefono(),
                 usuario.getAvatar(),
                 usuario.getCiudad(),
-                usuario.getGenero(),
                 usuario.getFechaNacimiento(),
-                usuario.getMunicipio(),
+                usuario.getGenero(),
                 usuario.getTipoUsuario(),
-                usuario.getPermiso()
-        );
+                usuario.getPermiso(),
+                usuario.getMunicipio());
     }
 
     @Override
@@ -49,21 +50,19 @@ public class ConversorBO implements IConversorBO {
         }
 
         return new Usuario(
-                usuarioDTO.getId(),
                 usuarioDTO.getNombre(),
                 usuarioDTO.getApellidoPaterno(),
                 usuarioDTO.getApellidoMaterno(),
                 usuarioDTO.getCorreo(),
-                usuarioDTO.getEncryptedPassword(),
+                usuarioDTO.getContrasenia(),
                 usuarioDTO.getTelefono(),
                 usuarioDTO.getAvatar(),
                 usuarioDTO.getCiudad(),
                 usuarioDTO.getFechaNacimiento(),
                 usuarioDTO.getGenero(),
                 usuarioDTO.getTipoUsuario(),
-                usuarioDTO.getMunicipio(),
-                usuarioDTO.getPermiso()
-        );
+                usuarioDTO.getPermiso(),
+                usuarioDTO.getMunicipio());
     }
 
     @Override

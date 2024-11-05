@@ -18,66 +18,43 @@ import org.itson.mythify.enumeradores.TipoUsuario;
  */
 public class UsuarioDTO {
 
-    private int id; // Atributo de ID
+    private int idUsuario;
     private String nombre;
     private String apellidoPaterno;
     private String apellidoMaterno;
     private String correo;
-    private String encryptedPassword;
+    private String contrasenia;
     private String telefono;
     private String avatar;
     private String ciudad;
-    private Genero genero;
     private Date fechaNacimiento;
-    private Municipio municipio;
+    private Genero genero;
     private TipoUsuario tipoUsuario;
-    private TipoPermiso tipoPermiso;
+    private TipoPermiso permiso;
+    private Municipio municipio;
 
-    public UsuarioDTO() {
-    }
-
-    public UsuarioDTO(String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String encryptedPassword, String telefono, String avatar, String ciudad, Genero genero, Date fechaNacimiento, Municipio municipio, TipoUsuario tipoUsuario, TipoPermiso tipoPermiso) {
+    public UsuarioDTO(String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String contrasenia, String telefono, String avatar, String ciudad, Date fechaNacimiento, Genero genero, TipoUsuario tipoUsuario, TipoPermiso permiso, Municipio municipio) {
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
         this.correo = correo;
-        this.encryptedPassword = encryptedPassword;
+        this.contrasenia = contrasenia;
         this.telefono = telefono;
         this.avatar = avatar;
         this.ciudad = ciudad;
-        this.genero = genero;
         this.fechaNacimiento = fechaNacimiento;
-        this.municipio = municipio;
-        this.tipoUsuario = tipoUsuario;
-        this.tipoPermiso = tipoPermiso;
-    }
-
-    public UsuarioDTO(int id, String nombre, String apellidoPaterno, String apellidoMaterno, String correo,
-            String encryptedPassword, String telefono, String avatar, String ciudad,
-            Genero genero, Date fechaNacimiento, Municipio municipio,
-            TipoUsuario tipoUsuario, TipoPermiso tipoPermiso) {
-        this.id = id; // Inicialización del ID
-        this.nombre = nombre;
-        this.apellidoPaterno = apellidoPaterno;
-        this.apellidoMaterno = apellidoMaterno;
-        this.correo = correo;
-        this.encryptedPassword = encryptedPassword;
-        this.telefono = telefono;
-        this.avatar = avatar;
-        this.ciudad = ciudad;
         this.genero = genero;
-        this.fechaNacimiento = fechaNacimiento;
-        this.municipio = municipio;
         this.tipoUsuario = tipoUsuario;
-        this.tipoPermiso = tipoPermiso;
+        this.permiso = permiso;
+        this.municipio = municipio;
     }
 
-    public int getId() {
-        return id;
+    public int getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public String getNombre() {
@@ -112,12 +89,12 @@ public class UsuarioDTO {
         this.correo = correo;
     }
 
-    public String getEncryptedPassword() {
-        return encryptedPassword;
+    public String getContrasenia() {
+        return contrasenia;
     }
 
-    public void setEncryptedPassword(String encryptedPassword) {
-        this.encryptedPassword = encryptedPassword;
+    public void setContrasenia(String contrasenia) {
+        this.contrasenia = contrasenia;
     }
 
     public String getTelefono() {
@@ -144,14 +121,6 @@ public class UsuarioDTO {
         this.ciudad = ciudad;
     }
 
-    public Genero getGenero() {
-        return genero;
-    }
-
-    public void setGenero(Genero genero) {
-        this.genero = genero;
-    }
-
     public Date getFechaNacimiento() {
         return fechaNacimiento;
     }
@@ -160,12 +129,12 @@ public class UsuarioDTO {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public Municipio getMunicipio() {
-        return municipio;
+    public Genero getGenero() {
+        return genero;
     }
 
-    public void setMunicipio(Municipio municipio) {
-        this.municipio = municipio;
+    public void setGenero(Genero genero) {
+        this.genero = genero;
     }
 
     public TipoUsuario getTipoUsuario() {
@@ -177,10 +146,19 @@ public class UsuarioDTO {
     }
 
     public TipoPermiso getPermiso() {
-        return tipoPermiso;
+        return permiso;
     }
 
     public void setPermiso(TipoPermiso permiso) {
-        this.tipoPermiso = permiso;
+        this.permiso = permiso;
     }
+
+    public Municipio getMunicipio() {
+        return municipio;
+    }
+
+    public void setMunicipio(Municipio municipio) {
+        this.municipio = municipio;
+    }
+
 }

@@ -27,4 +27,6 @@ public interface IUsuarioFacade {
     public Usuario consultarUsuario(String correo, String password);
 
     public Usuario consultarUsuarioSession(String correo, String password);
+
+    public boolean usuarioExiste(String correo, String password);
 }

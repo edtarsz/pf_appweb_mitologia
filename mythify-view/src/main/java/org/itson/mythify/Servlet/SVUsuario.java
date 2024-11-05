@@ -118,11 +118,11 @@ public class SVUsuario extends HttpServlet {
                 telefono,
                 avatar,
                 ciudad,
-                Genero.FEMENINO,
                 fecha,
-                new Municipio(municipio, new Estado(estado.toLowerCase())),
+                Genero.FEMENINO,
                 TipoUsuario.NORMAL,
-                TipoPermiso.COMENTAR);
+                TipoPermiso.COMENTAR,
+                new Municipio(municipio, new Estado(estado.toLowerCase())));
 
         try {
             usuarioBO.crearUsuarioDTO(usuarioDTO);

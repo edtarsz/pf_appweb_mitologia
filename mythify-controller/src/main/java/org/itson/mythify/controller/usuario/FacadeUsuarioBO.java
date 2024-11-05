@@ -57,4 +57,9 @@ public class FacadeUsuarioBO implements IFacadeUsuarioBO {
         Usuario usuario = usuarioFacade.consultarUsuarioSession(correo, password);
         return usuario;
     }
+
+    @Override
+    public boolean usuarioExiste(String correo, String password) throws ControllerException {
+        return usuarioFacade.usuarioExiste(correo, password);
+    }
 }

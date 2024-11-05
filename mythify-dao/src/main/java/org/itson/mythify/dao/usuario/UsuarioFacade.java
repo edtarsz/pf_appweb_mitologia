@@ -73,4 +73,14 @@ public class UsuarioFacade implements IUsuarioFacade {
         return null;
     }
 
+    @Override
+    public boolean usuarioExiste(String correo, String password) {
+        try {
+            return usuarioDAO.usuarioExiste(correo, password);
+        } catch (ModelException ex) {
+            Logger.getLogger(UsuarioFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
 }

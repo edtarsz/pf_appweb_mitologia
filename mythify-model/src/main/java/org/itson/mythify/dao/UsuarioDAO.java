@@ -10,7 +10,6 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.jasypt.util.password.StrongPasswordEncryptor;
 
 /**
  *
@@ -101,6 +100,11 @@ public class UsuarioDAO implements IUsuarioDAO {
             logger.log(Level.SEVERE, "Error consulting user with email: " + correo, ex);
             return null;
         }
+    }
+
+    @Override
+    public boolean usuarioExiste(String correo, String password) throws ModelException {
+        return consultarUsuario(correo, password) != null;
     }
 
 }

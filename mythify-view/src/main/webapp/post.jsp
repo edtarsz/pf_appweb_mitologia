@@ -24,202 +24,187 @@
 
 		<body>
 			<%@ include file="partials/header.jsp" %>
-				<div class="post-container">
-					<aside class="left-aside">
-						<button class="btn-create-post">
-							<img src="${pageContext.request.contextPath}/img/post-pic.svg" alt="Profile Picture"
-								class="post-pic" />
-							CREAR UN POST
-						</button>
-						<div class="mythologies-list">
-							<h2 class="mythologies-title">MITOLOGÍAS</h2>
-							<button class="btn-mythology">EGIPCIA</button>
-							<button class="btn-mythology">GRIEGA</button>
-							<select class="btn-mythology-select" id="mythologySelect">
-								<option value="" disabled selected hidden>MESOAMERICANA</option>
-								<option value="azteca.jsp">AZTECA</option>
-								<option value="maya.jsp">MAYA</option>
-							</select>
-							<button class="btn-mythology">NÓRDICA</button>
-							<button class="btn-mythology">ROMANA</button>
-						</div>
-					</aside>
+				<div class="main-page">
 
-					<main>
-						<article class="article-post">
-							<div class="head-article-post">
-								<div class="left-head-article">
-									<div class="container-pfp-post">
-										<img src="${pageContext.request.contextPath}/img/crab.PNG" alt=""
-											class="pfp-post">
+					<div class="post-container">
+						<div></div>
+						<%@ include file="partials/aside.jsp" %>
+							<main>
+								<article class="article-post">
+									<div class="head-article-post">
+										<div class="left-head-article">
+											<div class="container-pfp-post">
+												<img src="${pageContext.request.contextPath}/img/crab.PNG" alt=""
+													class="pfp-post">
+											</div>
+											<span class="span-post-header">@crab • hace 4 horas</span>
+											<span class="span-post-label">EGIPCIA</span>
+										</div>
+										<div class="right-head-article">
+											<img src="${pageContext.request.contextPath}/img/options-post.svg" alt="">
+										</div>
 									</div>
-									<span class="span-post-header">@crab • hace 4 horas</span>
-									<span class="span-post-label">EGIPCIA</span>
+									<h3>Eu nemo sit Nullam</h3>
+									<div class="content-post">
+										<p>
+											Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt
+											culpa porro, perferendis voluptate quaerat assumenda praesentium
+											dignissimos eius esse ratione quas sed voluptatum inventore
+											voluptates illo optio officiis sit harum? Reprehenderit facilis
+											quis quae consequuntur ea, animi rem, natus necessitatibus velit
+											rerum amet ex odit officiis magnam accusantium iste atque placeat
+											aliquid, sequi qui. Modi consequuntur numquam dolorum qui
+											laboriosam!
+										</p>
+										<br />
+										<p>
+											Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sed quam
+											temporibus nulla facere, deleniti optio molestiae assumenda, magni
+											perferendis voluptatibus consequuntur. Quibusdam incidunt
+											exercitationem neque ex, provident atque quae ea.
+										</p>
+									</div>
+									<div class="footer-post">
+										<button class="btn-footer">
+											<img src="${pageContext.request.contextPath}/img/heart-black.svg" alt="">
+											1023
+										</button>
+										<button class="btn-footer">
+											<img src="${pageContext.request.contextPath}/img/comments-black.svg" alt="">
+											241 comentarios
+										</button>
+									</div>
+								</article>
+
+								<div>
+									<span class="order-comments">Ordenar por:</span> Mejores <img
+										src="img/down-arrow-white.svg" alt="">
 								</div>
-								<div class="right-head-article">
-									<img src="${pageContext.request.contextPath}/img/options-post.svg" alt="">
-								</div>
-							</div>
-							<h3>Eu nemo sit Nullam</h3>
-							<div class="content-post">
-								<p>
-									Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt
-									culpa porro, perferendis voluptate quaerat assumenda praesentium
-									dignissimos eius esse ratione quas sed voluptatum inventore
-									voluptates illo optio officiis sit harum? Reprehenderit facilis
-									quis quae consequuntur ea, animi rem, natus necessitatibus velit
-									rerum amet ex odit officiis magnam accusantium iste atque placeat
-									aliquid, sequi qui. Modi consequuntur numquam dolorum qui
-									laboriosam!
-								</p>
-								<br />
-								<p>
-									Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sed quam
-									temporibus nulla facere, deleniti optio molestiae assumenda, magni
-									perferendis voluptatibus consequuntur. Quibusdam incidunt
-									exercitationem neque ex, provident atque quae ea.
-								</p>
-							</div>
-							<div class="footer-post">
-								<button class="btn-footer">
-									<img src="${pageContext.request.contextPath}/img/heart-black.svg" alt="">
-									1023
+								<button class="add-comment">
+									<img src="img/plus.svg" alt="" class="svg-btn">
+									Añadir un comentario
 								</button>
-								<button class="btn-footer">
-									<img src="${pageContext.request.contextPath}/img/comments-black.svg" alt="">
-									241 comentarios
-								</button>
-							</div>
-						</article>
+								<div class="container-comments">
 
-						<div>
-							<span class="order-comments">Ordenar por:</span> Mejores <img src="img/down-arrow-white.svg"
-								alt="">
-						</div>
-						<button class="add-comment">
-							<img src="img/plus.svg" alt="" class="svg-btn">
-							Añadir un comentario
-						</button>
-						<div class="container-comments">
-
-							<article class="comment-post">
-								<div class="head-article-post">
-									<div class="left-head-article">
-										<div class="container-pfp-post">
-											<img src="img/bob.PNG" alt="" class="pfp-post">
+									<article class="comment-post">
+										<div class="head-article-post">
+											<div class="left-head-article">
+												<div class="container-pfp-post">
+													<img src="img/bob.PNG" alt="" class="pfp-post">
+												</div>
+												<span class="span-post-header">@ramosz replied to @crab</span>
+											</div>
+											<div class="right-head-article">
+												<img src="img/options-post.svg" alt="">
+											</div>
 										</div>
-										<span class="span-post-header">@ramosz replied to @crab</span>
-									</div>
-									<div class="right-head-article">
-										<img src="img/options-post.svg" alt="">
-									</div>
-								</div>
-								<div class="content-comment-post">
-									<p>
-										Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt
-										culpa porro, perferendis voluptate quaerat assumenda praesentium
-										dignissimos eius esse ratione quas sed voluptatum inventore
-										voluptates illo optio officiis sit harum? Reprehenderit facilis
-										quis quae consequuntur ea, animi rem, natus necessitatibus velit
-										rerum amet ex odit officiis magnam accusantium iste atque placeat
-										aliquid, sequi qui. Modi consequuntur numquam dolorum qui
-										laboriosam!
-									</p>
-								</div>
-								<div class="footer-comments">
-									<div class="group-footer-btn">
-										<button class="btn-footer">
-											<img src="img/heart-black.svg" alt="">
-											230
-										</button>
-										<button class="btn-footer">
-											<img src="img/reply.svg" alt="">
-											Responder
-										</button>
-									</div>
-									<span class="span-post-header">hace 4 horas</span>
-								</div>
-							</article>
-
-							<article class="second-comment-post">
-								<div class="head-article-post">
-									<div class="left-head-article">
-										<div class="container-pfp-post">
-											<img src="img/calamardo.PNG" alt="" class="pfp-post">
+										<div class="content-comment-post">
+											<p>
+												Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt
+												culpa porro, perferendis voluptate quaerat assumenda praesentium
+												dignissimos eius esse ratione quas sed voluptatum inventore
+												voluptates illo optio officiis sit harum? Reprehenderit facilis
+												quis quae consequuntur ea, animi rem, natus necessitatibus velit
+												rerum amet ex odit officiis magnam accusantium iste atque placeat
+												aliquid, sequi qui. Modi consequuntur numquam dolorum qui
+												laboriosam!
+											</p>
 										</div>
-										<span class="span-post-header">@bob replied to @user</span>
-									</div>
-									<div class="right-head-article">
-										<img src="img/options-post.svg" alt="">
-									</div>
-								</div>
-								<div class="content-comment-post">
-									<p>
-										Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt
-										culpa porro, perferendis voluptate quaerat assumenda praesentium
-										dignissimos eius esse ratione quas sed voluptatum inventore
-										voluptates illo optio officiis sit harum? Reprehenderit facilis
-										quis quae consequuntur ea, animi rem, natus necessitatibus velit
-										rerum amet ex odit officiis magnam accusantium iste atque placeat
-										aliquid, sequi qui. Modi consequuntur numquam dolorum qui
-										laboriosam!
-									</p>
-								</div>
-								<div class="footer-comments">
-									<div class="group-footer-btn">
-										<button class="btn-footer">
-											<img src="img/heart-black.svg" alt="">
-											48
-										</button>
-										<button class="btn-footer">
-											<img src="img/reply.svg" alt="">
-											Responder
-										</button>
-									</div>
-									<span class="span-post-header">hace 3 horas</span>
-								</div>
-							</article>
-
-							<article class="comment-post">
-								<div class="head-article-post">
-									<div class="left-head-article">
-										<div class="container-pfp-post">
-											<img src="img/patricio.PNG" alt="" class="pfp-post">
+										<div class="footer-comments">
+											<div class="group-footer-btn">
+												<button class="btn-footer">
+													<img src="img/heart-black.svg" alt="">
+													230
+												</button>
+												<button class="btn-footer">
+													<img src="img/reply.svg" alt="">
+													Responder
+												</button>
+											</div>
+											<span class="span-post-header">hace 4 horas</span>
 										</div>
-										<span class="span-post-header">@patricio replied to @crab</span>
-									</div>
-									<div class="right-head-article">
-										<img src="img/options-post.svg" alt="">
-									</div>
+									</article>
+
+									<article class="second-comment-post">
+										<div class="head-article-post">
+											<div class="left-head-article">
+												<div class="container-pfp-post">
+													<img src="img/calamardo.PNG" alt="" class="pfp-post">
+												</div>
+												<span class="span-post-header">@bob replied to @user</span>
+											</div>
+											<div class="right-head-article">
+												<img src="img/options-post.svg" alt="">
+											</div>
+										</div>
+										<div class="content-comment-post">
+											<p>
+												Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt
+												culpa porro, perferendis voluptate quaerat assumenda praesentium
+												dignissimos eius esse ratione quas sed voluptatum inventore
+												voluptates illo optio officiis sit harum? Reprehenderit facilis
+												quis quae consequuntur ea, animi rem, natus necessitatibus velit
+												rerum amet ex odit officiis magnam accusantium iste atque placeat
+												aliquid, sequi qui. Modi consequuntur numquam dolorum qui
+												laboriosam!
+											</p>
+										</div>
+										<div class="footer-comments">
+											<div class="group-footer-btn">
+												<button class="btn-footer">
+													<img src="img/heart-black.svg" alt="">
+													48
+												</button>
+												<button class="btn-footer">
+													<img src="img/reply.svg" alt="">
+													Responder
+												</button>
+											</div>
+											<span class="span-post-header">hace 3 horas</span>
+										</div>
+									</article>
+
+									<article class="comment-post">
+										<div class="head-article-post">
+											<div class="left-head-article">
+												<div class="container-pfp-post">
+													<img src="img/patricio.PNG" alt="" class="pfp-post">
+												</div>
+												<span class="span-post-header">@patricio replied to @crab</span>
+											</div>
+											<div class="right-head-article">
+												<img src="img/options-post.svg" alt="">
+											</div>
+										</div>
+										<div class="content-comment-post">
+											<p>
+												Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt
+												culpa porro, perferendis voluptate quaerat assumenda praesentium
+												dignissimos eius esse ratione quas sed voluptatum inventore
+												voluptates illo optio officiis sit harum? Reprehenderit facilis
+												quis quae consequuntur ea, animi rem, natus necessitatibus velit
+												rerum amet ex odit officiis magnam accusantium iste atque placeat
+												aliquid, sequi qui. Modi consequuntur numquam dolorum qui
+												laboriosam!
+											</p>
+										</div>
+										<div class="footer-comments">
+											<div class="group-footer-btn">
+												<button class="btn-footer">
+													<img src="img/heart-black.svg" alt="">
+													57
+												</button>
+												<button class="btn-footer">
+													<img src="img/reply.svg" alt="">
+													Responder
+												</button>
+											</div>
+											<span class="span-post-header">hace 2 horas</span>
+										</div>
+									</article>
 								</div>
-								<div class="content-comment-post">
-									<p>
-										Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt
-										culpa porro, perferendis voluptate quaerat assumenda praesentium
-										dignissimos eius esse ratione quas sed voluptatum inventore
-										voluptates illo optio officiis sit harum? Reprehenderit facilis
-										quis quae consequuntur ea, animi rem, natus necessitatibus velit
-										rerum amet ex odit officiis magnam accusantium iste atque placeat
-										aliquid, sequi qui. Modi consequuntur numquam dolorum qui
-										laboriosam!
-									</p>
-								</div>
-								<div class="footer-comments">
-									<div class="group-footer-btn">
-										<button class="btn-footer">
-											<img src="img/heart-black.svg" alt="">
-											57
-										</button>
-										<button class="btn-footer">
-											<img src="img/reply.svg" alt="">
-											Responder
-										</button>
-									</div>
-									<span class="span-post-header">hace 2 horas</span>
-								</div>
-							</article>
-						</div>
-					</main>
+							</main>
+					</div>
 				</div>
 
 				<footer>

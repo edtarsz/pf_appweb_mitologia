@@ -58,4 +58,14 @@ public class PostFacade implements IPostFacade {
         return null;
     }
 
+    @Override
+    public List<Post> consultarPostsCategoria(String categoria) {
+        try {
+            return postDAO.consultarPostsCategoria(categoria);
+        } catch (ModelException ex) {
+            Logger.getLogger(PostFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
 }

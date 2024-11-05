@@ -22,4 +22,6 @@ public interface IFacadePostBO {
 
     public List<Post> consultarPosts() throws ControllerException;
 
+    public List<Post> consultarPostsCategoria(String categoria) throws ControllerException;
+
 }

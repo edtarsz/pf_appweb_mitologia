@@ -40,6 +40,11 @@ public class SVPost extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action");
+        String categoria = request.getParameter("mythology");
+
+        if (categoria != null) {
+            consultarPorCategoria(request, response, categoria);
+        }
 
         if (action != null) {
             switch (action) {
@@ -74,7 +79,6 @@ public class SVPost extends HttpServlet {
     }
 
     private void publicarPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
         String categoria = request.getParameter("category");
         String titulo = request.getParameter("title");
         String contenido = request.getParameter("content");
@@ -105,6 +109,23 @@ public class SVPost extends HttpServlet {
 
     private void borrarPost(HttpServletRequest request, HttpServletResponse response) {
 
+    }
+
+    private void consultarPorCategoria(HttpServletRequest request, HttpServletResponse response, String categoria) throws IOException {
+        List<Post> posts;
+
+        try {
+            if (categoria.equals("all")) {
+                posts = postBO.consultarPosts();
+            } else {
+                posts = postBO.consultarPostsCategoria(categoria);
+            }
+            request.getSession().setAttribute("posts", posts);
+            response.sendRedirect("index.jsp");
+        } catch (ControllerException ex) {
+            Logger.getLogger(SVPost.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("error.jsp");
+        }
     }
 
 }

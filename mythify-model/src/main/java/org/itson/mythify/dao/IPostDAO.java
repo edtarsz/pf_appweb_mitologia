@@ -6,7 +6,6 @@ package org.itson.mythify.dao;
 
 import java.util.List;
 import org.itson.mythify.entidad.Post;
-import org.itson.mythify.entidad.Usuario;
 
 /**
  *
@@ -24,5 +23,7 @@ public interface IPostDAO {
     public Post actualizarPost() throws ModelException;
 
     public List<Post> consultarPosts() throws ModelException;
+    
+     public List<Post> consultarPostsCategoria(String categoria) throws ModelException;
 
 }

@@ -27,4 +27,6 @@ public interface IPostFacade {
 
     public List<Post> consultarPosts();
 
+    public List<Post> consultarPostsCategoria(String categoria);
+
 }

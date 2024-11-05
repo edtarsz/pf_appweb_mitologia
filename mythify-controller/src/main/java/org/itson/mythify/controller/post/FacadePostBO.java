@@ -51,4 +51,9 @@ public class FacadePostBO implements IFacadePostBO {
         return postFacade.consultarPosts();
     }
 
+    @Override
+    public List<Post> consultarPostsCategoria(String categoria) throws ControllerException {
+        return postFacade.consultarPostsCategoria(categoria);
+    }
+
 }

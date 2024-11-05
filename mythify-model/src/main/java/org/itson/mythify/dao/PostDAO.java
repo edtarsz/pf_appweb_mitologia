@@ -70,4 +70,17 @@ public class PostDAO implements IPostDAO {
         }
     }
 
+    @Override
+    public List<Post> consultarPostsCategoria(String categoria) throws ModelException {
+        try {
+            logger.log(Level.INFO, "Attempting to query posts for category: {0}", categoria);
+            return entityManager.createQuery("SELECT p FROM Post p WHERE p.categoria = :categoria", Post.class)
+                    .setParameter("categoria", categoria)
+                    .getResultList();
+        } catch (Exception ex) {
+            logger.log(Level.SEVERE, "Error querying posts for category: " + categoria, ex);
+            throw new ModelException("Error al consultar los posts por categoría: " + ex.getMessage(), ex);
+        }
+    }
+
 }

@@ -20,7 +20,7 @@
         <form action="SVPost" method="get">
             <input type="hidden" name="mythology" value="mesoamericana">
             <select class="btn-mythology-select" id="mythologySelect" name="specificMythology"
-                onchange="this.form.submit()">
+                    onchange="this.form.submit()">
                 <option value="" disabled selected hidden>MESOAMERICANA</option>
                 <option value="azteca">AZTECA</option>
                 <option value="maya">MAYA</option>

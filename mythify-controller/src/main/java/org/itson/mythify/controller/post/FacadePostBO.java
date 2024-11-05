@@ -56,4 +56,9 @@ public class FacadePostBO implements IFacadePostBO {
         return postFacade.consultarPostsCategoria(categoria);
     }
 
+    @Override
+    public Post consultarPostPorID(int id) throws ControllerException {
+        return postFacade.consultarPostPorID(id);
+    }
+
 }

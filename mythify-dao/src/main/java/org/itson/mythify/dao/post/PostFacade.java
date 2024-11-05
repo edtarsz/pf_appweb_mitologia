@@ -68,4 +68,14 @@ public class PostFacade implements IPostFacade {
         return null;
     }
 
+    @Override
+    public Post consultarPostPorID(int id) {
+        try {
+            return postDAO.consultarPostPorID(id);
+        } catch (ModelException ex) {
+            Logger.getLogger(PostFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
 }

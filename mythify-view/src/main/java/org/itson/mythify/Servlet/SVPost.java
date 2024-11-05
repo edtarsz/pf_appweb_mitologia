@@ -40,14 +40,6 @@ public class SVPost extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action");
-        String categoria = request.getParameter("mythology");
-        String specificMythology = request.getParameter("specificMythology");
-
-        if (categoria != null) {
-            consultarPorCategoria(request, response, categoria);
-        } else if (specificMythology != null) {
-            consultarPorCategoria(request, response, specificMythology);
-        }
 
         if (action != null) {
             switch (action) {
@@ -66,8 +58,34 @@ public class SVPost extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String postId = request.getParameter("id");
+        String categoria = request.getParameter("mythology");
+        String specificMythology = request.getParameter("specificMythology");
 
+        if (specificMythology != null) {
+            consultarPorCategoria(request, response, specificMythology);
+        } else if (categoria != null) {
+            consultarPorCategoria(request, response, categoria);
+        } else if (postId != null) {
+            try {
+
+                int id = Integer.parseInt(postId);
+                Post post = postBO.consultarPostPorID(id);
+
+                if (post != null) {
+                    request.setAttribute("post", post);
+                    request.getRequestDispatcher("post.jsp").forward(request, response);
+                } else {
+                    response.sendRedirect("error.jsp");
+                }
+            } catch (NumberFormatException e) {
+                response.sendRedirect("error.jsp");
+            } catch (ControllerException ex) {
+                Logger.getLogger(SVPost.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            response.sendRedirect("error.jsp");
+        }
     }
 
     @Override
@@ -81,7 +99,7 @@ public class SVPost extends HttpServlet {
         return "Short description";
     }
 
-    private void publicarPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void publicarPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String categoria = request.getParameter("category");
         String titulo = request.getParameter("title");
         String contenido = request.getParameter("content");
@@ -90,7 +108,7 @@ public class SVPost extends HttpServlet {
 
         PostDTO postDTO = new PostDTO(titulo, contenido, categoria.toUpperCase(), new Date(), false, usuario);
 
-        List<Post> posts = (List<Post>) request.getSession().getAttribute("posts");
+        List<Post> posts = (List<Post>) request.getAttribute("posts");
 
         if (posts == null) {
             posts = new ArrayList<>();
@@ -99,8 +117,8 @@ public class SVPost extends HttpServlet {
         try {
             Post post = postBO.crearPostDTO(postDTO);
             posts.add(post);
-            request.getSession().setAttribute("posts", posts);
-            response.sendRedirect("index.jsp");
+            request.setAttribute("posts", posts);
+            response.sendRedirect("SVPost?mythology=all");
         } catch (ControllerException ex) {
             Logger.getLogger(SVUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -114,7 +132,7 @@ public class SVPost extends HttpServlet {
 
     }
 
-    private void consultarPorCategoria(HttpServletRequest request, HttpServletResponse response, String categoria) throws IOException {
+    private void consultarPorCategoria(HttpServletRequest request, HttpServletResponse response, String categoria) throws IOException, ServletException {
         List<Post> posts;
 
         try {
@@ -123,8 +141,10 @@ public class SVPost extends HttpServlet {
             } else {
                 posts = postBO.consultarPostsCategoria(categoria);
             }
-            request.getSession().setAttribute("posts", posts);
-            response.sendRedirect("index.jsp");
+//            request.setAttribute("posts", posts);
+//            response.sendRedirect("index.jsp");
+            request.setAttribute("posts", posts);
+            request.getRequestDispatcher("index.jsp").forward(request, response);
         } catch (ControllerException ex) {
             Logger.getLogger(SVPost.class.getName()).log(Level.SEVERE, null, ex);
             response.sendRedirect("error.jsp");

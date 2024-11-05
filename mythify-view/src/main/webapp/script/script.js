@@ -13,14 +13,14 @@ const mythologySelect = document.getElementById('mythologySelect');
 const contenedorMenuDesplegable = document.querySelector(".clicking");
 const menuDesplegable = document.querySelector(".items-menu");
 
-if (rightRadio != null) {
+if (rightRadio !== null) {
     rightRadio.addEventListener("click", () => cambiarPantalla(false));
     leftRadio.addEventListener("click", () => cambiarPantalla(true));
     arrowRight.addEventListener("click", () => cambiarPantalla(false));
     arrowLeft.addEventListener("click", () => cambiarPantalla(true));
 }
 
-if (avatar != null) {
+if (avatar !== null) {
     avatar.addEventListener("change", (e) => {
         if (e.target.files[0]) {
             const reader = new FileReader();

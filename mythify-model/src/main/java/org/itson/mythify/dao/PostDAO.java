@@ -83,4 +83,24 @@ public class PostDAO implements IPostDAO {
         }
     }
 
+    @Override
+    public Post consultarPostPorID(int id) throws ModelException {
+        try {
+            logger.log(Level.INFO, "Attempting to query post by ID: {0}", id);
+
+            Post post = entityManager.find(Post.class, id);
+
+            if (post != null) {
+                logger.log(Level.INFO, "Post found: {0}", post.getTitulo());
+            } else {
+                logger.log(Level.WARNING, "No post found with ID: {0}", id);
+            }
+
+            return post;
+        } catch (Exception ex) {
+            logger.log(Level.SEVERE, "Error querying post by ID: " + id, ex);
+            throw new ModelException("Error al consultar el post por ID: " + ex.getMessage(), ex);
+        }
+    }
+
 }

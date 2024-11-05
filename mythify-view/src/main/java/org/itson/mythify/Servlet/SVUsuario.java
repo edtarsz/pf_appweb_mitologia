@@ -149,8 +149,10 @@ public class SVUsuario extends HttpServlet {
 
         if (usuario != null) {
             request.getSession().setAttribute("usuario", usuario);
-            request.getSession().setAttribute("posts", posts);
-            response.sendRedirect("index.jsp");
+            request.setAttribute("posts", posts);
+            response.sendRedirect("SVPost?mythology=all");
+//            request.getSession().setAttribute("posts", posts);
+//            response.sendRedirect("index.jsp");
         } else {
             System.out.println("Error");
         }
@@ -159,7 +161,6 @@ public class SVUsuario extends HttpServlet {
     private void cerrarSesion(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // No crear una nueva si no existe
         HttpSession session = request.getSession(false);
         if (session != null) {
             session.invalidate();

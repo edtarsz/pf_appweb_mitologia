@@ -23,7 +23,9 @@ public interface IPostDAO {
     public Post actualizarPost() throws ModelException;
 
     public List<Post> consultarPosts() throws ModelException;
-    
-     public List<Post> consultarPostsCategoria(String categoria) throws ModelException;
+
+    public List<Post> consultarPostsCategoria(String categoria) throws ModelException;
+
+    public Post consultarPostPorID(int id) throws ModelException;
 
 }

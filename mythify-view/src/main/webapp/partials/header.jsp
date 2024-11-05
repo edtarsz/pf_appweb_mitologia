@@ -1,6 +1,6 @@
 <%@page import="org.itson.mythify.entidad.Usuario" %>
 <header class="post-header">
-    <form action="SVPost" method="post">
+    <form action="SVPost" method="get">
         <input type="hidden" name="mythology" value="all">
         <button type="submit" class="header-svg-container" style="background: none; border: none; cursor: pointer;">
             <img src="${pageContext.request.contextPath}/img/icon.svg" alt="Logo Mythify" class="header-svg" />
@@ -17,9 +17,9 @@
                 <% Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
                     if (usuario != null) {%>
                 <p>
-                        <% if (!usuario.getPermiso().toString().equalsIgnoreCase("COMENTAR")) {%>
-                        <i> <%= usuario.getNombre() + " " + usuario.getApellidoPaterno() + " "
-                            + usuario.getApellidoMaterno()%></i>
+                    <% if (!usuario.getPermiso().toString().equalsIgnoreCase("COMENTAR")) {%>
+                    <i> <%= usuario.getNombre() + " " + usuario.getApellidoPaterno() + " "
+                                + usuario.getApellidoMaterno()%></i>
                         <% } else {%>
                         <%= usuario.getNombre() + " " + usuario.getApellidoPaterno() + " "
                                 + usuario.getApellidoMaterno()%>
@@ -32,7 +32,7 @@
                      class="profile-pic" />
             </div>
             <div class="items-menu">
-                <form action="SVUsuario" method="post">
+                <form action="SVUsuario" method="get">
                     <ul>
                         <li>
                             <a href="">Ver perfil</a>

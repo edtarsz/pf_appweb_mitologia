@@ -2,7 +2,6 @@
 
 <%@page import="java.util.Date"%>
 <%@page import="java.util.List" %>
-<%@page import="org.itson.mythify.entidad.Post" %>
 <%@page import="org.itson.mythify.auxiliar.CalcularTiempo" %>
 <%@page import="org.itson.mythify.entidad.Post" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -40,10 +39,10 @@
                 <div></div>
                 <%@ include file="partials/aside.jsp" %>
                 <main>
-                    <% List<Post> posts = (List<Post>) request.getSession().getAttribute("posts"); %>
+                    <% List<Post> posts = (List<Post>) request.getAttribute("posts"); %>
                     <% for (Post post : posts) {%>
                     <article class="article-post">
-                        <a href="post.jsp">
+                        <a href="SVPost?id=<%= post.getIdPost()%>">
                             <div class="head-article-post">
                                 <div class="left-head-article">
                                     <div class="container-pfp-post"></div>

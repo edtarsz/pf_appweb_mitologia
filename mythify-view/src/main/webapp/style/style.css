@@ -973,6 +973,24 @@ footer {
     font-weight: var(--font-weight-medium);
 }
 
+#li-texto {
+    border-width: 0 0 2px 0;
+    border-style: solid;
+    border-color: rgb(255, 255, 255);
+}
+
+#li-img {
+    border-width: 0;
+    border-style: solid;
+    border-color: rgb(255, 255, 255);
+}
+
+#li-link {
+    border-width: 0;
+    border-style: solid;
+    border-color: rgb(255, 255, 255);
+}
+
 .section-post li:hover {
     background-color: var(--second-color);
 }
@@ -1047,4 +1065,9 @@ main {
     max-width: 100%;
     white-space: normal;
     word-wrap: break-word;
+}
+
+.contenedor-crear-post-img {
+    width: 100%;
+    background-color: white;
 }

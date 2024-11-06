@@ -116,7 +116,27 @@ comentarioCrearPost.addEventListener("input", () => {
 })
 
 function columna(texto = false, img = false, link = false) {
-    groupTexto.style.display = texto ? "block" : "none";
-    groupImg.style.display = img ? "flex" : "none";
-    groupLink.style.display = link ? "block" : "none";
+    if (texto) {
+        groupTexto.style.display = "block";
+        liTexto.style.borderWidth = "0 0 2px 0";
+    } else {
+        groupTexto.style.display = "none";
+        liTexto.style.borderWidth = "0";
+    }
+
+    if (img) {
+        groupImg.style.display = "flex";
+        liImg.style.borderWidth = "0 0 2px 0";
+    } else {
+        groupImg.style.display = "none";
+        liImg.style.borderWidth = "0";
+    }
+
+    if (link) {
+        groupLink.style.display = "block";
+        liLink.style.borderWidth = "0 0 2px 0";
+    } else {
+        groupLink.style.display = "none";
+        liLink.style.borderWidth = "0";
+    }
 }

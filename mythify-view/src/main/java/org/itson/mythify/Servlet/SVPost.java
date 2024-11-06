@@ -141,8 +141,6 @@ public class SVPost extends HttpServlet {
             } else {
                 posts = postBO.consultarPostsCategoria(categoria);
             }
-//            request.setAttribute("posts", posts);
-//            response.sendRedirect("index.jsp");
             request.setAttribute("posts", posts);
             request.getRequestDispatcher("index.jsp").forward(request, response);
         } catch (ControllerException ex) {

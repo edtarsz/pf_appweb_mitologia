@@ -36,7 +36,7 @@
                 <main>
                     <div class="container-crear-post">
                         <h2 class="mythologies-title">Crear post</h2>
-                        <form action="SVPost" method="POST">
+                        <form action="SVPost" method="post">
 
                             <input type="hidden" name="action" value="publicarPost">
 
@@ -53,77 +53,61 @@
                             </div>
 
                             <ul class="section-post">
-                                <li>Texto</li>
-                                <li>Imagenes</li>
-                                <li>Link</li>
+                                <li id="li-texto">Texto</li>
+                                <li id="li-img">Imagenes</li>
+                                <li id="li-link">Link</li>
                             </ul>
 
-                            <input type="text" name="title" placeholder="Titulo" class="input-text-post"
-                                   required>
+                            <input type="text" name="title" placeholder="Titulo" class="input-text-post" id="titleGet" required>
 
-                            <textarea name="content" placeholder="Comentario..." class="input-area-post"
-                                      required></textarea>
+                            <label for="file-upload" id="drop-area">
+                                <input type="file" accept="image/jpeg, image/png" id="file-upload" name="avatar" />
+                                <p>Arrastrar o subir imagen</p>
+                            </label>
+
+                            <input type="text" name="link" placeholder="Link URL" class="input-text-post" id="link-url">
+
+                            <textarea name="content" placeholder="Comentario..." class="input-area-post" id="comentGet" required></textarea>
 
                             <div class="post-buttons">
                                 <button type="submit" class="btn-submit">Publicar</button>
-                                <button type="reset" class="btn-cancel">Cancelar</button>
+                                <button type="button" class="btn-cancel">Cancelar</button>
                             </div>
                         </form>
+
                     </div>
                     <h2 class="mythologies-title">Preview</h2>
                     <article class="article-post">
-                        <a href="post.jsp">
-                            <div class="head-article-post">
-                                <div class="left-head-article">
-                                    <div class="container-pfp-post"></div>
-                                    <span class="span-post-header">@user • hace 2 horas</span>
-                                    <span class="span-post-label">MÉXICO</span>
-                                    <img src="<%= request.getContextPath()%>/img/pin-white.svg" alt="">
-                                </div>
-                                <div class="right-head-article">
-                                    <img src="<%= request.getContextPath()%>/img/options-post.svg" alt="">
-                                </div>
+                        <div class="head-article-post">
+                            <div class="left-head-article">
+                                <div class="container-pfp-post"></div>
+                                <span class="span-post-header">@user • hace 2 horas</span>
+                                <span class="span-post-label">MÉXICO</span>
+                                <img src="<%= request.getContextPath()%>/img/pin-white.svg" alt="">
                             </div>
-                            <h3>Eu nemo sit Nullam</h3>
-                            <div class="content-post">
-                                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt culpa
-                                    porro,
-                                    perferendis voluptate quaerat assumenda praesentium dignissimos eius
-                                    esse
-                                    ratione
-                                    quas
-                                    sed voluptatum inventore voluptates illo optio officiis sit harum?
-                                    Reprehenderit
-                                    facilis
-                                    quis quae consequuntur ea, animi rem, natus necessitatibus velit rerum
-                                    amet
-                                    ex
-                                    odit
-                                    officiis magnam accusantium iste atque placeat aliquid, sequi qui. Modi
-                                    consequuntur
-                                    numquam dolorum qui laboriosam!</p>
-                                <br />
-                                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sed quam
-                                    temporibus
-                                    nulla
-                                    facere, deleniti optio molestiae assumenda, magni perferendis
-                                    voluptatibus
-                                    consequuntur.
-                                    Quibusdam incidunt exercitationem neque ex, provident atque quae ea.</p>
+                            <div class="right-head-article">
+                                <img src="<%= request.getContextPath()%>/img/options-post.svg" alt="">
                             </div>
-                            <div class="footer-post">
-                                <button class="btn-footer">
-                                    <img src="${pageContext.request.contextPath}/img/heart-black.svg"
-                                         alt="">
-                                    102
-                                </button>
-                                <button class="btn-footer">
-                                    <img src="${pageContext.request.contextPath}/img/comments-black.svg"
-                                         alt="">
-                                    41 comentarios
-                                </button>
-                            </div>
-                        </a>
+                        </div>
+                        <h3 id="preview-titulo">Introduzca un titulo...</h3>
+                        <div class="content-post">
+                            <p id="preview-texto">
+                                Introduzca un comentario...
+                            </p>
+                        </div>
+                        <div>
+                            <img src="" alt="">
+                        </div>
+                        <div class="footer-post">
+                            <button class="btn-footer">
+                                <img src="${pageContext.request.contextPath}/img/heart-black.svg" alt="">
+                                102
+                            </button>
+                            <button class="btn-footer">
+                                <img src="${pageContext.request.contextPath}/img/comments-black.svg" alt="">
+                                41 comentarios
+                            </button>
+                        </div>
                     </article>
                 </main>
             </div>

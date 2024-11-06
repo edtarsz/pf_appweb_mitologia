@@ -13,6 +13,20 @@ const mythologySelect = document.getElementById('mythologySelect');
 const contenedorMenuDesplegable = document.querySelector(".clicking");
 const menuDesplegable = document.querySelector(".items-menu");
 
+const groupImg = document.querySelector("#drop-area");
+const groupTexto = document.querySelector(".input-area-post");
+const groupLink = document.querySelector("#link-url");
+
+const liTexto = document.querySelector("#li-texto");
+const liImg = document.querySelector("#li-img");
+const liLink = document.querySelector("#li-link");
+
+const previewTitulo = document.querySelector("#preview-titulo");
+const previewComentario = document.querySelector("#preview-texto");
+
+const tituloCrearPost = document.querySelector("#titleGet");
+const comentarioCrearPost = document.querySelector("#comentGet");
+
 if (rightRadio !== null) {
     rightRadio.addEventListener("click", () => cambiarPantalla(false));
     leftRadio.addEventListener("click", () => cambiarPantalla(true));
@@ -34,7 +48,6 @@ if (avatar !== null) {
     });
 }
 
-// Se podrían llegar a utilizar promises/async/await si queremos utilizar transiciones más complejas
 function cambiarPantalla(isPageOneVisible) {
     if (isPageOneVisible) {
         arrowLeft.style.opacity = "0";
@@ -89,3 +102,21 @@ contenedorMenuDesplegable.addEventListener("mouseleave", () => {
         menuDesplegable.style.visibility = "hidden";
     }, 10);
 });
+
+liTexto.addEventListener("click", () => columna(true));
+liImg.addEventListener("click", () => columna(false, true));
+liLink.addEventListener("click", () => columna(false, false, true));
+
+tituloCrearPost.addEventListener("input", () => {
+    previewTitulo.innerHTML = tituloCrearPost.value;
+})
+
+comentarioCrearPost.addEventListener("input", () => {
+    previewComentario.innerHTML = comentarioCrearPost.value;
+})
+
+function columna(texto = false, img = false, link = false) {
+    groupTexto.style.display = texto ? "block" : "none";
+    groupImg.style.display = img ? "flex" : "none";
+    groupLink.style.display = link ? "block" : "none";
+}

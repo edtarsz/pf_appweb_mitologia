@@ -62,28 +62,31 @@ public class SVPost extends HttpServlet {
         String categoria = request.getParameter("mythology");
         String specificMythology = request.getParameter("specificMythology");
 
-        if (specificMythology != null) {
-            consultarPorCategoria(request, response, specificMythology);
-        } else if (categoria != null) {
-            consultarPorCategoria(request, response, categoria);
-        } else if (postId != null) {
-            try {
+        try {
+            if (specificMythology != null && !specificMythology.isEmpty()) {
+                consultarPorCategoria(request, response, specificMythology);
 
-                int id = Integer.parseInt(postId);
-                Post post = postBO.consultarPostPorID(id);
+            } else if (categoria != null && !categoria.isEmpty()) {
 
-                if (post != null) {
-                    request.setAttribute("post", post);
-                    request.getRequestDispatcher("post.jsp").forward(request, response);
-                } else {
+                consultarPorCategoria(request, response, categoria);
+            } else if (postId != null && !postId.isEmpty()) {
+                try {
+                    int id = Integer.parseInt(postId);
+                    Post post = postBO.consultarPostPorID(id);
+                    if (post != null) {
+                        request.setAttribute("post", post);
+                        request.getRequestDispatcher("post.jsp").forward(request, response);
+                    } else {
+                        response.sendRedirect("error.jsp");
+                    }
+                } catch (NumberFormatException e) {
                     response.sendRedirect("error.jsp");
                 }
-            } catch (NumberFormatException e) {
+            } else {
                 response.sendRedirect("error.jsp");
-            } catch (ControllerException ex) {
-                Logger.getLogger(SVPost.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } else {
+        } catch (ControllerException ex) {
+            Logger.getLogger(SVPost.class.getName()).log(Level.SEVERE, null, ex);
             response.sendRedirect("error.jsp");
         }
     }

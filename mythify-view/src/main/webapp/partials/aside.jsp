@@ -19,13 +19,22 @@
 
         <form action="SVPost" method="get">
             <input type="hidden" name="mythology" value="mesoamericana">
-            <select class="btn-mythology-select" id="mythologySelect" name="specificMythology"
-                    onchange="this.form.submit()">
-                <option value="" disabled selected hidden>MESOAMERICANA</option>
-                <option value="azteca">AZTECA</option>
-                <option value="maya">MAYA</option>
-            </select>
+            <button type="submit" class="btn-mythology">MESOAMERICANA</button>
+            <div class="container-list-mythologies">
+                <button type="submit" class="">MAYA</button>
+                <button type="submit" class="">AZTECA</button>
+            </div>
         </form>
+
+        <!-- <form action="SVPost" method="get">
+            <input type="hidden" name="mythology" value="mesoamericana">
+            <select class="btn-mythology-select" id="mythologySelect" name="specificMythology"
+                onchange="this.form.submit()">
+                <option value="" disabled selected hidden>MESOAMERICANA</option>
+                <option value="azteca"><a href="">AZTECA</a><input type="hidden" name="action" value="azteca"></option>
+                <option value="maya"><a href="">MAYA</a><input type="hidden" name="action" value="maya"></option>
+            </select>
+        </form> -->
 
         <form action="SVPost" method="get">
             <input type="hidden" name="mythology" value="nordica">

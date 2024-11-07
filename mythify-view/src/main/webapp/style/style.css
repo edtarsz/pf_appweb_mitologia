@@ -1093,8 +1093,26 @@ main {
 }
 
 .container-list-mythologies {
+    margin: auto;
+    text-align: center;
     display: flex;
     flex-direction: column;
-    width: 100%;
-    background-color: #007bff;
+    width: 97%;
+    background-color: rgb(255 255 254 / 21%);
+    border-radius: 0 0 7px 7px;
+}
+
+.btn-select-mythology {
+    font-weight: var(--font-weight-strong);
+    color: white;
+    padding: 7px;
+    background-color: inherit;
+    appearance: none;
+    border: none;
+    width: 98%;
+}
+
+hr {
+    margin: auto;
+    width: 92%;
 }

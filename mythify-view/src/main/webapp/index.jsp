@@ -1,4 +1,4 @@
-<%-- Document : post.jsp Created on : 25 oct 2024, 4:00:48 p.m. Author : crist --%>
+<%-- Document : post.jsp Created on : 25 oct 2024, 4:00:48 p.m. Author : crist --%>
 
 <%@page import="java.util.Date"%>
 <%@page import="java.util.List" %>
@@ -39,28 +39,31 @@
                 <div></div>
                 <%@ include file="partials/aside.jsp" %>
                 <main>
-                    <% List<Post> posts = (List<Post>) request.getAttribute("posts"); %>
-                    <% for (Post post : posts) {%>
+                    <%
+                        List<Post> posts = (List<Post>) request.getAttribute("posts");
+                        if (posts != null && !posts.isEmpty()) {
+                            for (Post post : posts) {
+                                if (post != null && post.getUsuario() != null && post.getTitulo() != null && post.getContenido() != null) {
+                    %>
                     <article class="article-post">
-                        <a href="SVPost?id=<%= post.getIdPost()%>">
+                        <a href="SVPost?id=<%= post.getIdPost() > 0 ? post.getIdPost() : ""%>">
                             <div class="head-article-post">
                                 <div class="left-head-article">
                                     <div class="container-pfp-post"></div>
                                     <%
                                         Date fechaCreacion = post.getFechaHoraCreacion();
-                                        String tiempoTranscurrido = CalcularTiempo.tiempoTranscurridoDesde(fechaCreacion);
+                                        String tiempoTranscurrido = fechaCreacion != null ? CalcularTiempo.tiempoTranscurridoDesde(fechaCreacion) : "N/A";
                                     %>
-                                    <span class="span-post-header">@<%=post.getUsuario().getNombre()%> • <%= tiempoTranscurrido%>
+                                    <span class="span-post-header">
+                                        @<%= post.getUsuario().getNombre() != null ? post.getUsuario().getNombre() : "Anonymous"%> • <%= tiempoTranscurrido%>
                                     </span>
                                     <span class="span-post-label">
-                                        <%= post.getCategoria()%>
+                                        <%= post.getCategoria() != null ? post.getCategoria() : "Uncategorized"%>
                                     </span>
-                                    <img src="<%= request.getContextPath()%>/img/pin-white.svg"
-                                         alt="">
+                                    <img src="<%= request.getContextPath()%>/img/pin-white.svg" alt="">
                                 </div>
                                 <div class="right-head-article">
-                                    <img src="<%= request.getContextPath()%>/img/options-post.svg"
-                                         alt="">
+                                    <img src="<%= request.getContextPath()%>/img/options-post.svg" alt="">
                                 </div>
                             </div>
                             <h3>
@@ -73,19 +76,23 @@
                             </div>
                             <div class="footer-post">
                                 <button class="btn-footer">
-                                    <img src="<%= request.getContextPath()%>/img/heart-black.svg"
-                                         alt="">
+                                    <img src="<%= request.getContextPath()%>/img/heart-black.svg" alt="">
                                     19
                                 </button>
                                 <button class="btn-footer">
-                                    <img src="<%= request.getContextPath()%>/img/comments-black.svg"
-                                         alt="">
+                                    <img src="<%= request.getContextPath()%>/img/comments-black.svg" alt="">
                                     2 comments
                                 </button>
                             </div>
                         </a>
                     </article>
-                    <% }%>
+                    <%
+                            } // end inner null check
+                        } // end for loop
+                    } else {
+                    %>
+                    <p>No posts available.</p>
+                    <% } // end if-else check %>
                 </main>
                 <aside class="aside-hot">
                     <h2 class="hot-posts-title">HOT POSTS</h2>
@@ -96,8 +103,7 @@
                                 <span class="span-post-header">@user</span>
                             </div>
                             <div class="right-head-article">
-                                <img src="<%= request.getContextPath()%>/img/options-post.svg"
-                                     alt="">
+                                <img src="<%= request.getContextPath()%>/img/options-post.svg" alt="">
                             </div>
                         </div>
                         <div class="content-post">
@@ -113,13 +119,11 @@
                         </div>
                         <div class="footer-hot-post">
                             <button class="btn-footer-hot-post">
-                                <img src="<%= request.getContextPath()%>/img/heart-white.svg"
-                                     alt="">
+                                <img src="<%= request.getContextPath()%>/img/heart-white.svg" alt="">
                                 4014
                             </button>
                             <button class="btn-footer-hot-post">
-                                <img src="<%= request.getContextPath()%>/img/comments-white.svg"
-                                     alt="">
+                                <img src="<%= request.getContextPath()%>/img/comments-white.svg" alt="">
                                 409
                             </button>
                         </div>

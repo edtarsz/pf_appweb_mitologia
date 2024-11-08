@@ -17,7 +17,7 @@
                             <link rel="stylesheet" href="<%= request.getContextPath()%>/style/style.css">
 
                             <!-- JavaScript -->
-                            <script defer src="<%= request.getContextPath()%>/script/script.js"></script>
+                            <!-- <script defer src="<%= request.getContextPath()%>/script/script.js"></script> -->
 
                             <title>Mythify</title>
                         </head>
@@ -81,19 +81,29 @@
                                                                                 <%= post.getContenido()%>
                                                                             </p>
                                                                         </div>
-                                                                        <div class="footer-post">
-                                                                            <button class="btn-footer">
-                                                                                <img src="<%= request.getContextPath()%>/img/heart-black.svg"
-                                                                                    alt="">
-                                                                                19
-                                                                            </button>
-                                                                            <button class="btn-footer">
-                                                                                <img src="<%= request.getContextPath()%>/img/comments-black.svg"
-                                                                                    alt="">
-                                                                                2 comments
-                                                                            </button>
-                                                                        </div>
-                                                                        <% if (!post.isAnclado()) {%>
+                                                                        <% if (post.getLink() !=null &&
+                                                                            !post.getLink().isEmpty()) {%>
+                                                                            URL:
+                                                                            <a href="<%= post.getLink() %>"
+                                                                                id="preview-link">
+                                                                                <%= post.getLink() %>
+                                                                            </a>
+                                                                            <% }%>
+                                                                                <div class="footer-post">
+                                                                                    <button class="btn-footer">
+                                                                                        <img src="<%= request.getContextPath()%>/img/heart-black.svg"
+                                                                                            alt="">
+                                                                                        19
+                                                                                    </button>
+                                                                                    <% if (!post.isAnclado()) {%>
+                                                                                        <button class="btn-footer">
+                                                                                            <img src="<%= request.getContextPath()%>/img/comments-black.svg"
+                                                                                                alt="">
+                                                                                            2 comments
+                                                                                        </button>
+                                                                                        <% } %>
+                                                                                </div>
+                                                                                <% if (!post.isAnclado()) {%>
                                                                 </a>
                                                                 <% } %>
                                                         </article>

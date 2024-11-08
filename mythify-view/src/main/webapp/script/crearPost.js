@@ -8,6 +8,7 @@ const liLink = document.querySelector("#li-link");
 
 const previewTitulo = document.querySelector("#preview-titulo");
 const previewComentario = document.querySelector("#preview-texto");
+const previewLink = document.querySelector("#preview-link");
 
 const tituloCrearPost = document.querySelector("#titleGet");
 const comentarioCrearPost = document.querySelector("#comentGet");
@@ -56,6 +57,13 @@ if (tituloCrearPost !== null) {
 if (comentarioCrearPost !== null) {
 	comentarioCrearPost.addEventListener("input", () => {
 		previewComentario.innerHTML = comentarioCrearPost.value;
+	});
+}
+
+if (groupLink !== null) {
+	groupLink.addEventListener("input", () => {
+		previewLink.innerHTML = groupLink.value;
+		previewLink.href = groupLink.value;
 	});
 }
 

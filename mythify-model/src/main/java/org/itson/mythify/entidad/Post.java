@@ -39,6 +39,9 @@ public class Post implements Serializable {
     @Column(name = "categoria", nullable = false)
     private String categoria;
 
+    @Column(name = "link", nullable = true)
+    private String link;
+
     @Column(name = "fechaHoraCreacion", nullable = false, updatable = true)
     private LocalDateTime fechaHoraCreacion;
 
@@ -55,14 +58,14 @@ public class Post implements Serializable {
     public Post() {
     }
 
-    public Post(int likes, List<Comentario> comentarios, String titulo, String contenido, String categoria, LocalDateTime fechaHoraCreacion, LocalDateTime fechaHoraEdicion, boolean anclado, Usuario usuario) {
+    public Post(int likes, List<Comentario> comentarios, String titulo, String contenido, String categoria, String link, LocalDateTime fechaHoraCreacion, boolean anclado, Usuario usuario) {
         this.likes = likes;
         this.comentarios = comentarios;
         this.titulo = titulo;
         this.contenido = contenido;
         this.categoria = categoria;
+        this.link = link;
         this.fechaHoraCreacion = fechaHoraCreacion;
-        this.fechaHoraEdicion = fechaHoraEdicion;
         this.anclado = anclado;
         this.usuario = usuario;
     }
@@ -113,6 +116,14 @@ public class Post implements Serializable {
 
     public void setCategoria(String categoria) {
         this.categoria = categoria;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
     }
 
     public LocalDateTime getFechaHoraCreacion() {

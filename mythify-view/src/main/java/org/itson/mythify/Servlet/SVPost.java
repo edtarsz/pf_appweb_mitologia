@@ -109,12 +109,13 @@ public class SVPost extends HttpServlet {
         String titulo = request.getParameter("title");
         String contenido = request.getParameter("content");
         String anclado = request.getParameter("anclar");
+        String link = request.getParameter("link");
 
         boolean esAnclado = (anclado != null);
 
         Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
 
-        PostDTO postDTO = new PostDTO(titulo, contenido, categoria.toUpperCase(), LocalDateTime.now(), esAnclado, usuario);
+        PostDTO postDTO = new PostDTO(titulo, contenido, categoria.toUpperCase(), link, LocalDateTime.now(), esAnclado, usuario);
 
         List<Post> posts = (List<Post>) request.getAttribute("posts");
 
@@ -149,7 +150,6 @@ public class SVPost extends HttpServlet {
             post.setTitulo(titulo);
             post.setContenido(contenido);
             post.setCategoria(categoria.toUpperCase());
-            
 
             Post postActualizado = postBO.actualizarPost(post);
 
@@ -167,30 +167,30 @@ public class SVPost extends HttpServlet {
     }
 
     private void borrarPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-         String postId = request.getParameter("id");
+        String postId = request.getParameter("id");
 
-    try {
-        // Crear un PostDTO solo con el ID para realizar la eliminación
-        PostDTO postDTO = new PostDTO();
-        postDTO.setIdPost(Integer.parseInt(postId));
+        try {
+            // Crear un PostDTO solo con el ID para realizar la eliminación
+            PostDTO postDTO = new PostDTO();
+            postDTO.setIdPost(Integer.parseInt(postId));
 
-        boolean eliminado = postBO.eliminarPost(postDTO);
+            boolean eliminado = postBO.eliminarPost(postDTO);
 
-        if (eliminado) {
-            request.setAttribute("mensaje", "Post eliminado correctamente.");
-        } else {
-            request.setAttribute("mensaje", "Error al eliminar el post.");
+            if (eliminado) {
+                request.setAttribute("mensaje", "Post eliminado correctamente.");
+            } else {
+                request.setAttribute("mensaje", "Error al eliminar el post.");
+            }
+
+            response.sendRedirect("SVPost?mythology=all");
+        } catch (ControllerException ex) {
+            Logger.getLogger(SVUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al eliminar el post.");
         }
-
-        response.sendRedirect("SVPost?mythology=all");
-    } catch (ControllerException ex) {
-        Logger.getLogger(SVUsuario.class.getName()).log(Level.SEVERE, null, ex);
-        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al eliminar el post.");
-    }
     }
 
     private void consultarPorCategoria(HttpServletRequest request, HttpServletResponse response, String categoria) throws IOException, ServletException {
-        List<Post> posts;
+        List<Post> posts = null;
         List<Post> anclados = new ArrayList<>();  // Lista para almacenar posts anclados
         List<Post> noAnclados = new ArrayList<>(); // Lista para almacenar posts no anclados
 
@@ -203,11 +203,15 @@ public class SVPost extends HttpServlet {
             }
 
             // Separa los posts en anclados y no anclados
-            for (Post post : posts) {
-                if (post.isAnclado()) {
-                    anclados.add(post);  // Añade a la lista de anclados si está marcado como tal
-                } else {
-                    noAnclados.add(post);  // Añade a la lista de no anclados en caso contrario
+            if (posts == null) {
+                System.out.println("La lista de posts es null.");
+            } else {
+                for (Post post : posts) {
+                    if (post.isAnclado()) {
+                        anclados.add(post);  // Añade a la lista de anclados si está marcado como tal
+                    } else {
+                        noAnclados.add(post);  // Añade a la lista de no anclados en caso contrario
+                    }
                 }
             }
 

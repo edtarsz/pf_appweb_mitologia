@@ -74,6 +74,7 @@ public class ConversorBO implements IConversorBO {
                 post.getTitulo(),
                 post.getContenido(),
                 post.getCategoria(),
+                post.getLink(),
                 post.getFechaHoraCreacion(),
                 post.getFechaHoraEdicion(),
                 post.isAnclado(),
@@ -91,6 +92,7 @@ public class ConversorBO implements IConversorBO {
         post.setTitulo(postDTO.getTitulo());
         post.setContenido(postDTO.getContenido());
         post.setCategoria(postDTO.getCategoria());
+        post.setLink(postDTO.getLink());
         post.setFechaHoraCreacion(postDTO.getFechaHoraCreacion());
         post.setFechaHoraEdicion(postDTO.getFechaHoraEdicion());
         post.setAnclado(postDTO.isAnclado());

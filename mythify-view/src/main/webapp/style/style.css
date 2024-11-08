@@ -1155,3 +1155,20 @@ small {
     align-items: center;
     justify-content: center;
 }
+
+#preview-link {
+    text-decoration: underline;
+    color: #51ccfc;
+    font-weight: var(--font-weight-medium);
+}
+
+#isDisplayValid {
+    display: none;
+}
+
+.content-post {
+    max-width: 100%;
+    white-space: normal;
+    word-wrap: break-word;
+    margin-bottom: 10px;
+}

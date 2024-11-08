@@ -14,6 +14,7 @@
 
             <!-- JavaScript -->
             <script defer src="<%= request.getContextPath()%>/script/crearPost.js"></script>
+            <script defer src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
 
             <title>Mythify</title>
         </head>
@@ -106,9 +107,11 @@
                                             Introduzca un comentario...
                                         </p>
                                     </div>
-                                    <!-- <div class="contenedor-crear-post-img">
-                <img src="" alt="">
-            </div> -->
+                                    URL:
+                                    <a href="" id="preview-link">
+                                        http://linkdeejemplo.com
+                                    </a>
+                                    <!-- class="contenedor-crear-post-img"> dentro va la imagen -->
                                     <div class="footer-post">
                                         <button class="btn-footer">
                                             <img src="${pageContext.request.contextPath}/img/heart-black.svg" alt="">

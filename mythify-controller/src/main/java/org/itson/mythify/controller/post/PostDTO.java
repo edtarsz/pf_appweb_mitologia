@@ -17,6 +17,7 @@ public class PostDTO {
     private String titulo;
     private String contenido;
     private String categoria;
+    private String link;
     private LocalDateTime fechaHoraCreacion;
     private LocalDateTime fechaHoraEdicion;
     private boolean anclado;
@@ -25,21 +26,23 @@ public class PostDTO {
     public PostDTO() {
     }
 
-    public PostDTO(String titulo, String contenido, String categoria, LocalDateTime fechaHoraCreacion, LocalDateTime fechaHoraEdicion, boolean anclado, Usuario usuario) {
+    public PostDTO(String titulo, String contenido, String categoria, String link, LocalDateTime fechaHoraCreacion, boolean anclado, Usuario usuario) {
         this.titulo = titulo;
         this.contenido = contenido;
         this.categoria = categoria;
+        this.link = link;
         this.fechaHoraCreacion = fechaHoraCreacion;
-        this.fechaHoraEdicion = fechaHoraEdicion;
         this.anclado = anclado;
         this.usuario = usuario;
     }
 
-    public PostDTO(String titulo, String contenido, String categoria, LocalDateTime fechaHoraCreacion, boolean anclado, Usuario usuario) {
+    public PostDTO(String titulo, String contenido, String categoria, String link, LocalDateTime fechaHoraCreacion, LocalDateTime fechaHoraEdicion, boolean anclado, Usuario usuario) {
         this.titulo = titulo;
         this.contenido = contenido;
         this.categoria = categoria;
+        this.link = link;
         this.fechaHoraCreacion = fechaHoraCreacion;
+        this.fechaHoraEdicion = fechaHoraEdicion;
         this.anclado = anclado;
         this.usuario = usuario;
     }
@@ -74,6 +77,14 @@ public class PostDTO {
 
     public void setCategoria(String categoria) {
         this.categoria = categoria;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
     }
 
     public LocalDateTime getFechaHoraCreacion() {

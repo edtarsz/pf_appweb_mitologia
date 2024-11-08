@@ -4,24 +4,6 @@
         <!DOCTYPE html>
         <html lang="en">
 
-
-                <p class="description">
-                    Lorem ipsum dolor sit amet consectetur adipiscing elit augue ornare
-                </p>
-                <form action="SVUsuario" method="post">
-                    <input type="hidden" name="action" value="iniciarSesion">
-                    <label for="correo">Correo</label>
-                    <input
-                        type="email"
-                        class="input-format"
-                        autocomplete="email"
-                        name="correo"
-                        required
-                        />
-
-                    <label for="contraseña">Contraseña</label>
-                    <input type="password" class="input-format" name="contrasenia" required/>
-
         <head>
             <meta charset="UTF-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />

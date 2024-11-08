@@ -49,15 +49,27 @@ public class PostDAO implements IPostDAO {
         }
     }
 
-    @Override
-    public Post eliminarPost() throws ModelException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+
+   
 
     @Override
-    public Post actualizarPost() throws ModelException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Post actualizarPost(Post post) throws ModelException {
+         try {
+        logger.log(Level.INFO, "Attempting to update post: {0}", post.getTitulo());
+        entityManager.getTransaction().begin();
+        Post updatedPost = entityManager.merge(post); 
+        entityManager.getTransaction().commit();
+        logger.log(Level.INFO, "Post updated successfully: {0}", updatedPost.getTitulo());
+        return updatedPost;
+    } catch (Exception ex) {
+        logger.log(Level.SEVERE, "Error updating post: " + post.getTitulo(), ex);
+        if (entityManager.getTransaction().isActive()) {
+            entityManager.getTransaction().rollback();
+            logger.warning("Transaction rolled back.");
+        }
+        throw new ModelException("Error updating post", ex);
     }
+        }
 
     @Override
     public List<Post> consultarPosts() throws ModelException {
@@ -102,6 +114,32 @@ public class PostDAO implements IPostDAO {
             logger.log(Level.SEVERE, "Error querying post by ID: " + id, ex);
             throw new ModelException("Error al consultar el post por ID: " + ex.getMessage(), ex);
         }
+    }
+
+    @Override
+    public boolean eliminarPost(Post post) throws ModelException {
+       try {
+        logger.log(Level.INFO, "Attempting to delete post: {0}", post.getTitulo());
+        entityManager.getTransaction().begin();
+        Post postToDelete = entityManager.find(Post.class, post.getIdPost()); // Se busca el post por su ID
+        if (postToDelete != null) {
+            entityManager.remove(postToDelete); // Se elimina el post
+            entityManager.getTransaction().commit();
+            logger.log(Level.INFO, "Post deleted successfully: {0}", post.getTitulo());
+            return true;
+        } else {
+            logger.log(Level.WARNING, "Post not found: {0}", post.getTitulo());
+            entityManager.getTransaction().rollback();
+            return false;
+        }
+    } catch (Exception ex) {
+        logger.log(Level.SEVERE, "Error deleting post: " + post.getTitulo(), ex);
+        if (entityManager.getTransaction().isActive()) {
+            entityManager.getTransaction().rollback();
+            logger.warning("Transaction rolled back.");
+        }
+        throw new ModelException("Error deleting post", ex);
+    }
     }
 
 }

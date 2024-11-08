@@ -130,12 +130,58 @@ public class SVPost extends HttpServlet {
         }
     }
 
-    private void editarPost(HttpServletRequest request, HttpServletResponse response) {
+    private void editarPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String postId = request.getParameter("id");
+        String categoria = request.getParameter("category");
+        String titulo = request.getParameter("title");
+        String contenido = request.getParameter("content");
 
+        try {
+            // Obtener el post actual
+            Post post = postBO.consultarPostPorID(Integer.parseInt(postId));
+
+            // Actualizar los datos del post
+            post.setTitulo(titulo);
+            post.setContenido(contenido);
+            post.setCategoria(categoria.toUpperCase());
+            
+
+            Post postActualizado = postBO.actualizarPost(post);
+
+            if (postActualizado != null) {
+                request.setAttribute("mensaje", "Post actualizado correctamente.");
+            } else {
+                request.setAttribute("mensaje", "Error al actualizar el post.");
+            }
+
+            response.sendRedirect("SVPost?mythology=all");
+        } catch (ControllerException ex) {
+            Logger.getLogger(SVUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al actualizar el post.");
+        }
     }
 
-    private void borrarPost(HttpServletRequest request, HttpServletResponse response) {
+    private void borrarPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+         String postId = request.getParameter("id");
 
+    try {
+        // Crear un PostDTO solo con el ID para realizar la eliminación
+        PostDTO postDTO = new PostDTO();
+        postDTO.setIdPost(Integer.parseInt(postId));
+
+        boolean eliminado = postBO.eliminarPost(postDTO);
+
+        if (eliminado) {
+            request.setAttribute("mensaje", "Post eliminado correctamente.");
+        } else {
+            request.setAttribute("mensaje", "Error al eliminar el post.");
+        }
+
+        response.sendRedirect("SVPost?mythology=all");
+    } catch (ControllerException ex) {
+        Logger.getLogger(SVUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al eliminar el post.");
+    }
     }
 
     private void consultarPorCategoria(HttpServletRequest request, HttpServletResponse response, String categoria) throws IOException, ServletException {

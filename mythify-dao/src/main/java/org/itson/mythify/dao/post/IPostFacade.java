@@ -21,9 +21,9 @@ public interface IPostFacade {
 
     public Post crearPost(Post post);
 
-    public void eliminarPost();
+    public boolean eliminarPost(Post post);
 
-    public void actualizarPost();
+    public Post actualizarPost(Post post);
 
     public List<Post> consultarPosts();
 

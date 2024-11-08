@@ -19,9 +19,9 @@ public interface IPostDAO {
 
     public Post crearPost(Post post) throws ModelException;
 
-    public Post eliminarPost() throws ModelException;
+    public boolean eliminarPost(Post post) throws ModelException;
 
-    public Post actualizarPost() throws ModelException;
+    public Post actualizarPost(Post post) throws ModelException;
 
     public List<Post> consultarPosts() throws ModelException;
 

@@ -39,13 +39,23 @@ public class PostFacade implements IPostFacade {
     }
 
     @Override
-    public void eliminarPost() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean eliminarPost(Post post) {
+        try {
+            return postDAO.eliminarPost(post);
+        } catch (ModelException ex) {
+            Logger.getLogger(PostFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return true;
     }
 
     @Override
-    public void actualizarPost() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Post actualizarPost(Post post) {
+       try {
+            return postDAO.actualizarPost(post);
+        } catch (ModelException ex) {
+            Logger.getLogger(PostFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
     @Override

@@ -16,9 +16,9 @@ public interface IFacadePostBO {
 
     public Post crearPostDTO(PostDTO postDTO) throws ControllerException;
 
-    public void eliminarPost() throws ControllerException;
+    public boolean eliminarPost(PostDTO postDTO) throws ControllerException;
 
-    public void actualizarPost() throws ControllerException;
+    public Post actualizarPost(Post post) throws ControllerException;
 
     public List<Post> consultarPosts() throws ControllerException;
 

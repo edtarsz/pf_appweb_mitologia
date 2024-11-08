@@ -22,6 +22,11 @@ public class PostDTO {
     private boolean anclado;
     private Usuario usuario;
 
+    public PostDTO() {
+    }
+    
+    
+
     public PostDTO(String titulo, String contenido, String categoria, Date fechaHoraCreacion, Date fechaHoraEdicion, boolean anclado, Usuario usuario) {
         this.titulo = titulo;
         this.contenido = contenido;

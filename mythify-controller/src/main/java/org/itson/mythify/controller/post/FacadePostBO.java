@@ -37,13 +37,14 @@ public class FacadePostBO implements IFacadePostBO {
     }
 
     @Override
-    public void eliminarPost() throws ControllerException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean eliminarPost(PostDTO postDTO) throws ControllerException {
+        Post post = conversorBO.postDTOAEntidad(postDTO);
+        return postFacade.eliminarPost(post);
     }
 
     @Override
-    public void actualizarPost() throws ControllerException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Post actualizarPost(Post post) throws ControllerException {
+        return postFacade.actualizarPost(post);
     }
 
     @Override

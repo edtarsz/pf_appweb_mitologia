@@ -151,8 +151,6 @@ public class SVUsuario extends HttpServlet {
             request.getSession().setAttribute("usuario", usuario);
             request.setAttribute("posts", posts);
             response.sendRedirect("SVPost?mythology=all");
-//            request.getSession().setAttribute("posts", posts);
-//            response.sendRedirect("index.jsp");
         } else {
             System.out.println("Error");
         }

@@ -5,6 +5,7 @@
 package org.itson.mythify.entidad;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -38,13 +39,11 @@ public class Post implements Serializable {
     @Column(name = "categoria", nullable = false)
     private String categoria;
 
-    @Column(name = "fechaHoraCreacion", nullable = false, updatable = false)
-    @Temporal(TemporalType.DATE)
-    private Date fechaHoraCreacion;
+    @Column(name = "fechaHoraCreacion", nullable = false, updatable = true)
+    private LocalDateTime fechaHoraCreacion;
 
     @Column(name = "fechaHoraEdicion", nullable = true)
-    @Temporal(TemporalType.DATE)
-    private Date fechaHoraEdicion;
+    private LocalDateTime fechaHoraEdicion;
 
     @Column(name = "anclado")
     private boolean anclado;
@@ -56,7 +55,7 @@ public class Post implements Serializable {
     public Post() {
     }
 
-    public Post(int likes, List<Comentario> comentarios, String titulo, String contenido, String categoria, Date fechaHoraCreacion, Date fechaHoraEdicion, boolean anclado, Usuario usuario) {
+    public Post(int likes, List<Comentario> comentarios, String titulo, String contenido, String categoria, LocalDateTime fechaHoraCreacion, LocalDateTime fechaHoraEdicion, boolean anclado, Usuario usuario) {
         this.likes = likes;
         this.comentarios = comentarios;
         this.titulo = titulo;
@@ -116,19 +115,19 @@ public class Post implements Serializable {
         this.categoria = categoria;
     }
 
-    public Date getFechaHoraCreacion() {
+    public LocalDateTime getFechaHoraCreacion() {
         return fechaHoraCreacion;
     }
 
-    public void setFechaHoraCreacion(Date fechaHoraCreacion) {
+    public void setFechaHoraCreacion(LocalDateTime fechaHoraCreacion) {
         this.fechaHoraCreacion = fechaHoraCreacion;
     }
 
-    public Date getFechaHoraEdicion() {
+    public LocalDateTime getFechaHoraEdicion() {
         return fechaHoraEdicion;
     }
 
-    public void setFechaHoraEdicion(Date fechaHoraEdicion) {
+    public void setFechaHoraEdicion(LocalDateTime fechaHoraEdicion) {
         this.fechaHoraEdicion = fechaHoraEdicion;
     }
 

@@ -1,33 +1,26 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package org.itson.mythify.auxiliar;
 
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
+import java.time.LocalDateTime;
 
-/**
- *
- * @author user
- */
 public class CalcularTiempo {
 
-    public static String tiempoTranscurridoDesde(Date fecha) {
-        long diffMillis = new Date().getTime() - fecha.getTime();
-        long diffHoras = TimeUnit.MILLISECONDS.toHours(diffMillis);
-        long diffMinutos = TimeUnit.MILLISECONDS.toMinutes(diffMillis) % 60;
-        long diffDias = TimeUnit.MILLISECONDS.toDays(diffMillis);
+    public static String tiempoTranscurridoDesde(LocalDateTime fecha) {
+        LocalDateTime ahora = LocalDateTime.now();
+        Duration duracion = Duration.between(fecha, ahora);
+
+        long diffDias = duracion.toDays();
+        long diffHoras = duracion.toHours() % 24;
+        long diffMinutos = duracion.toMinutes() % 60;
 
         if (diffDias > 0) {
-            return "Hace " + diffDias + " día" + (diffDias == 1 ? "" : "(s)");
+            return "Hace " + diffDias + " día" + (diffDias == 1 ? "" : "s");
         } else if (diffHoras > 0) {
-            return "Hace " + diffHoras + " hora" + (diffHoras == 1 ? "" : "(s)");
+            return "Hace " + diffHoras + " hora" + (diffHoras == 1 ? "" : "s");
         } else if (diffMinutos > 0) {
-            return "Hace " + diffMinutos + " minuto" + (diffMinutos == 1 ? "" : "(s)");
+            return "Hace " + diffMinutos + " minuto" + (diffMinutos == 1 ? "" : "s");
         } else {
             return "Hace un momento";
         }
     }
-
 }

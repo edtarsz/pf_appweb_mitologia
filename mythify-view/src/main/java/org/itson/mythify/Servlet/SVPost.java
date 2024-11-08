@@ -13,7 +13,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -112,7 +114,7 @@ public class SVPost extends HttpServlet {
 
         Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
 
-        PostDTO postDTO = new PostDTO(titulo, contenido, categoria.toUpperCase(), new Date(), esAnclado, usuario);
+        PostDTO postDTO = new PostDTO(titulo, contenido, categoria.toUpperCase(), LocalDateTime.now(), esAnclado, usuario);
 
         List<Post> posts = (List<Post>) request.getAttribute("posts");
 
@@ -122,6 +124,9 @@ public class SVPost extends HttpServlet {
 
         try {
             Post post = postBO.crearPostDTO(postDTO);
+
+            // Esto se hace para no estar haciendo la misma consulta a la base de datos cada que se crea un post nuevo
+            // De esta manera se agrega a la bd, y se agrega el post a la lista que ya tienes en el front
             posts.add(post);
             request.setAttribute("posts", posts);
             response.sendRedirect("SVPost?mythology=all");
@@ -186,15 +191,39 @@ public class SVPost extends HttpServlet {
 
     private void consultarPorCategoria(HttpServletRequest request, HttpServletResponse response, String categoria) throws IOException, ServletException {
         List<Post> posts;
+        List<Post> anclados = new ArrayList<>();  // Lista para almacenar posts anclados
+        List<Post> noAnclados = new ArrayList<>(); // Lista para almacenar posts no anclados
 
         try {
+            // Obtén todos los posts o los de una categoría específica
             if (categoria.equals("all")) {
                 posts = postBO.consultarPosts();
             } else {
                 posts = postBO.consultarPostsCategoria(categoria);
             }
-            request.setAttribute("posts", posts);
+
+            // Separa los posts en anclados y no anclados
+            for (Post post : posts) {
+                if (post.isAnclado()) {
+                    anclados.add(post);  // Añade a la lista de anclados si está marcado como tal
+                } else {
+                    noAnclados.add(post);  // Añade a la lista de no anclados en caso contrario
+                }
+            }
+
+            // Ordena ambas listas por fecha de creación, de más reciente a más antigua
+            Comparator<Post> fechaComparator = Comparator.comparing(Post::getFechaHoraCreacion).reversed();
+            anclados.sort(fechaComparator);
+            noAnclados.sort(fechaComparator);
+
+            // Combina los anclados y no anclados, anclados al inicio
+            List<Post> postsOrdenados = new ArrayList<>(anclados);
+            postsOrdenados.addAll(noAnclados);
+
+            // Establece la lista ordenada en el request
+            request.setAttribute("posts", postsOrdenados);
             request.getRequestDispatcher("index.jsp").forward(request, response);
+
         } catch (ControllerException ex) {
             Logger.getLogger(SVPost.class.getName()).log(Level.SEVERE, null, ex);
             response.sendRedirect("error.jsp");

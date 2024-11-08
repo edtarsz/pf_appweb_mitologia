@@ -4,7 +4,7 @@
  */
 package org.itson.mythify.controller.post;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import org.itson.mythify.entidad.Usuario;
 
 /**
@@ -17,14 +17,13 @@ public class PostDTO {
     private String titulo;
     private String contenido;
     private String categoria;
-    private Date fechaHoraCreacion;
-    private Date fechaHoraEdicion;
+    private LocalDateTime fechaHoraCreacion;
+    private LocalDateTime fechaHoraEdicion;
     private boolean anclado;
     private Usuario usuario;
 
     public PostDTO() {
     }
-    
     
 
     public PostDTO(String titulo, String contenido, String categoria, Date fechaHoraCreacion, Date fechaHoraEdicion, boolean anclado, Usuario usuario) {
@@ -37,7 +36,7 @@ public class PostDTO {
         this.usuario = usuario;
     }
 
-    public PostDTO(String titulo, String contenido, String categoria, Date fechaHoraCreacion, boolean anclado, Usuario usuario) {
+    public PostDTO(String titulo, String contenido, String categoria, LocalDateTime fechaHoraCreacion, boolean anclado, Usuario usuario) {
         this.titulo = titulo;
         this.contenido = contenido;
         this.categoria = categoria;
@@ -78,19 +77,19 @@ public class PostDTO {
         this.categoria = categoria;
     }
 
-    public Date getFechaHoraCreacion() {
+    public LocalDateTime getFechaHoraCreacion() {
         return fechaHoraCreacion;
     }
 
-    public void setFechaHoraCreacion(Date fechaHoraCreacion) {
+    public void setFechaHoraCreacion(LocalDateTime fechaHoraCreacion) {
         this.fechaHoraCreacion = fechaHoraCreacion;
     }
 
-    public Date getFechaHoraEdicion() {
+    public LocalDateTime getFechaHoraEdicion() {
         return fechaHoraEdicion;
     }
 
-    public void setFechaHoraEdicion(Date fechaHoraEdicion) {
+    public void setFechaHoraEdicion(LocalDateTime fechaHoraEdicion) {
         this.fechaHoraEdicion = fechaHoraEdicion;
     }
 

@@ -936,15 +936,14 @@ footer {
     border-color: var(--border-white-color);
     border-radius: 13px;
     background-color: white;
-    margin: 20px 0 0 0;
-    padding: 10px 0;
+    padding: 8px 10px;
     display: flex;
     /* justify-content: center; */
     align-items: center;
     font-size: var(--font-size-small);
     font-weight: var(--font-weight-medium);
     /* gap: 5px; */
-    width: 32%;
+    width: 100%;
     text-align: center;
     appearance: none;
 }
@@ -1122,4 +1121,24 @@ hr {
 
 .container-list-mythologies.visible {
     display: flex;
+}
+
+.anclar-crear-titles {
+    gap: 5%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 40% 1fr;
+}
+
+.anclar-post {
+    /* display: none; */
+    width: 100%;
+}
+
+.container-checkbox {
+    width: 135px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

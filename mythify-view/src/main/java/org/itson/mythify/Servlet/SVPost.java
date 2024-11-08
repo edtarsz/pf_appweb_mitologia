@@ -106,10 +106,13 @@ public class SVPost extends HttpServlet {
         String categoria = request.getParameter("category");
         String titulo = request.getParameter("title");
         String contenido = request.getParameter("content");
+        String anclado = request.getParameter("anclar");
+
+        boolean esAnclado = (anclado != null);
 
         Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
 
-        PostDTO postDTO = new PostDTO(titulo, contenido, categoria.toUpperCase(), new Date(), false, usuario);
+        PostDTO postDTO = new PostDTO(titulo, contenido, categoria.toUpperCase(), new Date(), esAnclado, usuario);
 
         List<Post> posts = (List<Post>) request.getAttribute("posts");
 

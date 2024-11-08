@@ -30,6 +30,7 @@ const imagenCrearPost = document.querySelector("#imgGet");
 
 const imgView = document.querySelector("#img-view");
 
+
 if (rightRadio !== null) {
     rightRadio.addEventListener("click", () => cambiarPantalla(false));
     leftRadio.addEventListener("click", () => cambiarPantalla(true));
@@ -107,6 +108,7 @@ contenedorMenuDesplegable.addEventListener("mouseleave", () => {
         menuDesplegable.style.visibility = "hidden";
     }, 10);
 });
+
 
 if (liTexto !== null || liImg !== null || liLink !== null) {
     liTexto.addEventListener("click", () => columna(true));
@@ -205,3 +207,9 @@ if (groupImg !== null) {
         }
     });
 }
+
+
+
+
+
+

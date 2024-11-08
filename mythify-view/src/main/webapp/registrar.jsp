@@ -34,49 +34,56 @@
                                 ornare
                             </p>
                         </div>
-                        <form action="SVUsuario" method="post" class="form-register" enctype="multipart/form-data">
+                        <form action="SVUsuario" method="post" class="form-register" enctype="multipart/form-data" id= "form-register-validation" novalidate>
                             <input type="hidden" name="action" value="registrar">
                             <div class="register-page1">
                                 <div class="input-group">
                                     <div class="label-input-g">
                                         <label for="nombre">Nombre</label>
-                                        <input type="text" class="register-input" name="nombre" />
+                                        <input type="text" class="register-input" name="nombre" required/>
+                                        <small>Por favor ingrese el nombre</small>
                                     </div>
                                 </div>
 
                                 <div class="input-group">
                                     <div class="label-input-g">
                                         <label for="apellidoPaterno">Primer apellido</label>
-                                        <input type="text" class="register-input" name="apellidoPaterno" />
+                                        <input type="text" class="register-input" name="apellidoPaterno" required/>
+                                        <small>Por favor ingrese el apellido paterno</small>
                                     </div>
 
                                     <div class="label-input-g">
                                         <label for="apellidoMaterno">Segundo apellido</label>
-                                        <input type="text" class="register-input" name="apellidoMaterno" />
+                                        <input type="text" class="register-input" name="apellidoMaterno" required/>
+                                        <small>Por favor ingrese el apellido materno</small>
                                     </div>
                                 </div>
 
                                 <div class="input-group">
                                     <div class="label-input-g">
                                         <label for="estado">Estado</label>
-                                        <input type="text" class="register-input" name="estado" />
+                                        <input type="text" class="register-input" name="estado" required/>
+                                        <small>Por favor ingrese el estado</small>
                                     </div>
 
                                     <div class="label-input-g">
                                         <label for="ciudad">Ciudad</label>
-                                        <input type="text" class="register-input" name="ciudad" />
+                                        <input type="text" class="register-input" name="ciudad" required/>
+                                        <small>Por favor ingrese la ciudad</small>
                                     </div>
                                 </div>
 
                                 <div class="input-group">
                                     <div class="label-input-g">
                                         <label for="municipio">Municipio</label>
-                                        <input type="text" class="register-input" name="municipio" />
+                                        <input type="text" class="register-input" name="municipio" required/>
+                                        <small>Por favor ingrese el municipio</small>
                                     </div>
 
                                     <div class="label-input-g">
                                         <label for="fechaNacimiento">Fecha de nacimiento</label>
-                                        <input type="date" class="register-input" name="fechaNacimiento" />
+                                        <input type="date" class="register-input" name="fechaNacimiento" required/>
+                                        <small>Por favor ingrese la fecha de nacimiento</small>
                                     </div>
                                 </div>
                             </div>
@@ -85,20 +92,23 @@
                                 <div class="input-group">
                                     <div class="label-input-g">
                                         <label for="correo">Correo</label>
-                                        <input type="email" class="register-input" autocomplete="email" name="correo" />
+                                        <input type="email" class="register-input" autocomplete="email" name="correo" required/>
+                                        <small>Por favor ingrese el correo</small>
                                     </div>
                                 </div>
 
                                 <div class="input-group">
                                     <div class="label-input-g">
                                         <label for="contrasena">Contraseña</label>
-                                        <input type="password" class="register-input" name="contrasena" />
+                                        <input type="password" class="register-input" name="contrasena" required/>
+                                        <small>Por favor ingrese la constraseña</small>
                                     </div>
 
                                     <div class="label-input-g">
-                                        <label for="segundoApellido">Confirmar Contraseña</label>
+                                        <label for="confirmarConstraseña">Confirmar Contraseña</label>
                                         <input type="confirmarContrasena" class="register-input"
-                                            name="confirmarContrasena" />
+                                            name="confirmarContrasena" required/>
+                                        <small>Por favor ingrese la misma contraseña nuevamente</small>
                                     </div>
                                 </div>
 
@@ -118,12 +128,12 @@
                                     <div class="input-group-register">
                                         <div class="label-input-g">
                                             <label for="telefono">Telefono</label>
-                                            <input type="text" class="register-input" name="telefono" />
+                                            <input type="text" class="register-input" name="telefono" required/>
                                         </div>
 
                                         <div class="label-input-g">
                                             <label for="genero">Genero</label>
-                                            <select class="register-input select-custom" id="genero" name="genero">
+                                            <select class="register-input select-custom" id="genero" name="genero" required>
                                                 <option value="seleccionar" disabled selected>
                                                     Seleccionar género
                                                 </option>
@@ -137,7 +147,7 @@
                             </div>
 
                             <div class="transition-btn">
-                                <button class="btn-format-black">Registrar</button>
+                                <button type= "submit" class="btn-format-black">Registrar</button>
                             </div>
                         </form>
 
@@ -166,6 +176,27 @@
                     </div>
                 </div>
             </main>
+            <!-- Coloca el código al final del body -->
+            <script>
+                document.addEventListener("DOMContentLoaded", () => {
+    const addForm = document.getElementById("form-register-validation");
+
+    if (addForm) {
+        addForm.addEventListener("submit", (e) => {
+            if (!addForm.checkValidity()) {
+                e.preventDefault();
+                e.stopPropagation();
+                addForm.classList.add("was-validated");
+            }
+        });
+    } else {
+        console.error("Formulario con id 'form-register-validation' no encontrado.");
+    }
+});
+
+            </script>
+
+
         </body>
 
         </html>

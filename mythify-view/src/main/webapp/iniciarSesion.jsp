@@ -32,10 +32,11 @@
                         class="input-format"
                         autocomplete="email"
                         name="correo"
+                        required
                         />
 
                     <label for="contraseña">Contraseña</label>
-                    <input type="password" class="input-format" name="contrasenia" />
+                    <input type="password" class="input-format" name="contrasenia" required/>
 
                     <button type="submit" class="btn-format">Ingresar</button>
 

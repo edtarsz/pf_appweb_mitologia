@@ -1,5 +1,6 @@
 package org.itson.mythify.dao;
 
+import org.itson.mythify.conexion.ModelException;
 import java.util.List;
 import java.util.logging.Level;
 import org.itson.mythify.conexion.IConexion;

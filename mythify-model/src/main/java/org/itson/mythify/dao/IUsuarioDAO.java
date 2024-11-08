@@ -4,6 +4,7 @@
  */
 package org.itson.mythify.dao;
 
+import org.itson.mythify.conexion.ModelException;
 import org.itson.mythify.entidad.Usuario;
 
 /**

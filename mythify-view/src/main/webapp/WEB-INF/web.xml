@@ -12,6 +12,10 @@
         <servlet-name>SVUsuario</servlet-name>
         <servlet-class>org.itson.mythify.Servlet.SVUsuario</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SVComentario</servlet-name>
+        <servlet-class>org.itson.mythify.Servlet.SVComentario</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SVPost</servlet-name>
         <url-pattern>/SVPost</url-pattern>
@@ -23,6 +27,10 @@
     <servlet-mapping>
         <servlet-name>SVUsuario</servlet-name>
         <url-pattern>/SVUsuario</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SVComentario</servlet-name>
+        <url-pattern>/SVComentario</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

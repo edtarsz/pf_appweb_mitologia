@@ -22,4 +22,8 @@ public class DAOFactory {
     public static PostDAO instanciaPostDAO(IConexion conexion) {
         return new PostDAO(conexion);
     }
+
+    public static ComentarioDAO instanciaComentarioDAO(IConexion conexion) {
+        return new ComentarioDAO(conexion);
+    }
 }

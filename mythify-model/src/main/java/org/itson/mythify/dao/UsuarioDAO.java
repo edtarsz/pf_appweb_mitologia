@@ -1,5 +1,6 @@
 package org.itson.mythify.dao;
 
+import org.itson.mythify.conexion.ModelException;
 import org.itson.mythify.conexion.IConexion;
 import org.itson.mythify.entidad.Usuario;
 import javax.persistence.EntityManager;

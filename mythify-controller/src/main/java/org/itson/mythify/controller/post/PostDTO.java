@@ -5,7 +5,6 @@
 package org.itson.mythify.controller.post;
 
 import java.util.Date;
-import org.itson.mythify.controller.usuario.UsuarioDTO;
 import org.itson.mythify.entidad.Usuario;
 
 /**

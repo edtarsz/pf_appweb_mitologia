@@ -29,7 +29,7 @@ public class Estado implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_estado", nullable = false)
+    @Column(name = "idEstado", nullable = false)
     private Long id;
 
     @Column(name = "nombre", nullable = false, length = 30)

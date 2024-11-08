@@ -20,6 +20,7 @@ public class Post implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idPost", nullable = false)
     private int idPost;
 
     @Column(name = "likes", nullable = true)

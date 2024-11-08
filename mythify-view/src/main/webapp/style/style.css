@@ -944,8 +944,10 @@ footer {
     font-weight: var(--font-weight-medium);
     /* gap: 5px; */
     width: 100%;
+    min-width: 240px;
     text-align: center;
     appearance: none;
+    cursor: pointer;
 }
 
 .select-category::after {
@@ -1125,16 +1127,16 @@ hr {
 }
 
 .anclar-crear-titles {
+    display: flex;
     gap: 5%;
     width: 100%;
-    background-color: #007bff;
 }
 
-small{
+small {
     display: none;
 }
 
-.was-validated small{
+.was-validated small {
     display: block;
     color: red;
     display: grid;

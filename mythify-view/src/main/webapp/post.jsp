@@ -1,6 +1,6 @@
 <%-- Document : post.jsp Created on : 25 oct 2024, 4:00:48 p.m. Author : crist --%>
 
-<%@page import="java.util.Date" %>
+<%@page import="java.time.LocalDateTime"%>
 <%@page import="org.itson.mythify.auxiliar.CalcularTiempo" %>
 <%@page import="org.itson.mythify.entidad.Post" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -31,7 +31,7 @@
                         <div class="head-article-post">
                             <div class="left-head-article">
                                 <div class="container-pfp-post"></div>
-                                <% Date fechaCreacion = post.getFechaHoraCreacion();
+                                <% LocalDateTime fechaCreacion = post.getFechaHoraCreacion();
                                     String tiempoTranscurrido = CalcularTiempo.tiempoTranscurridoDesde(fechaCreacion);
                                 %>
                                 <span class="span-post-header">@<%=post.getUsuario().getNombre()%> • <%=tiempoTranscurrido%>

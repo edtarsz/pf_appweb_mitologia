@@ -1,4 +1,4 @@
-package org.itson.mythify.dao;
+package org.itson.mythify.conexion;
 
 /**
  * Excepción personalizada para errores del modelo.

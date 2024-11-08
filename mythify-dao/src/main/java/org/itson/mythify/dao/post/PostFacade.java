@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 import org.itson.mythify.conexion.IConexion;
 import org.itson.mythify.dao.DAOFactory;
 import org.itson.mythify.dao.IPostDAO;
-import org.itson.mythify.dao.ModelException;
+import org.itson.mythify.conexion.ModelException;
 import org.itson.mythify.entidad.Post;
 
 

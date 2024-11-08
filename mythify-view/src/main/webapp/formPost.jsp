@@ -11,18 +11,9 @@
 
         <!-- CSS Stylesheets -->
         <link rel="stylesheet" href="<%= request.getContextPath()%>/style/style.css">
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
-            href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap"
-            rel="stylesheet" />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-            rel="stylesheet" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
         <!-- JavaScript -->
-        <script defer src="<%= request.getContextPath()%>/script/script.js"></script>
+        <script defer src="<%= request.getContextPath()%>/script/crearPost.js"></script>
 
         <title>Mythify</title>
     </head>
@@ -77,7 +68,7 @@
 
                             <div class="post-buttons">
                                 <button type="submit" class="btn-submit">Publicar</button>
-                                <button type="button" class="btn-cancel">Cancelar</button>
+                                <a href="SVPost?mythology=all"><button type="button" class="btn-cancel">Cancelar</button></a>   
                             </div>
                         </form>
 
@@ -102,8 +93,8 @@
                             </p>
                         </div>
                         <!-- <div class="contenedor-crear-post-img">
-                            <img src="" alt="">
-                        </div> -->
+                <img src="" alt="">
+            </div> -->
                         <div class="footer-post">
                             <button class="btn-footer">
                                 <img src="${pageContext.request.contextPath}/img/heart-black.svg" alt="">

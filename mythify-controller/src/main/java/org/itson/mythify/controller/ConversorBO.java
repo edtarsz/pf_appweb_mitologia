@@ -4,13 +4,12 @@
  */
 package org.itson.mythify.controller;
 
+import org.itson.mythify.controller.comentario.ComentarioDTO;
 import org.itson.mythify.controller.post.PostDTO;
 import org.itson.mythify.controller.usuario.UsuarioDTO;
+import org.itson.mythify.entidad.Comentario;
 import org.itson.mythify.entidad.Post;
 import org.itson.mythify.entidad.Usuario;
-import org.itson.mythify.enumeradores.Genero;
-import org.itson.mythify.enumeradores.TipoPermiso;
-import org.itson.mythify.enumeradores.TipoUsuario;
 
 /**
  *
@@ -98,6 +97,38 @@ public class ConversorBO implements IConversorBO {
         post.setUsuario(postDTO.getUsuario());
 
         return post;
+    }
+
+    @Override
+    public ComentarioDTO entidadAComentarioDTO(Comentario comentario) throws ControllerException {
+        if (comentario == null) {
+            throw new ControllerException("El comentario no puede ser nulo");
+        }
+
+        ComentarioDTO comentarioDTO = new ComentarioDTO(
+                comentario.getContenido(),
+                comentario.getFechaHora(),
+                comentario.getUsuario(),
+                comentario.getComentarioPadre(),
+                comentario.getPost());
+
+        return comentarioDTO;
+    }
+
+    @Override
+    public Comentario comentarioDTOAEntidad(ComentarioDTO comentarioDTO) throws ControllerException {
+        if (comentarioDTO == null) {
+            throw new ControllerException("El comentarioDTO no puede ser nulo");
+        }
+
+        Comentario comentario = new Comentario(
+                comentarioDTO.getContenido(),
+                comentarioDTO.getFechaHora(),
+                comentarioDTO.getUsuario(),
+                comentarioDTO.getComentarioPadre(),
+                comentarioDTO.getPost());
+
+        return comentario;
     }
 
 }

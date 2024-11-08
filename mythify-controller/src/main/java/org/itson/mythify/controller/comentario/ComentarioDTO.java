@@ -2,57 +2,34 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package org.itson.mythify.entidad;
+package org.itson.mythify.controller.comentario;
 
-import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import org.itson.mythify.entidad.Comentario;
+import org.itson.mythify.entidad.Post;
+import org.itson.mythify.entidad.Usuario;
 
 /**
  *
- * @author elimo
+ * @author user
  */
-@Entity
-@Table(name = "Comentario")
-public class Comentario implements Serializable {
+public class ComentarioDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idComentario", nullable = false)
     private int idComentario;
-
-    @Column(name = "contenido", nullable = false)
     private String contenido;
-
-    @Column(name = "fechaHora", nullable = false)
-    @Temporal(TemporalType.DATE)
     private Date fechaHora;
-
-    @ManyToOne
-    @JoinColumn(name = "idUsuario", nullable = false)
     private Usuario usuario; // Usuario que comentó
-
-    @ManyToOne
-    @JoinColumn(name = "idComentarioPadre")
     private Comentario comentarioPadre;
-
-    @ManyToOne
-    @JoinColumn(name = "idPost", nullable = false)
     private Post post; // Post al que se realizó el comentario
 
-    public Comentario() {
+    public ComentarioDTO(String contenido, Date fechaHora, Usuario usuario, Post post) {
+        this.contenido = contenido;
+        this.fechaHora = fechaHora;
+        this.usuario = usuario;
+        this.post = post;
     }
 
-    public Comentario(String contenido, Date fechaHora, Usuario usuario, Comentario comentarioPadre, Post post) {
+    public ComentarioDTO(String contenido, Date fechaHora, Usuario usuario, Comentario comentarioPadre, Post post) {
         this.contenido = contenido;
         this.fechaHora = fechaHora;
         this.usuario = usuario;

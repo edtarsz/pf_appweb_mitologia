@@ -1,5 +1,8 @@
+<!-- <link rel="icon" href="img/logo.jpeg" /> -->
+<script defer src="<%= request.getContextPath()%>/script/nav.js"></script>
 <%@page import="org.itson.mythify.entidad.Usuario" %>
     <header class="post-header">
+
         <form action="SVPost" method="get">
             <input type="hidden" name="mythology" value="all">
             <button type="submit" class="header-svg-container" style="background: none; border: none; cursor: pointer;">

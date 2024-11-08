@@ -1,6 +1,6 @@
 <%-- Document : post.jsp Created on : 25 oct 2024, 4:00:48 p.m. Author : crist --%>
 
-<%@page import="java.util.Date"%>
+<%@page import="java.util.Date" %>
 <%@page import="java.util.List" %>
 <%@page import="org.itson.mythify.auxiliar.CalcularTiempo" %>
 <%@page import="org.itson.mythify.entidad.Post" %>
@@ -15,16 +15,6 @@
 
         <!-- CSS Stylesheets -->
         <link rel="stylesheet" href="<%= request.getContextPath()%>/style/style.css">
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
-            href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap"
-            rel="stylesheet" />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-            rel="stylesheet" />
-        <link rel="stylesheet"
-              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
         <!-- JavaScript -->
         <script defer src="<%= request.getContextPath()%>/script/script.js"></script>
@@ -43,22 +33,29 @@
                         List<Post> posts = (List<Post>) request.getAttribute("posts");
                         if (posts != null && !posts.isEmpty()) {
                             for (Post post : posts) {
-                                if (post != null && post.getUsuario() != null && post.getTitulo() != null && post.getContenido() != null) {
+                                if (post != null && post.getUsuario() != null
+                                        && post.getTitulo() != null && post.getContenido() != null) {
                     %>
                     <article class="article-post">
-                        <a href="SVPost?id=<%= post.getIdPost() > 0 ? post.getIdPost() : ""%>">
+                        <a href="SVPost?id=<%= post.getIdPost()%>">
                             <div class="head-article-post">
                                 <div class="left-head-article">
                                     <div class="container-pfp-post"></div>
                                     <%
                                         Date fechaCreacion = post.getFechaHoraCreacion();
-                                        String tiempoTranscurrido = fechaCreacion != null ? CalcularTiempo.tiempoTranscurridoDesde(fechaCreacion) : "N/A";
+                                        String tiempoTranscurrido = fechaCreacion != null
+                                                ? CalcularTiempo.tiempoTranscurridoDesde(fechaCreacion)
+                                                : "N/A";
                                     %>
                                     <span class="span-post-header">
-                                        @<%= post.getUsuario().getNombre() != null ? post.getUsuario().getNombre() : "Anonymous"%> • <%= tiempoTranscurrido%>
+                                        @<%= post.getUsuario().getNombre() != null
+                                                ? post.getUsuario().getNombre()
+                                                : "Anonymous"%> • <%= tiempoTranscurrido%>
                                     </span>
                                     <span class="span-post-label">
-                                        <%= post.getCategoria() != null ? post.getCategoria() : "Uncategorized"%>
+                                        <%= post.getCategoria() != null
+                                                ? post.getCategoria()
+                                                : "Uncategorized"%>
                                     </span>
                                     <img src="<%= request.getContextPath()%>/img/pin-white.svg" alt="">
                                 </div>
@@ -66,13 +63,9 @@
                                     <img src="<%= request.getContextPath()%>/img/options-post.svg" alt="">
                                 </div>
                             </div>
-                            <h3>
-                                <%= post.getTitulo()%>
-                            </h3>
+                            <h3><%= post.getTitulo()%></h3>
                             <div class="content-post">
-                                <p>
-                                    <%= post.getContenido()%>
-                                </p>
+                                <p><%= post.getContenido()%></p>
                             </div>
                             <div class="footer-post">
                                 <button class="btn-footer">
@@ -87,12 +80,14 @@
                         </a>
                     </article>
                     <%
-                            } // end inner null check
-                        } // end for loop
+                            }
+                        }
                     } else {
                     %>
                     <p>No posts available.</p>
-                    <% } // end if-else check %>
+                    <%
+                        }
+                    %>
                 </main>
                 <aside class="aside-hot">
                     <h2 class="hot-posts-title">HOT POSTS</h2>
@@ -108,13 +103,10 @@
                         </div>
                         <div class="content-post">
                             <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                                Incidunt culpa
-                                porro,
-                                perferendis voluptate quaerat assumenda praesentium dignissimos
-                                eius esse
-                                ratione
-                                quas
-                                sed voluptatum inventore voluptates illo optio officiis sit
+                                Incidunt culpa porro,
+                                perferendis voluptate quaerat assumenda praesentium
+                                dignissimos eius esse
+                                ratione quas sed voluptatum inventore voluptates illo optio officiis sit
                                 harum?</p>
                         </div>
                         <div class="footer-hot-post">

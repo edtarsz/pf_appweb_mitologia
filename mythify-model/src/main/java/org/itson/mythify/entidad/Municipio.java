@@ -31,14 +31,14 @@ public class Municipio implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_municipio", nullable = false)
+    @Column(name = "idMunicipio", nullable = false)
     private Long id;
 
     @Column(name = "nombre", nullable = false, length = 30)
     private String nombre;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "id_estado", referencedColumnName = "id_estado", nullable = false)
+    @JoinColumn(name = "idEstado", referencedColumnName = "idEstado", nullable = false)
     private Estado estado;
 
     @OneToMany(mappedBy = "municipio")

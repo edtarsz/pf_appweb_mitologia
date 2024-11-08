@@ -10,7 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.itson.mythify.dao.DAOFactory;
 import org.itson.mythify.dao.IUsuarioDAO;
-import org.itson.mythify.dao.ModelException;
+import org.itson.mythify.conexion.ModelException;
 
 /*
  * @author Eduardo Talavera Ramos

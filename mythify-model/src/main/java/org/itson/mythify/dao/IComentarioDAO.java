@@ -1,0 +1,24 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
+ */
+package org.itson.mythify.dao;
+
+import org.itson.mythify.conexion.ModelException;
+import java.util.List;
+import org.itson.mythify.entidad.Comentario;
+
+/**
+ *
+ * @author user
+ */
+public interface IComentarioDAO {
+
+    public Comentario crearComentario(Comentario comentario) throws ModelException;
+
+    public void eliminarComentario() throws ModelException;
+
+    public void actualizarComentario() throws ModelException;
+
+    public List<Comentario> consultarComentarios() throws ModelException;
+}

@@ -1,3 +1,4 @@
+<script defer src="<%= request.getContextPath()%>/script/aside.js"></script>
 <aside class="aside-mythology">
     <a href="formPost.jsp" class="a-create-post">
         <button class="btn-create-post">
@@ -18,7 +19,7 @@
         </form>
 
         <div>
-            <button type="submit" class="btn-mythology">MESOAMERICANA</button>
+            <button type="submit" class="btn-mythology" id="btn-mesoamerica">MESOAMERICANA</button>
             <div class="container-list-mythologies">
                 <form action="SVPost" method="get">
                     <input type="hidden" name="mythology" value="maya">

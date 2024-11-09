@@ -16,10 +16,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.itson.mythify.auxiliar.CalcularTiempo;
 import org.itson.mythify.controller.ControllerException;
 import org.itson.mythify.controller.post.PostDTO;
 import org.itson.mythify.entidad.Post;
@@ -76,6 +76,8 @@ public class SVPost extends HttpServlet {
                     int id = Integer.parseInt(postId);
                     Post post = postBO.consultarPostPorID(id);
                     if (post != null) {
+                        // Agregar el calculador de tiempo al request
+                        request.setAttribute("calculadorTiempo", new CalcularTiempo());
                         request.setAttribute("post", post);
                         request.getRequestDispatcher("post.jsp").forward(request, response);
                     } else {
@@ -189,10 +191,11 @@ public class SVPost extends HttpServlet {
         }
     }
 
-    private void consultarPorCategoria(HttpServletRequest request, HttpServletResponse response, String categoria) throws IOException, ServletException {
+    private void consultarPorCategoria(HttpServletRequest request, HttpServletResponse response, String categoria)
+            throws IOException, ServletException {
         List<Post> posts = null;
-        List<Post> anclados = new ArrayList<>();  // Lista para almacenar posts anclados
-        List<Post> noAnclados = new ArrayList<>(); // Lista para almacenar posts no anclados
+        List<Post> anclados = new ArrayList<>();
+        List<Post> noAnclados = new ArrayList<>();
 
         try {
             // Obtén todos los posts o los de una categoría específica
@@ -208,9 +211,9 @@ public class SVPost extends HttpServlet {
             } else {
                 for (Post post : posts) {
                     if (post.isAnclado()) {
-                        anclados.add(post);  // Añade a la lista de anclados si está marcado como tal
+                        anclados.add(post);
                     } else {
-                        noAnclados.add(post);  // Añade a la lista de no anclados en caso contrario
+                        noAnclados.add(post);
                     }
                 }
             }
@@ -223,6 +226,9 @@ public class SVPost extends HttpServlet {
             // Combina los anclados y no anclados, anclados al inicio
             List<Post> postsOrdenados = new ArrayList<>(anclados);
             postsOrdenados.addAll(noAnclados);
+
+            // Agregar el calculador de tiempo al request
+            request.setAttribute("calculadorTiempo", new CalcularTiempo());
 
             // Establece la lista ordenada en el request
             request.setAttribute("posts", postsOrdenados);

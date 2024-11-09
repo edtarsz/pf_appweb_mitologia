@@ -1,5 +1,4 @@
-<%-- Document : post.jsp Created on : 25 oct 2024, 4:00:48 p.m. Author : crist --%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="java.time.LocalDateTime"%>
 <%@page import="org.itson.mythify.auxiliar.CalcularTiempo" %>
 <%@page import="org.itson.mythify.entidad.Post" %>
@@ -13,7 +12,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         <!-- CSS Stylesheets -->
-        <link rel="stylesheet" href="<%= request.getContextPath()%>/style/style.css">
+        <link rel="stylesheet" href="<c:url value='/style/style.css' />">
 
         <title>Mythify</title>
     </head>
@@ -26,122 +25,93 @@
                 <div></div>
                 <%@ include file="partials/aside.jsp" %>
                 <main>
-                    <% Post post = (Post) request.getAttribute("post"); %>
+                    <c:set var="post" value="${requestScope.post}" />
                     <article class="article-post">
                         <div class="head-article-post">
                             <div class="left-head-article">
                                 <div class="container-pfp-post"></div>
-                                <% LocalDateTime fechaCreacion = post.getFechaHoraCreacion();
-                                    String tiempoTranscurrido = CalcularTiempo.tiempoTranscurridoDesde(fechaCreacion);
-                                %>
-                                <span class="span-post-header">@<%=post.getUsuario().getNombre()%> • <%=tiempoTranscurrido%>
+                                <c:set var="fechaCreacion" value="${post.fechaHoraCreacion}" />
+                                <c:set var="tiempoTranscurrido" value="${calculadorTiempo.tiempoTranscurridoDesde(post.fechaHoraCreacion)}" />
+                                <span class="span-post-header">
+                                    @${empty post.usuario.nombre ? 'Anonymous' : post.usuario.nombre} •
+                                    ${tiempoTranscurrido}
                                 </span>
-                                <span class="span-post-label">
-                                    <%= post.getCategoria()%>
-                                </span>
-                                <% if (post.isAnclado() == true) {%>
-                                <img src="<%= request.getContextPath()%>/img/pin-white.svg"
-                                     alt="">
-                                <% }%>
+                                <span class="span-post-label">${post.categoria}</span>
+                                <c:if test="${post.anclado}">
+                                    <img src="<c:url value='/img/pin-white.svg' />" alt="">
+                                </c:if>
                             </div>
                             <div class="right-head-article">
-                                <img src="<%= request.getContextPath()%>/img/options-post.svg"
-                                     alt="">
+                                <img src="<c:url value='/img/options-post.svg' />" alt="">
                             </div>
                         </div>
-                        <h3>
-                            <%= post.getTitulo()%>
-                        </h3>
+                        <h3>${post.titulo}</h3>
                         <div class="content-post">
-                            <p>
-                                <%= post.getContenido()%>
-                            </p>
+                            <p>${post.contenido}</p>
                         </div>
                         <div class="footer-post">
                             <button class="btn-footer">
-                                <img src="<%= request.getContextPath()%>/img/heart-black.svg"
-                                     alt="">
+                                <img src="<c:url value='/img/heart-black.svg' />" alt="">
                                 19
                             </button>
                             <button class="btn-footer">
-                                <img src="<%= request.getContextPath()%>/img/comments-black.svg"
-                                     alt="">
+                                <img src="<c:url value='/img/comments-black.svg' />" alt="">
                                 2 comments
                             </button>
                         </div>
                     </article>
+
                     <div>
-                        <span class="order-comments">Ordenar por:</span> Mejores <img
-                            src="img/down-arrow-white.svg" alt="">
+                        <span class="order-comments">Ordenar por:</span> Mejores <img src="<c:url value='/img/down-arrow-white.svg' />" alt="">
                     </div>
+
                     <button class="add-comment">
-                        <img src="img/plus.svg" alt="" class="svg-btn">
+                        <img src="<c:url value='/img/plus.svg' />" alt="" class="svg-btn">
                         Añadir un comentario
                     </button>
 
                     <div class="container-comments">
-                        <article class="comment-post">
-                            <div class="head-article-post">
-                                <div class="left-head-article">
-                                    <div class="container-pfp-post">
-                                        <img src="img/bob.PNG" alt="" class="pfp-post">
+                        <c:forEach var="comment" items="${post.comentarios}">
+                            <article class="comment-post">
+                                <div class="head-article-post">
+                                    <div class="left-head-article">
+                                        <div class="container-pfp-post">
+                                            <img src="img/bob.PNG" alt="" class="pfp-post">
+                                        </div>
+                                        <span class="span-post-header">@${comment.usuario.nombre} replied to @${comment.usuarioRespondido.nombre}</span>
                                     </div>
-                                    <span class="span-post-header">@ramosz replied to
-                                        @crab</span>
+                                    <div class="right-head-article">
+                                        <img src="img/options-post.svg" alt="">
+                                    </div>
                                 </div>
-                                <div class="right-head-article">
-                                    <img src="img/options-post.svg" alt="">
+                                <div class="content-comment-post">
+                                    <p>${comment.contenido}</p>
                                 </div>
-                            </div>
-                            <div class="content-comment-post">
-                                <p>
-                                    Lorem ipsum, dolor sit amet consectetur adipisicing
-                                    elit. Incidunt
-                                    culpa porro, perferendis voluptate quaerat assumenda
-                                    praesentium
-                                    dignissimos eius esse ratione quas sed voluptatum
-                                    inventore
-                                    voluptates illo optio officiis sit harum? Reprehenderit
-                                    facilis
-                                    quis quae consequuntur ea, animi rem, natus
-                                    necessitatibus velit
-                                    rerum amet ex odit officiis magnam accusantium iste
-                                    atque placeat
-                                    aliquid, sequi qui. Modi consequuntur numquam dolorum
-                                    qui
-                                    laboriosam!
-                                </p>
-                            </div>
-                            <div class="footer-comments">
-                                <div class="group-footer-btn">
-                                    <button class="btn-footer">
-                                        <img src="img/heart-black.svg" alt="">
-                                        230
-                                    </button>
-                                    <button class="btn-footer">
-                                        <img src="img/reply.svg" alt="">
-                                        Responder
-                                    </button>
+                                <div class="footer-comments">
+                                    <div class="group-footer-btn">
+                                        <button class="btn-footer">
+                                            <img src="img/heart-black.svg" alt="">
+                                            230
+                                        </button>
+                                        <button class="btn-footer">
+                                            <img src="img/reply.svg" alt="">
+                                            Responder
+                                        </button>
+                                    </div>
+                                    <span class="span-post-header">hace 4 horas</span>
                                 </div>
-                                <span class="span-post-header">hace 4 horas</span>
-                            </div>
-                        </article>
+                            </article>
+                        </c:forEach>
 
                         <div class="container-crear-post">
                             <form action="SVComentario" method="post">
                                 <input type="hidden" name="action" value="comentarPost">
-
-                                <input type="hidden" name="id"
-                                       value="<%= post.getIdPost()%>">
-
-                                <textarea name="contenido" placeholder="Comentario..."
-                                          class="input-area-post" required></textarea>
+                                <input type="hidden" name="id" value="${post.idPost}">
+                                <textarea name="contenido" placeholder="Comentario..." class="input-area-post" required></textarea>
 
                                 <div class="post-buttons">
-                                    <button type="submit"
-                                            class="btn-submit">Publicar</button>
-                                    <button type="button"
-                                            class="btn-cancel">Cancelar</button>
+                                    <button type="submit" class="btn-submit">Publicar</button>
+                                    <button type="button" class="btn-cancel">Cancelar</button>
                                 </div>
                             </form>
                         </div>
@@ -150,34 +120,16 @@
                             <div class="head-article-post">
                                 <div class="left-head-article">
                                     <div class="container-pfp-post">
-                                        <img src="img/calamardo.PNG" alt=""
-                                             class="pfp-post">
+                                        <img src="img/calamardo.PNG" alt="" class="pfp-post">
                                     </div>
-                                    <span class="span-post-header">@bob replied to
-                                        @user</span>
+                                    <span class="span-post-header">@${secondComment.usuario.nombre} replied to @${secondComment.usuarioRespondido.nombre}</span>
                                 </div>
                                 <div class="right-head-article">
                                     <img src="img/options-post.svg" alt="">
                                 </div>
                             </div>
                             <div class="content-comment-post">
-                                <p>
-                                    Lorem ipsum, dolor sit amet consectetur adipisicing
-                                    elit. Incidunt
-                                    culpa porro, perferendis voluptate quaerat assumenda
-                                    praesentium
-                                    dignissimos eius esse ratione quas sed voluptatum
-                                    inventore
-                                    voluptates illo optio officiis sit harum? Reprehenderit
-                                    facilis
-                                    quis quae consequuntur ea, animi rem, natus
-                                    necessitatibus velit
-                                    rerum amet ex odit officiis magnam accusantium iste
-                                    atque placeat
-                                    aliquid, sequi qui. Modi consequuntur numquam dolorum
-                                    qui
-                                    laboriosam!
-                                </p>
+                                <p>${secondComment.contenido}</p>
                             </div>
                             <div class="footer-comments">
                                 <div class="group-footer-btn">
@@ -194,52 +146,6 @@
                             </div>
                         </article>
 
-                        <article class="comment-post">
-                            <div class="head-article-post">
-                                <div class="left-head-article">
-                                    <div class="container-pfp-post">
-                                        <img src="img/patricio.PNG" alt="" class="pfp-post">
-                                    </div>
-                                    <span class="span-post-header">@patricio replied to
-                                        @crab</span>
-                                </div>
-                                <div class="right-head-article">
-                                    <img src="img/options-post.svg" alt="">
-                                </div>
-                            </div>
-                            <div class="content-comment-post">
-                                <p>
-                                    Lorem ipsum, dolor sit amet consectetur adipisicing
-                                    elit. Incidunt
-                                    culpa porro, perferendis voluptate quaerat assumenda
-                                    praesentium
-                                    dignissimos eius esse ratione quas sed voluptatum
-                                    inventore
-                                    voluptates illo optio officiis sit harum? Reprehenderit
-                                    facilis
-                                    quis quae consequuntur ea, animi rem, natus
-                                    necessitatibus velit
-                                    rerum amet ex odit officiis magnam accusantium iste
-                                    atque placeat
-                                    aliquid, sequi qui. Modi consequuntur numquam dolorum
-                                    qui
-                                    laboriosam!
-                                </p>
-                            </div>
-                            <div class="footer-comments">
-                                <div class="group-footer-btn">
-                                    <button class="btn-footer">
-                                        <img src="img/heart-black.svg" alt="">
-                                        57
-                                    </button>
-                                    <button class="btn-footer">
-                                        <img src="img/reply.svg" alt="">
-                                        Responder
-                                    </button>
-                                </div>
-                                <span class="span-post-header">hace 2 horas</span>
-                            </div>
-                        </article>
                     </div>
                 </main>
             </div>

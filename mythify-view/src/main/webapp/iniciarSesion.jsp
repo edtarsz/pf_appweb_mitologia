@@ -1,47 +1,47 @@
 <%-- Document : iniciarSesion Created on : 18 oct 2024, 5:40:00 p.m. Author : user --%>
 
-    <%@page contentType="text/html" pageEncoding="UTF-8" %>
-        <!DOCTYPE html>
-        <html lang="en">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
+<!DOCTYPE html>
+<html lang="en">
 
-        <head>
-            <meta charset="UTF-8" />
-            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-            <!-- CSS Stylesheets -->
-            <link rel="stylesheet" href="<%= request.getContextPath()%>/style/style.css">
+        <!-- CSS Stylesheets -->
+        <link rel="stylesheet" href="<c:url value='/style/style.css' />">
 
+        <title>Mythify</title>
+    </head>
 
-            <title>Mythify</title>
-        </head>
+    <body>
+        <main class="container-main">
+            <img src="img/statue.png" alt="" id="statue-img" />
+            <div class="main-conent">
+                <!-- <img src="" alt="" /> -->
+                <h1>Iniciar Sesión</h1>
 
-        <body>
-            <main class="container-main">
-                <img src="img/statue.png" alt="" id="statue-img" />
-                <div class="main-conent">
-                    <!-- <img src="" alt="" /> -->
-                    <h1>Iniciar Sesión</h1>
+                <p class="description">
+                    Lorem ipsum dolor sit amet consectetur adipiscing elit augue ornare
+                </p>
+                <form action="SVUsuario" method="post">
+                    <input type="hidden" name="action" value="iniciarSesion">
+                    <label for="correo">Correo</label>
+                    <input type="email" class="input-format" autocomplete="email" name="correo" />
 
-                    <p class="description">
-                        Lorem ipsum dolor sit amet consectetur adipiscing elit augue ornare
+                    <label for="contraseña">Contraseña</label>
+                    <input type="password" class="input-format" name="contrasenia" />
+
+                    <button type="submit" class="btn-format">Ingresar</button>
+
+                    <p>
+                        ¿Aun no tienes una cuenta?
+                        <span><a href="registrar.jsp">Registrar cuenta </a></span>
                     </p>
-                    <form action="SVUsuario" method="post">
-                        <input type="hidden" name="action" value="iniciarSesion">
-                        <label for="correo">Correo</label>
-                        <input type="email" class="input-format" autocomplete="email" name="correo" />
+                </form>
+            </div>
+        </main>
+    </body>
 
-                        <label for="contraseña">Contraseña</label>
-                        <input type="password" class="input-format" name="contrasenia" />
-
-                        <button type="submit" class="btn-format">Ingresar</button>
-
-                        <p>
-                            ¿Aun no tienes una cuenta?
-                            <span><a href="registrar.jsp">Registrar cuenta </a></span>
-                        </p>
-                    </form>
-                </div>
-            </main>
-        </body>
-
-        </html>
+</html>

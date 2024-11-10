@@ -166,5 +166,4 @@ public class SVUsuario extends HttpServlet {
 
         response.sendRedirect("iniciarSesion.jsp");
     }
-
 }

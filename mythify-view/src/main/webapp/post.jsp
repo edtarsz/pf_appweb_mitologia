@@ -72,7 +72,6 @@
                                 </div>
 
 
-                                <img src="<c:url value='/img/options-post.svg' />" alt="">
 
                             </div>
                         </div>

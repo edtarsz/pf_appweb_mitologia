@@ -1156,6 +1156,7 @@ small {
     justify-content: center;
 }
 
+
 #preview-link {
     text-decoration: underline;
     color: #51ccfc;
@@ -1172,3 +1173,40 @@ small {
     word-wrap: break-word;
     margin-bottom: 10px;
 }
+
+.right-head-article {
+    position: relative;
+    display: inline-block;
+}
+
+.btn-option {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: rgb(255 255 254 / 21%);
+    border-radius: 7px;
+    box-shadow: 0px 12px 24px rgba(0, 0, 0, 0.3);
+    z-index: 1;
+    width: 150px;
+    padding: 5px 0;
+}
+
+.dropdown-menu div {
+    padding: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    text-align: center;
+}
+
+.dropdown-menu div:hover {
+    background-color: #444;
+}
+

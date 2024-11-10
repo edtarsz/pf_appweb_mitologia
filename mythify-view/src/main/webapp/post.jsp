@@ -14,6 +14,9 @@
 
         <!-- CSS Stylesheets -->
         <link rel="stylesheet" href="<%= request.getContextPath()%>/style/style.css">
+        
+        <!-- JavaScript -->
+            <script defer src="<%= request.getContextPath()%>/script/script.js"></script>
 
         <title>Mythify</title>
     </head>
@@ -45,8 +48,24 @@
                                 <% }%>
                             </div>
                             <div class="right-head-article">
-                                <img src="<%= request.getContextPath()%>/img/options-post.svg"
-                                     alt="">
+                                <button type="button" onclick="toggleDropdown()" class="btn-option">
+                                    <img src="<%= request.getContextPath()%>/img/options-post.svg" alt="Opciones" width="20">
+                                </button>
+                                <div class="dropdown-menu" id="dropdownMenu">
+                                    <form action="SVPost" method="get"> 
+                                        <input type="hidden" name="options" value="anclarPost">    
+                                        <button type="submit">ANCLAR</button>
+                                    </form> 
+                                    <form action="SVPost" method="get"> 
+                                        <input type="hidden" name="options" value="editarPost">  
+                                        <button type="submit">EDITAR</button>
+                                    </form> 
+                                    <form action="SVPost" method="get"> 
+                                        <input type="hidden" name="options" value="borrarPost">  
+                                        <button type="submit">ELIMINAR</button>
+                                    </form> 
+                                </div>
+
                             </div>
                         </div>
                         <h3>
@@ -90,7 +109,9 @@
                                         @crab</span>
                                 </div>
                                 <div class="right-head-article">
-                                    <img src="img/options-post.svg" alt="">
+                                    
+                                        <img src="<%= request.getContextPath()%>/img/options-post.svg" alt="Opciones" width="20">
+                                    
                                 </div>
                             </div>
                             <div class="content-comment-post">

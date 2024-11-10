@@ -118,15 +118,18 @@ public class PostDAO implements IPostDAO {
         try {
             logger.log(Level.INFO, "Attempting to delete post: {0}", post.getTitulo());
             entityManager.getTransaction().begin();
-            Post postToDelete = entityManager.find(Post.class, post.getIdPost()); // Se busca el post por su ID
-            if (postToDelete != null) {
-                entityManager.remove(postToDelete); // Se elimina el post
-                entityManager.getTransaction().commit();
+
+            int rowsDeleted = entityManager.createQuery("DELETE FROM Post p WHERE p.idPost = :id")
+                    .setParameter("id", post.getIdPost())
+                    .executeUpdate();
+
+            entityManager.getTransaction().commit();
+
+            if (rowsDeleted > 0) {
                 logger.log(Level.INFO, "Post deleted successfully: {0}", post.getTitulo());
                 return true;
             } else {
                 logger.log(Level.WARNING, "Post not found: {0}", post.getTitulo());
-                entityManager.getTransaction().rollback();
                 return false;
             }
         } catch (Exception ex) {

@@ -10,6 +10,7 @@ import org.itson.mythify.controller.post.FacadePostBO;
 import org.itson.mythify.controller.post.IFacadePostBO;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -29,6 +30,7 @@ import org.itson.mythify.entidad.Usuario;
  *
  * @author user
  */
+@WebServlet(name = "SVPost", urlPatterns = {"/SVPost"})
 public class SVPost extends HttpServlet {
 
     private IFacadePostBO postBO;
@@ -166,28 +168,28 @@ public class SVPost extends HttpServlet {
         }
     }
 
-    private void borrarPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String postId = request.getParameter("id");
+     private void borrarPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String postIdStr = request.getParameter("id");
 
         try {
-            // Crear un PostDTO solo con el ID para realizar la eliminación
+            int postId = Integer.parseInt(postIdStr); 
             PostDTO postDTO = new PostDTO();
-            postDTO.setIdPost(Integer.parseInt(postId));
+            postDTO.setIdPost(postId);
 
             boolean eliminado = postBO.eliminarPost(postDTO);
 
             if (eliminado) {
-                request.setAttribute("mensaje", "Post eliminado correctamente.");
+                response.setStatus(HttpServletResponse.SC_OK);
             } else {
-                request.setAttribute("mensaje", "Error al eliminar el post.");
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST); 
             }
-
-            response.sendRedirect("SVPost?mythology=all");
-        } catch (ControllerException ex) {
-            Logger.getLogger(SVUsuario.class.getName()).log(Level.SEVERE, null, ex);
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al eliminar el post.");
+        } catch (NumberFormatException | ControllerException ex) {
+            Logger.getLogger(SVPost.class.getName()).log(Level.SEVERE, "Error al eliminar el post con ID " + postIdStr, ex);
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); 
         }
     }
+
+
 
     private void consultarPorCategoria(HttpServletRequest request, HttpServletResponse response, String categoria) throws IOException, ServletException {
         List<Post> posts = null;

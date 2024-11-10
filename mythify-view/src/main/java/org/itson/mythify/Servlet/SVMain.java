@@ -73,11 +73,6 @@ public class SVMain extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        if (conexionInicializada) {
-            response.sendRedirect("iniciarSesion.jsp");
-        } else {
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al inicializar la conexión.");
-        }
     }
 
     @Override

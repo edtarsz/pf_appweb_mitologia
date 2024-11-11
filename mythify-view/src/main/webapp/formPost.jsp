@@ -108,7 +108,6 @@
                                 Introduzca un comentario...
                             </p>
                         </div>
-                        URL:
                         <a href="" id="preview-link">
                             http://linkdeejemplo.com
                         </a>

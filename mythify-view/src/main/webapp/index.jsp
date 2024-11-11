@@ -59,7 +59,6 @@
                                                 <p>${post.contenido}</p>
                                             </div>
                                             <c:if test="${not empty post.link}">
-                                                URL:
                                                 <a href="${fn:escapeXml(post.link)}" id="preview-link">
                                                     ${fn:escapeXml(post.link)}
                                                 </a>

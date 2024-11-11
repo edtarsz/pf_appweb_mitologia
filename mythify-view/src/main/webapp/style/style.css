@@ -49,13 +49,22 @@
     padding: 0 10%;
 }
 
-.items-menu li {
-    position: relative;
+.items-menu button {
     padding: 13px 0;
+    width: 100%;
+    font-size: var(--font-size-small);
+    background-color: inherit;
+    border: none;
+    appearance: none;
     transition: transform 0.1s ease-in, font-weight 0.1s ease-in;
 }
 
-.items-menu li:hover {
+.items-menu li {
+    position: relative;
+    transition: transform 0.1s ease-in, font-weight 0.1s ease-in;
+}
+
+.items-menu li:hover, .items-menu button:hover {
     font-weight: var(--font-weight-strong);
     transform: scale(1.01);
 }
@@ -88,7 +97,7 @@
 }
 
 
-.items-menu li:hover::after {
+.items-menu li:hover::after, .items-menu button:hover::after {
     transform: translateX(-50%) scaleX(1);
 }
 
@@ -126,7 +135,7 @@
     display: flex;
 }
 
-/* Control del tamaño del SVG */
+/* Control del tamaÃƒÆ’Ã‚Â±o del SVG */
 .header-svg {
     width: 60px;
 }
@@ -195,7 +204,7 @@
     color: white;
     /* Color del texto del usuario */
     font-size: 16px;
-    /* Tamaño del texto */
+    /* TamaÃƒÆ’Ã‚Â±o del texto */
 }
 
 body {
@@ -703,7 +712,7 @@ ul {
     display: flex;
 }
 
-/* Esto está medio weird, a lo mejor lo termino cambiando por un label/p ya que no tiene botones los hotposts */
+/* Esto estÃƒÆ’Ã‚Â¡ medio weird, a lo mejor lo termino cambiando por un label/p ya que no tiene botones los hotposts */
 .btn-footer-hot-post {
     cursor: pointer;
     color: var(--letter-color);
@@ -951,7 +960,7 @@ footer {
 }
 
 .select-category::after {
-    content: '▼';
+    content: 'ÃƒÂ¢Ã¢â‚¬â€œÃ‚Â¼';
     font-size: 12px;
     color: var(--border-white-color);
     position: absolute;
@@ -1209,4 +1218,3 @@ small {
 .dropdown-menu div:hover {
     background-color: #444;
 }
-

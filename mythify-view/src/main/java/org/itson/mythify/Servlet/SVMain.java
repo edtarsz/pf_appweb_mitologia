@@ -33,13 +33,12 @@ import org.itson.mythify.enumeradores.TipoUsuario;
 public class SVMain extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
-    private boolean conexionInicializada;
     private IFacadeUsuarioBO usuarioBO;
 
     @Override
     public void init() throws ServletException {
         super.init();
-        conexionInicializada = InitialConfig.iniciarConexion();
+        InitialConfig.iniciarConexion();
         usuarioBO = new FacadeUsuarioBO();
         try {
             if (!usuarioBO.usuarioExiste("admin@gmail.com", "admin")) {

@@ -50,6 +50,7 @@
 }
 
 .items-menu button {
+    cursor: pointer;
     padding: 13px 0;
     width: 100%;
     font-size: var(--font-size-small);

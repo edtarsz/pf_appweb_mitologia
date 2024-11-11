@@ -71,6 +71,7 @@ public class ConversorBO implements IConversorBO {
         }
 
         return new PostDTO(
+                post.getIdPost(),
                 post.getTitulo(),
                 post.getContenido(),
                 post.getCategoria(),

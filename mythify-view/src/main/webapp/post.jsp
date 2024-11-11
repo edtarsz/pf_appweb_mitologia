@@ -52,27 +52,26 @@
                                 </c:if>
                             </div>
                             <div class="right-head-article">
-
                                 <button type="button" onclick="toggleDropdown()" class="btn-option">
                                     <img src="<%= request.getContextPath()%>/img/options-post.svg" alt="Opciones" width="20">
                                 </button>
                                 <div class="dropdown-menu" id="dropdownMenu">
-                                    <form action="SVPost" method="get"> 
-                                        <input type="hidden" name="options" value="anclarPost">    
+                                    <form action="SVPost?id=${post.idPost}" method="post">
+                                        <input type="hidden" name="idPost" value="SVPost?id=${post.idPost}">
                                         <button type="submit">ANCLAR</button>
-                                    </form> 
-                                    <form action="SVPost" method="get"> 
-                                        <input type="hidden" name="options" value="editarPost">  
+                                    </form>
+
+                                    <form action="SVPost?id=${post.idPost}" method="post">
+                                        <input type="hidden" name="options" value="editarPost">
                                         <button type="submit">EDITAR</button>
-                                    </form> 
-                                    <form action="SVPost" method="get"> 
-                                        <input type="hidden" name="options" value="borrarPost">  
+                                    </form>
+
+                                    <form action="SVPost" method="post">
+                                        <input type="hidden" name="idPost" value="${post.idPost}">
+                                        <input type="hidden" name="options" value="borrarPost">
                                         <button type="submit">ELIMINAR</button>
-                                    </form> 
+                                    </form>
                                 </div>
-
-
-
                             </div>
                         </div>
                         <h3>${post.titulo}</h3>

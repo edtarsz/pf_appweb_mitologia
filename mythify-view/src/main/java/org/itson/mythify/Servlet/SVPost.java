@@ -101,6 +101,12 @@ public class SVPost extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+             String option = request.getParameter("options");
+    String idPost = request.getParameter("idPost");
+
+    if ("borrarPost".equals(option) && idPost != null) {
+        borrarPost(request, response);
+    }
     }
 
     @Override
@@ -170,11 +176,11 @@ public class SVPost extends HttpServlet {
         }
     }
 
-     private void borrarPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String postIdStr = request.getParameter("id");
+    private void borrarPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String postIdStr = request.getParameter("idPost");
 
         try {
-            int postId = Integer.parseInt(postIdStr); 
+            int postId = Integer.parseInt(postIdStr);
             PostDTO postDTO = new PostDTO();
             postDTO.setIdPost(postId);
 
@@ -183,11 +189,11 @@ public class SVPost extends HttpServlet {
             if (eliminado) {
                 response.setStatus(HttpServletResponse.SC_OK);
             } else {
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST); 
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
         } catch (NumberFormatException | ControllerException ex) {
             Logger.getLogger(SVPost.class.getName()).log(Level.SEVERE, "Error al eliminar el post con ID " + postIdStr, ex);
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); 
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
 

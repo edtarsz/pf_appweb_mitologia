@@ -44,7 +44,7 @@ public class SVPost extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action");
-
+        System.out.println(action);
         if (action != null) {
             switch (action) {
                 case "publicarPost" ->
@@ -100,13 +100,8 @@ public class SVPost extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-             String option = request.getParameter("options");
-    String idPost = request.getParameter("idPost");
 
-    if ("borrarPost".equals(option) && idPost != null) {
-        borrarPost(request, response);
-    }
+        processRequest(request, response);
     }
 
     @Override
@@ -178,6 +173,7 @@ public class SVPost extends HttpServlet {
 
     private void borrarPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String postIdStr = request.getParameter("idPost");
+        System.out.println(postIdStr);
 
         try {
             int postId = Integer.parseInt(postIdStr);
@@ -185,20 +181,12 @@ public class SVPost extends HttpServlet {
             postDTO.setIdPost(postId);
 
             boolean eliminado = postBO.eliminarPost(postDTO);
-
-            if (eliminado) {
-                response.setStatus(HttpServletResponse.SC_OK);
-            } else {
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            }
+            response.sendRedirect("SVPost?mythology=all");
         } catch (NumberFormatException | ControllerException ex) {
             Logger.getLogger(SVPost.class.getName()).log(Level.SEVERE, "Error al eliminar el post con ID " + postIdStr, ex);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
-
-
-
 
     private void consultarPorCategoria(HttpServletRequest request, HttpServletResponse response, String categoria) throws IOException, ServletException {
 

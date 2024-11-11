@@ -62,13 +62,13 @@
                                     </form>
 
                                     <form action="SVPost?id=${post.idPost}" method="post">
-                                        <input type="hidden" name="options" value="editarPost">
+                                        <input type="hidden" name="action" value="editarPost">
                                         <button type="submit">EDITAR</button>
                                     </form>
 
                                     <form action="SVPost" method="post">
                                         <input type="hidden" name="idPost" value="${post.idPost}">
-                                        <input type="hidden" name="options" value="borrarPost">
+                                        <input type="hidden" name="action" value="borrarPost">
                                         <button type="submit">ELIMINAR</button>
                                     </form>
                                 </div>

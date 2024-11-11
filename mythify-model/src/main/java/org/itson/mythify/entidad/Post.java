@@ -26,7 +26,7 @@ public class Post implements Serializable {
     @Column(name = "likes", nullable = true)
     private int likes;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Comentario> comentarios;
 
     @Column(name = "titulo", nullable = false)

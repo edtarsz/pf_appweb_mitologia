@@ -90,6 +90,7 @@ public class ConversorBO implements IConversorBO {
         }
 
         Post post = new Post();
+        post.setIdPost(postDTO.getIdPost());
         post.setTitulo(postDTO.getTitulo());
         post.setContenido(postDTO.getContenido());
         post.setCategoria(postDTO.getCategoria());

@@ -66,5 +66,5 @@
         </dependency>
 
     </dependencies>
-    <name>mythify-model</name>
+    <name>mythify-entidades</name>
 </project>

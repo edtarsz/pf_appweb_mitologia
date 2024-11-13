@@ -16,7 +16,7 @@
         <exec.mainClass>com.mycompany.redsocialaccesoadatos.RedSocialAccesoADatos</exec.mainClass>
         <maven.compiler.release>21</maven.compiler.release>
     </properties>
-    <name>mythify-dao</name>
+    <name>mythify-modelo</name>
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>

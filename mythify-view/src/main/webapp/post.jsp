@@ -51,6 +51,8 @@
                                     <img src="<c:url value='/img/pin-white.svg' />" alt="">
                                 </c:if>
                             </div>
+                            
+                        <c:if test="${usuario.tipoUsuario == 'ADMINISTRADOR'}">
                             <div class="right-head-article">
                                 <button type="button" onclick="toggleDropdown()" class="btn-option">
                                     <img src="<%= request.getContextPath()%>/img/options-post.svg" alt="Opciones" width="20">
@@ -73,6 +75,7 @@
                                     </form>
                                 </div>
                             </div>
+                        </c:if>
                         </div>
                         <h3>${post.titulo}</h3>
                         <div class="content-post">

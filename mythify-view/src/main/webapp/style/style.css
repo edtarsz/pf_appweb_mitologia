@@ -1184,7 +1184,7 @@ small {
     margin-bottom: 10px;
 }
 
-.right-head-article { 
+.right-head-article {
     position: relative;
     display: inline-block;
 }
@@ -1228,4 +1228,57 @@ small {
 .dropdown-menu button:hover {
     background-color: #444;
     border-radius: 5px;
+}
+
+.edit-form {
+    display: none;
+    position: fixed; /* Fijar en la pantalla */
+    top: 50%; /* Centrar verticalmente */
+    left: 50%; /* Centrar horizontalmente */
+    z-index: 1000; /* Asegurar que esté por encima de otros elementos */
+    padding: 20px;
+    background: var(--second-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    width: 90%; /* Ancho máximo del formulario */
+    max-width: 600px; /* Límite en pantallas grandes */
+}
+
+
+
+.form-group input[type="text"],
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.btn-submit {
+    background: #007bff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-submit:hover {
+    background: #0056b3;
+}
+
+.btn-cancel {
+   background: #007bff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: background-color 0.3s;
+}
+
+.btn-cancel:hover {
+    background: #5a6268;
 }

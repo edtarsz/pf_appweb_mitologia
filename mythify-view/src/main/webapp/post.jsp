@@ -19,7 +19,7 @@
         <link rel="stylesheet" href="<%= request.getContextPath()%>/style/style.css">
         
         <!-- JavaScript -->
-            <script defer src="<%= request.getContextPath()%>/script/script.js"></script>
+        <script defer src="<%= request.getContextPath()%>/script/script.js"></script>
 
         <link rel="stylesheet" href="<c:url value='/style/style.css' />">
 
@@ -63,16 +63,46 @@
                                         <button type="submit">ANCLAR</button>
                                     </form>
 
-                                    <form action="SVPost?id=${post.idPost}" method="post">
-                                        <input type="hidden" name="action" value="editarPost">
-                                        <button type="submit">EDITAR</button>
-                                    </form>
+                                     <button onclick="mostrarFormularioEdicion()" type="button">EDITAR</button>
 
                                     <form action="SVPost" method="post">
                                         <input type="hidden" name="idPost" value="${post.idPost}">
                                         <input type="hidden" name="action" value="borrarPost">
                                         <button type="submit">ELIMINAR</button>
                                     </form>
+
+                                    <!-- Formulario de edición -->
+                                    <div id="editForm" class="edit-form">
+                                        <form action="SVPost" method="post">
+                                            <input type="hidden" name="id" value="${post.idPost}">
+                                            <input type="hidden" name="action" value="editarPost">
+
+                                            <div class="form-group">
+                                                <select name="category" class="select-category" required>
+                                                    <option value="" disabled selected>SELECCIONAR CATEGORÍA</option>
+                                                    <option value="egipcia">EGIPCIA</option>
+                                                    <option value="griega">GRIEGA</option>
+                                                    <option value="azteca">AZTECA</option>
+                                                    <option value="maya">MAYA</option>
+                                                    <option value="nordica">NORDICA</option>
+                                                    <option value="romana">ROMANA</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="title">Título:</label>
+                                                <input type="text" id="title" name="title" value="${post.titulo}" required>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="content">Contenido:</label>
+                                                <textarea id="content" name="content" rows="5" required>${post.contenido}</textarea>
+                                            </div>
+
+                                            <button type="submit" class="btn-submit">Guardar cambios</button>
+                                            <button type="button" class="btn-cancel" onclick="ocultarFormularioEdicion()">Cancelar</button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </c:if>

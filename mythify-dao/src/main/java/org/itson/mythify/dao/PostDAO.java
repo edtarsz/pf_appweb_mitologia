@@ -67,6 +67,25 @@ public class PostDAO implements IPostDAO {
             throw new ModelException("Error updating post", ex);
         }
     }
+    
+     @Override
+    public Post anclarPost(Post post) throws ModelException {
+        try {
+            logger.log(Level.INFO, "Attempting to pin post: {0}", post.getTitulo());
+            entityManager.getTransaction().begin();
+            Post updatedPost = entityManager.merge(post);
+            entityManager.getTransaction().commit();
+            logger.log(Level.INFO, "Post pinned successfully: {0}", updatedPost.getTitulo());
+            return updatedPost;
+        } catch (Exception ex) {
+            logger.log(Level.SEVERE, "Error pinnig post: " + post.getTitulo(), ex);
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+                logger.warning("Transaction rolled back.");
+            }
+            throw new ModelException("Error pinning post", ex);
+        }
+    }
 
     @Override
     public List<Post> consultarPosts() throws ModelException {

@@ -59,7 +59,8 @@
                                 </button>
                                 <div class="dropdown-menu" id="dropdownMenu">
                                     <form action="SVPost?id=${post.idPost}" method="post">
-                                        <input type="hidden" name="idPost" value="SVPost?id=${post.idPost}">
+                                        <input type="hidden" name="idPost" value="${post.idPost}">
+                                        <input type="hidden" name="action" value="anclarPost">
                                         <button type="submit">ANCLAR</button>
                                     </form>
 

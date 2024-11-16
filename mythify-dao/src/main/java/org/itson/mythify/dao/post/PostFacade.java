@@ -59,6 +59,16 @@ public class PostFacade implements IPostFacade {
     }
 
     @Override
+    public Post anclarPost(Post post) {
+       try {
+            return postDAO.anclarPost(post);
+        } catch (ModelException ex) {
+            Logger.getLogger(PostFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    @Override
     public List<Post> consultarPosts() {
         try {
             return postDAO.consultarPosts();

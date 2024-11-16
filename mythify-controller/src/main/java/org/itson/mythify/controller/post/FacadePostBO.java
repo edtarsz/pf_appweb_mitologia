@@ -46,6 +46,11 @@ public class FacadePostBO implements IFacadePostBO {
     public Post actualizarPost(Post post) throws ControllerException {
         return postFacade.actualizarPost(post);
     }
+    
+     @Override
+    public Post anclarPost(Post post) throws ControllerException {
+        return postFacade.anclarPost(post);
+    }
 
     @Override
     public List<Post> consultarPosts() throws ControllerException {

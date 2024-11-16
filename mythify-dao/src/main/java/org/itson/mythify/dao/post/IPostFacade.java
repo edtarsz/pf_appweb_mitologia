@@ -24,6 +24,8 @@ public interface IPostFacade {
     public boolean eliminarPost(Post post);
 
     public Post actualizarPost(Post post);
+    
+     public Post anclarPost(Post post);
 
     public List<Post> consultarPosts();
 

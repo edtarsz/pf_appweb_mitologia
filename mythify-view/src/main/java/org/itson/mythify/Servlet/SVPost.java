@@ -53,6 +53,8 @@ public class SVPost extends HttpServlet {
                     editarPost(request, response);
                 case "borrarPost" ->
                     borrarPost(request, response);
+                case "anclarPost" ->
+                    anclarPost(request, response);
                 default ->
                     response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Acción no válida");
             }
@@ -168,6 +170,31 @@ public class SVPost extends HttpServlet {
         } catch (ControllerException ex) {
             Logger.getLogger(SVUsuario.class.getName()).log(Level.SEVERE, null, ex);
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al actualizar el post.");
+        }
+    }
+    
+      private void anclarPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String postId = request.getParameter("id");
+
+        try {
+            // Obtener el post actual
+            Post post = postBO.consultarPostPorID(Integer.parseInt(postId));
+
+            // Actualizar los datos del post
+            post.setAnclado(true);
+
+            Post postActualizado = postBO.actualizarPost(post);
+
+            if (postActualizado != null) {
+                request.setAttribute("mensaje", "Post anclado correctamente.");
+            } else {
+                request.setAttribute("mensaje", "Error al anclar el post.");
+            }
+
+            response.sendRedirect("SVPost?mythology=all");
+        } catch (ControllerException ex) {
+            Logger.getLogger(SVUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al anclar el post.");
         }
     }
 

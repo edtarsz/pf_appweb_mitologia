@@ -174,7 +174,7 @@ public class SVPost extends HttpServlet {
     }
     
       private void anclarPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String postId = request.getParameter("id");
+        String postId = request.getParameter("idPost");
 
         try {
             // Obtener el post actual

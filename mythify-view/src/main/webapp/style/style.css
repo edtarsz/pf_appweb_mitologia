@@ -1282,3 +1282,13 @@ small {
 .btn-cancel:hover {
     background: #5a6268;
 }
+
+
+.error-content {
+    text-align: center;     
+}
+
+.error-content img {
+    max-width: 100%;        
+    height: auto;            
+}

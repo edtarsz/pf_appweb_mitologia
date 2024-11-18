@@ -1257,7 +1257,7 @@ small {
 }
 
 .btn-submit {
-    background: #007bff;
+    background: white;
     border: none;
     padding: 10px 20px;
     border-radius: 4px;
@@ -1266,11 +1266,11 @@ small {
 }
 
 .btn-submit:hover {
-    background: #0056b3;
+    background: #5a6268;
 }
 
 .btn-cancel {
-   background: #007bff;
+   background: white;
     border: none;
     padding: 10px 20px;
     border-radius: 4px;

@@ -14,10 +14,10 @@
         <meta http-equiv="Pragma" content="no-cache">
         <meta http-equiv="Expires" content="0">
 
+        <!<!-- Link footer -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
         <!-- CSS Stylesheets -->
-
-        <link rel="stylesheet" href="<%= request.getContextPath()%>/style/style.css">
-        
+        <link rel="stylesheet" href="<%= request.getContextPath()%>/style/style.css">     
         <!-- JavaScript -->
         <script defer src="<%= request.getContextPath()%>/script/script.js"></script>
 

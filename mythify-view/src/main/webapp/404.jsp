@@ -30,6 +30,7 @@
                     <h1>No se encontro la pagina</h1>
                     <br>
                     <p>El recurso solicitado no fue encontrado dentro del servidor.</p>
+                    <br>
                     <img src="<c:url value='/img/404.jpg' />" alt="404">
                     <div></div>
                 </main>

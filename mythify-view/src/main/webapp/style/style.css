@@ -1230,57 +1230,74 @@ small {
     border-radius: 5px;
 }
 
+/* Estilos principales para el formulario de edición */
 .edit-form {
-    display: none;
-    position: fixed; /* Fijar en la pantalla */
-    top: 50%; /* Centrar verticalmente */
-    left: 50%; /* Centrar horizontalmente */
-    z-index: 1000; /* Asegurar que esté por encima de otros elementos */
+    display: none; /* Oculto por defecto */
+    position: fixed; /* Posición fija para evitar movimientos */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centrado absoluto */
+    z-index: 1000;
     padding: 20px;
-    background: var(--second-color);
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    width: 90%; /* Ancho máximo del formulario */
-    max-width: 600px; /* Límite en pantallas grandes */
+    background-color: var(--second-color);
+    color: white;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    box-sizing: border-box;
 }
 
 
+/* Estilos para el grupo de formularios */
+.form-group {
+    margin-bottom: 15px;
+}
 
-.form-group input[type="text"],
-.form-group textarea,
-.form-group select {
+/* Estilos para los campos de entrada */
+.edit-form input[type="text"],
+.edit-form textarea,
+.edit-form select {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    border: 1px solid #444;
+    background-color: white; /* Fondo de los inputs */
+    color: black;
+    border-radius: 5px;
     font-size: 14px;
+    box-sizing: border-box;
 }
 
-.btn-submit {
-    background: white;
+/* Botones */
+.edit-form .btn-submit {
+    background-color: rgba(255, 255, 254, 0.21);
+    color: white;
     border: none;
     padding: 10px 20px;
-    border-radius: 4px;
+    border-radius: 5px;
+    font-size: 14px;
     cursor: pointer;
-    transition: background-color 0.3s;
 }
 
-.btn-submit:hover {
-    background: #5a6268;
-}
-
-.btn-cancel {
-   background: white;
+.edit-form .btn-cancel {
+    background-color: rgba(255, 255, 254, 0.21);
+    color: white;
     border: none;
     padding: 10px 20px;
-    border-radius: 4px;
+    border-radius: 5px;
+    font-size: 14px;
     cursor: pointer;
-    margin-left: 10px;
-    transition: background-color 0.3s;
 }
 
-.btn-cancel:hover {
-    background: #5a6268;
+/* Botón: hover */
+.edit-form button:hover {
+    opacity: 0.9;
+}
+
+.edit-form input:focus,
+.edit-form textarea:focus {
+    outline: none; /* Elimina el borde azul por defecto */
+    border-color: #4caf50; /* Opcional: cambia el borde */
 }
 
 

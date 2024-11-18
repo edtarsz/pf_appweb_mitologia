@@ -102,6 +102,7 @@
                                                                 </div>
 
                                                                 <button type="submit" class="btn-submit">Guardar cambios</button>
+                                                                <br>
                                                                 <button type="button" class="btn-cancel" onclick="ocultarFormularioEdicion()">Cancelar</button>
                                                             </form>
                                                         </div>

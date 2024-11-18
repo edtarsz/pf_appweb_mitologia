@@ -33,53 +33,85 @@
                                 <c:if test="${post != null && post.usuario != null && post.titulo != null && post.contenido != null}">
                                     <article class="article-post">
                                         <c:if test="${!post.anclado}">
-                                            <a href="<c:url value='/SVPost?id=${post.idPost}'/>">
-                                            </c:if>
-                                            <div class="head-article-post">
-                                                <div class="left-head-article">
-                                                    <div class="container-pfp-post"></div>
-                                                    <c:set var="tiempoTranscurrido" value="${calculadorTiempo.tiempoTranscurridoDesde(post.fechaHoraCreacion)}" />
-                                                    <span class="span-post-header">
-                                                        @${empty post.usuario.nombre ? 'Anonymous' : post.usuario.nombre} •
-                                                        ${tiempoTranscurrido}
-                                                    </span>
-                                                    <span class="span-post-label">
-                                                        ${empty post.categoria ? 'Uncategorized' : post.categoria}
-                                                    </span>
 
-                                                    <c:if test="${post.anclado}">
-                                                        <img src="<c:url value='/img/pin-white.svg' />" alt="Pin icon">
-                                                    </c:if>
-                                                </div>
-                                                <c:if test="${usuario.tipoUsuario == 'ADMINISTRADOR'}">
-                                                    <div class="right-head-article">
-                                                        <button type="button" onclick="toggleDropdown()" class="btn-option">
-                                                            <img src="<%= request.getContextPath()%>/img/options-post.svg" alt="Opciones" width="20">
-                                                        </button>
-                                                        <div class="dropdown-menu" id="dropdownMenu">
-                                                            <form action="SVPost?id=${post.idPost}" method="post">
-                                                                <input type="hidden" name="idPost" value="SVPost?id=${post.idPost}">
-                                                                <button type="submit">ANCLAR</button>
-                                                            </form>
+                                        </c:if>
+                                        <div class="head-article-post">
+                                            <div class="left-head-article">
+                                                <div class="container-pfp-post"></div>
+                                                <c:set var="tiempoTranscurrido" value="${calculadorTiempo.tiempoTranscurridoDesde(post.fechaHoraCreacion)}" />
+                                                <span class="span-post-header">
+                                                    @${empty post.usuario.nombre ? 'Anonymous' : post.usuario.nombre} •
+                                                    ${tiempoTranscurrido}
+                                                </span>
+                                                <span class="span-post-label">
+                                                    ${empty post.categoria ? 'Uncategorized' : post.categoria}
+                                                </span>
 
-                                                            <form action="SVPost?id=${post.idPost}" method="post">
-                                                                <input type="hidden" name="action" value="editarPost">
-                                                                <button type="submit">EDITAR</button>
-                                                            </form>
+                                                <c:if test="${post.anclado}">
+                                                    <img src="<c:url value='/img/pin-white.svg' />" alt="Pin icon">
+                                                </c:if>
+                                            </div>
+                                            <c:if test="${usuario.tipoUsuario == 'ADMINISTRADOR'}">
+                                                <div class="right-head-article">
+                                                    <button type="button" onclick="toggleDropdown()" class="btn-option">
+                                                        <img src="<%= request.getContextPath()%>/img/options-post.svg" alt="Opciones" width="20">
+                                                    </button>
+                                                    <div class="dropdown-menu" id="dropdownMenu">
+                                                        <form action="SVPost?id=${post.idPost}" method="post">
+                                                            <input type="hidden" name="idPost" value="${post.idPost}">
+                                                            <input type="hidden" name="action" value="anclarPost">
+                                                            <button type="submit">ANCLAR</button>
+                                                        </form>
 
+                                                        <button onclick="mostrarFormularioEdicion()" type="button">EDITAR</button>
+
+                                                        <form action="SVPost" method="post">
+                                                            <input type="hidden" name="idPost" value="${post.idPost}">
+                                                            <input type="hidden" name="action" value="borrarPost">
+                                                            <button type="submit">ELIMINAR</button>
+                                                        </form>
+
+                                                        <!-- Formulario de edición -->
+                                                        <div id="editForm" class="edit-form">
                                                             <form action="SVPost" method="post">
-                                                                <input type="hidden" name="idPost" value="${post.idPost}">
-                                                                <input type="hidden" name="action" value="borrarPost">
-                                                                <button type="submit">ELIMINAR</button>
+                                                                <input type="hidden" name="id" value="${post.idPost}">
+                                                                <input type="hidden" name="action" value="editarPost">
+
+                                                                <div class="form-group">
+                                                                    <select name="category" class="select-category" required>
+                                                                        <option value="" disabled selected>SELECCIONAR CATEGORÍA</option>
+                                                                        <option value="egipcia">EGIPCIA</option>
+                                                                        <option value="griega">GRIEGA</option>
+                                                                        <option value="azteca">AZTECA</option>
+                                                                        <option value="maya">MAYA</option>
+                                                                        <option value="nordica">NORDICA</option>
+                                                                        <option value="romana">ROMANA</option>
+                                                                    </select>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label for="title">Título:</label>
+                                                                    <input type="text" id="title" name="title" value="${post.titulo}" required>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label for="content">Contenido:</label>
+                                                                    <textarea id="content" name="content" rows="5" required>${post.contenido}</textarea>
+                                                                </div>
+
+                                                                <button type="submit" class="btn-submit">Guardar cambios</button>
+                                                                <button type="button" class="btn-cancel" onclick="ocultarFormularioEdicion()">Cancelar</button>
                                                             </form>
                                                         </div>
                                                     </div>
-                                                </c:if>
-                                            </div>
+                                                </div>
+                                            </c:if>
+                                        </div>
                                             <h3>${post.titulo}</h3>
                                             <div class="content-post">
                                                 <p>${post.contenido}</p>
                                             </div>
+                                            <a href="<c:url value='/SVPost?id=${post.idPost}'/>">
                                             <c:if test="${not empty post.link}">
                                                 <a href="${fn:escapeXml(post.link)}" id="preview-link">
                                                     ${fn:escapeXml(post.link)}

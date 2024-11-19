@@ -44,7 +44,7 @@ public class SVPost extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action");
-        System.out.println(action);
+
         if (action != null) {
             switch (action) {
                 case "publicarPost" ->
@@ -65,8 +65,23 @@ public class SVPost extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String postId = request.getParameter("id");
+        String action = request.getParameter("action");
         String categoria = request.getParameter("mythology");
         String specificMythology = request.getParameter("specificMythology");
+        Post post;
+
+        System.out.println("esto es el action: " + action);
+        if (action != null && action.equals("editarPost")) {
+            try {
+                int id = Integer.parseInt(postId);
+                post = postBO.consultarPostPorID(id);
+                request.setAttribute("post", post);
+                request.getRequestDispatcher("editar.jsp").forward(request, response);
+                return;
+            } catch (ControllerException ex) {
+                Logger.getLogger(SVPost.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
 
         try {
             if (specificMythology != null && !specificMythology.isEmpty()) {
@@ -78,7 +93,7 @@ public class SVPost extends HttpServlet {
             } else if (postId != null && !postId.isEmpty()) {
                 try {
                     int id = Integer.parseInt(postId);
-                    Post post = postBO.consultarPostPorID(id);
+                    post = postBO.consultarPostPorID(id);
                     if (post != null) {
                         // Agregar el calculador de tiempo al request
                         request.setAttribute("calculadorTiempo", new CalcularTiempo());
@@ -172,8 +187,8 @@ public class SVPost extends HttpServlet {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al actualizar el post.");
         }
     }
-    
-      private void anclarPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+    private void anclarPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String postId = request.getParameter("idPost");
 
         try {

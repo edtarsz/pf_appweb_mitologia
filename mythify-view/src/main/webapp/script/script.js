@@ -1,22 +1,21 @@
- function toggleDropdown() {
-        var dropdown = document.getElementById("dropdownMenu");
-        dropdown.style.display = (dropdown.style.display === "none" || dropdown.style.display === "") ? "block" : "none";
-    }
-function mostrarFormularioEdicion() {
-    document.getElementById('editForm').style.display = 'block';
-}
+document.addEventListener("click", function (event) {
+    // Verifica si se hizo clic en un botón de opciones
+    if (event.target.closest(".btn-option")) {
+        const button = event.target.closest(".btn-option");
+        const postId = button.dataset.postId; // Obtén el id del post asociado
+        const dropdown = document.getElementById(`dropdown-${postId}`); // Selecciona el menú correspondiente
 
-function ocultarFormularioEdicion() {
-    document.getElementById('editForm').style.display = 'none';
-}
-
-document.addEventListener('click', function (event) {
-    var dropdown = document.getElementById("dropdownMenu");
-    var button = document.querySelector(".btn-option");
-
-    if (!dropdown.contains(event.target) && !button.contains(event.target)) {
-        dropdown.style.display = "none";
-        document.getElementById('editForm').style.display = 'none';
+        // Alterna la visibilidad del menú relacionado
+        const isVisible = dropdown.style.display === "block";
+        closeAllDropdowns(); // Cierra todos los menús antes de abrir el actual
+        dropdown.style.display = isVisible ? "none" : "block";
+    } else {
+        // Cierra todos los menús si se hace clic fuera
+        closeAllDropdowns();
     }
 });
 
+function closeAllDropdowns() {
+    const dropdowns = document.querySelectorAll(".dropdown-menu");
+    dropdowns.forEach(menu => menu.style.display = "none");
+}

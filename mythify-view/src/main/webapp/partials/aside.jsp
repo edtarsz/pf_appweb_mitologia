@@ -6,7 +6,7 @@
             CREAR UN POST
         </button>
     </a>
-    <h2 class="mythologies-title">MITOLOG�AS</h2>
+    <h2 class="mythologies-title">MITOLOGIAS</h2>
     <div class="container-mythologies">
         <form action="SVPost" method="get">
             <input type="hidden" name="mythology" value="egipcia">
@@ -35,7 +35,7 @@
 
         <form action="SVPost" method="get">
             <input type="hidden" name="mythology" value="nordica">
-            <button type="submit" class="btn-mythology">N?RDICA</button>
+            <button type="submit" class="btn-mythology">NORDICA</button>
         </form>
 
         <form action="SVPost" method="get">

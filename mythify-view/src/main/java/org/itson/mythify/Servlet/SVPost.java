@@ -57,7 +57,9 @@ public class SVPost extends HttpServlet {
                 case "borrarPost" ->
                     borrarPost(request, response);
                 case "anclarPost" ->
-                    anclarPost(request, response);
+                    anclarPost(request, response, action);
+                case "desAnclarPost" ->
+                    anclarPost(request, response, action);
             }
         }
     }
@@ -197,24 +199,25 @@ public class SVPost extends HttpServlet {
         response.sendRedirect("SVPost?mythology=all");
     }
 
-    private void anclarPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void anclarPost(HttpServletRequest request, HttpServletResponse response, String action) {
         String postId = request.getParameter("idPost");
+        Post post;
 
         try {
-            Post post = postBO.consultarPostPorID(Integer.parseInt(postId));
-            post.setAnclado(true);
-            Post postActualizado = postBO.actualizarPost(post);
+            post = postBO.consultarPostPorID(Integer.parseInt(postId));
 
-            if (postActualizado == null) {
-                request.setAttribute("mensaje", "Error al anclar el post.");
-            } else {
-                request.setAttribute("mensaje", "Post anclado correctamente.");
+            if (action.equalsIgnoreCase("anclarPost")) {
+                post.setAnclado(true);
+            } else if (action.equalsIgnoreCase("desAnclarPost")) {
+                post.setAnclado(false);
             }
 
+            postBO.actualizarPost(post);
             response.sendRedirect("SVPost?mythology=all");
-        } catch (ControllerException ex) {
+        } catch (ControllerException | IOException ex) {
             Logger.getLogger(SVPost.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
     private void borrarPost(HttpServletRequest request, HttpServletResponse response) throws IOException {

@@ -66,8 +66,17 @@
 
                                                         <form action="SVPost?id=${post.idPost}" method="post">
                                                             <input type="hidden" name="idPost" value="${post.idPost}">
-                                                            <input type="hidden" name="action" value="anclarPost">
-                                                            <button type="submit">ANCLAR</button>
+
+                                                            <c:choose>
+                                                                <c:when test="${post.anclado}">
+                                                                    <input type="hidden" name="action" value="desAnclarPost">
+                                                                    <button type="submit">DESANCLAR</button>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <input type="hidden" name="action" value="anclarPost">
+                                                                    <button type="submit">ANCLAR</button>
+                                                                </c:otherwise>
+                                                            </c:choose>
                                                         </form>
 
                                                         <a href="<c:url value='/SVPost?id=${post.idPost}&action=editarPost' />">EDITAR</a>

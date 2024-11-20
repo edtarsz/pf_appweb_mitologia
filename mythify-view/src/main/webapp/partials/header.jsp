@@ -39,13 +39,7 @@
                     <li>
                         <form action="SVUsuario" method="get">
                             <input type="hidden" name="action" value="verPerfil">
-                            <button type="submit">Ver Perfil</button>
-                        </form>
-                    </li>
-                    <li>
-                        <form action="SVUsuario" method="get">
-                            <input type="hidden" name="action" value="iniciarSesion">
-                            <button type="submit">Actualizar Perfil</button>
+                            <button type="submit">Ver Publicados</button>
                         </form>
                     </li>
                     <li>

@@ -83,7 +83,6 @@
 
                                         </div>
 
-
                                         <c:if test="${!post.anclado}">
                                             <a href="<c:url value='/SVPost?id=${post.idPost}'/>">
                                             </c:if>
@@ -92,7 +91,13 @@
                                                 <p>${post.contenido}</p>
                                             </div>
                                             <c:if test="${!post.anclado}">
-                                            </a>    
+                                            </a>
+                                        </c:if>
+
+                                        <c:if test="${not empty post.link}">
+                                            <a href="${fn:escapeXml(post.link)}" id="preview-link">
+                                                ${fn:escapeXml(post.link)}
+                                            </a>
                                         </c:if>
 
                                         <div class="footer-post">
@@ -107,8 +112,6 @@
                                                 </button>
                                             </c:if>
                                         </div>
-                                        <c:if test="${!post.anclado}">
-                                        </c:if>
                                     </article>
                                 </c:if>
                             </c:forEach>

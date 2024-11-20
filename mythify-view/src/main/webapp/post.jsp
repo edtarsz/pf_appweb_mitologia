@@ -2,6 +2,7 @@
 <%@page import="java.time.LocalDateTime"%>
 <%@page import="org.itson.mythify.auxiliar.CalcularTiempo" %>
 <%@page import="org.itson.mythify.entidad.Post" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,7 +23,6 @@
         <script defer src="<%= request.getContextPath()%>/script/script.js"></script>
 
         <link rel="stylesheet" href="<c:url value='/style/style.css' />">
-
 
         <title>Mythify</title>
     </head>
@@ -51,67 +51,75 @@
                                     <img src="<c:url value='/img/pin-white.svg' />" alt="">
                                 </c:if>
                             </div>
-                            
-                        <c:if test="${usuario.tipoUsuario == 'ADMINISTRADOR'}">
-                            <div class="right-head-article">
-                                <button type="button" onclick="toggleDropdown()" class="btn-option">
-                                    <img src="<%= request.getContextPath()%>/img/options-post.svg" alt="Opciones" width="20">
-                                </button>
-                                <div class="dropdown-menu" id="dropdownMenu">
-                                    <form action="SVPost?id=${post.idPost}" method="post">
-                                        <input type="hidden" name="idPost" value="${post.idPost}">
-                                        <input type="hidden" name="action" value="anclarPost">
-                                        <button type="submit">ANCLAR</button>
-                                    </form>
 
-                                     <button onclick="mostrarFormularioEdicion()" type="button">EDITAR</button>
-
-                                    <form action="SVPost" method="post">
-                                        <input type="hidden" name="idPost" value="${post.idPost}">
-                                        <input type="hidden" name="action" value="borrarPost">
-                                        <button type="submit">ELIMINAR</button>
-                                    </form>
-
-                                    <!-- Formulario de edición -->
-                                    <div id="editForm" class="edit-form">
-                                        <form action="SVPost" method="post">
-                                            <input type="hidden" name="id" value="${post.idPost}">
-                                            <input type="hidden" name="action" value="editarPost">
-
-                                            <div class="form-group">
-                                                <select name="category" class="select-category" required>
-                                                    <option value="" disabled selected>SELECCIONAR CATEGORÍA</option>
-                                                    <option value="egipcia">EGIPCIA</option>
-                                                    <option value="griega">GRIEGA</option>
-                                                    <option value="azteca">AZTECA</option>
-                                                    <option value="maya">MAYA</option>
-                                                    <option value="nordica">NORDICA</option>
-                                                    <option value="romana">ROMANA</option>
-                                                </select>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="title">Título:</label>
-                                                <input type="text" id="title" name="title" value="${post.titulo}" required>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="content">Contenido:</label>
-                                                <textarea id="content" name="content" rows="5" required>${post.contenido}</textarea>
-                                            </div>
-
-                                            <button type="submit" class="btn-submit">Guardar cambios</button>
-                                            <button type="button" class="btn-cancel" onclick="ocultarFormularioEdicion()">Cancelar</button>
+                            <c:if test="${usuario.tipoUsuario == 'ADMINISTRADOR'}">
+                                <div class="right-head-article">
+                                    <button type="button" onclick="toggleDropdown()" class="btn-option">
+                                        <img src="<%= request.getContextPath()%>/img/options-post.svg" alt="Opciones" width="20">
+                                    </button>
+                                    <div class="dropdown-menu" id="dropdownMenu">
+                                        <form action="SVPost?id=${post.idPost}" method="post">
+                                            <input type="hidden" name="idPost" value="${post.idPost}">
+                                            <input type="hidden" name="action" value="anclarPost">
+                                            <button type="submit">ANCLAR</button>
                                         </form>
+
+                                        <button onclick="mostrarFormularioEdicion()" type="button">EDITAR</button>
+
+                                        <form action="SVPost" method="post">
+                                            <input type="hidden" name="idPost" value="${post.idPost}">
+                                            <input type="hidden" name="action" value="borrarPost">
+                                            <button type="submit">ELIMINAR</button>
+                                        </form>
+
+                                        <!-- Formulario de edición -->
+                                        <div id="editForm" class="edit-form">
+                                            <form action="SVPost" method="post">
+                                                <input type="hidden" name="id" value="${post.idPost}">
+                                                <input type="hidden" name="action" value="editarPost">
+
+                                                <div class="form-group">
+                                                    <select name="category" class="select-category" required>
+                                                        <option value="" disabled selected>SELECCIONAR CATEGORÍA</option>
+                                                        <option value="egipcia">EGIPCIA</option>
+                                                        <option value="griega">GRIEGA</option>
+                                                        <option value="azteca">AZTECA</option>
+                                                        <option value="maya">MAYA</option>
+                                                        <option value="nordica">NORDICA</option>
+                                                        <option value="romana">ROMANA</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="title">Título:</label>
+                                                    <input type="text" id="title" name="title" value="${post.titulo}" required>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="content">Contenido:</label>
+                                                    <textarea id="content" name="content" rows="5" required>${post.contenido}</textarea>
+                                                </div>
+
+                                                <button type="submit" class="btn-submit">Guardar cambios</button>
+                                                <button type="button" class="btn-cancel" onclick="ocultarFormularioEdicion()">Cancelar</button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </c:if>
+                            </c:if>
                         </div>
+
                         <h3>${post.titulo}</h3>
                         <div class="content-post">
                             <p>${post.contenido}</p>
                         </div>
+
+                        <c:if test="${not empty post.link}">
+                            <a href="${fn:escapeXml(post.link)}" id="preview-link">
+                                ${fn:escapeXml(post.link)}
+                            </a>
+                        </c:if>
+
                         <div class="footer-post">
                             <button class="btn-footer">
                                 <img src="<c:url value='/img/heart-black.svg' />" alt="">
@@ -149,26 +157,26 @@
                                 </div>
 
                                 <div class="right-head-article">
-                                    
-                                        <img src="<%= request.getContextPath()%>/img/options-post.svg" alt="Opciones" width="20">
 
-                                <div class="content-comment-post">
-                                    <p>${comment.contenido}</p>
+                                    <img src="<%= request.getContextPath()%>/img/options-post.svg" alt="Opciones" width="20">
 
-                                </div>
-                                <div class="footer-comments">
-                                    <div class="group-footer-btn">
-                                        <button class="btn-footer">
-                                            <img src="img/heart-black.svg" alt="">
-                                            230
-                                        </button>
-                                        <button class="btn-footer">
-                                            <img src="img/reply.svg" alt="">
-                                            Responder
-                                        </button>
+                                    <div class="content-comment-post">
+                                        <p>${comment.contenido}</p>
+
                                     </div>
-                                    <span class="span-post-header">hace 4 horas</span>
-                                </div>
+                                    <div class="footer-comments">
+                                        <div class="group-footer-btn">
+                                            <button class="btn-footer">
+                                                <img src="img/heart-black.svg" alt="">
+                                                230
+                                            </button>
+                                            <button class="btn-footer">
+                                                <img src="img/reply.svg" alt="">
+                                                Responder
+                                            </button>
+                                        </div>
+                                        <span class="span-post-header">hace 4 horas</span>
+                                    </div>
                             </article>
                         </c:forEach>
 

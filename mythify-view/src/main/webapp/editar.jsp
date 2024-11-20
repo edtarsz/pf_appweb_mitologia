@@ -37,32 +37,22 @@
                 <main>
                     <c:set var="post" value="${requestScope.post}" />
                     <article class="article-post">
-                        <c:if test="${!post.anclado}">
-
-                        </c:if>
                         <div class="head-article-post">
-                            <a href="<c:url value='/SVPost?id=${post.idPost}'/>">
-                                <c:if test="${not empty post.link}">
-                                    <a href="${fn:escapeXml(post.link)}" id="preview-link">
-                                        ${fn:escapeXml(post.link)}
-                                    </a>
-                                </c:if>
-                                <div class="left-head-article">
-                                    <div class="container-pfp-post"></div>
-                                    <c:set var="tiempoTranscurrido" value="${calculadorTiempo.tiempoTranscurridoDesde(post.fechaHoraCreacion)}" />
-                                    <span class="span-post-header">
-                                        @${empty post.usuario.nombre ? 'Anonymous' : post.usuario.nombre} •
-                                        ${tiempoTranscurrido}
-                                    </span>
-                                    <span class="span-post-label">
-                                        ${empty post.categoria ? 'Uncategorized' : post.categoria}
-                                    </span>
+                            <div class="left-head-article">
+                                <div class="container-pfp-post"></div>
+                                <c:set var="tiempoTranscurrido" value="${calculadorTiempo.tiempoTranscurridoDesde(post.fechaHoraCreacion)}" />
+                                <span class="span-post-header">
+                                    @${empty post.usuario.nombre ? 'Anonymous' : post.usuario.nombre} •
+                                    ${tiempoTranscurrido}
+                                </span>
+                                <span class="span-post-label">
+                                    ${empty post.categoria ? 'Uncategorized' : post.categoria}
+                                </span>
 
-                                    <c:if test="${post.anclado}">
-                                        <img src="<c:url value='/img/pin-white.svg' />" alt="Pin icon">
-                                    </c:if>
-                                </div>
-                            </a>    
+                                <c:if test="${post.anclado}">
+                                    <img src="<c:url value='/img/pin-white.svg' />" alt="Pin icon">
+                                </c:if>
+                            </div>
                             <c:if test="${usuario.tipoUsuario == 'ADMINISTRADOR'}">
                                 <div class="right-head-article">
                                     <button type="button" class="btn-option" data-post-id="${post.idPost}">
@@ -77,6 +67,8 @@
                                             <button type="submit">ANCLAR</button>
                                         </form>
 
+                                        <a href="<c:url value='/SVPost?id=${post.idPost}&action=editarPost' />">EDITAR</a>
+
                                         <form action="SVPost" method="post">
                                             <input type="hidden" name="idPost" value="${post.idPost}">
                                             <input type="hidden" name="action" value="borrarPost">
@@ -87,17 +79,17 @@
                             </c:if>
 
                         </div>
-                        <a href="<c:url value='/SVPost?id=${post.idPost}'/>">
-                            <c:if test="${not empty post.link}">
-                                <a href="${fn:escapeXml(post.link)}" id="preview-link">
-                                    ${fn:escapeXml(post.link)}
-                                </a>
-                            </c:if>
-                            <h3>${post.titulo}</h3>
-                            <div class="content-post">
-                                <p>${post.contenido}</p>
-                            </div>
-                        </a>
+
+
+                        <h3>${post.titulo}</h3>
+                        <div class="content-post">
+                            <p>${post.contenido}</p>
+                        </div>
+                        <c:if test="${not empty post.link}">
+                            <a href="${fn:escapeXml(post.link)}" id="preview-link">
+                                ${fn:escapeXml(post.link)}
+                            </a>
+                        </c:if>
 
                         <div class="footer-post">
                             <button class="btn-footer">
@@ -111,8 +103,6 @@
                                 </button>
                             </c:if>
                         </div>
-                        <c:if test="${!post.anclado}">
-                        </c:if>
                     </article>
                     <!-- Formulario de edición -->
                     <div id="editForm" class="edit-form">

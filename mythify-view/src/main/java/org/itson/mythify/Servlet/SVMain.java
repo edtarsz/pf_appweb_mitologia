@@ -12,7 +12,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.itson.mythify.conexion.InitialConfig;
+import org.itson.mythify.controller.ControllerException;
 import org.itson.mythify.dao.usuario.IUsuarioFacade;
 import org.itson.mythify.dao.usuario.UsuarioFacade;
 import org.itson.mythify.entidad.Estado;
@@ -45,9 +48,13 @@ public class SVMain extends HttpServlet {
     }
 
     private void crearAdminSiNoExiste() {
-        if (!usuarioBO.usuarioExiste("admin@gmail.com", "admin")) {
-            Usuario adminDefault = crearUsuarioAdmin();
-            usuarioBO.crearUsuario(adminDefault);
+        try {
+            if (!usuarioBO.usuarioExiste("admin@gmail.com", "admin")) {
+                Usuario adminDefault = crearUsuarioAdmin();
+                usuarioBO.crearUsuario(adminDefault);
+            }
+        } catch (ControllerException ex) {
+            Logger.getLogger(SVMain.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

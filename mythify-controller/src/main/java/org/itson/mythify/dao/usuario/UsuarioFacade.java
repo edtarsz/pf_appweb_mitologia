@@ -4,7 +4,6 @@
  */
 package org.itson.mythify.dao.usuario;
 
-import static com.google.protobuf.JavaFeaturesProto.java;
 import org.itson.mythify.conexion.IConexion;
 import org.itson.mythify.entidad.Usuario;
 import java.util.logging.Level;

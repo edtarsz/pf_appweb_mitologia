@@ -5,8 +5,8 @@
 package org.itson.mythify.dao.comentario;
 
 import java.util.List;
+import org.itson.mythify.controller.ControllerException;
 import org.itson.mythify.entidad.Comentario;
-import org.itson.mythify.entidad.Post;
 
 /*
  * @author Eduardo Talavera Ramos
@@ -20,12 +20,12 @@ import org.itson.mythify.entidad.Post;
  */
 public interface IComentarioFacade {
 
-    public Comentario crearComentario(Comentario comentario);
+    public Comentario crearComentario(Comentario comentario) throws ControllerException;
 
-    public void eliminarComentario();
+    public void eliminarComentario() throws ControllerException;
 
-    public void actualizarComentario();
+    public void actualizarComentario() throws ControllerException;
 
-    public List<Comentario> consultarComentarios();
+    public List<Comentario> consultarComentarios() throws ControllerException;
 
 }

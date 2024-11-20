@@ -21,6 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import org.itson.mythify.auxiliar.CalcularTiempo;
+import org.itson.mythify.controller.ControllerException;
 import org.itson.mythify.dao.post.IPostFacade;
 import org.itson.mythify.dao.post.PostFacade;
 import org.itson.mythify.entidad.Post;
@@ -97,9 +98,11 @@ public class SVPost extends HttpServlet {
 
     private void handleViewPost(HttpServletRequest request, HttpServletResponse response, String postId) {
         int id = Integer.parseInt(postId);
-        Post post = postBO.consultarPostPorID(id);
+        Post post;
 
         try {
+            post = postBO.consultarPostPorID(id);
+
             if (post == null) {
                 response.sendRedirect("error.jsp");
             }
@@ -107,19 +110,19 @@ public class SVPost extends HttpServlet {
             request.setAttribute("calculadorTiempo", new CalcularTiempo());
             request.setAttribute("post", post);
             request.getRequestDispatcher("post.jsp").forward(request, response);
-        } catch (ServletException | IOException ex) {
+        } catch (ServletException | IOException | ControllerException ex) {
             Logger.getLogger(SVPost.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     private void handleEditPost(HttpServletRequest request, HttpServletResponse response, String postId) {
         int id = Integer.parseInt(postId);
-        Post post = postBO.consultarPostPorID(id);
 
         try {
+            Post post = postBO.consultarPostPorID(id);
             request.setAttribute("post", post);
             request.getRequestDispatcher("editar.jsp").forward(request, response);
-        } catch (ServletException | IOException ex) {
+        } catch (ServletException | IOException | ControllerException ex) {
             Logger.getLogger(SVPost.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -139,7 +142,11 @@ public class SVPost extends HttpServlet {
             posts = new ArrayList<>();
         }
 
-        post = postBO.crearPost(post);
+        try {
+            post = postBO.crearPost(post);
+        } catch (ControllerException ex) {
+            Logger.getLogger(SVPost.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         posts.add(post);
         request.setAttribute("posts", posts);
@@ -168,12 +175,18 @@ public class SVPost extends HttpServlet {
         String titulo = request.getParameter("title");
         String contenido = request.getParameter("content");
 
-        Post post = postBO.consultarPostPorID(Integer.parseInt(postId));
+        Post post;
+        Post postActualizado = null;
 
-        post.setTitulo(titulo);
-        post.setContenido(contenido);
-        post.setCategoria(categoria.toUpperCase());
-        Post postActualizado = postBO.actualizarPost(post);
+        try {
+            post = postBO.consultarPostPorID(Integer.parseInt(postId));
+            post.setTitulo(titulo);
+            post.setContenido(contenido);
+            post.setCategoria(categoria.toUpperCase());
+            postActualizado = postBO.actualizarPost(post);
+        } catch (ControllerException ex) {
+            Logger.getLogger(SVPost.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         if (postActualizado == null) {
             request.setAttribute("mensaje", "Error al actualizar el post.");
@@ -187,23 +200,31 @@ public class SVPost extends HttpServlet {
     private void anclarPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String postId = request.getParameter("idPost");
 
-        Post post = postBO.consultarPostPorID(Integer.parseInt(postId));
-        post.setAnclado(true);
-        Post postActualizado = postBO.actualizarPost(post);
+        try {
+            Post post = postBO.consultarPostPorID(Integer.parseInt(postId));
+            post.setAnclado(true);
+            Post postActualizado = postBO.actualizarPost(post);
 
-        if (postActualizado == null) {
-            request.setAttribute("mensaje", "Error al anclar el post.");
-        } else {
-            request.setAttribute("mensaje", "Post anclado correctamente.");
+            if (postActualizado == null) {
+                request.setAttribute("mensaje", "Error al anclar el post.");
+            } else {
+                request.setAttribute("mensaje", "Post anclado correctamente.");
+            }
+
+            response.sendRedirect("SVPost?mythology=all");
+        } catch (ControllerException ex) {
+            Logger.getLogger(SVPost.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        response.sendRedirect("SVPost?mythology=all");
     }
 
     private void borrarPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int postId = Integer.parseInt(request.getParameter("idPost"));
 
-        postBO.eliminarPost(postId);
+        try {
+            postBO.eliminarPost(postId);
+        } catch (ControllerException ex) {
+            Logger.getLogger(SVPost.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         response.sendRedirect("SVPost?mythology=all");
     }
@@ -219,15 +240,20 @@ public class SVPost extends HttpServlet {
 
     // Obtener posts según categoría
     private List<Post> obtenerPostsOrdenados(String categoria) {
-        List<Post> posts = categoria.equals("all")
-                ? postBO.consultarPosts()
-                : postBO.consultarPostsCategoria(categoria);
+        try {
+            List<Post> posts = categoria.equals("all")
+                    ? postBO.consultarPosts()
+                    : postBO.consultarPostsCategoria(categoria);
 
-        if (posts == null || posts.isEmpty()) {
-            return Collections.emptyList();
+            if (posts == null || posts.isEmpty()) {
+                return Collections.emptyList();
+            }
+
+            return separarYOrdenarPosts(posts);
+        } catch (ControllerException ex) {
+            Logger.getLogger(SVPost.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        return separarYOrdenarPosts(posts);
+        return null;
     }
 
     private List<Post> separarYOrdenarPosts(List<Post> posts) {

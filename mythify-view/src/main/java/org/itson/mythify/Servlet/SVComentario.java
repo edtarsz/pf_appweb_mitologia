@@ -13,6 +13,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.itson.mythify.controller.ControllerException;
 import org.itson.mythify.dao.comentario.ComentarioFacade;
 import org.itson.mythify.dao.comentario.IComentarioFacade;
 import org.itson.mythify.dao.post.IPostFacade;
@@ -42,12 +45,12 @@ public class SVComentario extends HttpServlet {
             throws ServletException, IOException {
         String action = request.getParameter("action");
 
-        if (action != null) {
+        if (action == null) {
+            response.sendRedirect("error.jsp");
+        } else {
             switch (action) {
                 case "comentarPost" ->
                     publicarComentario(request, response);
-                default ->
-                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Acción no válida");
             }
         }
     }
@@ -64,24 +67,9 @@ public class SVComentario extends HttpServlet {
         processRequest(request, response);
     }
 
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }
-
     private void publicarComentario(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String contenido = request.getParameter("contenido");
         String postID = request.getParameter("id");
-        Post post;
-
-        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
-        post = postBO.consultarPostPorID(Integer.parseInt(postID));
-
-        Comentario comentario = new Comentario(
-                contenido,
-                new Date(),
-                usuario,
-                post);
+        Comentario comentario = buildComentario(request, response, postID);
 
         List<Comentario> comentarios = (List<Comentario>) request.getAttribute("comentarios");
 
@@ -89,9 +77,35 @@ public class SVComentario extends HttpServlet {
             comentarios = new ArrayList<>();
         }
 
-        comentario = comentarioBO.crearComentario(comentario);
+        try {
+            comentario = comentarioBO.crearComentario(comentario);
+        } catch (ControllerException ex) {
+            Logger.getLogger(SVComentario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         comentarios.add(comentario);
         request.setAttribute("comentarios", comentarios);
         response.sendRedirect("SVPost?id=" + postID);
+    }
+
+    public Comentario buildComentario(HttpServletRequest request, HttpServletResponse response, String postID) {
+        String contenido = request.getParameter("contenido");
+        Post post = null;
+
+        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+
+        try {
+            post = postBO.consultarPostPorID(Integer.parseInt(postID));
+        } catch (ControllerException ex) {
+            Logger.getLogger(SVComentario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        Comentario comentario = new Comentario(
+                contenido,
+                new Date(),
+                usuario,
+                post);
+
+        return comentario;
     }
 }

@@ -83,6 +83,18 @@ public class SVUsuario extends HttpServlet {
 
     private void registrarUsuario(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        Usuario usuario = buildUsuario(request, response);
+
+        try {
+            usuarioBO.crearUsuario(usuario);
+        } catch (ControllerException ex) {
+            Logger.getLogger(SVUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        response.sendRedirect("iniciarSesion.jsp");
+    }
+
+    public Usuario buildUsuario(HttpServletRequest request, HttpServletResponse response) {
         Usuario usuario;
 
         String nombre = request.getParameter("nombre");
@@ -96,8 +108,7 @@ public class SVUsuario extends HttpServlet {
         String telefono = request.getParameter("telefono");
         String genero = request.getParameter("genero");
 
-        //TO DO
-        String avatar = "3232";
+        String avatar = "";
         String fechaNacimiento = request.getParameter("fechaNacimiento");
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         Date fecha = null;
@@ -108,7 +119,7 @@ public class SVUsuario extends HttpServlet {
             Logger.getLogger(SVUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        // Aqui nomás sería adaptarlo al genero que introduzca el usuario y el tipo de permiso según que, lo hice así nomás como prueba
+        // Falta acoplar el genero
         usuario = new Usuario(
                 nombre,
                 apellidoPaterno,
@@ -124,8 +135,7 @@ public class SVUsuario extends HttpServlet {
                 TipoPermiso.COMENTAR,
                 new Municipio(municipio, new Estado(estado.toLowerCase())));
 
-        usuarioBO.crearUsuario(usuario);
-        response.sendRedirect("iniciarSesion.jsp");
+        return usuario;
     }
 
     private void iniciarSesion(HttpServletRequest request, HttpServletResponse response)
@@ -133,14 +143,15 @@ public class SVUsuario extends HttpServlet {
         String correo = request.getParameter("correo");
         String contrasenia = request.getParameter("contrasenia");
 
-        Usuario usuario;
-        List<Post> posts;
+        Usuario usuario = null;
+        List<Post> posts = null;
 
-        usuario = usuarioBO.consultarUsuarioSession(correo, contrasenia);
-        posts = postBO.consultarPosts();
-
-        System.out.println(usuario);
-        System.out.println(posts);
+        try {
+            usuario = usuarioBO.consultarUsuarioSession(correo, contrasenia);
+            posts = postBO.consultarPosts();
+        } catch (ControllerException ex) {
+            Logger.getLogger(SVUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         if (usuario == null) {
             return;

@@ -21,13 +21,13 @@ import org.itson.mythify.dao.usuario.UsuarioFacade;
 import org.itson.mythify.entidad.Estado;
 import org.itson.mythify.entidad.Municipio;
 import org.itson.mythify.entidad.Usuario;
-import org.itson.mythify.enumeradores.Genero;
-import org.itson.mythify.enumeradores.TipoPermiso;
 import org.itson.mythify.enumeradores.TipoUsuario;
 
 /**
- *
- * @author user
+ * @author Eduardo Talavera Ramos
+ * @author Ana Cristina Castro Noriega
+ * @author Eliana Monge Camara
+ * @author Jesús Roberto García Armenta
  */
 @WebServlet(name = "SVMain", urlPatterns = {"/SVMain"})
 public class SVMain extends HttpServlet {
@@ -49,10 +49,11 @@ public class SVMain extends HttpServlet {
 
     private void crearAdminSiNoExiste() {
         try {
-            if (!usuarioBO.usuarioExiste("admin@gmail.com", "admin")) {
-                Usuario adminDefault = crearUsuarioAdmin();
-                usuarioBO.crearUsuario(adminDefault);
+            if (usuarioBO.usuarioExiste("admin@gmail.com", "admin")) {
+                return;
             }
+            Usuario adminDefault = crearUsuarioAdmin();
+            usuarioBO.crearUsuario(adminDefault);
         } catch (ControllerException ex) {
             Logger.getLogger(SVMain.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -69,9 +70,8 @@ public class SVMain extends HttpServlet {
                 "", // foto
                 "", // descripcion
                 new Date(), // fechaNacimiento
-                Genero.OTRO, // genero
+                "otro", // genero
                 TipoUsuario.ADMINISTRADOR, // tipoUsuario
-                TipoPermiso.ANCLAR, // tipoPermiso
                 new Municipio("", new Estado("")) // municipio
         );
     }

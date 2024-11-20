@@ -11,9 +11,9 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.jasypt.util.password.StrongPasswordEncryptor;
 
 /**
- *
  * @author Eduardo Talavera Ramos
  * @author Ana Cristina Castro Noriega
  * @author Eliana Monge Camara
@@ -22,7 +22,8 @@ import java.util.logging.Logger;
 public class UsuarioDAO implements IUsuarioDAO {
 
     private static final Logger logger = Logger.getLogger(UsuarioDAO.class.getName());
-    EntityManager entityManager;
+    private final EntityManager entityManager;
+    private final StrongPasswordEncryptor passwordEncryptor;
 
     /**
      * Constructor para inicializar la clase `UsuarioDAO`.
@@ -31,13 +32,19 @@ public class UsuarioDAO implements IUsuarioDAO {
      */
     public UsuarioDAO(IConexion conexion) {
         this.entityManager = conexion.crearConexion();
-        logger.info("UsuarioDAO initialized with a new EntityManager.");
+        this.passwordEncryptor = new StrongPasswordEncryptor();
+        logger.info("UsuarioDAO initialized with a new EntityManager and PasswordEncryptor.");
     }
 
     @Override
     public Usuario crearUsuario(Usuario usuario) throws ModelException {
         try {
             logger.log(Level.INFO, "Attempting to create user: {0}", usuario.getCorreo());
+
+            // Encripta la contraseña antes de persistirla
+            String encryptedPassword = passwordEncryptor.encryptPassword(usuario.getContrasenia());
+            usuario.setContrasenia(encryptedPassword);
+
             entityManager.getTransaction().begin();
             entityManager.persist(usuario);
             entityManager.getTransaction().commit();
@@ -66,39 +73,29 @@ public class UsuarioDAO implements IUsuarioDAO {
     @Override
     public Usuario consultarUsuario(String correo, String password) throws ModelException {
         try {
-            logger.log(Level.INFO, "Consulting user with email: {0}", correo);
-
-            /*
-            A quien le toque hacer esto, primero tiene que encriptar la contraseña cuando se registra para consultar algo encriptado.
-            De la manera en la que estaba intentaba consultar una contraseña la cual no estaba encriptada.
-             */
-//            StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
-//            if (passwordEncryptor.checkPassword(password, usuario.getContrasenia())) {
-//            logger.log(Level.INFO, "Password matched for user: {0}", usuario.getCorreo());
-//            return usuario;
-//            } else {
-//                logger.log(Level.WARNING, "Incorrect password for user with email: {0}", correo);
-//                return null;
-//            }
             CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
             CriteriaQuery<Usuario> criteriaQuery = criteriaBuilder.createQuery(Usuario.class);
             Root<Usuario> root = criteriaQuery.from(Usuario.class);
 
             Predicate correoPredicate = criteriaBuilder.equal(root.get("correo"), correo);
-            Predicate passwordPredicate = criteriaBuilder.equal(root.get("contrasenia"), password);
-
-            criteriaQuery.select(root).where(criteriaBuilder.and(correoPredicate, passwordPredicate));
+            criteriaQuery.select(root).where(correoPredicate);
 
             Usuario usuario = entityManager.createQuery(criteriaQuery).getSingleResult();
-            logger.log(Level.INFO, "User found with email: {0}", usuario.getCorreo());
 
-            return usuario;
+            // Comprueba la contraseña usando una comparación encriptada
+            if (passwordEncryptor.checkPassword(password, usuario.getContrasenia())) {
+                logger.log(Level.INFO, "Successful login for user: {0}", usuario.getCorreo());
+                return usuario;
+            } else {
+                logger.log(Level.WARNING, "Incorrect password for user: {0}", correo);
+                return null;
+            }
 
         } catch (NoResultException e) {
-            logger.log(Level.WARNING, "No user found with email and password provided.");
+            logger.log(Level.WARNING, "No user found with email: {0}", correo);
             return null;
         } catch (Exception ex) {
-            logger.log(Level.SEVERE, "Error consulting user with email: " + correo, ex);
+            logger.log(Level.SEVERE, "Error during user login: {0}", ex.getMessage());
             return null;
         }
     }

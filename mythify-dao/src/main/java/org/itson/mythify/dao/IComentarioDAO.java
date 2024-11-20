@@ -9,8 +9,10 @@ import java.util.List;
 import org.itson.mythify.entidad.Comentario;
 
 /**
- *
- * @author user
+ * @author Eduardo Talavera Ramos
+ * @author Ana Cristina Castro Noriega
+ * @author Eliana Monge Camara
+ * @author Jesús Roberto García Armenta
  */
 public interface IComentarioDAO {
 

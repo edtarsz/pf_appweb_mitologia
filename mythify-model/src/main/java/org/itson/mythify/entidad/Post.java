@@ -14,6 +14,12 @@ import javax.persistence.Id;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * @author Eduardo Talavera Ramos
+ * @author Ana Cristina Castro Noriega
+ * @author Eliana Monge Camara
+ * @author Jesús Roberto García Armenta
+ */
 @Entity
 @Table(name = "Post")
 public class Post implements Serializable {
@@ -55,18 +61,6 @@ public class Post implements Serializable {
     private Usuario usuario;
 
     public Post() {
-    }
-
-    public Post(int likes, List<Comentario> comentarios, String titulo, String contenido, String categoria, String link, LocalDateTime fechaHoraCreacion, boolean anclado, Usuario usuario) {
-        this.likes = likes;
-        this.comentarios = comentarios;
-        this.titulo = titulo;
-        this.contenido = contenido;
-        this.categoria = categoria;
-        this.link = link;
-        this.fechaHoraCreacion = fechaHoraCreacion;
-        this.anclado = anclado;
-        this.usuario = usuario;
     }
 
     public Post(String titulo, String contenido, String categoria, String link, LocalDateTime fechaHoraCreacion, boolean anclado, Usuario usuario) {

@@ -7,7 +7,6 @@ package org.itson.mythify.dao;
 import org.itson.mythify.conexion.IConexion;
 
 /**
- *
  * @author Eduardo Talavera Ramos
  * @author Ana Cristina Castro Noriega
  * @author Eliana Monge Camara

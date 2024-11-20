@@ -15,8 +15,6 @@ import org.itson.mythify.controller.ControllerException;
 import org.itson.mythify.entidad.Estado;
 import org.itson.mythify.entidad.Municipio;
 import org.itson.mythify.entidad.Usuario;
-import org.itson.mythify.enumeradores.Genero;
-import org.itson.mythify.enumeradores.TipoPermiso;
 import org.itson.mythify.enumeradores.TipoUsuario;
 
 import jakarta.servlet.ServletException;
@@ -34,8 +32,10 @@ import org.itson.mythify.dao.usuario.UsuarioFacade;
 import org.itson.mythify.entidad.Post;
 
 /**
- *
- * @author user
+ * @author Eduardo Talavera Ramos
+ * @author Ana Cristina Castro Noriega
+ * @author Eliana Monge Camara
+ * @author Jesús Roberto García Armenta
  */
 @MultipartConfig
 @WebServlet(name = "SVUsuario", urlPatterns = {"/SVUsuario"})
@@ -119,7 +119,6 @@ public class SVUsuario extends HttpServlet {
             Logger.getLogger(SVUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        // Falta acoplar el genero
         usuario = new Usuario(
                 nombre,
                 apellidoPaterno,
@@ -130,9 +129,8 @@ public class SVUsuario extends HttpServlet {
                 avatar,
                 ciudad,
                 fecha,
-                Genero.FEMENINO,
+                genero,
                 TipoUsuario.NORMAL,
-                TipoPermiso.COMENTAR,
                 new Municipio(municipio, new Estado(estado.toLowerCase())));
 
         return usuario;
@@ -147,7 +145,7 @@ public class SVUsuario extends HttpServlet {
         List<Post> posts = null;
 
         try {
-            usuario = usuarioBO.consultarUsuarioSession(correo, contrasenia);
+            usuario = usuarioBO.consultarUsuario(correo, contrasenia);
             posts = postBO.consultarPosts();
         } catch (ControllerException ex) {
             Logger.getLogger(SVUsuario.class.getName()).log(Level.SEVERE, null, ex);

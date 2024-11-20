@@ -13,7 +13,7 @@
         <meta http-equiv="Expires" content="0">
 
         <!-- CSS Stylesheets -->
-        <link rel="stylesheet" href="<c:url value='/style/style.css' />">
+        <link rel="stylesheet" href="<c:url value='/style/style.css'/>">
 
         <title>Mythify</title>
     </head>

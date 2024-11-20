@@ -14,8 +14,7 @@ import org.itson.mythify.dao.IPostDAO;
 import org.itson.mythify.conexion.ModelException;
 import org.itson.mythify.entidad.Post;
 
-
-/*
+/**
  * @author Eduardo Talavera Ramos
  * @author Ana Cristina Castro Noriega
  * @author Eliana Monge Camara

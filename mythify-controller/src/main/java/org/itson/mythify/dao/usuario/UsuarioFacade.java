@@ -13,7 +13,7 @@ import org.itson.mythify.dao.DAOFactory;
 import org.itson.mythify.dao.IUsuarioDAO;
 import org.itson.mythify.conexion.ModelException;
 
-/*
+/**
  * @author Eduardo Talavera Ramos
  * @author Ana Cristina Castro Noriega
  * @author Eliana Monge Camara
@@ -58,16 +58,6 @@ public class UsuarioFacade implements IUsuarioFacade {
 
     @Override
     public Usuario consultarUsuario(String correo, String password) {
-        try {
-            return usuarioDAO.consultarUsuario(correo, password);
-        } catch (ModelException ex) {
-            Logger.getLogger(UsuarioFacade.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-    @Override
-    public Usuario consultarUsuarioSession(String correo, String password) {
         try {
             return usuarioDAO.consultarUsuario(correo, password);
         } catch (ModelException ex) {

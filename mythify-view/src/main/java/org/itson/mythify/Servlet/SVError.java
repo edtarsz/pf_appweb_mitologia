@@ -12,8 +12,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- *
- * @author crist
+ * @author Eduardo Talavera Ramos
+ * @author Ana Cristina Castro Noriega
+ * @author Eliana Monge Camara
+ * @author Jesús Roberto García Armenta
  */
 @WebServlet(name = "SVError", urlPatterns = {"/excepcion"})
 public class SVError extends HttpServlet {

@@ -14,8 +14,7 @@ import org.itson.mythify.dao.DAOFactory;
 import org.itson.mythify.dao.IComentarioDAO;
 import org.itson.mythify.entidad.Comentario;
 
-
-/*
+/**
  * @author Eduardo Talavera Ramos
  * @author Ana Cristina Castro Noriega
  * @author Eliana Monge Camara

@@ -8,7 +8,6 @@ import org.itson.mythify.conexion.ModelException;
 import org.itson.mythify.entidad.Usuario;
 
 /**
- *
  * @author Eduardo Talavera Ramos
  * @author Ana Cristina Castro Noriega
  * @author Eliana Monge Camara

@@ -1,8 +1,5 @@
 package org.itson.mythify.conexion;
 
-import org.itson.mythify.conexion.Conexion;
-import org.itson.mythify.conexion.IConexion;
-
 /*
  * @author Eduardo Talavera Ramos
  * @author Ana Cristina Castro Noriega

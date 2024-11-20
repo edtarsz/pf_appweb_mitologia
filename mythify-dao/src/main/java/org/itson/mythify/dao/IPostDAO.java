@@ -9,7 +9,6 @@ import java.util.List;
 import org.itson.mythify.entidad.Post;
 
 /**
- *
  * @author Eduardo Talavera Ramos
  * @author Ana Cristina Castro Noriega
  * @author Eliana Monge Camara

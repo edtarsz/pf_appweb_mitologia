@@ -26,12 +26,12 @@
                 <div></div>
                 <main>
                     <div class="error-content">
-                    <h1>Uh oh!!</h1>
-                    <br>
-                    <p>Ha ocurrido un error interno. El equipo de Mythify esta trabajando en ello.</p>
-                    <br>
-                    <img src="<c:url value='/img/excepcion.jpg' />" alt="exception">
+                        <h1>Uh oh!!</h1>
+                        <br>
+                        <p>Ha ocurrido un error interno. El equipo de Mythify esta trabajando en ello.</p>
+                        <br>
+                        <img src="<c:url value='/img/excepcion.jpg' />" alt="exception">
                     </div>
                 </main>
-            </body>
-</html>
+                </body>
+                </html>

@@ -8,15 +8,11 @@ import java.util.List;
 import org.itson.mythify.controller.ControllerException;
 import org.itson.mythify.entidad.Post;
 
-/*
+/**
  * @author Eduardo Talavera Ramos
  * @author Ana Cristina Castro Noriega
  * @author Eliana Monge Camara
  * @author Jesús Roberto García Armenta
- */
-/**
- *
- * @author user
  */
 public interface IPostFacade {
 

@@ -1,8 +1,8 @@
-<script defer src="<%= request.getContextPath()%>/script/aside.js"></script>
+<script defer src="${pageContext.request.contextPath}/script/aside.js"></script>
 <aside class="aside-mythology">
     <a href="formPost.jsp" class="a-create-post">
         <button class="btn-create-post">
-            <img src="<%= request.getContextPath()%>/img/post-pic.svg" alt="Profile Picture" class="post-pic" />
+            <img src="${pageContext.request.contextPath}/img/post-pic.svg" alt="Profile Picture" class="post-pic" />
             CREAR UN POST
         </button>
     </a>

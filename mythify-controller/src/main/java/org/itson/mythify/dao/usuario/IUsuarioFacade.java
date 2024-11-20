@@ -7,15 +7,11 @@ package org.itson.mythify.dao.usuario;
 import org.itson.mythify.controller.ControllerException;
 import org.itson.mythify.entidad.Usuario;
 
-/*
+/**
  * @author Eduardo Talavera Ramos
  * @author Ana Cristina Castro Noriega
  * @author Eliana Monge Camara
  * @author Jesús Roberto García Armenta
- */
-/**
- *
- * @author user
  */
 public interface IUsuarioFacade {
 
@@ -26,8 +22,6 @@ public interface IUsuarioFacade {
     public void actualizarUsuario() throws ControllerException;
 
     public Usuario consultarUsuario(String correo, String password) throws ControllerException;
-
-    public Usuario consultarUsuarioSession(String correo, String password) throws ControllerException;
 
     public boolean usuarioExiste(String correo, String password) throws ControllerException;
 }

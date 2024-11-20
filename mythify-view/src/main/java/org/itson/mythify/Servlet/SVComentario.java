@@ -25,8 +25,10 @@ import org.itson.mythify.entidad.Post;
 import org.itson.mythify.entidad.Usuario;
 
 /**
- *
- * @author user
+ * @author Eduardo Talavera Ramos
+ * @author Ana Cristina Castro Noriega
+ * @author Eliana Monge Camara
+ * @author Jesús Roberto García Armenta
  */
 @WebServlet(name = "SVComentario", urlPatterns = {"/SVComentario"})
 public class SVComentario extends HttpServlet {

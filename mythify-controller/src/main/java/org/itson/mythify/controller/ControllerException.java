@@ -1,8 +1,6 @@
 package org.itson.mythify.controller;
 
 /**
- * Excepción personalizada para errores del modelo.
- *
  * @author Eduardo Talavera Ramos
  * @author Ana Cristina Castro Noriega
  * @author Eliana Monge Camara

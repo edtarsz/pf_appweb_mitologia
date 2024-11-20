@@ -19,12 +19,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import org.itson.mythify.enumeradores.Genero;
-import org.itson.mythify.enumeradores.TipoPermiso;
 import org.itson.mythify.enumeradores.TipoUsuario;
 
 /**
- *
  * @author Eduardo Talavera Ramos
  * @author Ana Cristina Castro Noriega
  * @author Eliana Monge Camara
@@ -68,16 +65,11 @@ public class Usuario implements Serializable {
     private Date fechaNacimiento;
 
     @Column(name = "genero")
-    @Enumerated(EnumType.STRING)
-    private Genero genero;
+    private String genero;
 
     @Column(name = "tipoUsuario", nullable = false)
     @Enumerated(EnumType.STRING)
     private TipoUsuario tipoUsuario;
-
-    @Column(name = "tipoPermiso", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private TipoPermiso permiso;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "idMunicipio", nullable = false)
@@ -86,24 +78,7 @@ public class Usuario implements Serializable {
     public Usuario() {
     }
 
-    public Usuario(String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String contrasenia, String telefono, String avatar, String ciudad, Date fechaNacimiento, Genero genero, TipoUsuario tipoUsuario, TipoPermiso permiso, Municipio municipio) {
-        this.nombre = nombre;
-        this.apellidoPaterno = apellidoPaterno;
-        this.apellidoMaterno = apellidoMaterno;
-        this.correo = correo;
-        this.contrasenia = contrasenia;
-        this.telefono = telefono;
-        this.avatar = avatar;
-        this.ciudad = ciudad;
-        this.fechaNacimiento = fechaNacimiento;
-        this.genero = genero;
-        this.tipoUsuario = tipoUsuario;
-        this.permiso = permiso;
-        this.municipio = municipio;
-    }
-
-    public Usuario(int idUsuario, String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String contrasenia, String telefono, String avatar, String ciudad, Date fechaNacimiento, Genero genero, TipoUsuario tipoUsuario, Municipio municipio, TipoPermiso permiso) {
-        this.idUsuario = idUsuario;
+    public Usuario(String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String contrasenia, String telefono, String avatar, String ciudad, Date fechaNacimiento, String genero, TipoUsuario tipoUsuario, Municipio municipio) {
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
@@ -116,7 +91,6 @@ public class Usuario implements Serializable {
         this.genero = genero;
         this.tipoUsuario = tipoUsuario;
         this.municipio = municipio;
-        this.permiso = permiso;
     }
 
     public int getIdUsuario() {
@@ -195,15 +169,15 @@ public class Usuario implements Serializable {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(java.sql.Date fechaNacimiento) {
+    public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public Genero getGenero() {
+    public String getGenero() {
         return genero;
     }
 
-    public void setGenero(Genero genero) {
+    public void setGenero(String genero) {
         this.genero = genero;
     }
 
@@ -223,11 +197,4 @@ public class Usuario implements Serializable {
         this.municipio = municipio;
     }
 
-    public TipoPermiso getPermiso() {
-        return permiso;
-    }
-
-    public void setPermiso(TipoPermiso permiso) {
-        this.permiso = permiso;
-    }
 }

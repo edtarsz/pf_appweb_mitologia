@@ -5,11 +5,12 @@
 package org.itson.mythify.enumeradores;
 
 /**
- *
- * @author elimo
+ * @author Eduardo Talavera Ramos
+ * @author Ana Cristina Castro Noriega
+ * @author Eliana Monge Camara
+ * @author Jesús Roberto García Armenta
  */
 public enum TipoUsuario {
     ADMINISTRADOR,
-    COMUN,
     NORMAL
 }

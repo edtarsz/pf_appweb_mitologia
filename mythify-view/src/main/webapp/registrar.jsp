@@ -11,9 +11,10 @@
         <meta http-equiv="Pragma" content="no-cache">
         <meta http-equiv="Expires" content="0">
 
+        <!-- Icono de la página -->
+        <link rel="icon" type="image/x-icon" href="<c:url value="${pageContext.request.contextPath}/img/icon.svg"/>">
         <!-- CSS Stylesheets -->
         <link rel="stylesheet" href="<c:url value='/style/style.css' />">
-
         <!-- JavaScript -->
         <script defer src="script/registrar.js"></script>
 
@@ -23,7 +24,9 @@
     <body>
         <header class="register-header">
             <nav class="nav-bar">
-                <h4>Logo</h4>
+                <a href="iniciarSesion.jsp">
+                    <img src="${pageContext.request.contextPath}/img/icon.svg" alt="Logo Mythify" class="header-svg" />
+                </a>
                 <ul>
                     <li>
                         <a href="iniciarSesion.jsp">Iniciar Sesión</a>

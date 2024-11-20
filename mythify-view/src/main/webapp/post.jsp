@@ -15,7 +15,9 @@
         <meta http-equiv="Pragma" content="no-cache">
         <meta http-equiv="Expires" content="0">
 
-        <!<!-- Link footer -->
+        <!-- Icono de la página -->
+        <link rel="icon" type="image/x-icon" href="<c:url value="${pageContext.request.contextPath}/img/icon.svg"/>">
+        <!-- Link footer -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
         <!-- CSS Stylesheets -->
         <link rel="stylesheet" href="<%= request.getContextPath()%>/style/style.css">     
@@ -40,73 +42,62 @@
                         <div class="head-article-post">
                             <div class="left-head-article">
                                 <div class="container-pfp-post"></div>
-                                <c:set var="fechaCreacion" value="${post.fechaHoraCreacion}" />
-                                <c:set var="tiempoTranscurrido" value="${calculadorTiempo.tiempoTranscurridoDesde(post.fechaHoraCreacion)}" />
+
+                                <c:choose>
+                                    <c:when test="${not empty post.fechaHoraEdicion}">
+                                        <c:set var="tiempoTranscurrido" value="${calculadorTiempo.tiempoTranscurridoDesde(post.fechaHoraEdicion)}" />
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:set var="tiempoTranscurrido" value="${calculadorTiempo.tiempoTranscurridoDesde(post.fechaHoraCreacion)}" />
+                                    </c:otherwise>
+                                </c:choose>
+
                                 <span class="span-post-header">
                                     @${empty post.usuario.nombre ? 'Anonymous' : post.usuario.nombre} •
                                     ${tiempoTranscurrido}
                                 </span>
-                                <span class="span-post-label">${post.categoria}</span>
+                                <span class="span-post-label">
+                                    ${empty post.categoria ? 'Uncategorized' : post.categoria}
+                                </span>
+
                                 <c:if test="${post.anclado}">
-                                    <img src="<c:url value='/img/pin-white.svg' />" alt="">
+                                    <img src="<c:url value='/img/pin-white.svg' />" alt="Pin icon">
                                 </c:if>
                             </div>
-
                             <c:if test="${usuario.tipoUsuario == 'ADMINISTRADOR'}">
                                 <div class="right-head-article">
-                                    <button type="button" onclick="toggleDropdown()" class="btn-option">
+                                    <button type="button" class="btn-option" data-post-id="${post.idPost}">
                                         <img src="<%= request.getContextPath()%>/img/options-post.svg" alt="Opciones" width="20">
                                     </button>
-                                    <div class="dropdown-menu" id="dropdownMenu">
+
+                                    <div class="dropdown-menu" id="dropdown-${post.idPost}" style="display: none;">
+
                                         <form action="SVPost?id=${post.idPost}" method="post">
                                             <input type="hidden" name="idPost" value="${post.idPost}">
-                                            <input type="hidden" name="action" value="anclarPost">
-                                            <button type="submit">ANCLAR</button>
+
+                                            <c:choose>
+                                                <c:when test="${post.anclado}">
+                                                    <input type="hidden" name="action" value="desAnclarPost">
+                                                    <button type="submit">DESANCLAR</button>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <input type="hidden" name="action" value="anclarPost">
+                                                    <button type="submit">ANCLAR</button>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </form>
 
-                                        <button onclick="mostrarFormularioEdicion()" type="button">EDITAR</button>
+                                        <a href="<c:url value='/SVPost?id=${post.idPost}&action=editarPost' />">EDITAR</a>
 
                                         <form action="SVPost" method="post">
                                             <input type="hidden" name="idPost" value="${post.idPost}">
                                             <input type="hidden" name="action" value="borrarPost">
                                             <button type="submit">ELIMINAR</button>
                                         </form>
-
-                                        <!-- Formulario de edición -->
-                                        <div id="editForm" class="edit-form">
-                                            <form action="SVPost" method="post">
-                                                <input type="hidden" name="id" value="${post.idPost}">
-                                                <input type="hidden" name="action" value="editarPost">
-
-                                                <div class="form-group">
-                                                    <select name="category" class="select-category" required>
-                                                        <option value="" disabled selected>SELECCIONAR CATEGORÍA</option>
-                                                        <option value="egipcia">EGIPCIA</option>
-                                                        <option value="griega">GRIEGA</option>
-                                                        <option value="azteca">AZTECA</option>
-                                                        <option value="maya">MAYA</option>
-                                                        <option value="nordica">NORDICA</option>
-                                                        <option value="romana">ROMANA</option>
-                                                    </select>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label for="title">Título:</label>
-                                                    <input type="text" id="title" name="title" value="${post.titulo}" required>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label for="content">Contenido:</label>
-                                                    <textarea id="content" name="content" rows="5" required>${post.contenido}</textarea>
-                                                </div>
-
-                                                <button type="submit" class="btn-submit">Guardar cambios</button>
-                                                <button type="button" class="btn-cancel" onclick="ocultarFormularioEdicion()">Cancelar</button>
-                                            </form>
-                                        </div>
                                     </div>
                                 </div>
                             </c:if>
+
                         </div>
 
                         <h3>${post.titulo}</h3>
@@ -122,13 +113,15 @@
 
                         <div class="footer-post">
                             <button class="btn-footer">
-                                <img src="<c:url value='/img/heart-black.svg' />" alt="">
+                                <img src="<c:url value='/img/heart-black.svg' />" alt="Like">
                                 19
                             </button>
-                            <button class="btn-footer">
-                                <img src="<c:url value='/img/comments-black.svg' />" alt="">
-                                2 comments
-                            </button>
+                            <c:if test="${!post.anclado}">
+                                <button class="btn-footer">
+                                    <img src="<c:url value='/img/comments-black.svg' />" alt="Comments">
+                                    2 comments
+                                </button>
+                            </c:if>
                         </div>
                     </article>
 

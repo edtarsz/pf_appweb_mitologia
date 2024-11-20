@@ -3,6 +3,12 @@ package org.itson.mythify.auxiliar;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
+/**
+ * @author Eduardo Talavera Ramos
+ * @author Ana Cristina Castro Noriega
+ * @author Eliana Monge Camara
+ * @author Jesús Roberto García Armenta
+ */
 public class CalcularTiempo {
 
     public static String tiempoTranscurridoDesde(LocalDateTime fecha) {

@@ -15,6 +15,8 @@
         <meta http-equiv="Pragma" content="no-cache">
         <meta http-equiv="Expires" content="0">
 
+        <!-- Icono de la página -->
+        <link rel="icon" type="image/x-icon" href="<c:url value="${pageContext.request.contextPath}/img/icon.svg"/>">
         <!-- CSS Stylesheets -->
         <link rel="stylesheet" href="<c:url value='/style/style.css' />">
         <title>Error :(</title>

@@ -15,7 +15,9 @@
         <meta http-equiv="Pragma" content="no-cache">
         <meta http-equiv="Expires" content="0">
 
-        <!<!-- Link footer -->
+        <!-- Icono de la página -->
+        <link rel="icon" type="image/x-icon" href="<c:url value="${pageContext.request.contextPath}/img/icon.svg"/>">
+        <!-- Link footer -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
         <!-- CSS Stylesheets -->
         <link rel="stylesheet" href="<%= request.getContextPath()%>/style/style.css">     
@@ -40,7 +42,7 @@
                         <div class="head-article-post">
                             <div class="left-head-article">
                                 <div class="container-pfp-post"></div>
-                                <c:set var="tiempoTranscurrido" value="${calculadorTiempo.tiempoTranscurridoDesde(post.fechaHoraCreacion)}" />
+
                                 <span class="span-post-header">
                                     @${empty post.usuario.nombre ? 'Anonymous' : post.usuario.nombre} •
                                     ${tiempoTranscurrido}
@@ -63,8 +65,17 @@
 
                                         <form action="SVPost?id=${post.idPost}" method="post">
                                             <input type="hidden" name="idPost" value="${post.idPost}">
-                                            <input type="hidden" name="action" value="anclarPost">
-                                            <button type="submit">ANCLAR</button>
+
+                                            <c:choose>
+                                                <c:when test="${post.anclado}">
+                                                    <input type="hidden" name="action" value="desAnclarPost">
+                                                    <button type="submit">DESANCLAR</button>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <input type="hidden" name="action" value="anclarPost">
+                                                    <button type="submit">ANCLAR</button>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </form>
 
                                         <a href="<c:url value='/SVPost?id=${post.idPost}&action=editarPost' />">EDITAR</a>
@@ -80,11 +91,11 @@
 
                         </div>
 
-
                         <h3>${post.titulo}</h3>
                         <div class="content-post">
                             <p>${post.contenido}</p>
                         </div>
+
                         <c:if test="${not empty post.link}">
                             <a href="${fn:escapeXml(post.link)}" id="preview-link">
                                 ${fn:escapeXml(post.link)}
@@ -111,7 +122,7 @@
                             <input type="hidden" name="action" value="editarPost">
 
                             <div class="form-group">
-                                <select name="category" class="select-category" required>
+                                <select name="category" class="select-category">
                                     <option value="" disabled selected>SELECCIONAR CATEGORÍA</option>
                                     <option value="egipcia">EGIPCIA</option>
                                     <option value="griega">GRIEGA</option>
@@ -129,7 +140,7 @@
 
                             <div class="form-group">
                                 <label for="content">Contenido:</label>
-                                <textarea id="content" name="content" rows="5" required>${post.contenido}</textarea>
+                                <textarea id="content" name="content" rows="5" class="input-area-post input-area-post-editar" required>${post.contenido}</textarea>
                             </div>
 
                             <div class="post-buttons">

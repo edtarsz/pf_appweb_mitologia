@@ -80,7 +80,6 @@ function actualizarVistaPrevia(file) {
 			imgElement.style.display = 'block';
 			imgElement.style.margin = '0 auto';
 			imgView.appendChild(imgElement);
-			// imgView.style.backgroundColor = 'rgba(255, 255, 255, 0.5)';
 		};
 		img.src = imgLink;
 	}

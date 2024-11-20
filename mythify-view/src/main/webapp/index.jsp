@@ -13,7 +13,9 @@
         <meta http-equiv="Pragma" content="no-cache">
         <meta http-equiv="Expires" content="0">
 
-        <!<!-- Link footer -->
+        <!-- Icono de la página -->
+        <link rel="icon" type="image/x-icon" href="<c:url value="${pageContext.request.contextPath}/img/icon.svg"/>">
+        <!-- Link footer -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
         <!-- CSS Stylesheets -->
         <link rel="stylesheet" href="<c:url value='/style/style.css' />">
@@ -40,7 +42,16 @@
                                                 </c:if>
                                                 <div class="left-head-article">
                                                     <div class="container-pfp-post"></div>
-                                                    <c:set var="tiempoTranscurrido" value="${calculadorTiempo.tiempoTranscurridoDesde(post.fechaHoraCreacion)}" />
+
+                                                    <c:choose>
+                                                        <c:when test="${not empty post.fechaHoraEdicion}">
+                                                            <c:set var="tiempoTranscurrido" value="${calculadorTiempo.tiempoTranscurridoDesde(post.fechaHoraEdicion)}" />
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <c:set var="tiempoTranscurrido" value="${calculadorTiempo.tiempoTranscurridoDesde(post.fechaHoraCreacion)}" />
+                                                        </c:otherwise>
+                                                    </c:choose>
+
                                                     <span class="span-post-header">
                                                         @${empty post.usuario.nombre ? 'Anonymous' : post.usuario.nombre} •
                                                         ${tiempoTranscurrido}

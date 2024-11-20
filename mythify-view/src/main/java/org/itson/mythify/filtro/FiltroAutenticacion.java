@@ -17,16 +17,16 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 /**
- *
- * @author user
+ * @author Eduardo Talavera Ramos
+ * @author Ana Cristina Castro Noriega
+ * @author Eliana Monge Camara
+ * @author Jesús Roberto García Armenta
  */
 @WebFilter("/*")
 public class FiltroAutenticacion implements Filter {
 
     private static final boolean DEBUG = true;
-    private static final String[] URLPUBLICAS = {"registrar.jsp", "iniciarSesion.jsp", "/style/style.css", "/img/statue.png", "/script/registrar.js", "/SVUsuario"};
-
-    private final FilterConfig filterConfig = null;
+    private static final String[] URLPUBLICAS = {"registrar.jsp", "iniciarSesion.jsp", "/style/style.css", "/img/statue.png", "/script/registrar.js", "/SVUsuario", "/img/icon.svg"};
 
     public FiltroAutenticacion() {
     }

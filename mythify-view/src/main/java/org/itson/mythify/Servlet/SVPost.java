@@ -178,25 +178,29 @@ public class SVPost extends HttpServlet {
         String contenido = request.getParameter("content");
 
         Post post;
-        Post postActualizado = null;
-
+        
         try {
             post = postBO.consultarPostPorID(Integer.parseInt(postId));
-            post.setTitulo(titulo);
-            post.setContenido(contenido);
-            post.setCategoria(categoria.toUpperCase());
-            postActualizado = postBO.actualizarPost(post);
+
+            if (categoria != null) {
+                post.setCategoria(categoria.toUpperCase());
+            }
+
+            if (titulo != null) {
+                post.setTitulo(titulo);
+            }
+
+            if (contenido != null) {
+                post.setContenido(contenido);
+            }
+
+            post.setFechaHoraEdicion(LocalDateTime.now());
+            postBO.actualizarPost(post);
+
+            response.sendRedirect("SVPost?mythology=all");
         } catch (ControllerException ex) {
             Logger.getLogger(SVPost.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        if (postActualizado == null) {
-            request.setAttribute("mensaje", "Error al actualizar el post.");
-        } else {
-            request.setAttribute("mensaje", "Post actualizado correctamente.");
-        }
-
-        response.sendRedirect("SVPost?mythology=all");
     }
 
     private void anclarPost(HttpServletRequest request, HttpServletResponse response, String action) {

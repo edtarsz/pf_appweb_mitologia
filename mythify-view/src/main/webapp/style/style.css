@@ -342,12 +342,9 @@ ul {
     width: 40%;
 }
 
-/* registrar.html */
 .container-register {
-    height: 90vh;
-    /* Nav type shit */
+    height: 100vh;
     position: relative;
-    left: 0;
     align-items: center;
     justify-content: center;
     display: flex;
@@ -383,6 +380,8 @@ ul {
 }
 
 .nav-bar {
+    z-index: 1;
+    position: fixed;
     align-items: center;
     width: 100%;
     padding: 25px 3%;
@@ -1048,6 +1047,10 @@ footer {
     min-width: 100%;
 }
 
+.input-area-post-editar {
+    min-height: 100px;
+}
+
 #drop-area {
     justify-content: center;
     border-width: 2px;
@@ -1238,8 +1241,8 @@ small {
     color: white;
     border-radius: 10px;
     width: 100%;
+    margin: 20px 0;
 }
-
 
 /* Estilos para el grupo de formularios */
 .form-group {

@@ -7,6 +7,7 @@ package org.itson.mythify.dao.post;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.itson.mythify.conexion.Conexion;
 import org.itson.mythify.conexion.IConexion;
 import org.itson.mythify.dao.DAOFactory;
 import org.itson.mythify.dao.IPostDAO;
@@ -22,9 +23,11 @@ import org.itson.mythify.entidad.Post;
  */
 public class PostFacade implements IPostFacade {
 
+    private final IConexion conexion;
     private final IPostDAO postDAO;
 
-    public PostFacade(IConexion conexion) {
+    public PostFacade() {
+        conexion = new Conexion();
         this.postDAO = DAOFactory.instanciaPostDAO(conexion);
     }
 
@@ -39,9 +42,9 @@ public class PostFacade implements IPostFacade {
     }
 
     @Override
-    public boolean eliminarPost(Post post) {
+    public boolean eliminarPost(int idPost) {
         try {
-            return postDAO.eliminarPost(post);
+            return postDAO.eliminarPost(idPost);
         } catch (ModelException ex) {
             Logger.getLogger(PostFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -50,7 +53,7 @@ public class PostFacade implements IPostFacade {
 
     @Override
     public Post actualizarPost(Post post) {
-       try {
+        try {
             return postDAO.actualizarPost(post);
         } catch (ModelException ex) {
             Logger.getLogger(PostFacade.class.getName()).log(Level.SEVERE, null, ex);
@@ -60,14 +63,14 @@ public class PostFacade implements IPostFacade {
 
     @Override
     public Post anclarPost(Post post) {
-       try {
+        try {
             return postDAO.anclarPost(post);
         } catch (ModelException ex) {
             Logger.getLogger(PostFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
-    
+
     @Override
     public List<Post> consultarPosts() {
         try {

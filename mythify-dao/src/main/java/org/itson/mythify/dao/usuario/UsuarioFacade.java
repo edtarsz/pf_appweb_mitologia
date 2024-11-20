@@ -4,10 +4,12 @@
  */
 package org.itson.mythify.dao.usuario;
 
+import static com.google.protobuf.JavaFeaturesProto.java;
 import org.itson.mythify.conexion.IConexion;
 import org.itson.mythify.entidad.Usuario;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.itson.mythify.conexion.Conexion;
 import org.itson.mythify.dao.DAOFactory;
 import org.itson.mythify.dao.IUsuarioDAO;
 import org.itson.mythify.conexion.ModelException;
@@ -20,9 +22,11 @@ import org.itson.mythify.conexion.ModelException;
  */
 public class UsuarioFacade implements IUsuarioFacade {
 
+    IConexion conexion;
     private final IUsuarioDAO usuarioDAO;
 
-    public UsuarioFacade(IConexion conexion) {
+    public UsuarioFacade() {
+        conexion = new Conexion();
         this.usuarioDAO = DAOFactory.instanciaUsuarioDAO(conexion);
     }
 

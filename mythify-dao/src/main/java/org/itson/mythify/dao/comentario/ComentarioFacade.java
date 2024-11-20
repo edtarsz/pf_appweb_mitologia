@@ -7,6 +7,7 @@ package org.itson.mythify.dao.comentario;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.itson.mythify.conexion.Conexion;
 import org.itson.mythify.conexion.IConexion;
 import org.itson.mythify.conexion.ModelException;
 import org.itson.mythify.dao.DAOFactory;
@@ -23,8 +24,10 @@ import org.itson.mythify.entidad.Comentario;
 public class ComentarioFacade implements IComentarioFacade {
 
     private final IComentarioDAO comentarioDAO;
+    IConexion conexion;
 
-    public ComentarioFacade(IConexion conexion) {
+    public ComentarioFacade() {
+        conexion = new Conexion();
         this.comentarioDAO = DAOFactory.instanciaComentarioDAO(conexion);
     }
 

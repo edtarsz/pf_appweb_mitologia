@@ -13,14 +13,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.itson.mythify.controller.ControllerException;
-import org.itson.mythify.controller.comentario.ComentarioDTO;
-import org.itson.mythify.controller.comentario.FacadeComentarioBO;
-import org.itson.mythify.controller.comentario.IFacadeComentarioBO;
-import org.itson.mythify.controller.post.FacadePostBO;
-import org.itson.mythify.controller.post.IFacadePostBO;
+import org.itson.mythify.dao.comentario.ComentarioFacade;
+import org.itson.mythify.dao.comentario.IComentarioFacade;
+import org.itson.mythify.dao.post.IPostFacade;
+import org.itson.mythify.dao.post.PostFacade;
 import org.itson.mythify.entidad.Comentario;
 import org.itson.mythify.entidad.Post;
 import org.itson.mythify.entidad.Usuario;
@@ -32,14 +28,14 @@ import org.itson.mythify.entidad.Usuario;
 @WebServlet(name = "SVComentario", urlPatterns = {"/SVComentario"})
 public class SVComentario extends HttpServlet {
 
-    private IFacadeComentarioBO comentarioBO;
-    private IFacadePostBO postBO;
+    private IComentarioFacade comentarioBO;
+    private IPostFacade postBO;
 
     @Override
     public void init() throws ServletException {
         super.init();
-        comentarioBO = new FacadeComentarioBO();
-        postBO = new FacadePostBO();
+        comentarioBO = new ComentarioFacade();
+        postBO = new PostFacade();
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -75,19 +71,13 @@ public class SVComentario extends HttpServlet {
 
     private void publicarComentario(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String contenido = request.getParameter("contenido");
-        System.out.println(contenido);
         String postID = request.getParameter("id");
-        System.out.println(postID);
-        Post post = null;
+        Post post;
 
         Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
-        try {
-            post = postBO.consultarPostPorID(Integer.parseInt(postID));
-        } catch (ControllerException ex) {
-            Logger.getLogger(SVComentario.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        post = postBO.consultarPostPorID(Integer.parseInt(postID));
 
-        ComentarioDTO comentarioDTO = new ComentarioDTO(
+        Comentario comentario = new Comentario(
                 contenido,
                 new Date(),
                 usuario,
@@ -99,13 +89,9 @@ public class SVComentario extends HttpServlet {
             comentarios = new ArrayList<>();
         }
 
-        try {
-            Comentario comentario = comentarioBO.crearComentarioDTO(comentarioDTO);
-            comentarios.add(comentario);
-            request.setAttribute("comentarios", comentarios);
-            response.sendRedirect("SVPost?id=" + postID);
-        } catch (ControllerException ex) {
-            Logger.getLogger(SVUsuario.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        comentario = comentarioBO.crearComentario(comentario);
+        comentarios.add(comentario);
+        request.setAttribute("comentarios", comentarios);
+        response.sendRedirect("SVPost?id=" + postID);
     }
 }

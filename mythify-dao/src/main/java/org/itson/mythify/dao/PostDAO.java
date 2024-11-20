@@ -67,8 +67,8 @@ public class PostDAO implements IPostDAO {
             throw new ModelException("Error updating post", ex);
         }
     }
-    
-     @Override
+
+    @Override
     public Post anclarPost(Post post) throws ModelException {
         try {
             logger.log(Level.INFO, "Attempting to pin post: {0}", post.getTitulo());
@@ -133,26 +133,26 @@ public class PostDAO implements IPostDAO {
     }
 
     @Override
-    public boolean eliminarPost(Post post) throws ModelException {
+    public boolean eliminarPost(int idPost) throws ModelException {
         try {
-            logger.log(Level.INFO, "Attempting to delete post: {0}", post.getTitulo());
+            logger.log(Level.INFO, "Attempting to delete post: {0}", idPost);
             entityManager.getTransaction().begin();
 
             int rowsDeleted = entityManager.createQuery("DELETE FROM Post p WHERE p.idPost = :id")
-                    .setParameter("id", post.getIdPost())
+                    .setParameter("id", idPost)
                     .executeUpdate();
 
             entityManager.getTransaction().commit();
 
             if (rowsDeleted > 0) {
-                logger.log(Level.INFO, "Post deleted successfully: {0}", post.getTitulo());
+                logger.log(Level.INFO, "Post deleted successfully: {0}", idPost);
                 return true;
             } else {
-                logger.log(Level.WARNING, "Post not found: {0}", post.getTitulo());
+                logger.log(Level.WARNING, "Post not found: {0}", idPost);
                 return false;
             }
         } catch (Exception ex) {
-            logger.log(Level.SEVERE, "Error deleting post: " + post.getTitulo(), ex);
+            logger.log(Level.SEVERE, "Error deleting post: " + idPost, ex);
             if (entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();
                 logger.warning("Transaction rolled back.");

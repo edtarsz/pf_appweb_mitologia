@@ -12,15 +12,12 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.itson.mythify.conexion.InitialConfig;
-import org.itson.mythify.controller.ControllerException;
-import org.itson.mythify.controller.usuario.FacadeUsuarioBO;
-import org.itson.mythify.controller.usuario.IFacadeUsuarioBO;
-import org.itson.mythify.controller.usuario.UsuarioDTO;
+import org.itson.mythify.dao.usuario.IUsuarioFacade;
+import org.itson.mythify.dao.usuario.UsuarioFacade;
 import org.itson.mythify.entidad.Estado;
 import org.itson.mythify.entidad.Municipio;
+import org.itson.mythify.entidad.Usuario;
 import org.itson.mythify.enumeradores.Genero;
 import org.itson.mythify.enumeradores.TipoPermiso;
 import org.itson.mythify.enumeradores.TipoUsuario;
@@ -33,35 +30,43 @@ import org.itson.mythify.enumeradores.TipoUsuario;
 public class SVMain extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
-    private IFacadeUsuarioBO usuarioBO;
+    private IUsuarioFacade usuarioBO;
 
     @Override
     public void init() throws ServletException {
         super.init();
+        inicializarSistema();
+        crearAdminSiNoExiste();
+    }
+
+    private void inicializarSistema() {
         InitialConfig.iniciarConexion();
-        usuarioBO = new FacadeUsuarioBO();
-        try {
-            if (!usuarioBO.usuarioExiste("admin@gmail.com", "admin")) {
-                usuarioBO.crearUsuarioDTO(new UsuarioDTO(
-                        "Administrador",
-                        "",
-                        "",
-                        "admin@gmail.com",
-                        "admin",
-                        "",
-                        "",
-                        "",
-                        new Date(),
-                        Genero.OTRO,
-                        TipoUsuario.ADMINISTRADOR,
-                        TipoPermiso.ANCLAR,
-                        new Municipio("", new Estado(""))));
-            } else {
-                // El elefante africano tarda 22 meses en estar listo para nacer
-            }
-        } catch (ControllerException ex) {
-            Logger.getLogger(SVMain.class.getName()).log(Level.SEVERE, null, ex);
+        usuarioBO = new UsuarioFacade();
+    }
+
+    private void crearAdminSiNoExiste() {
+        if (!usuarioBO.usuarioExiste("admin@gmail.com", "admin")) {
+            Usuario adminDefault = crearUsuarioAdmin();
+            usuarioBO.crearUsuario(adminDefault);
         }
+    }
+
+    private Usuario crearUsuarioAdmin() {
+        return new Usuario(
+                "Administrador", // nombre
+                "", // apellidoPaterno
+                "", // apellidoMaterno
+                "admin@gmail.com", // email
+                "admin", // password
+                "", // telefono
+                "", // foto
+                "", // descripcion
+                new Date(), // fechaNacimiento
+                Genero.OTRO, // genero
+                TipoUsuario.ADMINISTRADOR, // tipoUsuario
+                TipoPermiso.ANCLAR, // tipoPermiso
+                new Municipio("", new Estado("")) // municipio
+        );
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -78,11 +83,6 @@ public class SVMain extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-    }
-
-    @Override
-    public String getServletInfo() {
-        return "Short description";
     }
 
 }

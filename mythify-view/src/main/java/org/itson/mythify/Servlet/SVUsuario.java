@@ -12,9 +12,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.itson.mythify.controller.ControllerException;
-import org.itson.mythify.controller.usuario.FacadeUsuarioBO;
-import org.itson.mythify.controller.usuario.IFacadeUsuarioBO;
-import org.itson.mythify.controller.usuario.UsuarioDTO;
 import org.itson.mythify.entidad.Estado;
 import org.itson.mythify.entidad.Municipio;
 import org.itson.mythify.entidad.Usuario;
@@ -30,8 +27,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
-import org.itson.mythify.controller.post.FacadePostBO;
-import org.itson.mythify.controller.post.IFacadePostBO;
+import org.itson.mythify.dao.post.IPostFacade;
+import org.itson.mythify.dao.post.PostFacade;
+import org.itson.mythify.dao.usuario.IUsuarioFacade;
+import org.itson.mythify.dao.usuario.UsuarioFacade;
 import org.itson.mythify.entidad.Post;
 
 /**
@@ -42,21 +41,23 @@ import org.itson.mythify.entidad.Post;
 @WebServlet(name = "SVUsuario", urlPatterns = {"/SVUsuario"})
 public class SVUsuario extends HttpServlet {
 
-    private IFacadeUsuarioBO usuarioBO;
-    private IFacadePostBO postBO;
+    private IUsuarioFacade usuarioBO;
+    private IPostFacade postBO;
 
     @Override
     public void init() throws ServletException {
         super.init();
-        usuarioBO = new FacadeUsuarioBO();
-        postBO = new FacadePostBO();
+        usuarioBO = new UsuarioFacade();
+        postBO = new PostFacade();
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action");
 
-        if (action != null) {
+        if (action == null) {
+            response.sendRedirect("error.jsp");
+        } else {
             switch (action) {
                 case "registrar" ->
                     registrarUsuario(request, response);
@@ -64,8 +65,6 @@ public class SVUsuario extends HttpServlet {
                     iniciarSesion(request, response);
                 case "cerrarSesion" ->
                     cerrarSesion(request, response);
-                default ->
-                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Acción no válida");
             }
         }
     }
@@ -84,7 +83,7 @@ public class SVUsuario extends HttpServlet {
 
     private void registrarUsuario(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        UsuarioDTO usuarioDTO = null;
+        Usuario usuario;
 
         String nombre = request.getParameter("nombre");
         String apellidoPaterno = request.getParameter("apellidoPaterno");
@@ -102,6 +101,7 @@ public class SVUsuario extends HttpServlet {
         String fechaNacimiento = request.getParameter("fechaNacimiento");
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         Date fecha = null;
+
         try {
             fecha = formato.parse(fechaNacimiento);
         } catch (ParseException ex) {
@@ -109,7 +109,7 @@ public class SVUsuario extends HttpServlet {
         }
 
         // Aqui nomás sería adaptarlo al genero que introduzca el usuario y el tipo de permiso según que, lo hice así nomás como prueba
-        usuarioDTO = new UsuarioDTO(
+        usuario = new Usuario(
                 nombre,
                 apellidoPaterno,
                 apellidoMaterno,
@@ -124,12 +124,8 @@ public class SVUsuario extends HttpServlet {
                 TipoPermiso.COMENTAR,
                 new Municipio(municipio, new Estado(estado.toLowerCase())));
 
-        try {
-            usuarioBO.crearUsuarioDTO(usuarioDTO);
-            response.sendRedirect("iniciarSesion.jsp");
-        } catch (ControllerException ex) {
-            Logger.getLogger(SVUsuario.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        usuarioBO.crearUsuario(usuario);
+        response.sendRedirect("iniciarSesion.jsp");
     }
 
     private void iniciarSesion(HttpServletRequest request, HttpServletResponse response)
@@ -137,33 +133,33 @@ public class SVUsuario extends HttpServlet {
         String correo = request.getParameter("correo");
         String contrasenia = request.getParameter("contrasenia");
 
-        Usuario usuario = null;
-        List<Post> posts = null;
+        Usuario usuario;
+        List<Post> posts;
 
-        try {
-            usuario = usuarioBO.consultarUsuarioSession(correo, contrasenia);
-            posts = postBO.consultarPosts();
-        } catch (ControllerException ex) {
-            Logger.getLogger(SVUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        usuario = usuarioBO.consultarUsuarioSession(correo, contrasenia);
+        posts = postBO.consultarPosts();
+
+        System.out.println(usuario);
+        System.out.println(posts);
+
+        if (usuario == null) {
+            return;
         }
 
-        if (usuario != null) {
-            request.getSession().setAttribute("usuario", usuario);
-            request.setAttribute("posts", posts);
-            response.sendRedirect("SVPost?mythology=all");
-        } else {
-            System.out.println("Error");
-        }
+        request.getSession().setAttribute("usuario", usuario);
+        request.setAttribute("posts", posts);
+        response.sendRedirect("SVPost?mythology=all");
     }
 
     private void cerrarSesion(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         HttpSession session = request.getSession(false);
-        if (session != null) {
-            session.invalidate();
+
+        if (session == null) {
+            return;
         }
 
+        session.invalidate();
         response.sendRedirect("iniciarSesion.jsp");
     }
 }

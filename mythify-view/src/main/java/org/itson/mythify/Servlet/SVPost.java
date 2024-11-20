@@ -6,9 +6,6 @@ package org.itson.mythify.Servlet;
 
 import java.io.IOException;
 
-import org.itson.mythify.controller.post.FacadePostBO;
-import org.itson.mythify.controller.post.IFacadePostBO;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,13 +13,16 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import org.itson.mythify.auxiliar.CalcularTiempo;
-import org.itson.mythify.controller.ControllerException;
-import org.itson.mythify.controller.post.PostDTO;
+import org.itson.mythify.dao.post.IPostFacade;
+import org.itson.mythify.dao.post.PostFacade;
 import org.itson.mythify.entidad.Post;
 import org.itson.mythify.entidad.Usuario;
 
@@ -33,19 +33,21 @@ import org.itson.mythify.entidad.Usuario;
 @WebServlet(name = "SVPost", urlPatterns = {"/SVPost"})
 public class SVPost extends HttpServlet {
 
-    private IFacadePostBO postBO;
+    private IPostFacade postBO;
 
     @Override
     public void init() throws ServletException {
         super.init();
-        postBO = new FacadePostBO();
+        postBO = new PostFacade();
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action");
 
-        if (action != null) {
+        if (action == null) {
+            response.sendRedirect("error.jsp");
+        } else {
             switch (action) {
                 case "publicarPost" ->
                     publicarPost(request, response);
@@ -55,8 +57,6 @@ public class SVPost extends HttpServlet {
                     borrarPost(request, response);
                 case "anclarPost" ->
                     anclarPost(request, response);
-                default ->
-                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Acción no válida");
             }
         }
     }
@@ -68,76 +68,70 @@ public class SVPost extends HttpServlet {
         String action = request.getParameter("action");
         String categoria = request.getParameter("mythology");
         String specificMythology = request.getParameter("specificMythology");
-        Post post;
 
-        System.out.println("esto es el action: " + action);
-        if (action != null && action.equals("editarPost")) {
-            try {
-                int id = Integer.parseInt(postId);
-                post = postBO.consultarPostPorID(id);
-                request.setAttribute("post", post);
-                request.getRequestDispatcher("editar.jsp").forward(request, response);
-                return;
-            } catch (ControllerException ex) {
-                Logger.getLogger(SVPost.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        // Redirige para editar el post con el id especifico
+        if (isValid(action) && action.equals("editarPost")) {
+            handleEditPost(request, response, postId);
+            return;
         }
 
+        if (isValid(specificMythology)) {
+            consultarPorCategoria(request, response, specificMythology);
+            return;
+        }
+
+        if (isValid(categoria)) {
+            consultarPorCategoria(request, response, categoria);
+            return;
+        }
+
+        // Redirigir para observar el post único
+        if (isValid(postId)) {
+            handleViewPost(request, response, postId);
+        }
+    }
+
+    private boolean isValid(String action) {
+        return !(action == null || action.isEmpty());
+    }
+
+    private void handleViewPost(HttpServletRequest request, HttpServletResponse response, String postId) {
+        int id = Integer.parseInt(postId);
+        Post post = postBO.consultarPostPorID(id);
+
         try {
-            if (specificMythology != null && !specificMythology.isEmpty()) {
-                consultarPorCategoria(request, response, specificMythology);
-
-            } else if (categoria != null && !categoria.isEmpty()) {
-
-                consultarPorCategoria(request, response, categoria);
-            } else if (postId != null && !postId.isEmpty()) {
-                try {
-                    int id = Integer.parseInt(postId);
-                    post = postBO.consultarPostPorID(id);
-                    if (post != null) {
-                        // Agregar el calculador de tiempo al request
-                        request.setAttribute("calculadorTiempo", new CalcularTiempo());
-                        request.setAttribute("post", post);
-                        request.getRequestDispatcher("post.jsp").forward(request, response);
-                    } else {
-                        response.sendRedirect("error.jsp");
-                    }
-                } catch (NumberFormatException e) {
-                    response.sendRedirect("error.jsp");
-                }
-            } else {
+            if (post == null) {
                 response.sendRedirect("error.jsp");
             }
-        } catch (ControllerException ex) {
+
+            request.setAttribute("calculadorTiempo", new CalcularTiempo());
+            request.setAttribute("post", post);
+            request.getRequestDispatcher("post.jsp").forward(request, response);
+        } catch (ServletException | IOException ex) {
             Logger.getLogger(SVPost.class.getName()).log(Level.SEVERE, null, ex);
-            response.sendRedirect("error.jsp");
+        }
+    }
+
+    private void handleEditPost(HttpServletRequest request, HttpServletResponse response, String postId) {
+        int id = Integer.parseInt(postId);
+        Post post = postBO.consultarPostPorID(id);
+
+        try {
+            request.setAttribute("post", post);
+            request.getRequestDispatcher("editar.jsp").forward(request, response);
+        } catch (ServletException | IOException ex) {
+            Logger.getLogger(SVPost.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         processRequest(request, response);
     }
 
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }
-
     private void publicarPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String categoria = request.getParameter("category");
-        String titulo = request.getParameter("title");
-        String contenido = request.getParameter("content");
-        String anclado = request.getParameter("anclar");
-        String link = request.getParameter("link");
-
-        boolean esAnclado = (anclado != null);
-
-        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
-
-        PostDTO postDTO = new PostDTO(titulo, contenido, categoria.toUpperCase(), link, LocalDateTime.now(), esAnclado, usuario);
+        Post post = buildPost(request, response);
 
         List<Post> posts = (List<Post>) request.getAttribute("posts");
 
@@ -145,17 +139,27 @@ public class SVPost extends HttpServlet {
             posts = new ArrayList<>();
         }
 
-        try {
-            Post post = postBO.crearPostDTO(postDTO);
+        post = postBO.crearPost(post);
 
-            // Esto se hace para no estar haciendo la misma consulta a la base de datos cada que se crea un post nuevo
-            // De esta manera se agrega a la bd, y se agrega el post a la lista que ya tienes en el front
-            posts.add(post);
-            request.setAttribute("posts", posts);
-            response.sendRedirect("SVPost?mythology=all");
-        } catch (ControllerException ex) {
-            Logger.getLogger(SVUsuario.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        posts.add(post);
+        request.setAttribute("posts", posts);
+        response.sendRedirect("SVPost?mythology=all");
+    }
+
+    public Post buildPost(HttpServletRequest request, HttpServletResponse response) {
+        String categoria = request.getParameter("category");
+        String titulo = request.getParameter("title");
+        String contenido = request.getParameter("content");
+        String anclado = request.getParameter("anclar");
+        String link = request.getParameter("link");
+
+        boolean esAnclado = !(anclado == null);
+
+        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+
+        Post post = new Post(titulo, contenido, categoria.toUpperCase(), link, LocalDateTime.now(), esAnclado, usuario);
+
+        return post;
     }
 
     private void editarPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -164,119 +168,85 @@ public class SVPost extends HttpServlet {
         String titulo = request.getParameter("title");
         String contenido = request.getParameter("content");
 
-        try {
-            // Obtener el post actual
-            Post post = postBO.consultarPostPorID(Integer.parseInt(postId));
+        Post post = postBO.consultarPostPorID(Integer.parseInt(postId));
 
-            // Actualizar los datos del post
-            post.setTitulo(titulo);
-            post.setContenido(contenido);
-            post.setCategoria(categoria.toUpperCase());
+        post.setTitulo(titulo);
+        post.setContenido(contenido);
+        post.setCategoria(categoria.toUpperCase());
+        Post postActualizado = postBO.actualizarPost(post);
 
-            Post postActualizado = postBO.actualizarPost(post);
-
-            if (postActualizado != null) {
-                request.setAttribute("mensaje", "Post actualizado correctamente.");
-            } else {
-                request.setAttribute("mensaje", "Error al actualizar el post.");
-            }
-
-            response.sendRedirect("SVPost?mythology=all");
-        } catch (ControllerException ex) {
-            Logger.getLogger(SVUsuario.class.getName()).log(Level.SEVERE, null, ex);
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al actualizar el post.");
+        if (postActualizado == null) {
+            request.setAttribute("mensaje", "Error al actualizar el post.");
+        } else {
+            request.setAttribute("mensaje", "Post actualizado correctamente.");
         }
+
+        response.sendRedirect("SVPost?mythology=all");
     }
 
     private void anclarPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String postId = request.getParameter("idPost");
 
-        try {
-            // Obtener el post actual
-            Post post = postBO.consultarPostPorID(Integer.parseInt(postId));
+        Post post = postBO.consultarPostPorID(Integer.parseInt(postId));
+        post.setAnclado(true);
+        Post postActualizado = postBO.actualizarPost(post);
 
-            // Actualizar los datos del post
-            post.setAnclado(true);
-
-            Post postActualizado = postBO.actualizarPost(post);
-
-            if (postActualizado != null) {
-                request.setAttribute("mensaje", "Post anclado correctamente.");
-            } else {
-                request.setAttribute("mensaje", "Error al anclar el post.");
-            }
-
-            response.sendRedirect("SVPost?mythology=all");
-        } catch (ControllerException ex) {
-            Logger.getLogger(SVUsuario.class.getName()).log(Level.SEVERE, null, ex);
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al anclar el post.");
+        if (postActualizado == null) {
+            request.setAttribute("mensaje", "Error al anclar el post.");
+        } else {
+            request.setAttribute("mensaje", "Post anclado correctamente.");
         }
+
+        response.sendRedirect("SVPost?mythology=all");
     }
 
     private void borrarPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String postIdStr = request.getParameter("idPost");
-        System.out.println(postIdStr);
+        int postId = Integer.parseInt(request.getParameter("idPost"));
 
-        try {
-            int postId = Integer.parseInt(postIdStr);
-            PostDTO postDTO = new PostDTO();
-            postDTO.setIdPost(postId);
+        postBO.eliminarPost(postId);
 
-            boolean eliminado = postBO.eliminarPost(postDTO);
-            response.sendRedirect("SVPost?mythology=all");
-        } catch (NumberFormatException | ControllerException ex) {
-            Logger.getLogger(SVPost.class.getName()).log(Level.SEVERE, "Error al eliminar el post con ID " + postIdStr, ex);
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        }
+        response.sendRedirect("SVPost?mythology=all");
     }
 
-    private void consultarPorCategoria(HttpServletRequest request, HttpServletResponse response, String categoria) throws IOException, ServletException {
+    private void consultarPorCategoria(HttpServletRequest request, HttpServletResponse response, String categoria)
+            throws ServletException, IOException {
+        List<Post> postsOrdenados = obtenerPostsOrdenados(categoria);
 
-        List<Post> posts = null;
-        List<Post> anclados = new ArrayList<>();
-        List<Post> noAnclados = new ArrayList<>();
-
-        try {
-            // Obtén todos los posts o los de una categoría específica
-            if (categoria.equals("all")) {
-                posts = postBO.consultarPosts();
-            } else {
-                posts = postBO.consultarPostsCategoria(categoria);
-            }
-
-            // Separa los posts en anclados y no anclados
-            if (posts == null) {
-                System.out.println("La lista de posts es null.");
-            } else {
-                for (Post post : posts) {
-                    if (post.isAnclado()) {
-                        anclados.add(post);
-                    } else {
-                        noAnclados.add(post);
-                    }
-                }
-            }
-
-            // Ordena ambas listas por fecha de creación, de más reciente a más antigua
-            Comparator<Post> fechaComparator = Comparator.comparing(Post::getFechaHoraCreacion).reversed();
-            anclados.sort(fechaComparator);
-            noAnclados.sort(fechaComparator);
-
-            // Combina los anclados y no anclados, anclados al inicio
-            List<Post> postsOrdenados = new ArrayList<>(anclados);
-            postsOrdenados.addAll(noAnclados);
-
-            // Agregar el calculador de tiempo al request
-            request.setAttribute("calculadorTiempo", new CalcularTiempo());
-
-            // Establece la lista ordenada en el request
-            request.setAttribute("posts", postsOrdenados);
-            request.getRequestDispatcher("index.jsp").forward(request, response);
-
-        } catch (ControllerException ex) {
-            Logger.getLogger(SVPost.class.getName()).log(Level.SEVERE, null, ex);
-            response.sendRedirect("error.jsp");
-        }
+        request.setAttribute("calculadorTiempo", new CalcularTiempo());
+        request.setAttribute("posts", postsOrdenados);
+        request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 
+    // Obtener posts según categoría
+    private List<Post> obtenerPostsOrdenados(String categoria) {
+        List<Post> posts = categoria.equals("all")
+                ? postBO.consultarPosts()
+                : postBO.consultarPostsCategoria(categoria);
+
+        if (posts == null || posts.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        return separarYOrdenarPosts(posts);
+    }
+
+    private List<Post> separarYOrdenarPosts(List<Post> posts) {
+        // Separar posts por tipo
+        Map<Boolean, List<Post>> postsAgrupados = posts.stream().collect(Collectors.partitioningBy(Post::isAnclado));
+
+        // Obtener listas separadas
+        List<Post> anclados = postsAgrupados.get(true);
+        List<Post> noAnclados = postsAgrupados.get(false);
+
+        // Ordenar cada lista por fecha
+        Comparator<Post> fechaComparator = Comparator.comparing(Post::getFechaHoraCreacion).reversed();
+        anclados.sort(fechaComparator);
+        noAnclados.sort(fechaComparator);
+
+        // Combinar las listas
+        List<Post> postsOrdenados = new ArrayList<>(anclados);
+        postsOrdenados.addAll(noAnclados);
+
+        return postsOrdenados;
+    }
 }

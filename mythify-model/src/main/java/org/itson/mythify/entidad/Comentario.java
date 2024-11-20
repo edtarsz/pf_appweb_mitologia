@@ -60,6 +60,13 @@ public class Comentario implements Serializable {
         this.post = post;
     }
 
+    public Comentario(String contenido, Date fechaHora, Usuario usuario, Post post) {
+        this.contenido = contenido;
+        this.fechaHora = fechaHora;
+        this.usuario = usuario;
+        this.post = post;
+    }
+
     public int getIdComentario() {
         return idComentario;
     }

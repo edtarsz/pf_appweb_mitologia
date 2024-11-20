@@ -69,6 +69,16 @@ public class Post implements Serializable {
         this.usuario = usuario;
     }
 
+    public Post(String titulo, String contenido, String categoria, String link, LocalDateTime fechaHoraCreacion, boolean anclado, Usuario usuario) {
+        this.titulo = titulo;
+        this.contenido = contenido;
+        this.categoria = categoria;
+        this.link = link;
+        this.fechaHoraCreacion = fechaHoraCreacion;
+        this.anclado = anclado;
+        this.usuario = usuario;
+    }
+
     public int getIdPost() {
         return idPost;
     }

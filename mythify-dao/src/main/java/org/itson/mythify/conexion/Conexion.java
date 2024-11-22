@@ -20,7 +20,7 @@ public class Conexion implements IConexion {
 
     static {
         try {
-            emFactory = Persistence.createEntityManagerFactory("redSocialPU");
+            emFactory = Persistence.createEntityManagerFactory("mythifyPU");
         } catch (Exception e) {
             throw new RuntimeException("No se pudo inicializar EntityManagerFactory");
         }

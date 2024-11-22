@@ -12,6 +12,7 @@ import org.itson.mythify.conexion.Conexion;
 import org.itson.mythify.dao.DAOFactory;
 import org.itson.mythify.dao.IUsuarioDAO;
 import org.itson.mythify.conexion.ModelException;
+import org.itson.mythify.exceptions.ControllerException;
 
 /**
  * @author Eduardo Talavera Ramos
@@ -30,7 +31,7 @@ public class UsuarioFacade implements IUsuarioFacade {
     }
 
     @Override
-    public void crearUsuario(Usuario usuario) {
+    public void crearUsuario(Usuario usuario) throws ControllerException {
         try {
             usuarioDAO.crearUsuario(usuario);
         } catch (ModelException ex) {
@@ -39,7 +40,7 @@ public class UsuarioFacade implements IUsuarioFacade {
     }
 
     @Override
-    public void eliminarUsuario() {
+    public void eliminarUsuario() throws ControllerException {
         try {
             usuarioDAO.eliminarUsuario();
         } catch (ModelException ex) {
@@ -48,7 +49,7 @@ public class UsuarioFacade implements IUsuarioFacade {
     }
 
     @Override
-    public void actualizarUsuario() {
+    public void actualizarUsuario() throws ControllerException {
         try {
             usuarioDAO.actualizarUsuario();
         } catch (ModelException ex) {
@@ -57,7 +58,7 @@ public class UsuarioFacade implements IUsuarioFacade {
     }
 
     @Override
-    public Usuario consultarUsuario(String correo, String password) {
+    public Usuario consultarUsuario(String correo, String password) throws ControllerException {
         try {
             return usuarioDAO.consultarUsuario(correo, password);
         } catch (ModelException ex) {

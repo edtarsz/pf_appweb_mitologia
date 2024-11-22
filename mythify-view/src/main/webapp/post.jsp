@@ -134,89 +134,101 @@
                         Añadir un comentario
                     </button>
 
-                    <div class="container-comments">
-                        <c:forEach var="comment" items="${post.comentarios}">
-                            <article class="comment-post">
-                                <div class="head-article-post">
-                                    <div class="left-head-article">
-                                        <div class="container-pfp-post">
-                                            <img src="img/bob.PNG" alt="" class="pfp-post">
-                                        </div>
-                                        <span class="span-post-header">@${comment.usuario.nombre} replied to @${comment.usuarioRespondido.nombre}</span>
-                                    </div>
-                                    <div class="right-head-article">
-                                        <img src="img/options-post.svg" alt="">
-                                    </div>
-                                </div>
+                    <!-- Formulario de edición -->
+                    <div id="editForm" class="edit-form">
+                        <form action="SVComentario" method="post">
+                            <input type="hidden" name="action" value="comentarPost">
+                            <input type="hidden" name="id" value="${post.idPost}">
 
-                                <div class="right-head-article">
+                            <div class="form-group">
+                                <label for="content">Contenido:</label>
+                                <textarea name="contenido" rows="5" class="input-area-post input-area-post-editar" required></textarea>
+                            </div>
 
-                                    <img src="<%= request.getContextPath()%>/img/options-post.svg" alt="Opciones" width="20">
-
-                                    <div class="content-comment-post">
-                                        <p>${comment.contenido}</p>
-
-                                    </div>
-                                    <div class="footer-comments">
-                                        <div class="group-footer-btn">
-                                            <button class="btn-footer">
-                                                <img src="img/heart-black.svg" alt="">
-                                                230
-                                            </button>
-                                            <button class="btn-footer">
-                                                <img src="img/reply.svg" alt="">
-                                                Responder
-                                            </button>
-                                        </div>
-                                        <span class="span-post-header">hace 4 horas</span>
-                                    </div>
-                            </article>
-                        </c:forEach>
-
-                        <div class="container-crear-post">
-                            <form action="SVComentario" method="post">
-                                <input type="hidden" name="action" value="comentarPost">
-                                <input type="hidden" name="id" value="${post.idPost}">
-                                <textarea name="contenido" placeholder="Comentario..." class="input-area-post" required></textarea>
-
-                                <div class="post-buttons">
-                                    <button type="submit" class="btn-submit">Publicar</button>
+                            <div class="post-buttons">
+                                <a href="<c:url value='/SVPost?id=${post.idPost}'/>">
+                                    <button type="submit" class="btn-submit">Confirmar</button>
+                                </a>
+                                <a href="<c:url value='/SVPost?mythology=all' />">
                                     <button type="button" class="btn-cancel">Cancelar</button>
-                                </div>
-                            </form>
-                        </div>
-
-                        <article class="second-comment-post">
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                    <c:forEach var="comment" items="${comentarios}">
+                        <article class="article-post">
                             <div class="head-article-post">
                                 <div class="left-head-article">
-                                    <div class="container-pfp-post">
-                                        <img src="img/calamardo.PNG" alt="" class="pfp-post">
+                                    <div class="container-pfp-post"></div>
+
+                                    <c:set var="tiempoTranscurrido" value="${calculadorTiempo.tiempoTranscurridoDesde(comment.fechaHora)}" />
+
+                                    <span class="span-post-header">
+                                        @${empty post.usuario.nombre ? 'Anonymous' : post.usuario.nombre} •
+                                        ${tiempoTranscurrido}
+                                    </span>
+
+                                </div>
+                                <c:if test="${usuario.tipoUsuario == 'ADMINISTRADOR'}">
+                                    <div class="right-head-article">
+                                        <button type="button" class="btn-option" data-post-id="${post.idPost}">
+                                            <img src="<%= request.getContextPath()%>/img/options-post.svg" alt="Opciones" width="20">
+                                        </button>
+
+                                        <div class="dropdown-menu" id="dropdown-${post.idPost}" style="display: none;">
+
+                                            <form action="SVPost?id=${post.idPost}" method="post">
+                                                <input type="hidden" name="idPost" value="${post.idPost}">
+
+                                                <c:choose>
+                                                    <c:when test="${post.anclado}">
+                                                        <input type="hidden" name="action" value="desAnclarPost">
+                                                        <button type="submit">DESANCLAR</button>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <input type="hidden" name="action" value="anclarPost">
+                                                        <button type="submit">ANCLAR</button>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </form>
+
+                                            <a href="<c:url value='/SVPost?id=${post.idPost}&action=editarPost' />">EDITAR</a>
+
+                                            <form action="SVPost" method="post">
+                                                <input type="hidden" name="idPost" value="${post.idPost}">
+                                                <input type="hidden" name="action" value="borrarPost">
+                                                <button type="submit">ELIMINAR</button>
+                                            </form>
+                                        </div>
                                     </div>
-                                    <span class="span-post-header">@${secondComment.usuario.nombre} replied to @${secondComment.usuarioRespondido.nombre}</span>
-                                </div>
-                                <div class="right-head-article">
-                                    <img src="img/options-post.svg" alt="">
-                                </div>
+                                </c:if>
+
                             </div>
-                            <div class="content-comment-post">
-                                <p>${secondComment.contenido}</p>
+
+                            <div class="post-comment-content">
+                                <p>${comment.contenido}</p>
                             </div>
-                            <div class="footer-comments">
-                                <div class="group-footer-btn">
+
+                            <c:if test="${not empty post.link}">
+                                <a href="${fn:escapeXml(post.link)}" id="preview-link">
+                                    ${fn:escapeXml(post.link)}
+                                </a>
+                            </c:if>
+
+                            <div class="footer-post">
+                                <button class="btn-footer">
+                                    <img src="<c:url value='/img/heart-black.svg' />" alt="Like">
+                                    19
+                                </button>
+                                <c:if test="${!post.anclado}">
                                     <button class="btn-footer">
-                                        <img src="img/heart-black.svg" alt="">
-                                        48
+                                        <img src="<c:url value='/img/comments-black.svg' />" alt="Comments">
+                                        2 comments
                                     </button>
-                                    <button class="btn-footer">
-                                        <img src="img/reply.svg" alt="">
-                                        Responder
-                                    </button>
-                                </div>
-                                <span class="span-post-header">hace 3 horas</span>
+                                </c:if>
                             </div>
                         </article>
-
-                    </div>
+                    </c:forEach>
                 </main>
             </div>
         </div>

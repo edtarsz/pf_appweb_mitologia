@@ -9,6 +9,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import org.itson.mythify.conexion.IConexion;
 import org.itson.mythify.entidad.Comentario;
 
@@ -63,8 +67,28 @@ public class ComentarioDAO implements IComentarioDAO {
     }
 
     @Override
-    public List<Comentario> consultarComentarios() throws ModelException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    public List<Comentario> consultarComentarios(int idPost) throws ModelException {
+        try {
+            logger.log(Level.INFO, "Fetching comments for post with id: {0}", idPost);
 
+            CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+
+            CriteriaQuery<Comentario> criteriaQuery = criteriaBuilder.createQuery(Comentario.class);
+
+            Root<Comentario> root = criteriaQuery.from(Comentario.class);
+
+            Predicate condition = criteriaBuilder.equal(root.get("post").get("idPost"), idPost);
+
+            criteriaQuery.select(root).where(condition);
+
+            List<Comentario> comentarios = entityManager.createQuery(criteriaQuery).getResultList();
+
+            logger.log(Level.INFO, "Found {0} comments for post with id: {1}", new Object[]{comentarios.size(), idPost});
+
+            return comentarios;
+        } catch (Exception ex) {
+            logger.log(Level.SEVERE, "Error fetching comments for post with id: " + idPost, ex);
+            throw new ModelException("Error fetching comments for post with id: " + idPost, ex);
+        }
+    }
 }

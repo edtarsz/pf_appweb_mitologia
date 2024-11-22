@@ -22,6 +22,6 @@ public interface IComentarioFacade {
 
     public void actualizarComentario() throws ControllerException;
 
-    public List<Comentario> consultarComentarios() throws ControllerException;
+    public List<Comentario> consultarComentarios(int idPost) throws ControllerException;
 
 }

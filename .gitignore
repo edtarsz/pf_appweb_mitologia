@@ -88,3 +88,6 @@ nb-configuration.xml
 ## Miscellaneous
 ##############################
 *.log
+
+# Ignore persistence.xml
+src/main/resources/META-INF/persistence.xml

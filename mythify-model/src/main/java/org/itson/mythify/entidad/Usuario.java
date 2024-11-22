@@ -36,35 +36,35 @@ public class Usuario implements Serializable {
     @Column(name = "idUsuario", nullable = false)
     private int idUsuario;
 
-    @Column(name = "nombre", nullable = false)
+    @Column(name = "nombre", nullable = false, length = 50)
     private String nombre;
 
-    @Column(name = "apellidoPaterno", nullable = false)
+    @Column(name = "apellidoPaterno", nullable = false, length = 30)
     private String apellidoPaterno;
 
-    @Column(name = "apellidoMaterno", nullable = false)
+    @Column(name = "apellidoMaterno", nullable = false, length = 30)
     private String apellidoMaterno;
 
-    @Column(name = "correo", nullable = false, unique = true)
+    @Column(name = "correo", nullable = false, unique = true, length = 100)
     private String correo;
 
-    @Column(name = "contrasenia", nullable = false)
+    @Column(name = "contrasenia", nullable = false, length = 64)
     private String contrasenia;
 
-    @Column(name = "telefono")
+    @Column(name = "telefono", nullable = false, length = 10)
     private String telefono;
 
-    @Column(name = "avatar")
+    @Column(name = "avatar", nullable = false)
     private String avatar;
 
-    @Column(name = "ciudad")
+    @Column(name = "ciudad", nullable = false, length = 50)
     private String ciudad;
 
-    @Column(name = "fechaNacimiento")
+    @Column(name = "fechaNacimiento", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
 
-    @Column(name = "genero")
+    @Column(name = "genero", nullable = false)
     private String genero;
 
     @Column(name = "tipoUsuario", nullable = false)

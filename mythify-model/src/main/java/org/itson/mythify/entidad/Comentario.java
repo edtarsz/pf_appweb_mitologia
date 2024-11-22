@@ -32,7 +32,7 @@ public class Comentario implements Serializable {
     @Column(name = "idComentario", nullable = false)
     private int idComentario;
 
-    @Column(name = "contenido", nullable = false)
+    @Column(name = "contenido", nullable = false, length = 1_000)
     private String contenido;
 
     @Column(name = "fechaHora", nullable = false)

@@ -1,22 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.mycompany</groupId>
     <artifactId>mythify-view</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>mythify-view</name>
-    
     <parent>
         <groupId>org.itson</groupId>
         <artifactId>mythify</artifactId>
-        <version>1.0-SNAPSHOT</version>         
-        <relativePath>../pom.xml</relativePath>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../mythify/pom.xml</relativePath>
     </parent>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.release>21</maven.compiler.release>
     </properties>
-    
     <dependencies>
         
         <!-- https://mvnrepository.com/artifact/javax.servlet.jsp.jstl/jstl -->
@@ -108,7 +106,6 @@
             <type>jar</type>
         </dependency>
     </dependencies>
-    
     <build>
         <plugins>
             <plugin>

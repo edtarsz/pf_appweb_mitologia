@@ -40,8 +40,7 @@
                     <div class="title-register">
                         <h1>Registro</h1>
                         <p>
-                            Lorem ipsum dolor sit amet consectetur adipiscing elit augue
-                            ornare
+                            Por favor ingrese sus datos para registrarse en Mythify
                         </p>
                     </div>
                     <form action="SVUsuario" method="post" class="form-register" enctype="multipart/form-data" id= "form-register-validation" novalidate>
@@ -50,7 +49,7 @@
                             <div class="input-group">
                                 <div class="label-input-g">
                                     <label for="nombre">Nombre</label>
-                                    <input type="text" class="register-input" name="nombre" required/>
+                                    <input type="text" class="register-input" name="nombre" id="nombre"/>
                                     <small>Por favor ingrese el nombre</small>
                                 </div>
                             </div>
@@ -58,13 +57,13 @@
                             <div class="input-group">
                                 <div class="label-input-g">
                                     <label for="apellidoPaterno">Primer apellido</label>
-                                    <input type="text" class="register-input" name="apellidoPaterno" required/>
+                                    <input type="text" class="register-input" name="apellidoPaterno" id="apellidoPaterno"/>
                                     <small>Por favor ingrese el apellido paterno</small>
                                 </div>
 
                                 <div class="label-input-g">
                                     <label for="apellidoMaterno">Segundo apellido</label>
-                                    <input type="text" class="register-input" name="apellidoMaterno" required/>
+                                    <input type="text" class="register-input" name="apellidoMaterno" id="apellidoMaterno"/>
                                     <small>Por favor ingrese el apellido materno</small>
                                 </div>
                             </div>
@@ -72,13 +71,13 @@
                             <div class="input-group">
                                 <div class="label-input-g">
                                     <label for="estado">Estado</label>
-                                    <input type="text" class="register-input" name="estado" required/>
+                                    <input type="text" class="register-input" name="estado" id="estado"/>
                                     <small>Por favor ingrese el estado</small>
                                 </div>
 
                                 <div class="label-input-g">
                                     <label for="ciudad">Ciudad</label>
-                                    <input type="text" class="register-input" name="ciudad" required/>
+                                    <input type="text" class="register-input" name="ciudad" id="ciudad"/>
                                     <small>Por favor ingrese la ciudad</small>
                                 </div>
                             </div>
@@ -86,13 +85,14 @@
                             <div class="input-group">
                                 <div class="label-input-g">
                                     <label for="municipio">Municipio</label>
-                                    <input type="text" class="register-input" name="municipio" required/>
+                                    <input type="text" class="register-input" name="municipio" id="municipio"/>
                                     <small>Por favor ingrese el municipio</small>
                                 </div>
 
                                 <div class="label-input-g">
                                     <label for="fechaNacimiento">Fecha de nacimiento</label>
-                                    <input type="date" class="register-input" name="fechaNacimiento" required/>
+                                    <input type="date" class="register-input" name="fechaNacimiento" id="fechaNacimiento"
+                                    />
                                     <small>Por favor ingrese la fecha de nacimiento</small>
                                 </div>
                             </div>
@@ -102,7 +102,7 @@
                             <div class="input-group">
                                 <div class="label-input-g">
                                     <label for="correo">Correo</label>
-                                    <input type="email" class="register-input" autocomplete="email" name="correo" required/>
+                                    <input type="email" class="register-input" autocomplete="email" name="correo" id="correo" />
                                     <small>Por favor ingrese el correo</small>
                                 </div>
                             </div>
@@ -110,14 +110,14 @@
                             <div class="input-group">
                                 <div class="label-input-g">
                                     <label for="contrasena">Contraseña</label>
-                                    <input type="password" class="register-input" name="contrasena" required/>
+                                    <input type="password" class="register-input" name="contrasena" id="contrasena"/>
                                     <small>Por favor ingrese la constraseña</small>
                                 </div>
 
                                 <div class="label-input-g">
-                                    <label for="confirmarConstraseña">Confirmar Contraseña</label>
-                                    <input type="confirmarContrasena" class="register-input"
-                                           name="confirmarContrasena" required/>
+                                    <label for="confirmarConstrasena">Confirmar Contraseña</label>
+                                    <input type="password" class="register-input"
+                                           name="confirmarContrasena" id="confirmarConstrasena"/>
                                     <small>Por favor ingrese la misma contraseña nuevamente</small>
                                 </div>
                             </div>
@@ -138,13 +138,13 @@
                                 <div class="input-group-register">
                                     <div class="label-input-g">
                                         <label for="telefono">Telefono</label>
-                                        <input type="text" class="register-input" name="telefono" required/>
+                                        <input type="tel" class="register-input" name="telefono" id="telefono"/>
                                     </div>
 
                                     <div class="label-input-g">
                                         <label for="genero">Genero</label>
-                                        <select class="register-input select-custom" id="genero" name="genero" required>
-                                            <option value="seleccionar" disabled selected>
+                                        <select class="register-input select-custom" id="genero" name="genero" >
+                                            <option value="seleccionar" disabled selected hidden>
                                                 Seleccionar género
                                             </option>
                                             <option value="masculino">Masculino</option>
@@ -166,7 +166,7 @@
                             <?xml version="1.0" ?><svg class="feather feather-chevron-left" fill="none" height="34"
                                                        stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                                        stroke-width="2" viewBox="0 0 24 24" width="34" xmlns="http://www.w3.org/2000/svg">
-                            <polyline points="15 18 9 12 15 6" />
+                            <polyline points="15 18 9 12 15 6"></polyline>
                             </svg>
                         </button>
 
@@ -179,7 +179,7 @@
                             <?xml version="1.0" ?><svg class="feather feather-chevron-right" fill="none" height="34"
                                                        stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                                        stroke-width="2" viewBox="0 0 24 24" width="34" xmlns="http://www.w3.org/2000/svg">
-                            <polyline points="9 18 15 12 9 6" />
+                            <polyline points="9 18 15 12 9 6"></polyline>
                             </svg>
                         </button>
                     </div>

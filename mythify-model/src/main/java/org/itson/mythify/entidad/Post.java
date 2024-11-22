@@ -35,10 +35,10 @@ public class Post implements Serializable {
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Comentario> comentarios;
 
-    @Column(name = "titulo", nullable = false)
+    @Column(name = "titulo", nullable = false, length = 100)
     private String titulo;
 
-    @Column(name = "contenido", nullable = false)
+    @Column(name = "contenido", nullable = false, length = 5_000)
     private String contenido;
 
     @Column(name = "categoria", nullable = false)
@@ -47,7 +47,7 @@ public class Post implements Serializable {
     @Column(name = "link", nullable = true)
     private String link;
 
-    @Column(name = "fechaHoraCreacion", nullable = false, updatable = true)
+    @Column(name = "fechaHoraCreacion", nullable = false, updatable = false)
     private LocalDateTime fechaHoraCreacion;
 
     @Column(name = "fechaHoraEdicion", nullable = true)

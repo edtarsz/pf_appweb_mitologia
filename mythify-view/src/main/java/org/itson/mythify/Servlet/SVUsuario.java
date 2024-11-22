@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.itson.mythify.controller.ControllerException;
+import org.itson.mythify.exceptions.ControllerException;
 import org.itson.mythify.entidad.Estado;
 import org.itson.mythify.entidad.Municipio;
 import org.itson.mythify.entidad.Usuario;
@@ -25,10 +25,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
-import org.itson.mythify.dao.post.IPostFacade;
-import org.itson.mythify.dao.post.PostFacade;
-import org.itson.mythify.dao.usuario.IUsuarioFacade;
-import org.itson.mythify.dao.usuario.UsuarioFacade;
+import org.itson.mythify.facade.post.IPostFacade;
+import org.itson.mythify.facade.post.PostFacade;
+import org.itson.mythify.facade.usuario.IUsuarioFacade;
+import org.itson.mythify.facade.usuario.UsuarioFacade;
 import org.itson.mythify.entidad.Post;
 
 /**

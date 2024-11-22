@@ -7,7 +7,6 @@ package org.itson.mythify.filtro;
 import java.io.IOException;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.FilterConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
@@ -49,6 +48,15 @@ public class FiltroAutenticacion implements Filter {
         return true;
     }
 
+    private boolean isURLPublic(String url) {
+        for (String path : URLPUBLICAS) {
+            if (url.endsWith(path)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private String getURL(HttpServletRequest httpServletRequest) {
         String URI = httpServletRequest.getRequestURI();
         String path = URI.substring(httpServletRequest.getContextPath().length());
@@ -69,6 +77,7 @@ public class FiltroAutenticacion implements Filter {
 
         String path = this.getURL(httpServletRequest);
         boolean isURLPrivate = this.isURLPrivate(path);
+        boolean isURLPublic = this.isURLPublic(path);
         boolean isLogged = this.isLogged(httpServletRequest);
 
         if (!isLogged && isURLPrivate) {
@@ -76,7 +85,13 @@ public class FiltroAutenticacion implements Filter {
                 httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/iniciarSesion.jsp");
                 return;
             }
+        } else if (isLogged && isURLPublic) {
+            if (path.endsWith("iniciarSesion.jsp")) {
+                httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/SVPost?mythology=all");
+                return;
+            }
         }
+
         chain.doFilter(request, response);
     }
 }

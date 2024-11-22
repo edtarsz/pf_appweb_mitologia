@@ -1,4 +1,4 @@
-package org.itson.mythify.controller;
+package org.itson.mythify.exceptions;
 
 /**
  * @author Eduardo Talavera Ramos

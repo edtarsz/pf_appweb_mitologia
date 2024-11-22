@@ -21,9 +21,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import org.itson.mythify.auxiliar.CalcularTiempo;
-import org.itson.mythify.controller.ControllerException;
-import org.itson.mythify.dao.post.IPostFacade;
-import org.itson.mythify.dao.post.PostFacade;
+import org.itson.mythify.exceptions.ControllerException;
+import org.itson.mythify.facade.post.IPostFacade;
+import org.itson.mythify.facade.post.PostFacade;
 import org.itson.mythify.entidad.Post;
 import org.itson.mythify.entidad.Usuario;
 

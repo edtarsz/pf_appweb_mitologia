@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
-package org.itson.mythify.dao.usuario;
+package org.itson.mythify.facade.usuario;
 
-import org.itson.mythify.controller.ControllerException;
+import org.itson.mythify.exceptions.ControllerException;
 import org.itson.mythify.entidad.Usuario;
 
 /**

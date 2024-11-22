@@ -99,10 +99,4 @@ public class UsuarioDAO implements IUsuarioDAO {
             return null;
         }
     }
-
-    @Override
-    public boolean usuarioExiste(String correo, String password) throws ModelException {
-        return consultarUsuario(correo, password) != null;
-    }
-
 }

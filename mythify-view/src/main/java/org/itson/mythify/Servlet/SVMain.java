@@ -49,7 +49,7 @@ public class SVMain extends HttpServlet {
 
     private void crearAdminSiNoExiste() {
         try {
-            if (usuarioBO.usuarioExiste("admin@gmail.com", "admin")) {
+            if (usuarioBO.consultarUsuario("admin@gmail.com", "admin") != null) {
                 return;
             }
             Usuario adminDefault = crearUsuarioAdmin();

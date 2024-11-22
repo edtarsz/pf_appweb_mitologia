@@ -13,6 +13,7 @@ import org.itson.mythify.conexion.ModelException;
 import org.itson.mythify.dao.DAOFactory;
 import org.itson.mythify.dao.IComentarioDAO;
 import org.itson.mythify.entidad.Comentario;
+import org.itson.mythify.exceptions.ControllerException;
 
 /**
  * @author Eduardo Talavera Ramos
@@ -31,7 +32,7 @@ public class ComentarioFacade implements IComentarioFacade {
     }
 
     @Override
-    public Comentario crearComentario(Comentario comentario) {
+    public Comentario crearComentario(Comentario comentario) throws ControllerException {
         try {
             return comentarioDAO.crearComentario(comentario);
         } catch (ModelException ex) {
@@ -41,18 +42,23 @@ public class ComentarioFacade implements IComentarioFacade {
     }
 
     @Override
-    public void eliminarComentario() {
+    public void eliminarComentario() throws ControllerException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public void actualizarComentario() {
+    public void actualizarComentario() throws ControllerException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public List<Comentario> consultarComentarios() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<Comentario> consultarComentarios(int idPost) throws ControllerException {
+        try {
+            return comentarioDAO.consultarComentarios(idPost);
+        } catch (ModelException ex) {
+            Logger.getLogger(ComentarioFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
 }

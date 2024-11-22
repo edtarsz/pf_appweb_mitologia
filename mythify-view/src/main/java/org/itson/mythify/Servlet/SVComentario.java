@@ -10,6 +10,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -104,7 +105,7 @@ public class SVComentario extends HttpServlet {
 
         Comentario comentario = new Comentario(
                 contenido,
-                new Date(),
+                LocalDateTime.now(),
                 usuario,
                 post);
 

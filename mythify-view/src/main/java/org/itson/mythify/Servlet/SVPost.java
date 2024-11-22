@@ -21,11 +21,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import org.itson.mythify.auxiliar.CalcularTiempo;
+import org.itson.mythify.entidad.Comentario;
 import org.itson.mythify.exceptions.ControllerException;
 import org.itson.mythify.facade.post.IPostFacade;
 import org.itson.mythify.facade.post.PostFacade;
 import org.itson.mythify.entidad.Post;
 import org.itson.mythify.entidad.Usuario;
+import org.itson.mythify.facade.comentario.ComentarioFacade;
+import org.itson.mythify.facade.comentario.IComentarioFacade;
 
 /**
  *
@@ -34,12 +37,14 @@ import org.itson.mythify.entidad.Usuario;
 @WebServlet(name = "SVPost", urlPatterns = {"/SVPost"})
 public class SVPost extends HttpServlet {
 
+    private IComentarioFacade comentarioBO;
     private IPostFacade postBO;
 
     @Override
     public void init() throws ServletException {
         super.init();
         postBO = new PostFacade();
+        comentarioBO = new ComentarioFacade();
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -101,16 +106,22 @@ public class SVPost extends HttpServlet {
     private void handleViewPost(HttpServletRequest request, HttpServletResponse response, String postId) {
         int id = Integer.parseInt(postId);
         Post post;
+        List<Comentario> comentarios;
 
         try {
             post = postBO.consultarPostPorID(id);
+            comentarios = comentarioBO.consultarComentarios(id);
 
             if (post == null) {
                 response.sendRedirect("error.jsp");
             }
 
+            // Ordenar los comentarios por fecha y hora
+            List<Comentario> comentariosOrdenados = ordenarComentariosPorFecha(comentarios);
+
             request.setAttribute("calculadorTiempo", new CalcularTiempo());
             request.setAttribute("post", post);
+            request.setAttribute("comentarios", comentariosOrdenados);
             request.getRequestDispatcher("post.jsp").forward(request, response);
         } catch (ServletException | IOException | ControllerException ex) {
             Logger.getLogger(SVPost.class.getName()).log(Level.SEVERE, null, ex);
@@ -178,7 +189,7 @@ public class SVPost extends HttpServlet {
         String contenido = request.getParameter("content");
 
         Post post;
-        
+
         try {
             post = postBO.consultarPostPorID(Integer.parseInt(postId));
 
@@ -238,7 +249,7 @@ public class SVPost extends HttpServlet {
 
     private void consultarPorCategoria(HttpServletRequest request, HttpServletResponse response, String categoria)
             throws ServletException, IOException {
-        List<Post> postsOrdenados = obtenerPostsOrdenados(categoria);
+        List<Post> postsOrdenados = obtenerListaOrdenada(categoria);
 
         request.setAttribute("calculadorTiempo", new CalcularTiempo());
         request.setAttribute("posts", postsOrdenados);
@@ -246,7 +257,7 @@ public class SVPost extends HttpServlet {
     }
 
     // Obtener posts según categoría
-    private List<Post> obtenerPostsOrdenados(String categoria) {
+    private List<Post> obtenerListaOrdenada(String categoria) {
         try {
             List<Post> posts = categoria.equals("all")
                     ? postBO.consultarPosts()
@@ -281,5 +292,20 @@ public class SVPost extends HttpServlet {
         postsOrdenados.addAll(noAnclados);
 
         return postsOrdenados;
+    }
+
+    private List<Comentario> ordenarComentariosPorFecha(List<Comentario> comentarios) {
+        if (comentarios == null || comentarios.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        // Crear una copia de la lista para no modificar la original
+        List<Comentario> comentariosOrdenados = new ArrayList<>(comentarios);
+
+        // Ordenar los comentarios por fecha de creación en orden descendente (más recientes primero)
+        Comparator<Comentario> fechaComparator = Comparator.comparing(Comentario::getFechaHora).reversed();
+        comentariosOrdenados.sort(fechaComparator);
+
+        return comentariosOrdenados;
     }
 }

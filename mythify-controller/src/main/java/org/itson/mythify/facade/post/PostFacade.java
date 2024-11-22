@@ -13,6 +13,7 @@ import org.itson.mythify.dao.DAOFactory;
 import org.itson.mythify.dao.IPostDAO;
 import org.itson.mythify.conexion.ModelException;
 import org.itson.mythify.entidad.Post;
+import org.itson.mythify.exceptions.ControllerException;
 
 /**
  * @author Eduardo Talavera Ramos
@@ -31,7 +32,7 @@ public class PostFacade implements IPostFacade {
     }
 
     @Override
-    public Post crearPost(Post post) {
+    public Post crearPost(Post post) throws ControllerException {
         try {
             return postDAO.crearPost(post);
         } catch (ModelException ex) {
@@ -41,7 +42,7 @@ public class PostFacade implements IPostFacade {
     }
 
     @Override
-    public boolean eliminarPost(int idPost) {
+    public boolean eliminarPost(int idPost) throws ControllerException {
         try {
             return postDAO.eliminarPost(idPost);
         } catch (ModelException ex) {
@@ -51,7 +52,7 @@ public class PostFacade implements IPostFacade {
     }
 
     @Override
-    public Post actualizarPost(Post post) {
+    public Post actualizarPost(Post post) throws ControllerException {
         try {
             return postDAO.actualizarPost(post);
         } catch (ModelException ex) {
@@ -61,7 +62,7 @@ public class PostFacade implements IPostFacade {
     }
 
     @Override
-    public Post anclarPost(Post post) {
+    public Post anclarPost(Post post) throws ControllerException {
         try {
             return postDAO.anclarPost(post);
         } catch (ModelException ex) {
@@ -71,7 +72,7 @@ public class PostFacade implements IPostFacade {
     }
 
     @Override
-    public List<Post> consultarPosts() {
+    public List<Post> consultarPosts() throws ControllerException {
         try {
             return postDAO.consultarPosts();
         } catch (ModelException ex) {
@@ -81,7 +82,7 @@ public class PostFacade implements IPostFacade {
     }
 
     @Override
-    public List<Post> consultarPostsCategoria(String categoria) {
+    public List<Post> consultarPostsCategoria(String categoria) throws ControllerException {
         try {
             return postDAO.consultarPostsCategoria(categoria);
         } catch (ModelException ex) {
@@ -91,7 +92,7 @@ public class PostFacade implements IPostFacade {
     }
 
     @Override
-    public Post consultarPostPorID(int id) {
+    public Post consultarPostPorID(int id) throws ControllerException {
         try {
             return postDAO.consultarPostPorID(id);
         } catch (ModelException ex) {

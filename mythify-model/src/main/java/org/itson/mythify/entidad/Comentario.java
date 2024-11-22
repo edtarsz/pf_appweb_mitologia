@@ -5,6 +5,7 @@
 package org.itson.mythify.entidad;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,8 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  * @author Eduardo Talavera Ramos
@@ -36,15 +35,14 @@ public class Comentario implements Serializable {
     private String contenido;
 
     @Column(name = "fechaHora", nullable = false)
-    @Temporal(TemporalType.DATE)
-    private Date fechaHora;
+    private LocalDateTime fechaHora;
 
     @ManyToOne
     @JoinColumn(name = "idUsuario", nullable = false)
     private Usuario usuario; // Usuario que comentó
 
     @ManyToOne
-    @JoinColumn(name = "idComentarioPadre")
+    @JoinColumn(name = "idComentarioPadre", nullable = true)
     private Comentario comentarioPadre;
 
     @ManyToOne
@@ -54,7 +52,7 @@ public class Comentario implements Serializable {
     public Comentario() {
     }
 
-    public Comentario(String contenido, Date fechaHora, Usuario usuario, Comentario comentarioPadre, Post post) {
+    public Comentario(String contenido, LocalDateTime fechaHora, Usuario usuario, Comentario comentarioPadre, Post post) {
         this.contenido = contenido;
         this.fechaHora = fechaHora;
         this.usuario = usuario;
@@ -62,7 +60,7 @@ public class Comentario implements Serializable {
         this.post = post;
     }
 
-    public Comentario(String contenido, Date fechaHora, Usuario usuario, Post post) {
+    public Comentario(String contenido, LocalDateTime fechaHora, Usuario usuario, Post post) {
         this.contenido = contenido;
         this.fechaHora = fechaHora;
         this.usuario = usuario;
@@ -85,11 +83,11 @@ public class Comentario implements Serializable {
         this.contenido = contenido;
     }
 
-    public Date getFechaHora() {
+    public LocalDateTime getFechaHora() {
         return fechaHora;
     }
 
-    public void setFechaHora(Date fechaHora) {
+    public void setFechaHora(LocalDateTime fechaHora) {
         this.fechaHora = fechaHora;
     }
 

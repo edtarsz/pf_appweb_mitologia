@@ -312,4 +312,28 @@ public class PostDAO implements IPostDAO {
         }
     }
 
+    @Override
+    public List<Post> consultarPostLikeados(int idUsuario) throws ModelException {
+        try {
+            logger.log(Level.INFO, "Attempting to query liked posts by user {0}", idUsuario);
+
+            // Buscar al usuario por ID
+            Usuario usuario = entityManager.find(Usuario.class, idUsuario);
+            if (usuario == null) {
+                throw new ModelException("No se encontró al usuario con ID: " + idUsuario);
+            }
+
+            // Obtener la lista de posts likeados desde el objeto Usuario
+            List<Post> postsLikeados = usuario.getPostsLikeados();
+
+            // Log del resultado
+            logger.log(Level.INFO, "User {0} has liked {1} posts.", new Object[]{idUsuario, postsLikeados.size()});
+
+            return postsLikeados;
+        } catch (ModelException ex) {
+            logger.log(Level.SEVERE, "Error querying liked posts by user: " + idUsuario, ex);
+            throw new ModelException("Error al consultar los posts likeados: " + ex.getMessage(), ex);
+        }
+    }
+
 }

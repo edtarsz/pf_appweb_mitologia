@@ -138,4 +138,14 @@ public class PostFacade implements IPostFacade {
         }
     }
 
+    @Override
+    public List<Post> consultarPostLikeados(int idUsuario) throws ControllerException {
+        try {
+            return postDAO.consultarPostLikeados(idUsuario);
+        } catch (ModelException ex) {
+            Logger.getLogger(PostFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
 }

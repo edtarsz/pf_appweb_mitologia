@@ -39,4 +39,5 @@ public interface IPostFacade {
 
     public int consultarCantLikes(int idPost) throws ControllerException;
 
+    public List<Post> consultarPostLikeados(int idUsuario) throws ControllerException;
 }

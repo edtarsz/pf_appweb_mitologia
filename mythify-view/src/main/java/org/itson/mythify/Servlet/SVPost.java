@@ -329,6 +329,8 @@ public class SVPost extends HttpServlet {
                 postBO.operacionContadorLike(postId, -1);
             }
 
+            List<Post> postsLikeados = postBO.consultarPostLikeados(usuario.getIdUsuario());
+            request.getSession().setAttribute("postsLikeados", postsLikeados);
             response.sendRedirect("SVPost?mythology=all");
         } catch (ControllerException | IOException ex) {
             Logger.getLogger(SVPost.class.getName()).log(Level.SEVERE, null, ex);

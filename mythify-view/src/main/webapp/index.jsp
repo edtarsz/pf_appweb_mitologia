@@ -118,13 +118,13 @@
                                             </a>
                                         </c:if>
 
-                                        <c:set var="postLikeados" value="${usuario.postsLikeados}" />
+                                        <c:set var="postLikeados" value="${sessionScope.postsLikeados}" />
                                         <div class="footer-post">
                                             <form action="SVPost" method="post">
                                                 <input type="hidden" name="idPost" value="${post.idPost}">
                                                 <c:choose>
                                                     <%-- Verificamos si el post actual está en la lista de posts likeados --%>
-                                                    <c:when test="${fn:contains(usuario.postsLikeados, post)}">
+                                                    <c:when test="${fn:contains(postLikeados, post)}">
                                                         <input type="hidden" name="action" value="desLikearPost">
                                                         <button class="btn-footer">
                                                             <img src="<c:url value='/img/heart-red.svg' />" alt="Dislike">

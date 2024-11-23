@@ -62,10 +62,14 @@ public class SVUsuario extends HttpServlet {
             response.sendRedirect("error.jsp");
         } else {
             switch (action) {
-                case "registrar" -> registrarUsuario(request, response);
-                case "iniciarSesion" -> iniciarSesion(request, response);
-                case "cerrarSesion" -> cerrarSesion(request, response);
-                case "verificarCorreo" -> verificarCorreo(request, response);
+                case "registrar" ->
+                    registrarUsuario(request, response);
+                case "iniciarSesion" ->
+                    iniciarSesion(request, response);
+                case "cerrarSesion" ->
+                    cerrarSesion(request, response);
+                case "verificarCorreo" ->
+                    verificarCorreo(request, response);
             }
         }
     }
@@ -145,10 +149,12 @@ public class SVUsuario extends HttpServlet {
 
         Usuario usuario = null;
         List<Post> posts = null;
+        List<Post> postsLikeados = null;
 
         try {
             usuario = usuarioBO.consultarUsuario(correo, contrasenia);
             posts = postBO.consultarPosts();
+            postsLikeados = postBO.consultarPostLikeados(usuario.getIdUsuario());
         } catch (ControllerException ex) {
             Logger.getLogger(SVUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -161,8 +167,13 @@ public class SVUsuario extends HttpServlet {
             return;
         }
 
+        for (Post postsLikeado : postsLikeados) {
+            System.out.println(postsLikeado);
+        }
+
         request.getSession().setAttribute("usuario", usuario);
         request.setAttribute("posts", posts);
+        request.getSession().setAttribute("postsLikeados", postsLikeados);
         response.sendRedirect("SVPost?mythology=all");
     }
 

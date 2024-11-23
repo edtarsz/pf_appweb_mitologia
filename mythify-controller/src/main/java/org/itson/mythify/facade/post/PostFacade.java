@@ -101,4 +101,41 @@ public class PostFacade implements IPostFacade {
         return null;
     }
 
+    @Override
+    public void likearPost(int idUsuario, int idPost) throws ControllerException {
+        try {
+            postDAO.likearPost(idUsuario, idPost);
+        } catch (ModelException ex) {
+            Logger.getLogger(PostFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public int consultarCantLikes(int idPost) throws ControllerException {
+        try {
+            postDAO.consultarCantLikes(idPost);
+        } catch (ModelException ex) {
+            Logger.getLogger(PostFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+
+    @Override
+    public void desLikearPost(int idUsuario, int idPost) throws ControllerException {
+        try {
+            postDAO.desLikearPost(idUsuario, idPost);
+        } catch (ModelException ex) {
+            Logger.getLogger(PostFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void operacionContadorLike(int idPost, int cantidad) throws ControllerException {
+        try {
+            postDAO.operacionContadorLike(idPost, cantidad);
+        } catch (ModelException ex) {
+            Logger.getLogger(PostFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
 }

@@ -74,7 +74,6 @@
                                                     </button>
 
                                                     <div class="dropdown-menu" id="dropdown-${post.idPost}" style="display: none;">
-
                                                         <form action="SVPost?id=${post.idPost}" method="post">
                                                             <input type="hidden" name="idPost" value="${post.idPost}">
 
@@ -100,7 +99,6 @@
                                                     </div>
                                                 </div>
                                             </c:if>
-
                                         </div>
 
                                         <c:if test="${!post.anclado}">
@@ -120,15 +118,33 @@
                                             </a>
                                         </c:if>
 
+                                        <c:set var="postLikeados" value="${usuario.postsLikeados}" />
                                         <div class="footer-post">
-                                            <button class="btn-footer">
-                                                <img src="<c:url value='/img/heart-black.svg' />" alt="Like">
-                                                19
-                                            </button>
+                                            <form action="SVPost" method="post">
+                                                <input type="hidden" name="idPost" value="${post.idPost}">
+                                                <c:choose>
+                                                    <%-- Verificamos si el post actual está en la lista de posts likeados --%>
+                                                    <c:when test="${fn:contains(usuario.postsLikeados, post)}">
+                                                        <input type="hidden" name="action" value="desLikearPost">
+                                                        <button class="btn-footer">
+                                                            <img src="<c:url value='/img/heart-red.svg' />" alt="Dislike">
+                                                            ${post.cantLikes}
+                                                        </button>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <input type="hidden" name="action" value="likearPost">
+                                                        <button class="btn-footer">
+                                                            <img src="<c:url value='/img/heart-black.svg' />" alt="Like">
+                                                            ${post.cantLikes}
+                                                        </button>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </form>
                                         </div>
                                     </article>
                                 </c:if>
                             </c:forEach>
+
                         </c:when>
                         <c:otherwise>
                             <p>Aún no hay posts para mostrar.</p>

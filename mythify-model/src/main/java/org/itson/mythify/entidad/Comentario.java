@@ -6,6 +6,7 @@ package org.itson.mythify.entidad;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -113,6 +114,62 @@ public class Comentario implements Serializable {
 
     public void setPost(Post post) {
         this.post = post;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 97 * hash + this.idComentario;
+        hash = 97 * hash + Objects.hashCode(this.contenido);
+        hash = 97 * hash + Objects.hashCode(this.fechaHora);
+        hash = 97 * hash + Objects.hashCode(this.usuario);
+        hash = 97 * hash + Objects.hashCode(this.comentarioPadre);
+        hash = 97 * hash + Objects.hashCode(this.post);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Comentario other = (Comentario) obj;
+        if (this.idComentario != other.idComentario) {
+            return false;
+        }
+        if (!Objects.equals(this.contenido, other.contenido)) {
+            return false;
+        }
+        if (!Objects.equals(this.fechaHora, other.fechaHora)) {
+            return false;
+        }
+        if (!Objects.equals(this.usuario, other.usuario)) {
+            return false;
+        }
+        if (!Objects.equals(this.comentarioPadre, other.comentarioPadre)) {
+            return false;
+        }
+        return Objects.equals(this.post, other.post);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Comentario{");
+        sb.append("idComentario=").append(idComentario);
+        sb.append(", contenido=").append(contenido);
+        sb.append(", fechaHora=").append(fechaHora);
+        sb.append(", usuario=").append(usuario);
+        sb.append(", comentarioPadre=").append(comentarioPadre);
+        sb.append(", post=").append(post);
+        sb.append('}');
+        return sb.toString();
     }
 
 }

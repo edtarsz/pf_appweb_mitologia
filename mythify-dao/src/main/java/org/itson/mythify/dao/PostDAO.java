@@ -11,6 +11,7 @@ import javax.persistence.criteria.CriteriaDelete;
 import javax.persistence.criteria.Root;
 import org.itson.mythify.entidad.Comentario;
 import org.itson.mythify.entidad.Post;
+import org.itson.mythify.entidad.Usuario;
 
 /**
  * @author Eduardo Talavera Ramos
@@ -26,7 +27,8 @@ public class PostDAO implements IPostDAO {
     /**
      * Constructor para inicializar la clase `UsuarioDAO`.
      *
-     * @param conexion La conexión a la base de datos utilizada para inicializar el `EntityManager`.
+     * @param conexion La conexión a la base de datos utilizada para inicializar
+     * el `EntityManager`.
      */
     public PostDAO(IConexion conexion) {
         this.entityManager = conexion.crearConexion();
@@ -174,6 +176,139 @@ public class PostDAO implements IPostDAO {
                 logger.warning("Transaction rolled back.");
             }
             throw new ModelException("Error deleting post: " + ex.getMessage(), ex);
+        }
+    }
+
+    @Override
+    public void likearPost(int idUsuario, int idPost) throws ModelException {
+        try {
+            logger.log(Level.INFO, "Attempting to like post {0} by user {1}", new Object[]{idPost, idUsuario});
+            entityManager.getTransaction().begin();
+
+            // Buscar al usuario por ID
+            Usuario usuario = entityManager.find(Usuario.class, idUsuario);
+            if (usuario == null) {
+                throw new ModelException("No se encontró al usuario con ID: " + idUsuario);
+            }
+
+            // Buscar el post por ID
+            Post post = entityManager.find(Post.class, idPost);
+            if (post == null) {
+                throw new ModelException("No se encontró el post con ID: " + idPost);
+            }
+
+            // Agregar el post a la lista de posts likeados del usuario
+            if (!usuario.getPostsLikeados().contains(post)) {
+                usuario.getPostsLikeados().add(post);
+                logger.log(Level.INFO, "Post {0} liked by user {1}", new Object[]{idPost, idUsuario});
+            } else {
+                logger.log(Level.WARNING, "User {0} already liked post {1}", new Object[]{idUsuario, idPost});
+            }
+
+            // Actualizar el usuario en la base de datos
+            entityManager.merge(usuario);
+            entityManager.getTransaction().commit();
+
+        } catch (ModelException ex) {
+            logger.log(Level.SEVERE, "Error liking post: " + idPost + " by user: " + idUsuario, ex);
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+                logger.warning("Transaction rolled back.");
+            }
+            throw new ModelException("Error al dar like al post: " + ex.getMessage(), ex);
+        }
+    }
+
+    @Override
+    public void desLikearPost(int idUsuario, int idPost) throws ModelException {
+        try {
+            logger.log(Level.INFO, "Attempting to unlike post {0} by user {1}", new Object[]{idPost, idUsuario});
+            entityManager.getTransaction().begin();
+
+            // Buscar al usuario por ID
+            Usuario usuario = entityManager.find(Usuario.class, idUsuario);
+            if (usuario == null) {
+                throw new ModelException("No se encontró al usuario con ID: " + idUsuario);
+            }
+
+            // Buscar el post por ID
+            Post post = entityManager.find(Post.class, idPost);
+            if (post == null) {
+                throw new ModelException("No se encontró el post con ID: " + idPost);
+            }
+
+            // Verificar si el usuario ya había dado like al post
+            if (usuario.getPostsLikeados().contains(post)) {
+                // Eliminar el post de la lista de posts likeados
+                usuario.getPostsLikeados().remove(post);
+                logger.log(Level.INFO, "Post {0} unliked by user {1}", new Object[]{idPost, idUsuario});
+            } else {
+                // Si el usuario no ha dado like al post
+                logger.log(Level.WARNING, "User {0} has not liked post {1}", new Object[]{idUsuario, idPost});
+            }
+
+            // Actualizar el usuario en la base de datos
+            entityManager.merge(usuario);
+            entityManager.getTransaction().commit();
+
+        } catch (ModelException ex) {
+            logger.log(Level.SEVERE, "Error unliking post: " + idPost + " by user: " + idUsuario, ex);
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+                logger.warning("Transaction rolled back.");
+            }
+            throw new ModelException("Error al quitar el like del post: " + ex.getMessage(), ex);
+        }
+    }
+
+    @Override
+    public void operacionContadorLike(int idPost, int cantidad) throws ModelException {
+        try {
+            logger.log(Level.INFO, "Attempting to increment like count for post {0}", idPost);
+            entityManager.getTransaction().begin();
+
+            // Buscar el post por ID
+            Post post = entityManager.find(Post.class, idPost);
+            if (post == null) {
+                throw new ModelException("No se encontró el post con ID: " + idPost);
+            }
+
+            // Incrementar el contador de likes
+            post.setCantLikes(post.getCantLikes() + cantidad);
+            logger.log(Level.INFO, "Incremented like count for post {0} to {1}", new Object[]{idPost, post.getCantLikes()});
+
+            // Actualizar el post en la base de datos
+            entityManager.merge(post);
+            entityManager.getTransaction().commit();
+
+        } catch (ModelException ex) {
+            logger.log(Level.SEVERE, "Error incrementing like count for post: " + idPost, ex);
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+                logger.warning("Transaction rolled back.");
+            }
+            throw new ModelException("Error al aumentar el contador de likes: " + ex.getMessage(), ex);
+        }
+    }
+
+    @Override
+    public int consultarCantLikes(int idPost) throws ModelException {
+        try {
+            logger.log(Level.INFO, "Attempting to get like count for post {0}", idPost);
+
+            // Buscar el post por ID
+            Post post = entityManager.find(Post.class, idPost);
+            if (post == null) {
+                throw new ModelException("No se encontró el post con ID: " + idPost);
+            }
+
+            logger.log(Level.INFO, "Like count for post {0} is {1}", new Object[]{idPost, post.getCantLikes()});
+
+            // Retornar la cantidad de likes
+            return post.getCantLikes();
+        } catch (ModelException ex) {
+            logger.log(Level.SEVERE, "Error retrieving like count for post: " + idPost, ex);
+            throw new ModelException("Error al consultar la cantidad de likes: " + ex.getMessage(), ex);
         }
     }
 

@@ -93,11 +93,11 @@ public class Municipio implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 23 * hash + Objects.hashCode(this.id);
-        hash = 23 * hash + Objects.hashCode(this.nombre);
-        hash = 23 * hash + Objects.hashCode(this.estado);
-        hash = 23 * hash + Objects.hashCode(this.usuarios);
+        int hash = 7;
+        hash = 41 * hash + Objects.hashCode(this.id);
+        hash = 41 * hash + Objects.hashCode(this.nombre);
+        hash = 41 * hash + Objects.hashCode(this.estado);
+        hash = 41 * hash + Objects.hashCode(this.usuarios);
         return hash;
     }
 

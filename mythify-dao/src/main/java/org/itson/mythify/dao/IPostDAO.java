@@ -19,8 +19,8 @@ public interface IPostDAO {
     public Post crearPost(Post post) throws ModelException;
 
     public boolean eliminarPost(int idPost) throws ModelException;
-    
-     public Post anclarPost(Post post) throws ModelException;
+
+    public Post anclarPost(Post post) throws ModelException;
 
     public Post actualizarPost(Post post) throws ModelException;
 
@@ -29,5 +29,13 @@ public interface IPostDAO {
     public List<Post> consultarPostsCategoria(String categoria) throws ModelException;
 
     public Post consultarPostPorID(int id) throws ModelException;
+
+    public void likearPost(int idUsuario, int idPost) throws ModelException;
+
+    public void desLikearPost(int idUsuario, int idPost) throws ModelException;
+
+    public void operacionContadorLike(int idPost, int cantidad) throws ModelException;
+
+    public int consultarCantLikes(int idPost) throws ModelException;
 
 }

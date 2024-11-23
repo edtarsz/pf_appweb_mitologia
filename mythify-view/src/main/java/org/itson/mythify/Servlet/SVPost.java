@@ -50,6 +50,7 @@ public class SVPost extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action");
+        System.out.println(action);
 
         if (action == null) {
             response.sendRedirect("error.jsp");
@@ -65,6 +66,10 @@ public class SVPost extends HttpServlet {
                     anclarPost(request, response, action);
                 case "desAnclarPost" ->
                     anclarPost(request, response, action);
+                case "likearPost" ->
+                    likearPost(request, response, action);
+                case "desLikearPost" ->
+                    likearPost(request, response, action);
             }
         }
     }
@@ -307,5 +312,26 @@ public class SVPost extends HttpServlet {
         comentariosOrdenados.sort(fechaComparator);
 
         return comentariosOrdenados;
+    }
+
+    public void likearPost(HttpServletRequest request, HttpServletResponse response, String action) {
+        int postId = Integer.parseInt(request.getParameter("idPost"));
+
+        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+
+        try {
+            if (action.equalsIgnoreCase("likearPost")) {
+                postBO.likearPost(usuario.getIdUsuario(), postId);
+                postBO.operacionContadorLike(postId, 1);
+            } else if (action.equalsIgnoreCase("desLikearPost")) {
+                System.out.println("intenta deslikear");
+                postBO.desLikearPost(usuario.getIdUsuario(), postId);
+                postBO.operacionContadorLike(postId, -1);
+            }
+
+            response.sendRedirect("SVPost?mythology=all");
+        } catch (ControllerException | IOException ex) {
+            Logger.getLogger(SVPost.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

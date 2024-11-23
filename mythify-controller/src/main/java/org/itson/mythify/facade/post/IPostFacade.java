@@ -7,6 +7,7 @@ package org.itson.mythify.facade.post;
 import java.util.List;
 import org.itson.mythify.exceptions.ControllerException;
 import org.itson.mythify.entidad.Post;
+import org.itson.mythify.entidad.Usuario;
 
 /**
  * @author Eduardo Talavera Ramos
@@ -29,5 +30,13 @@ public interface IPostFacade {
     public List<Post> consultarPostsCategoria(String categoria) throws ControllerException;
 
     public Post consultarPostPorID(int id) throws ControllerException;
+
+    public void likearPost(int idUsuario, int idPost) throws ControllerException;
+
+    public void desLikearPost(int idUsuario, int idPost) throws ControllerException;
+
+    public void operacionContadorLike(int idPost, int cantidad) throws ControllerException;
+
+    public int consultarCantLikes(int idPost) throws ControllerException;
 
 }

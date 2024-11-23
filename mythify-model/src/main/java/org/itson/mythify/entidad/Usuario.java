@@ -6,7 +6,10 @@ package org.itson.mythify.entidad;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +19,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -78,6 +83,14 @@ public class Usuario implements Serializable {
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "idMunicipio", nullable = false)
     private Municipio municipio;
+
+    @ManyToMany
+    @JoinTable(
+            name = "Usuario_PostLikes", // Tabla intermedia
+            joinColumns = @JoinColumn(name = "idUsuario"), // Llave de Usuario
+            inverseJoinColumns = @JoinColumn(name = "idPost") // Llave de Post
+    )
+    private List<Post> postsLikeados = new ArrayList<>();
 
     public Usuario() {
     }
@@ -199,6 +212,105 @@ public class Usuario implements Serializable {
 
     public void setMunicipio(Municipio municipio) {
         this.municipio = municipio;
+    }
+
+    public List<Post> getPostsLikeados() {
+        return postsLikeados;
+    }
+
+    public void setPostsLikeados(List<Post> postsLikeados) {
+        this.postsLikeados = postsLikeados;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 67 * hash + this.idUsuario;
+        hash = 67 * hash + Objects.hashCode(this.nombre);
+        hash = 67 * hash + Objects.hashCode(this.apellidoPaterno);
+        hash = 67 * hash + Objects.hashCode(this.apellidoMaterno);
+        hash = 67 * hash + Objects.hashCode(this.correo);
+        hash = 67 * hash + Objects.hashCode(this.contrasenia);
+        hash = 67 * hash + Objects.hashCode(this.telefono);
+        hash = 67 * hash + Objects.hashCode(this.avatar);
+        hash = 67 * hash + Objects.hashCode(this.ciudad);
+        hash = 67 * hash + Objects.hashCode(this.fechaNacimiento);
+        hash = 67 * hash + Objects.hashCode(this.genero);
+        hash = 67 * hash + Objects.hashCode(this.tipoUsuario);
+        hash = 67 * hash + Objects.hashCode(this.municipio);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Usuario other = (Usuario) obj;
+        if (this.idUsuario != other.idUsuario) {
+            return false;
+        }
+        if (!Objects.equals(this.nombre, other.nombre)) {
+            return false;
+        }
+        if (!Objects.equals(this.apellidoPaterno, other.apellidoPaterno)) {
+            return false;
+        }
+        if (!Objects.equals(this.apellidoMaterno, other.apellidoMaterno)) {
+            return false;
+        }
+        if (!Objects.equals(this.correo, other.correo)) {
+            return false;
+        }
+        if (!Objects.equals(this.contrasenia, other.contrasenia)) {
+            return false;
+        }
+        if (!Objects.equals(this.telefono, other.telefono)) {
+            return false;
+        }
+        if (!Objects.equals(this.avatar, other.avatar)) {
+            return false;
+        }
+        if (!Objects.equals(this.ciudad, other.ciudad)) {
+            return false;
+        }
+        if (!Objects.equals(this.genero, other.genero)) {
+            return false;
+        }
+        if (!Objects.equals(this.fechaNacimiento, other.fechaNacimiento)) {
+            return false;
+        }
+        if (this.tipoUsuario != other.tipoUsuario) {
+            return false;
+        }
+        return Objects.equals(this.municipio, other.municipio);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Usuario{");
+        sb.append("idUsuario=").append(idUsuario);
+        sb.append(", nombre=").append(nombre);
+        sb.append(", apellidoPaterno=").append(apellidoPaterno);
+        sb.append(", apellidoMaterno=").append(apellidoMaterno);
+        sb.append(", correo=").append(correo);
+        sb.append(", contrasenia=").append(contrasenia);
+        sb.append(", telefono=").append(telefono);
+        sb.append(", avatar=").append(avatar);
+        sb.append(", ciudad=").append(ciudad);
+        sb.append(", fechaNacimiento=").append(fechaNacimiento);
+        sb.append(", genero=").append(genero);
+        sb.append(", tipoUsuario=").append(tipoUsuario);
+        sb.append(", municipio=").append(municipio);
+        sb.append('}');
+        return sb.toString();
     }
 
 }

@@ -66,7 +66,6 @@ public class SVUsuario extends HttpServlet {
                 case "iniciarSesion" -> iniciarSesion(request, response);
                 case "cerrarSesion" -> cerrarSesion(request, response);
                 case "verificarCorreo" -> verificarCorreo(request, response);
-
             }
         }
     }

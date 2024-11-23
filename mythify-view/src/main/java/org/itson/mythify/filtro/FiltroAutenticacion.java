@@ -34,6 +34,7 @@ public class FiltroAutenticacion implements Filter {
             "/SVUsuario",
             "/img/icon.svg",
             "/script/validarRegistro.js",
+            "/script/validarPost.js",
             "/script/validarLogin.js"};
 
     public FiltroAutenticacion() {

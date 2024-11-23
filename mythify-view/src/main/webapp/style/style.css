@@ -1026,12 +1026,12 @@ footer {
     border-color: var(--border-white-color);
     border-radius: 13px;
     background-color: white;
-    margin: 20px 0;
     padding: 1em;
     display: flex;
     align-items: center;
     font-size: var(--font-size-small);
     width: 100%;
+    margin: 20px 0 0;
 }
 
 .input-area-post {
@@ -1040,7 +1040,7 @@ footer {
     border-color: var(--border-white-color);
     border-radius: 13px;
     background-color: rgb(255, 255, 255);
-    margin: 20px 0;
+    margin: 20px 0 0;
     padding: 1em;
     display: flex;
     align-items: center;

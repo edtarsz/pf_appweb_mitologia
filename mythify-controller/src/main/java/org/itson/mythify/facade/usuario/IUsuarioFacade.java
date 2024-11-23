@@ -23,4 +23,5 @@ public interface IUsuarioFacade {
 
     public Usuario consultarUsuario(String correo, String password) throws ControllerException;
 
+    public boolean verificarCorreoExistente(String correo) throws ControllerException;
 }

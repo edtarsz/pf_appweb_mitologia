@@ -67,4 +67,14 @@ public class UsuarioFacade implements IUsuarioFacade {
         return null;
     }
 
+    @Override
+    public boolean verificarCorreoExistente(String correo) throws ControllerException {
+        try {
+            return usuarioDAO.verificarCorreoExistente(correo);
+        } catch (ModelException ex) {
+            Logger.getLogger(UsuarioFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
 }

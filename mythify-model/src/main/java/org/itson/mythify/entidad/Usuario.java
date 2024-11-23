@@ -4,6 +4,7 @@
  */
 package org.itson.mythify.entidad;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.CascadeType;
@@ -30,6 +31,9 @@ import org.itson.mythify.enumeradores.TipoUsuario;
 @Entity
 @Table(name = "Usuario")
 public class Usuario implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

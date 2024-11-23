@@ -99,4 +99,22 @@ public class UsuarioDAO implements IUsuarioDAO {
             return null;
         }
     }
+
+    @Override
+    public boolean verificarCorreoExistente(String correo) throws ModelException {
+        try {
+            CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+            Root<Usuario> root = criteriaQuery.from(Usuario.class);
+
+            criteriaQuery.select(criteriaBuilder.count(root));
+            criteriaQuery.where(criteriaBuilder.equal(root.get("correo"), correo));
+
+            Long count = entityManager.createQuery(criteriaQuery).getSingleResult();
+            return count > 0;
+        } catch (Exception ex) {
+            logger.log(Level.SEVERE, "Error verifying email: {0}", ex.getMessage());
+            return false;
+        }
+    }
 }

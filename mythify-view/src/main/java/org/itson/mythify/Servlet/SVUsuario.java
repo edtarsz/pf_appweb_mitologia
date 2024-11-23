@@ -5,6 +5,7 @@
 package org.itson.mythify.Servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -24,7 +25,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+
 import java.util.List;
+
 import org.itson.mythify.facade.post.IPostFacade;
 import org.itson.mythify.facade.post.PostFacade;
 import org.itson.mythify.facade.usuario.IUsuarioFacade;
@@ -59,12 +62,11 @@ public class SVUsuario extends HttpServlet {
             response.sendRedirect("error.jsp");
         } else {
             switch (action) {
-                case "registrar" ->
-                    registrarUsuario(request, response);
-                case "iniciarSesion" ->
-                    iniciarSesion(request, response);
-                case "cerrarSesion" ->
-                    cerrarSesion(request, response);
+                case "registrar" -> registrarUsuario(request, response);
+                case "iniciarSesion" -> iniciarSesion(request, response);
+                case "cerrarSesion" -> cerrarSesion(request, response);
+                case "verificarCorreo" -> verificarCorreo(request, response);
+
             }
         }
     }
@@ -73,6 +75,7 @@ public class SVUsuario extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+
     }
 
     @Override
@@ -171,4 +174,23 @@ public class SVUsuario extends HttpServlet {
         session.invalidate();
         response.sendRedirect("iniciarSesion.jsp");
     }
+
+    private void verificarCorreo(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String correo = request.getParameter("correo");
+
+        boolean correoExistente = false;
+        try {
+            correoExistente = usuarioBO.verificarCorreoExistente(correo);
+        } catch (ControllerException ex) {
+            Logger.getLogger(SVUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        // Responder en formato JSON
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
+        out.print("{\"existe\": " + correoExistente + "}");
+        out.flush();
+    }
+
 }

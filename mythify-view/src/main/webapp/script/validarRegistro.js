@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     const formulario = document.getElementById("form-register-validation");
-    formulario.addEventListener("submit", (event) => {
+    formulario.addEventListener("submit", async (event) => {
         event.preventDefault(); // Evita el envío estándar del formulario
 
         let esValido = true; // Bandera para saber si todos los campos son válidos
@@ -157,21 +157,44 @@ document.addEventListener("DOMContentLoaded", () => {
             esValido = false;
         }
 
+// Validación del correo (asíncrona)
+//         if (esValido) {
+            try {
+                const response = await fetch("SVUsuario", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: "action=verificarCorreo&correo=" + encodeURIComponent(correo)
+                });
+                const data = await response.json();
+
+                // Si el correo ya existe, mostrar mensaje de error, este .existe representa el campo del json que se envia desde el servlet
+                if (data.existe) {
+                    document.getElementById("correoError").textContent = "El correo ya está registrado.";
+                    esValido = false;
+                }
+            } catch (error) {
+                console.error("Error en la solicitud AJAX", error);
+                esValido = false;
+            }
+        // }
+
         // Si todo es válido, enviar el formulario
         if (esValido) {
             formulario.submit(); // Enviar el formulario
         }
     });
 
-    // Previsualización del avatar
-    document.getElementById("file-upload").addEventListener("change", (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                document.getElementById("imgAvatar").src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
-    });
+    //  // Previsualización del avatar
+    // document.getElementById("file-upload").addEventListener("change", (event) => {
+    //     const file = event.target.files[0];
+    //     if (file) {
+    //         const reader = new FileReader();
+    //         reader.onload = (e) => {
+    //             document.getElementById("imgAvatar").src = e.target.result;
+    //         };
+    //         reader.readAsDataURL(file);
+    //     }
+    // });
 });

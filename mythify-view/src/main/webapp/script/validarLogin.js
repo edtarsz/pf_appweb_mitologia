@@ -40,16 +40,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Si el usuario NO existe, mostrar mensaje de error sin detalles adicionales
                 if (!data.existe) {
                     document.getElementById("usuarioError").textContent = "Usuario no encontrado.";
-                    console.log("Usuario no encontrado.");
-                    esValido = false;
                 } else if (data.redirect) {
                     window.location.href = data.redirect; // Redirige manualmente
                 }
-                //
-                // // Si todo es válido, enviar el formulario
-                // if (esValido) {
-                //     formulario.submit(); // Enviar el formulario
-                // }
             } catch (error) {
                 console.error("Error en la solicitud AJAX", error);
             }

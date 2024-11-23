@@ -62,14 +62,10 @@ public class SVUsuario extends HttpServlet {
             response.sendRedirect("error.jsp");
         } else {
             switch (action) {
-                case "registrar" ->
-                    registrarUsuario(request, response);
-                case "iniciarSesion" ->
-                    iniciarSesion(request, response);
-                case "cerrarSesion" ->
-                    cerrarSesion(request, response);
-                case "verificarCorreo" ->
-                    verificarCorreo(request, response);
+                case "registrar" -> registrarUsuario(request, response);
+                case "iniciarSesion" -> iniciarSesion(request, response);
+                case "cerrarSesion" -> cerrarSesion(request, response);
+                case "verificarCorreo" -> verificarCorreo(request, response);
             }
         }
     }

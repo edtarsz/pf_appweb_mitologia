@@ -176,9 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error("Error en la solicitud AJAX", error);
             esValido = false;
         }
-        // }
 
-        // Si todo es válido, enviar el formulario
         if (esValido) {
             formulario.submit(); // Enviar el formulario
         }

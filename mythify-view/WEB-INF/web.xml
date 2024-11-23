@@ -2,15 +2,15 @@
 <web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
     <servlet>
         <servlet-name>SVPost</servlet-name>
-        <servlet-class>com.mycompany.redsocial.Servlet.SVPost</servlet-class>
+        <servlet-class>org.itson.mythify.Servlet.SVPost</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SVCerrarSesion</servlet-name>
-        <servlet-class>com.mycompany.redsocial.Servlet.SVCerrarSesion</servlet-class>
+        <servlet-class>org.itson.mythify.Servlet.SVCerrarSesion</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SVUsuario</servlet-name>
-        <servlet-class>com.mycompany.redsocial.Servlet.SVUsuario</servlet-class>
+        <servlet-class>org.itson.mythify.Servlet.SVUsuario</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>SVPost</servlet-name>
@@ -24,6 +24,11 @@
         <servlet-name>SVUsuario</servlet-name>
         <url-pattern>/SVUsuario</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>/script/*</url-pattern>
+    </servlet-mapping>
+
     <session-config>
         <session-timeout>
             30

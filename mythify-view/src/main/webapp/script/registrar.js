@@ -9,7 +9,7 @@ const containerBtn = document.querySelector(".transition-btn");
 const avatar = document.querySelector("#file-upload");
 const img = document.querySelector("#imgAvatar");
 const titleRegister = document.querySelector(".title-register");
-
+console.log("register.js loaded");
 if (rightRadio !== null) {
 	rightRadio.addEventListener("click", () => cambiarPantalla(false));
 	leftRadio.addEventListener("click", () => cambiarPantalla(true));

@@ -16,8 +16,9 @@
         <!-- CSS Stylesheets -->
         <link rel="stylesheet" href="<c:url value='/style/style.css' />">
         <!-- JavaScript -->
-        <script defer src="script/registrar.js"></script>
-        <script defer src="script/validarRegistro.js"></script>
+        <script defer src="<c:url value='/script/validarRegistro.js' />"></script>
+        <script defer src="<c:url value='/script/registrar.js' />"></script>
+
 
         <title>Mythify</title>
     </head>
@@ -51,21 +52,18 @@
                                 <div class="label-input-g">
                                     <label for="nombre">Nombre</label>
                                     <input type="text" class="register-input" name="nombre" id="nombre" autocomplete="name"/>
-                                    <small>Por favor ingrese el nombre</small>
+                                    <div id="nombreError" class="error-formulario"></div>
                                 </div>
                             </div>
-
                             <div class="input-group">
                                 <div class="label-input-g">
                                     <label for="apellidoPaterno">Primer apellido</label>
                                     <input type="text" class="register-input" name="apellidoPaterno" id="apellidoPaterno" autocomplete="family-name"/>
-                                    <small>Por favor ingrese el apellido paterno</small>
                                 </div>
 
                                 <div class="label-input-g">
                                     <label for="apellidoMaterno">Segundo apellido</label>
                                     <input type="text" class="register-input" name="apellidoMaterno" id="apellidoMaterno" autocomplete="family-name"/>
-                                    <small>Por favor ingrese el apellido materno</small>
                                 </div>
                             </div>
 
@@ -73,13 +71,10 @@
                                 <div class="label-input-g">
                                     <label for="estado">Estado</label>
                                     <input type="text" class="register-input" name="estado" id="estado" autocomplete="address-level1"/>
-                                    <small>Por favor ingrese el estado</small>
                                 </div>
-
                                 <div class="label-input-g">
                                     <label for="ciudad">Ciudad</label>
                                     <input type="text" class="register-input" name="ciudad" id="ciudad" autocomplete="address-level2"/>
-                                    <small>Por favor ingrese la ciudad</small>
                                 </div>
                             </div>
 
@@ -87,13 +82,11 @@
                                 <div class="label-input-g">
                                     <label for="municipio">Municipio</label>
                                     <input type="text" class="register-input" name="municipio" id="municipio" autocomplete="address-level3"/>
-                                    <small>Por favor ingrese el municipio</small>
                                 </div>
 
                                 <div class="label-input-g">
                                     <label for="fechaNacimiento">Fecha de nacimiento</label>
                                     <input type="date" class="register-input" name="fechaNacimiento" id="fechaNacimiento" autocomplete="bday"/>
-                                    <small>Por favor ingrese la fecha de nacimiento</small>
                                 </div>
                             </div>
                         </div>
@@ -103,7 +96,6 @@
                                 <div class="label-input-g">
                                     <label for="correo">Correo</label>
                                     <input type="email" class="register-input" name="correo" id="correo" autocomplete="email"/>
-                                    <small>Por favor ingrese el correo</small>
                                 </div>
                             </div>
 
@@ -111,14 +103,12 @@
                                 <div class="label-input-g">
                                     <label for="contrasena">Contraseña</label>
                                     <input type="password" class="register-input" name="contrasena" id="contrasena" autocomplete="new-password"/>
-                                    <small>Por favor ingrese la constraseña</small>
                                 </div>
 
                                 <div class="label-input-g">
                                     <label for="confirmarConstrasena">Confirmar Contraseña</label>
                                     <input type="password" class="register-input"
                                            name="confirmarContrasena" id="confirmarConstrasena" autocomplete="new-password"/>
-                                    <small>Por favor ingrese la misma contraseña nuevamente</small>
                                 </div>
                             </div>
 
@@ -157,7 +147,7 @@
                         </div>
 
                         <div class="transition-btn">
-                            <button type="button" class="btn-format-black" id="btn-registrar">Registrar</button>
+                            <button type="submit" class="btn-format-black" id="btn-registrar">Registrar</button>
                         </div>
                     </form>
 
@@ -187,24 +177,24 @@
             </div>
         </main>
         <!-- Coloca el código al final del body -->
-        <script>
-            document.addEventListener("DOMContentLoaded", () => {
-                const addForm = document.getElementById("form-register-validation");
+<%--        <script>--%>
+<%--            document.addEventListener("DOMContentLoaded", () => {--%>
+<%--                const addForm = document.getElementById("form-register-validation");--%>
 
-                if (addForm) {
-                    addForm.addEventListener("submit", (e) => {
-                        if (!addForm.checkValidity()) {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            addForm.classList.add("was-validated");
-                        }
-                    });
-                } else {
-                    console.error("Formulario con id 'form-register-validation' no encontrado.");
-                }
-            });
+<%--                if (addForm) {--%>
+<%--                    addForm.addEventListener("submit", (e) => {--%>
+<%--                        if (!addForm.checkValidity()) {--%>
+<%--                            e.preventDefault();--%>
+<%--                            e.stopPropagation();--%>
+<%--                            addForm.classList.add("was-validated");--%>
+<%--                        }--%>
+<%--                    });--%>
+<%--                } else {--%>
+<%--                    console.error("Formulario con id 'form-register-validation' no encontrado.");--%>
+<%--                }--%>
+<%--            });--%>
 
-        </script>
+<%--        </script>--%>
 
 
     </body>

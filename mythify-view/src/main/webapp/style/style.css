@@ -1312,6 +1312,12 @@ small {
     height: auto;
 }
 
+.error-formulario{
+    color: #ffff80;
+    font-size: 14px;
+    font-weight: 400;
+}
+
 #commentForm {
     display: none;
 }

@@ -35,8 +35,7 @@ public class FiltroAutenticacion implements Filter {
      */
     private boolean isLogged(HttpServletRequest httpServletRequest) {
         HttpSession session = httpServletRequest.getSession(false);
-        boolean logged = (session != null && session.getAttribute("usuario") != null);
-        return logged;
+        return (session != null && session.getAttribute("usuario") != null);
     }
 
     private boolean isURLPrivate(String url) {

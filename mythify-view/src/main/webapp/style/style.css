@@ -246,7 +246,7 @@ a {
     text-decoration: none;
 }
 
-a::visited {
+a:visited {
     color: blueviolet;
 }
 
@@ -1313,9 +1313,11 @@ small {
 }
 
 .error-formulario{
+    padding: 3px;
     color: #ffff80;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 400;
+    text-align: left;
 }
 
 #commentForm {

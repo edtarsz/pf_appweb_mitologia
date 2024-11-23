@@ -37,10 +37,6 @@
   </nav>
 </header>
 <main class="container-register">
-  <%
-    // Este log imprimirá en la consola del servidor la ruta generada
-    System.out.println(request.getContextPath() + "/script/validarRegistro.js");
-  %>
   <div class="main-register">
     <div class="content-register">
       <div class="title-register">
@@ -62,14 +58,14 @@
           </div>
           <div class="input-group">
             <div class="label-input-g">
-              <label for="apellidoPaterno">Primer apellido</label>
+              <label for="apellidoPaterno">Apellido Paterno</label>
               <input type="text" class="register-input" name="apellidoPaterno" id="apellidoPaterno"
                      autocomplete="family-name"/>
               <div id="apellidoPaternoError" class="error-formulario"></div>
             </div>
 
             <div class="label-input-g">
-              <label for="apellidoMaterno">Segundo apellido</label>
+              <label for="apellidoMaterno">Apellido Materno</label>
               <input type="text" class="register-input" name="apellidoMaterno" id="apellidoMaterno"
                      autocomplete="family-name"/>
               <div id="apellidoMaternoError" class="error-formulario"></div>
@@ -80,12 +76,12 @@
             <div class="label-input-g">
               <label for="estado">Estado</label>
               <input type="text" class="register-input" name="estado" id="estado" autocomplete="address-level1"/>
-              <div id="estadoError" class="error-form"></div>
+              <div id="estadoError" class="error-formulario"></div>
             </div>
             <div class="label-input-g">
               <label for="ciudad">Ciudad</label>
               <input type="text" class="register-input" name="ciudad" id="ciudad" autocomplete="address-level2"/>
-              <div id="ciudadError" class="error-form"></div>
+              <div id="ciudadError" class="error-formulario"></div>
             </div>
           </div>
 
@@ -93,14 +89,14 @@
             <div class="label-input-g">
               <label for="municipio">Municipio</label>
               <input type="text" class="register-input" name="municipio" id="municipio" autocomplete="address-level3"/>
-              <div id="municipioError" class="error-form"></div>
+              <div id="municipioError" class="error-formulario"></div>
             </div>
 
             <div class="label-input-g">
               <label for="fechaNacimiento">Fecha de nacimiento</label>
               <input type="date" class="register-input" name="fechaNacimiento" id="fechaNacimiento"
                      autocomplete="bday"/>
-              <div id="fechaNacimientoError" class="error-form "></div>
+              <div id="fechaNacimientoError" class="error-formulario "></div>
             </div>
           </div>
         </div>
@@ -140,7 +136,7 @@
                 <label for="file-upload" class="btn-upload">Subir avatar</label>
                 <input type="file" accept="image/jpeg, image/png" id="file-upload"
                        name="avatar"/>
-                <div id="avatarError" class="error-form "></div>
+                <div id="avatarError" class="error-formulario "></div>
               </div>
             </div>
 

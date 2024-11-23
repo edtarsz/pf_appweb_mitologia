@@ -5,49 +5,50 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-        <meta http-equiv="Pragma" content="no-cache">
-        <meta http-equiv="Expires" content="0">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
 
-        <!-- Icono de la página -->
-        <link rel="icon" type="image/x-icon" href="<c:url value="${pageContext.request.contextPath}/img/icon.svg"/>">
-        <!-- CSS Stylesheets -->
-        <link rel="stylesheet" href="<c:url value='/style/style.css'/>">
+  <!-- Icono de la página -->
+  <link rel="icon" type="image/x-icon" href="<c:url value="${pageContext.request.contextPath}/img/icon.svg"/>">
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="<c:url value='/style/style.css'/>">
 
-        <title>Mythify</title>
-    </head>
+  <script defer src="<c:url value='/script/validarLogin.js'/>"></script>
 
-    <body>
-        <main class="container-main">
-            <img src="img/statue.png" alt="" id="statue-img" />
-            <div class="main-conent">
-                <!-- <img src="" alt="" /> -->
-                <h1>Iniciar Sesión</h1>
+  <title>Mythify</title>
+</head>
 
-                <p class="description">
-                    Lorem ipsum dolor sit amet consectetur adipiscing elit augue ornare
-                </p>
+<body>
+<main class="container-main">
+  <img src="img/statue.png" alt="" id="statue-img"/>
+  <div class="main-conent">
+    <!-- <img src="" alt="" /> -->
+    <h1>Iniciar Sesión</h1>
 
-                <form action="SVUsuario" method="post">
-                    <input type="hidden" name="action" value="iniciarSesion">
-                    <label for="correo">Correo</label>
-                    <input type="email" class="input-format" autocomplete="email" name="correo" />
+    <p class="description">
+      Lorem ipsum dolor sit amet consectetur adipiscing elit augue ornare
+    </p>
 
-                    <label for="contraseña">Contraseña</label>
-                    <input type="password" class="input-format" name="contrasenia" />
-
-                    <button type="submit" class="btn-format">Ingresar</button>
-
-                    <p>
-                        ¿Aun no tienes una cuenta?
-                        <span><a href="registrar.jsp">Registrar cuenta </a></span>
-                    </p>
-                </form>
-            </div>
-        </main>
-    </body>
+    <form action="SVUsuario" method="post" id="form-iniciar-sesion" novalidate>
+      <input type="hidden" name="action" value="iniciarSesion">
+      <label for="correo">Correo</label>
+      <input type="email" class="input-format" autocomplete="email" name="correo" id="correo"/>
+      <div id="correoError" class="error-formulario"></div>
+      <label for="contrasena">Contraseña</label>
+      <input type="password" class="input-format" name="contrasenia" autocomplete="current-password" id="contrasena"/>
+      <div id="contrasenaError" class="error-formulario"></div>
+      <button type="submit" class="btn-format">Ingresar</button>
+      <p>
+        ¿Aun no tienes una cuenta?
+        <span><a href="registrar.jsp">Registrar cuenta </a></span>
+      </p>
+    </form>
+  </div>
+</main>
+</body>
 
 </html>

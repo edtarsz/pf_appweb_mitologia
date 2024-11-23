@@ -41,9 +41,6 @@
     <div class="content-register">
       <div class="title-register">
         <h1>Registro</h1>
-        <p>
-          Por favor ingrese sus datos para registrarse en Mythify
-        </p>
       </div>
       <form action="SVUsuario" method="post" class="form-register" enctype="multipart/form-data"
             id="form-register-validation" novalidate>

@@ -155,6 +155,10 @@ public class SVUsuario extends HttpServlet {
         }
 
         if (usuario == null) {
+            // Si no se encuentra el usuario, respondemos con un JSON que indica que no existe
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write("{\"existe\": false}");
             return;
         }
 

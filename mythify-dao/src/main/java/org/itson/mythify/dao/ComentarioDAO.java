@@ -57,37 +57,44 @@ public class ComentarioDAO implements IComentarioDAO {
         }
     }
 
-    @Override
     public void eliminarComentario(int idComentario) throws ModelException {
         try {
             logger.log(Level.INFO, "Attempting to delete comment with ID: {0}", idComentario);
 
-            // Start transaction
             entityManager.getTransaction().begin();
 
-            // Create criteria builder and query
+            // Obtener referencia al comentario padre
+            Comentario comentarioPadre = entityManager.getReference(Comentario.class, idComentario);
+
+            // Eliminar comentarios hijos
             CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-            CriteriaDelete<Comentario> deleteQuery = criteriaBuilder.createCriteriaDelete(Comentario.class);
-            Root<Comentario> root = deleteQuery.from(Comentario.class);
+            CriteriaDelete<Comentario> deleteHijosQuery = criteriaBuilder.createCriteriaDelete(Comentario.class);
+            Root<Comentario> hijosRoot = deleteHijosQuery.from(Comentario.class);
 
-            // Add where clause for ID
-            deleteQuery.where(criteriaBuilder.equal(root.get("id"), idComentario));
+            deleteHijosQuery.where(criteriaBuilder.equal(hijosRoot.get("comentarioPadre"), comentarioPadre));
 
-            // Execute delete query
-            int deletedCount = entityManager.createQuery(deleteQuery).executeUpdate();
+            int deletedHijosCount = entityManager.createQuery(deleteHijosQuery).executeUpdate();
+            logger.log(Level.INFO, "Deleted {0} child comments for comment ID: {1}", new Object[]{deletedHijosCount, idComentario});
 
-            // Check if comment was actually deleted
+            // Eliminar comentario padre
+            CriteriaDelete<Comentario> deletePadreQuery = criteriaBuilder.createCriteriaDelete(Comentario.class);
+            Root<Comentario> padreRoot = deletePadreQuery.from(Comentario.class);
+
+            deletePadreQuery.where(criteriaBuilder.equal(padreRoot.get("idComentario"), idComentario));
+
+            int deletedCount = entityManager.createQuery(deletePadreQuery).executeUpdate();
+
             if (deletedCount == 0) {
                 logger.log(Level.WARNING, "Comment with ID {0} not found for deletion", idComentario);
                 throw new ModelException("No se encontró el comentario con ID: " + idComentario);
             }
 
-            // Commit transaction
             entityManager.getTransaction().commit();
             logger.log(Level.INFO, "Comment with ID {0} successfully deleted", idComentario);
 
         } catch (Exception ex) {
             logger.log(Level.SEVERE, "Error deleting comment with ID: " + idComentario, ex);
+
             if (entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();
                 logger.warning("Transaction rolled back.");

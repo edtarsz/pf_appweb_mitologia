@@ -42,7 +42,7 @@ public class Comentario implements Serializable {
     private Usuario usuario; // Usuario que comentó
 
     @ManyToOne
-    @JoinColumn(name = "idComentarioPadre", nullable = true)
+    @JoinColumn(name = "idComentarioPadre", referencedColumnName = "idComentario")
     private Comentario comentarioPadre;
 
     @ManyToOne

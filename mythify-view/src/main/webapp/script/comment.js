@@ -53,3 +53,32 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+document.addEventListener("click", function (event) {
+    if (event.target.closest(".btn-option")) {
+        const button = event.target.closest(".btn-option");
+        const comentarioId = button.dataset.comentarioId; // Obtiene el ID del comentario
+        const dropdown = document.getElementById(`dropdown-comentario-${comentarioId}`);
+        const isVisible = dropdown.style.display === "block";
+
+        closeAllCommentDropdowns(); // Cierra todos los menús antes de abrir el actual
+        dropdown.style.display = isVisible ? "none" : "block";
+
+        event.stopPropagation();
+    } else if (!event.target.closest(".dropdown-menu")) {
+        closeAllCommentDropdowns();
+    }
+});
+
+// Prevenir que los clicks dentro del menú desplegable lo cierren
+document.querySelectorAll(".dropdown-menu").forEach(dropdown => {
+    dropdown.addEventListener("click", function (event) {
+        event.stopPropagation();
+    });
+});
+
+// Prevenir que los clicks dentro del menú desplegable lo cierren
+function closeAllCommentDropdowns() {
+    const dropdowns = document.querySelectorAll(".dropdown-menu");
+    dropdowns.forEach(menu => menu.style.display = "none");
+}

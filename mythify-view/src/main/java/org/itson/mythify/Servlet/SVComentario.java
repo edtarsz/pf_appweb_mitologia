@@ -86,10 +86,12 @@ public class SVComentario extends HttpServlet {
 
     private void eliminarComentario(HttpServletRequest request, HttpServletResponse response) {
         String comentarioID = request.getParameter("idComentario");
+        String postID = request.getParameter("idPost");
 
         try {
             comentarioBO.eliminarComentario(Integer.parseInt(comentarioID));
-        } catch (ControllerException ex) {
+            response.sendRedirect("SVPost?id=" + postID);
+        } catch (ControllerException | IOException ex) {
             Logger.getLogger(SVComentario.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

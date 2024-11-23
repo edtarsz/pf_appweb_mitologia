@@ -156,7 +156,6 @@
                     </div>
 
                     <!-- Listado de comentarios -->
-                    <!-- Listado de comentarios -->
                     <c:forEach var="commentPadre" items="${comentarios}">
                         <c:if test="${commentPadre.comentarioPadre == null}">
                             <!-- Comentario principal -->
@@ -173,20 +172,20 @@
 
                                     <c:if test="${usuario.tipoUsuario == 'ADMINISTRADOR'}">
                                         <div class="right-head-article">
-                                            <button type="button" class="btn-option" data-post-id="${post.idPost}">
+                                            <button type="button" class="btn-option" data-comentario-id="${commentPadre.idComentario}">
                                                 <img src="<%= request.getContextPath()%>/img/options-post.svg" alt="Opciones" width="20">
                                             </button>
-
-                                            <div class="dropdown-menu" id="dropdown-${post.idPost}" style="display: none;">
-
+                                            <div class="dropdown-menu" id="dropdown-comentario-${commentPadre.idComentario}" style="display: none;">
                                                 <form action="SVComentario" method="post">
-                                                    <input type="hidden" name="idComentario" value="${comentario.id}">
+                                                    <input type="hidden" name="idPost" value="${post.idPost}">
+                                                    <input type="hidden" name="idComentario" value="${commentPadre.idComentario}">
                                                     <input type="hidden" name="action" value="eliminarComentario">
                                                     <button type="submit">ELIMINAR</button>
                                                 </form>
                                             </div>
                                         </div>
                                     </c:if>
+
                                 </div>
 
                                 <div class="post-comment-content">

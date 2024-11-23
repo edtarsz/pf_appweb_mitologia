@@ -25,7 +25,7 @@ import jakarta.servlet.http.HttpSession;
 public class FiltroAutenticacion implements Filter {
 
     private static final boolean DEBUG = true;
-    private static final String[] URLPUBLICAS = {"registrar.jsp", "iniciarSesion.jsp", "/style/style.css", "/img/statue.png", "/script/registrar.js", "/SVUsuario", "/img/icon.svg"};
+    private static final String[] URLPUBLICAS = {"registrar.jsp", "iniciarSesion.jsp", "/style/style.css", "/img/statue.png", "/script/registrar.js", "/SVUsuario", "/img/icon.svg", "/script/validarRegistro.js"};
 
     public FiltroAutenticacion() {
     }

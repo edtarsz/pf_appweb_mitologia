@@ -32,7 +32,7 @@ public class Post implements Serializable {
     @Column(name = "likes", nullable = true)
     private int likes;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comentario> comentarios;
 
     @Column(name = "titulo", nullable = false, length = 100)

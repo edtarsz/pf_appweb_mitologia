@@ -6,6 +6,10 @@ import java.util.logging.Level;
 import org.itson.mythify.conexion.IConexion;
 import javax.persistence.EntityManager;
 import java.util.logging.Logger;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaDelete;
+import javax.persistence.criteria.Root;
+import org.itson.mythify.entidad.Comentario;
 import org.itson.mythify.entidad.Post;
 
 /**
@@ -134,29 +138,42 @@ public class PostDAO implements IPostDAO {
     @Override
     public boolean eliminarPost(int idPost) throws ModelException {
         try {
-            logger.log(Level.INFO, "Attempting to delete post: {0}", idPost);
+            logger.log(Level.INFO, "Attempting to delete post and its comments: {0}", idPost);
             entityManager.getTransaction().begin();
 
-            int rowsDeleted = entityManager.createQuery("DELETE FROM Post p WHERE p.idPost = :id")
-                    .setParameter("id", idPost)
-                    .executeUpdate();
+            CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+
+            CriteriaDelete<Comentario> deleteComments = criteriaBuilder.createCriteriaDelete(Comentario.class);
+            Root<Comentario> commentRoot = deleteComments.from(Comentario.class);
+            deleteComments.where(criteriaBuilder.equal(commentRoot.get("post").get("idPost"), idPost));
+
+            int commentsDeleted = entityManager.createQuery(deleteComments).executeUpdate();
+            logger.log(Level.INFO, "Deleted {0} comments for post {1}", new Object[]{commentsDeleted, idPost});
+
+            CriteriaDelete<Post> deletePost = criteriaBuilder.createCriteriaDelete(Post.class);
+            Root<Post> postRoot = deletePost.from(Post.class);
+            deletePost.where(criteriaBuilder.equal(postRoot.get("idPost"), idPost));
+
+            int postsDeleted = entityManager.createQuery(deletePost).executeUpdate();
 
             entityManager.getTransaction().commit();
 
-            if (rowsDeleted > 0) {
-                logger.log(Level.INFO, "Post deleted successfully: {0}", idPost);
+            if (postsDeleted > 0) {
+                logger.log(Level.INFO, "Post {0} and its {1} comments deleted successfully",
+                        new Object[]{idPost, commentsDeleted});
                 return true;
             } else {
                 logger.log(Level.WARNING, "Post not found: {0}", idPost);
                 return false;
             }
+
         } catch (Exception ex) {
             logger.log(Level.SEVERE, "Error deleting post: " + idPost, ex);
             if (entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();
                 logger.warning("Transaction rolled back.");
             }
-            throw new ModelException("Error deleting post", ex);
+            throw new ModelException("Error deleting post: " + ex.getMessage(), ex);
         }
     }
 

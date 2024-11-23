@@ -23,6 +23,7 @@
         <link rel="stylesheet" href="<%= request.getContextPath()%>/style/style.css">     
         <!-- JavaScript -->
         <script defer src="<%= request.getContextPath()%>/script/script.js"></script>
+        <script defer src="<%= request.getContextPath()%>/script/comment.js"></script>
 
         <link rel="stylesheet" href="<c:url value='/style/style.css' />">
 
@@ -119,7 +120,7 @@
                             <c:if test="${!post.anclado}">
                                 <button class="btn-footer">
                                     <img src="<c:url value='/img/comments-black.svg' />" alt="Comments">
-                                    2 comments
+                                    ${fn:length(comentarios)}
                                 </button>
                             </c:if>
                         </div>
@@ -135,7 +136,7 @@
                     </button>
 
                     <!-- Formulario de edición -->
-                    <div id="editForm" class="edit-form">
+                    <div id="commentForm" class="edit-form">
                         <form action="SVComentario" method="post">
                             <input type="hidden" name="action" value="comentarPost">
                             <input type="hidden" name="id" value="${post.idPost}">
@@ -149,85 +150,136 @@
                                 <a href="<c:url value='/SVPost?id=${post.idPost}'/>">
                                     <button type="submit" class="btn-submit">Confirmar</button>
                                 </a>
-                                <a href="<c:url value='/SVPost?mythology=all' />">
-                                    <button type="button" class="btn-cancel">Cancelar</button>
-                                </a>
+                                <button type="button" class="btn-cancel" id="cancel-comment">Cancelar</button>
                             </div>
                         </form>
                     </div>
-                    <c:forEach var="comment" items="${comentarios}">
-                        <article class="article-post">
-                            <div class="head-article-post">
-                                <div class="left-head-article">
-                                    <div class="container-pfp-post"></div>
 
-                                    <c:set var="tiempoTranscurrido" value="${calculadorTiempo.tiempoTranscurridoDesde(comment.fechaHora)}" />
+                    <!-- Listado de comentarios -->
+                    <!-- Listado de comentarios -->
+                    <c:forEach var="commentPadre" items="${comentarios}">
+                        <c:if test="${commentPadre.comentarioPadre == null}">
+                            <!-- Comentario principal -->
+                            <article class="article-post">
+                                <div class="head-article-post">
+                                    <div class="left-head-article">
+                                        <div class="container-pfp-post"></div>
+                                        <c:set var="tiempoTranscurrido" value="${calculadorTiempo.tiempoTranscurridoDesde(commentPadre.fechaHora)}" />
+                                        <span class="span-post-header">
+                                            @${empty commentPadre.usuario.nombre ? 'Anonymous' : commentPadre.usuario.nombre} •
+                                            ${tiempoTranscurrido}
+                                        </span>
+                                    </div>
 
-                                    <span class="span-post-header">
-                                        @${empty post.usuario.nombre ? 'Anonymous' : post.usuario.nombre} •
-                                        ${tiempoTranscurrido}
-                                    </span>
+                                    <c:if test="${usuario.tipoUsuario == 'ADMINISTRADOR'}">
+                                        <div class="right-head-article">
+                                            <button type="button" class="btn-option" data-post-id="${post.idPost}">
+                                                <img src="<%= request.getContextPath()%>/img/options-post.svg" alt="Opciones" width="20">
+                                            </button>
 
+                                            <div class="dropdown-menu" id="dropdown-${post.idPost}" style="display: none;">
+
+                                                <form action="SVComentario" method="post">
+                                                    <input type="hidden" name="idComentario" value="${comentario.id}">
+                                                    <input type="hidden" name="action" value="eliminarComentario">
+                                                    <button type="submit">ELIMINAR</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </c:if>
                                 </div>
-                                <c:if test="${usuario.tipoUsuario == 'ADMINISTRADOR'}">
-                                    <div class="right-head-article">
-                                        <button type="button" class="btn-option" data-post-id="${post.idPost}">
-                                            <img src="<%= request.getContextPath()%>/img/options-post.svg" alt="Opciones" width="20">
-                                        </button>
 
-                                        <div class="dropdown-menu" id="dropdown-${post.idPost}" style="display: none;">
+                                <div class="post-comment-content">
+                                    <p>${commentPadre.contenido}</p>
+                                </div>
 
-                                            <form action="SVPost?id=${post.idPost}" method="post">
+                                <div class="footer-post">
+                                    <button class="btn-footer">
+                                        <img src="<c:url value='/img/heart-black.svg' />" alt="Like">
+                                        19
+                                    </button>
+                                    <button class="btn-footer reply-button" data-comment-id="${commentPadre.idComentario}">
+                                        <img src="<c:url value='/img/comments-black.svg' />" alt="Comments">
+                                        Responder
+                                    </button>
+                                </div>
+                            </article>
+
+                            <!-- Formulario de respuesta para este comentario padre -->
+                            <div id="replyForm-${commentPadre.idComentario}" class="edit-form reply-form" style="display: none;">
+                                <form action="SVComentario" method="post">
+                                    <input type="hidden" name="action" value="responderComentario">
+                                    <input type="hidden" name="idComentarioPadre" value="${commentPadre.idComentario}">
+                                    <input type="hidden" name="idPost" value="${post.idPost}">
+
+                                    <div class="form-group">
+                                        <label for="content-${commentPadre.idComentario}">Responder a @${empty commentPadre.usuario.nombre ? 'Anonymous' : commentPadre.usuario.nombre}:</label>
+                                        <textarea id="content-${commentPadre.idComentario}" name="contenido" rows="5" class="input-area-post input-area-post-editar" required></textarea>
+                                    </div>
+
+                                    <div class="post-buttons">
+                                        <button type="submit" class="btn-submit">Responder</button>
+                                        <button type="button" class="btn-cancel" data-comment-id="${commentPadre.idComentario}">Cancelar</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Comentarios hijo (respuestas) con sangría -->
+                            <div class="replies-container" style="margin-left: 2rem;">
+                                <c:forEach var="commentHijo" items="${comentarios}">
+                                    <c:if test="${commentHijo.comentarioPadre.idComentario == commentPadre.idComentario}">
+                                        <article class="article-post">
+                                            <div class="head-article-post">
+                                                <div class="left-head-article">
+                                                    <div class="container-pfp-post"></div>
+                                                    <c:set var="tiempoTranscurrido" value="${calculadorTiempo.tiempoTranscurridoDesde(commentHijo.fechaHora)}" />
+                                                    <span class="span-post-header">
+                                                        @${empty commentHijo.usuario.nombre ? 'Anonymous' : commentHijo.usuario.nombre} •
+                                                        ${tiempoTranscurrido}
+                                                    </span>
+                                                </div>
+
+                                                <div class="right-head-article">
+                                                    <button type="button" class="btn-option" data-post-id="${commentHijo.idComentario}">
+                                                        <img src="<%= request.getContextPath()%>/img/options-post.svg" alt="Opciones" width="20">
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <div class="post-comment-content">
+                                                <p>${commentHijo.contenido}</p>
+                                            </div>
+
+                                            <div class="footer-post">
+                                                <button class="btn-footer">
+                                                    <img src="<c:url value='/img/heart-black.svg' />" alt="Like">
+                                                    19
+                                                </button>
+                                            </div>
+                                        </article>
+
+                                        <!-- Formulario de respuesta para este comentario hijo -->
+                                        <div id="replyForm-${commentHijo.idComentario}" class="edit-form reply-form" style="display: none;">
+                                            <form action="SVComentario" method="post">
+                                                <input type="hidden" name="action" value="responderComentario">
+                                                <input type="hidden" name="idComentarioPadre" value="${commentHijo.idComentario}">
                                                 <input type="hidden" name="idPost" value="${post.idPost}">
 
-                                                <c:choose>
-                                                    <c:when test="${post.anclado}">
-                                                        <input type="hidden" name="action" value="desAnclarPost">
-                                                        <button type="submit">DESANCLAR</button>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <input type="hidden" name="action" value="anclarPost">
-                                                        <button type="submit">ANCLAR</button>
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </form>
+                                                <div class="form-group">
+                                                    <label for="content-${commentHijo.idComentario}">Responder a @${empty commentHijo.usuario.nombre ? 'Anonymous' : commentHijo.usuario.nombre}:</label>
+                                                    <textarea id="content-${commentHijo.idComentario}" name="contenido" rows="5" class="input-area-post input-area-post-editar" required></textarea>
+                                                </div>
 
-                                            <a href="<c:url value='/SVPost?id=${post.idPost}&action=editarPost' />">EDITAR</a>
-
-                                            <form action="SVPost" method="post">
-                                                <input type="hidden" name="idPost" value="${post.idPost}">
-                                                <input type="hidden" name="action" value="borrarPost">
-                                                <button type="submit">ELIMINAR</button>
+                                                <div class="post-buttons">
+                                                    <button type="submit" class="btn-submit">Responder</button>
+                                                    <button type="button" class="btn-cancel" data-comment-id="${commentHijo.idComentario}">Cancelar</button>
+                                                </div>
                                             </form>
                                         </div>
-                                    </div>
-                                </c:if>
-
+                                    </c:if>
+                                </c:forEach>
                             </div>
-
-                            <div class="post-comment-content">
-                                <p>${comment.contenido}</p>
-                            </div>
-
-                            <c:if test="${not empty post.link}">
-                                <a href="${fn:escapeXml(post.link)}" id="preview-link">
-                                    ${fn:escapeXml(post.link)}
-                                </a>
-                            </c:if>
-
-                            <div class="footer-post">
-                                <button class="btn-footer">
-                                    <img src="<c:url value='/img/heart-black.svg' />" alt="Like">
-                                    19
-                                </button>
-                                <c:if test="${!post.anclado}">
-                                    <button class="btn-footer">
-                                        <img src="<c:url value='/img/comments-black.svg' />" alt="Comments">
-                                        2 comments
-                                    </button>
-                                </c:if>
-                            </div>
-                        </article>
+                        </c:if>
                     </c:forEach>
                 </main>
             </div>

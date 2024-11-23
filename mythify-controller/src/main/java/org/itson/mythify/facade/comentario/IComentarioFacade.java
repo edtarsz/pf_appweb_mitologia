@@ -18,10 +18,11 @@ public interface IComentarioFacade {
 
     public Comentario crearComentario(Comentario comentario) throws ControllerException;
 
-    public void eliminarComentario() throws ControllerException;
+    public void eliminarComentario(int idComentario) throws ControllerException;
 
     public void actualizarComentario() throws ControllerException;
 
     public List<Comentario> consultarComentarios(int idPost) throws ControllerException;
 
+    public Comentario consultarComentarioPorID(int idComentario) throws ControllerException;
 }

@@ -832,6 +832,7 @@ ul {
 }
 
 footer {
+    margin-top: 10px;
     background-color: var(--main-color);
     padding: 20px 0;
     text-align: center;
@@ -935,7 +936,7 @@ footer {
     font-weight: var(--font-weight-light);
 }
 
-.post-comment-content{
+.post-comment-content {
     max-width: 100%;
     white-space: normal;
     word-wrap: break-word;
@@ -1259,7 +1260,8 @@ small {
     width: 100%;
     padding: 10px;
     border: 1px solid #444;
-    background-color: white; /* Fondo de los inputs */
+    background-color: white;
+    /* Fondo de los inputs */
     color: black;
     border-radius: 5px;
     font-size: 14px;
@@ -1294,8 +1296,10 @@ small {
 
 .edit-form input:focus,
 .edit-form textarea:focus {
-    outline: none; /* Elimina el borde azul por defecto */
-    border-color: #4caf50; /* Opcional: cambia el borde */
+    outline: none;
+    /* Elimina el borde azul por defecto */
+    border-color: #4caf50;
+    /* Opcional: cambia el borde */
 }
 
 
@@ -1306,4 +1310,8 @@ small {
 .error-content img {
     max-width: 100%;
     height: auto;
+}
+
+#commentForm {
+    display: none;
 }

@@ -42,8 +42,12 @@ public class ComentarioFacade implements IComentarioFacade {
     }
 
     @Override
-    public void eliminarComentario() throws ControllerException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void eliminarComentario(int idComentario) throws ControllerException {
+        try {
+            comentarioDAO.eliminarComentario(idComentario);
+        } catch (ModelException ex) {
+            Logger.getLogger(ComentarioFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
@@ -61,4 +65,13 @@ public class ComentarioFacade implements IComentarioFacade {
         return null;
     }
 
+    @Override
+    public Comentario consultarComentarioPorID(int idComentario) throws ControllerException {
+        try {
+            return comentarioDAO.consultarComentarioPorID(idComentario);
+        } catch (ModelException ex) {
+            Logger.getLogger(ComentarioFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }

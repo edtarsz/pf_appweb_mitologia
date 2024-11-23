@@ -125,12 +125,6 @@
                                                 <img src="<c:url value='/img/heart-black.svg' />" alt="Like">
                                                 19
                                             </button>
-                                            <c:if test="${!post.anclado}">
-                                                <button class="btn-footer">
-                                                    <img src="<c:url value='/img/comments-black.svg' />" alt="Comments">
-                                                    2 comments
-                                                </button>
-                                            </c:if>
                                         </div>
                                     </article>
                                 </c:if>

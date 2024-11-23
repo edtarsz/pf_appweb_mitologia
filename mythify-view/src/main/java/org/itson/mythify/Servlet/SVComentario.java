@@ -12,7 +12,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -54,6 +53,10 @@ public class SVComentario extends HttpServlet {
             switch (action) {
                 case "comentarPost" ->
                     publicarComentario(request, response);
+                case "responderComentario" ->
+                    responderComentario(request, response);
+                case "eliminarComentario" ->
+                    eliminarComentario(request, response);
             }
         }
     }
@@ -70,45 +73,75 @@ public class SVComentario extends HttpServlet {
         processRequest(request, response);
     }
 
-    private void publicarComentario(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String postID = request.getParameter("id");
-        Comentario comentario = buildComentario(request, response, postID);
-
-        List<Comentario> comentarios = (List<Comentario>) request.getAttribute("comentarios");
-
-        if (comentarios == null) {
-            comentarios = new ArrayList<>();
-        }
+    private void publicarComentario(HttpServletRequest request, HttpServletResponse response) {
+        String postId = request.getParameter("id");
 
         try {
-            comentario = comentarioBO.crearComentario(comentario);
+            Comentario comentario = buildComentario(request, postId);
+            procesarComentario(comentario, request, response, postId);
         } catch (ControllerException ex) {
             Logger.getLogger(SVComentario.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        comentarios.add(comentario);
-        request.setAttribute("comentarios", comentarios);
-        response.sendRedirect("SVPost?id=" + postID);
     }
 
-    public Comentario buildComentario(HttpServletRequest request, HttpServletResponse response, String postID) {
-        String contenido = request.getParameter("contenido");
-        Post post = null;
-
-        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+    private void eliminarComentario(HttpServletRequest request, HttpServletResponse response) {
+        String comentarioID = request.getParameter("idComentario");
 
         try {
-            post = postBO.consultarPostPorID(Integer.parseInt(postID));
+            comentarioBO.eliminarComentario(Integer.parseInt(comentarioID));
         } catch (ControllerException ex) {
             Logger.getLogger(SVComentario.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
 
-        Comentario comentario = new Comentario(
+    private Comentario buildComentario(HttpServletRequest request, String postId)
+            throws ControllerException {
+        String contenido = request.getParameter("contenido");
+        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+        Post post = postBO.consultarPostPorID(Integer.parseInt(postId));
+
+        return new Comentario(
                 contenido,
                 LocalDateTime.now(),
                 usuario,
-                post);
+                post
+        );
+    }
 
-        return comentario;
+    private void responderComentario(HttpServletRequest request, HttpServletResponse response) {
+        String postId = request.getParameter("idPost");
+        String comentarioPadreId = request.getParameter("idComentarioPadre");
+
+        try {
+            Comentario comentario = buildComentario(request, postId);
+
+            Comentario comentarioPadre = comentarioBO.consultarComentarioPorID(Integer.parseInt(comentarioPadreId));
+            comentario.setComentarioPadre(comentarioPadre);
+
+            procesarComentario(comentario, request, response, postId);
+        } catch (ControllerException ex) {
+            Logger.getLogger(SVComentario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void procesarComentario(Comentario comentario, HttpServletRequest request,
+            HttpServletResponse response, String postId) {
+        List<Comentario> comentarios = getOrCreateComentariosList(request);
+
+        try {
+            comentario = comentarioBO.crearComentario(comentario);
+            comentarios.add(comentario);
+            request.setAttribute("comentarios", comentarios);
+
+            response.sendRedirect("SVPost?id=" + postId);
+        } catch (ControllerException | IOException ex) {
+            Logger.getLogger(SVComentario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    // Si no está creado, lo crea
+    private List<Comentario> getOrCreateComentariosList(HttpServletRequest request) {
+        List<Comentario> comentarios = (List<Comentario>) request.getAttribute("comentarios");
+        return comentarios == null ? new ArrayList<>() : comentarios;
     }
 }

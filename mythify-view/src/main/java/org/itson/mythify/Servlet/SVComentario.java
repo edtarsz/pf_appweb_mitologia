@@ -57,6 +57,10 @@ public class SVComentario extends HttpServlet {
                     responderComentario(request, response);
                 case "eliminarComentario" ->
                     eliminarComentario(request, response);
+                case "likearComentario" ->
+                    likearComentario(request, response, action);
+                case "desLikearComentario" ->
+                    likearComentario(request, response, action);
             }
         }
     }
@@ -145,5 +149,43 @@ public class SVComentario extends HttpServlet {
     private List<Comentario> getOrCreateComentariosList(HttpServletRequest request) {
         List<Comentario> comentarios = (List<Comentario>) request.getAttribute("comentarios");
         return comentarios == null ? new ArrayList<>() : comentarios;
+    }
+
+    public void likearComentario(HttpServletRequest request, HttpServletResponse response, String action) {
+        int postId = Integer.parseInt(request.getParameter("idPost"));
+        int comentarioId = Integer.parseInt(request.getParameter("idComentario"));
+        String isView = request.getParameter("isView");
+
+        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+
+        try {
+            if (action.equalsIgnoreCase("likearComentario")) {
+                System.out.println("intenta likear");
+                comentarioBO.likearComentario(usuario.getIdUsuario(), comentarioId);
+                comentarioBO.operacionContadorComentario(comentarioId, 1);
+            } else if (action.equalsIgnoreCase("desLikearComentario")) {
+                System.out.println("intenta deslikear");
+                comentarioBO.desLikearComentario(usuario.getIdUsuario(), comentarioId);
+                comentarioBO.operacionContadorComentario(comentarioId, -1);
+            }
+
+            List<Comentario> comentariosLikeados = comentarioBO.consultarComentariosLikeados(usuario.getIdUsuario());
+
+            System.out.println("imprime los likes");
+            for (Comentario comentariosLikeado : comentariosLikeados) {
+                System.out.println("imprime los likes");
+                comentariosLikeado.getCantLikes();
+            }
+            request.getSession().setAttribute("comentariosLikeados", comentariosLikeados);
+
+            if (Boolean.parseBoolean(isView)) {
+                response.sendRedirect("SVPost?id=" + postId);
+                return;
+            }
+
+            response.sendRedirect("SVPost?mythology=all");
+        } catch (ControllerException | IOException ex) {
+            Logger.getLogger(SVPost.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

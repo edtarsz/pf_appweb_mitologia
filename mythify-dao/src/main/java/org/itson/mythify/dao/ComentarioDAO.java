@@ -16,6 +16,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.itson.mythify.conexion.IConexion;
 import org.itson.mythify.entidad.Comentario;
+import org.itson.mythify.entidad.Usuario;
 
 /**
  * @author Eduardo Talavera Ramos
@@ -151,6 +152,166 @@ public class ComentarioDAO implements IComentarioDAO {
         } catch (Exception ex) {
             logger.log(Level.SEVERE, "Error querying post by ID: " + idComentario, ex);
             throw new ModelException("Error al consultar el post por ID: " + ex.getMessage(), ex);
+        }
+    }
+
+    @Override
+    public void likearComentario(int idUsuario, int idComentario) throws ModelException {
+        try {
+            logger.log(Level.INFO, "Attempting to like comment {0} by user {1}", new Object[]{idComentario, idUsuario});
+            entityManager.getTransaction().begin();
+
+            // Buscar al usuario por ID
+            Usuario usuario = entityManager.find(Usuario.class, idUsuario);
+            if (usuario == null) {
+                throw new ModelException("No se encontró al usuario con ID: " + idUsuario);
+            }
+
+            // Buscar el comentario por ID
+            Comentario comentario = entityManager.find(Comentario.class, idComentario);
+            if (comentario == null) {
+                throw new ModelException("No se encontró el comentario con ID: " + idComentario);
+            }
+
+            // Agregar el comentario a la lista de comentarios likeados del usuario
+            if (!usuario.getComentariosLikeados().contains(comentario)) {
+                usuario.getComentariosLikeados().add(comentario);
+                logger.log(Level.INFO, "Comment {0} liked by user {1}", new Object[]{idComentario, idUsuario});
+            } else {
+                logger.log(Level.WARNING, "User {0} already liked comment {1}", new Object[]{idUsuario, idComentario});
+            }
+
+            // Actualizar el usuario en la base de datos
+            entityManager.merge(usuario);
+            entityManager.getTransaction().commit();
+
+        } catch (ModelException ex) {
+            logger.log(Level.SEVERE, "Error liking comment: " + idComentario + " by user: " + idUsuario, ex);
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+                logger.warning("Transaction rolled back.");
+            }
+            throw new ModelException("Error al dar like al comentario: " + ex.getMessage(), ex);
+        }
+    }
+
+    @Override
+    public void desLikearComentario(int idUsuario, int idComentario) throws ModelException {
+        try {
+            logger.log(Level.INFO, "Attempting to unlike comment {0} by user {1}", new Object[]{idComentario, idUsuario});
+            entityManager.getTransaction().begin();
+
+            // Buscar al usuario por ID
+            Usuario usuario = entityManager.find(Usuario.class, idUsuario);
+            if (usuario == null) {
+                throw new ModelException("No se encontró al usuario con ID: " + idUsuario);
+            }
+
+            // Buscar el comentario por ID
+            Comentario comentario = entityManager.find(Comentario.class, idComentario);
+            if (comentario == null) {
+                throw new ModelException("No se encontró el comentario con ID: " + idComentario);
+            }
+
+            // Verificar si el usuario ya había dado like al comentario
+            if (usuario.getComentariosLikeados().contains(comentario)) {
+                // Eliminar el comentario de la lista de comentarios likeados
+                usuario.getComentariosLikeados().remove(comentario);
+                logger.log(Level.INFO, "Comment {0} unliked by user {1}", new Object[]{idComentario, idUsuario});
+            } else {
+                // Si el usuario no ha dado like al comentario
+                logger.log(Level.WARNING, "User {0} has not liked comment {1}", new Object[]{idUsuario, idComentario});
+            }
+
+            // Actualizar el usuario en la base de datos
+            entityManager.merge(usuario);
+            entityManager.getTransaction().commit();
+
+        } catch (ModelException ex) {
+            logger.log(Level.SEVERE, "Error unliking comment: " + idComentario + " by user: " + idUsuario, ex);
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+                logger.warning("Transaction rolled back.");
+            }
+            throw new ModelException("Error al quitar el like del comentario: " + ex.getMessage(), ex);
+        }
+    }
+
+    @Override
+    public void operacionContadorComentario(int idComentario, int cantidad) throws ModelException {
+        try {
+            logger.log(Level.INFO, "Attempting to increment like count for comment {0}", idComentario);
+            entityManager.getTransaction().begin();
+
+            // Buscar el comentario por ID
+            Comentario comentario = entityManager.find(Comentario.class, idComentario);
+            if (comentario == null) {
+                throw new ModelException("No se encontró el comentario con ID: " + idComentario);
+            }
+
+            // Incrementar el contador de likes
+            comentario.setCantLikes(comentario.getCantLikes() + cantidad);
+            logger.log(Level.INFO, "Incremented like count for comment {0} to {1}",
+                    new Object[]{idComentario, comentario.getCantLikes()});
+
+            // Actualizar el comentario en la base de datos
+            entityManager.merge(comentario);
+            entityManager.getTransaction().commit();
+
+        } catch (ModelException ex) {
+            logger.log(Level.SEVERE, "Error incrementing like count for comment: " + idComentario, ex);
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+                logger.warning("Transaction rolled back.");
+            }
+            throw new ModelException("Error al aumentar el contador de likes: " + ex.getMessage(), ex);
+        }
+    }
+
+    @Override
+    public int consultarCantLikes(int idComentario) throws ModelException {
+        try {
+            logger.log(Level.INFO, "Attempting to get like count for comment {0}", idComentario);
+
+            // Buscar el comentario por ID
+            Comentario comentario = entityManager.find(Comentario.class, idComentario);
+            if (comentario == null) {
+                throw new ModelException("No se encontró el comentario con ID: " + idComentario);
+            }
+
+            logger.log(Level.INFO, "Like count for comment {0} is {1}",
+                    new Object[]{idComentario, comentario.getCantLikes()});
+
+            // Retornar la cantidad de likes
+            return comentario.getCantLikes();
+        } catch (ModelException ex) {
+            logger.log(Level.SEVERE, "Error retrieving like count for comment: " + idComentario, ex);
+            throw new ModelException("Error al consultar la cantidad de likes: " + ex.getMessage(), ex);
+        }
+    }
+
+    @Override
+    public List<Comentario> consultarComentariosLikeados(int idUsuario) throws ModelException {
+        try {
+            logger.log(Level.INFO, "Attempting to query liked comments by user {0}", idUsuario);
+
+            // Buscar al usuario por ID
+            Usuario usuario = entityManager.find(Usuario.class, idUsuario);
+            if (usuario == null) {
+                throw new ModelException("No se encontró al usuario con ID: " + idUsuario);
+            }
+
+            // Obtener la lista de comentarios likeados desde el objeto Usuario
+            List<Comentario> comentariosLikeados = usuario.getComentariosLikeados();
+
+            // Log del resultado
+            logger.log(Level.INFO, "User {0} has liked {1} comments.",
+                    new Object[]{idUsuario, comentariosLikeados.size()});
+
+            return comentariosLikeados;
+        } catch (ModelException ex) {
+            logger.log(Level.SEVERE, "Error querying liked comments by user: " + idUsuario, ex);
+            throw new ModelException("Error al consultar los comentarios likeados: " + ex.getMessage(), ex);
         }
     }
 }

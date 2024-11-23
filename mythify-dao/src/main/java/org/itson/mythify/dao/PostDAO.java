@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import org.itson.mythify.conexion.IConexion;
 import javax.persistence.EntityManager;
 import java.util.logging.Logger;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaDelete;
 import javax.persistence.criteria.Root;
@@ -27,8 +28,7 @@ public class PostDAO implements IPostDAO {
     /**
      * Constructor para inicializar la clase `UsuarioDAO`.
      *
-     * @param conexion La conexión a la base de datos utilizada para inicializar
-     * el `EntityManager`.
+     * @param conexion La conexión a la base de datos utilizada para inicializar el `EntityManager`.
      */
     public PostDAO(IConexion conexion) {
         this.entityManager = conexion.crearConexion();
@@ -141,28 +141,37 @@ public class PostDAO implements IPostDAO {
     public boolean eliminarPost(int idPost) throws ModelException {
         try {
             logger.log(Level.INFO, "Attempting to delete post and its comments: {0}", idPost);
+
+            // Inicia la transacción
             entityManager.getTransaction().begin();
 
-            CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+            // Paso 1: Eliminar relaciones en Usuario_PostLikes
+            Query deleteLikesQuery = entityManager.createNativeQuery(
+                    "DELETE FROM Usuario_PostLikes WHERE idPost = ?");
+            deleteLikesQuery.setParameter(1, idPost); // Usa índices en lugar de nombres para parámetros
+            int likesDeleted = deleteLikesQuery.executeUpdate();
+            logger.log(Level.INFO, "Deleted {0} likes for post {1}", new Object[]{likesDeleted, idPost});
 
+            // Paso 2: Eliminar comentarios relacionados con el post
+            CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
             CriteriaDelete<Comentario> deleteComments = criteriaBuilder.createCriteriaDelete(Comentario.class);
             Root<Comentario> commentRoot = deleteComments.from(Comentario.class);
             deleteComments.where(criteriaBuilder.equal(commentRoot.get("post").get("idPost"), idPost));
-
             int commentsDeleted = entityManager.createQuery(deleteComments).executeUpdate();
             logger.log(Level.INFO, "Deleted {0} comments for post {1}", new Object[]{commentsDeleted, idPost});
 
+            // Paso 3: Eliminar el post
             CriteriaDelete<Post> deletePost = criteriaBuilder.createCriteriaDelete(Post.class);
             Root<Post> postRoot = deletePost.from(Post.class);
             deletePost.where(criteriaBuilder.equal(postRoot.get("idPost"), idPost));
-
             int postsDeleted = entityManager.createQuery(deletePost).executeUpdate();
 
+            // Confirmar la transacción
             entityManager.getTransaction().commit();
 
             if (postsDeleted > 0) {
-                logger.log(Level.INFO, "Post {0} and its {1} comments deleted successfully",
-                        new Object[]{idPost, commentsDeleted});
+                logger.log(Level.INFO, "Post {0}, {1} comments, and {2} likes deleted successfully",
+                        new Object[]{idPost, commentsDeleted, likesDeleted});
                 return true;
             } else {
                 logger.log(Level.WARNING, "Post not found: {0}", idPost);
@@ -171,10 +180,14 @@ public class PostDAO implements IPostDAO {
 
         } catch (Exception ex) {
             logger.log(Level.SEVERE, "Error deleting post: " + idPost, ex);
+
+            // Rollback en caso de error
             if (entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();
                 logger.warning("Transaction rolled back.");
             }
+
+            // Lanzar excepción personalizada
             throw new ModelException("Error deleting post: " + ex.getMessage(), ex);
         }
     }

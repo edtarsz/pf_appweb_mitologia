@@ -25,4 +25,14 @@ public interface IComentarioFacade {
     public List<Comentario> consultarComentarios(int idPost) throws ControllerException;
 
     public Comentario consultarComentarioPorID(int idComentario) throws ControllerException;
+
+    public void likearComentario(int idUsuario, int idComentario) throws ControllerException;
+
+    public void desLikearComentario(int idUsuario, int idComentario) throws ControllerException;
+
+    public void operacionContadorComentario(int idComentario, int cantidad) throws ControllerException;
+
+    public int consultarCantLikes(int idComentario) throws ControllerException;
+
+    public List<Comentario> consultarComentariosLikeados(int idUsuario) throws ControllerException;
 }

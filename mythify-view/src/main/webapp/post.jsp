@@ -112,17 +112,29 @@
                             </a>
                         </c:if>
 
+                        <c:set var="postLikeados" value="${sessionScope.postsLikeados}" />
                         <div class="footer-post">
-                            <button class="btn-footer">
-                                <img src="<c:url value='/img/heart-black.svg' />" alt="Like">
-                                19
-                            </button>
-                            <c:if test="${!post.anclado}">
-                                <button class="btn-footer">
-                                    <img src="<c:url value='/img/comments-black.svg' />" alt="Comments">
-                                    ${fn:length(comentarios)}
-                                </button>
-                            </c:if>
+                            <form action="SVPost" method="post">
+                                <input type="hidden" name="isView" value="true">
+                                <input type="hidden" name="idPost" value="${post.idPost}">
+                                <c:choose>
+                                    <%-- Verificamos si el post actual está en la lista de posts likeados --%>
+                                    <c:when test="${fn:contains(postLikeados, post)}">
+                                        <input type="hidden" name="action" value="desLikearPost">
+                                        <button class="btn-footer">
+                                            <img src="<c:url value='/img/heart-red.svg' />" alt="Dislike">
+                                            ${post.cantLikes}
+                                        </button>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <input type="hidden" name="action" value="likearPost">
+                                        <button class="btn-footer">
+                                            <img src="<c:url value='/img/heart-black.svg' />" alt="Like">
+                                            ${post.cantLikes}
+                                        </button>
+                                    </c:otherwise>
+                                </c:choose>
+                            </form>
                         </div>
                     </article>
 
@@ -192,11 +204,32 @@
                                     <p>${commentPadre.contenido}</p>
                                 </div>
 
+                                <c:set var="comentarioLikeados" value="${sessionScope.comentariosLikeados}" />
                                 <div class="footer-post">
-                                    <button class="btn-footer">
-                                        <img src="<c:url value='/img/heart-black.svg' />" alt="Like">
-                                        19
-                                    </button>
+                                    <form action="SVComentario" method="post">
+                                        <input type="hidden" name="isView" value="true">
+                                        <input type="hidden" name="idPost" value="${post.idPost}">
+                                        <input type="hidden" name="idComentario" value="${commentPadre.idComentario}">
+
+                                        <%-- Usar la misma estructura de verificación que en los posts --%>
+                                        <c:set var="comentarioLikeados" value="${sessionScope.comentariosLikeados}" />
+                                        <c:choose>
+                                            <c:when test="${fn:contains(comentarioLikeados, commentPadre)}">
+                                                <input type="hidden" name="action" value="desLikearComentario">
+                                                <button class="btn-footer">
+                                                    <img src="<c:url value='/img/heart-red.svg' />" alt="Dislike">
+                                                    ${commentPadre.cantLikes}
+                                                </button>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <input type="hidden" name="action" value="likearComentario">
+                                                <button class="btn-footer">
+                                                    <img src="<c:url value='/img/heart-black.svg' />" alt="Like">
+                                                    ${commentPadre.cantLikes}
+                                                </button>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </form>
                                     <button class="btn-footer reply-button" data-comment-id="${commentPadre.idComentario}">
                                         <img src="<c:url value='/img/comments-black.svg' />" alt="Comments">
                                         Responder
@@ -238,43 +271,63 @@
                                                     </span>
                                                 </div>
 
-                                                <div class="right-head-article">
-                                                    <button type="button" class="btn-option" data-post-id="${commentHijo.idComentario}">
-                                                        <img src="<%= request.getContextPath()%>/img/options-post.svg" alt="Opciones" width="20">
-                                                    </button>
-                                                </div>
+                                                <c:if test="${usuario.tipoUsuario == 'ADMINISTRADOR'}">
+                                                    <div class="right-head-article">
+                                                        <button type="button" class="btn-option" data-comentario-id="${commentHijo.idComentario}">
+                                                            <img src="<%= request.getContextPath()%>/img/options-post.svg" alt="Opciones" width="20">
+                                                        </button>
+                                                        <div class="dropdown-menu" id="dropdown-comentario-${commentHijo.idComentario}" style="display: none;">
+                                                            <form action="SVComentario" method="post">
+                                                                <input type="hidden" name="idPost" value="${post.idPost}">
+                                                                <input type="hidden" name="idComentario" value="${commentHijo.idComentario}">
+                                                                <input type="hidden" name="action" value="eliminarComentario">
+                                                                <button type="submit">ELIMINAR</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </c:if>
                                             </div>
 
                                             <div class="post-comment-content">
                                                 <p>${commentHijo.contenido}</p>
                                             </div>
 
+                                            <c:set var="isLikedHijo" value="false" />
+                                            <c:forEach var="comentarioLikeado" items="${comentarioLikeados}">
+                                                <c:if test="${comentarioLikeado.idComentario == commentHijo.idComentario}">
+                                                    <c:set var="isLikedHijo" value="true" />
+                                                </c:if>
+                                            </c:forEach>
+
                                             <div class="footer-post">
-                                                <button class="btn-footer">
-                                                    <img src="<c:url value='/img/heart-black.svg' />" alt="Like">
-                                                    19
+                                                <form action="SVComentario" method="post">
+                                                    <input type="hidden" name="isView" value="true">
+                                                    <input type="hidden" name="idPost" value="${post.idPost}">
+                                                    <input type="hidden" name="idComentario" value="${commentHijo.idComentario}">
+
+                                                    <c:choose>
+                                                        <c:when test="${fn:contains(comentarioLikeados, commentHijo)}">
+                                                            <input type="hidden" name="action" value="desLikearComentario">
+                                                            <button class="btn-footer">
+                                                                <img src="<c:url value='/img/heart-red.svg' />" alt="Dislike">
+                                                                ${commentHijo.cantLikes}
+                                                            </button>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <input type="hidden" name="action" value="likearComentario">
+                                                            <button class="btn-footer">
+                                                                <img src="<c:url value='/img/heart-black.svg' />" alt="Like">
+                                                                ${commentHijo.cantLikes}
+                                                            </button>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </form>
+                                                <button class="btn-footer reply-button" data-comment-id="${commentHijo.idComentario}">
+                                                    <img src="<c:url value='/img/comments-black.svg' />" alt="Comments">
+                                                    Responder
                                                 </button>
                                             </div>
                                         </article>
-
-                                        <!-- Formulario de respuesta para este comentario hijo -->
-                                        <div id="replyForm-${commentHijo.idComentario}" class="edit-form reply-form" style="display: none;">
-                                            <form action="SVComentario" method="post">
-                                                <input type="hidden" name="action" value="responderComentario">
-                                                <input type="hidden" name="idComentarioPadre" value="${commentHijo.idComentario}">
-                                                <input type="hidden" name="idPost" value="${post.idPost}">
-
-                                                <div class="form-group">
-                                                    <label for="content-${commentHijo.idComentario}">Responder a @${empty commentHijo.usuario.nombre ? 'Anonymous' : commentHijo.usuario.nombre}:</label>
-                                                    <textarea id="content-${commentHijo.idComentario}" name="contenido" rows="5" class="input-area-post input-area-post-editar" required></textarea>
-                                                </div>
-
-                                                <div class="post-buttons">
-                                                    <button type="submit" class="btn-submit">Responder</button>
-                                                    <button type="button" class="btn-cancel" data-comment-id="${commentHijo.idComentario}">Cancelar</button>
-                                                </div>
-                                            </form>
-                                        </div>
                                     </c:if>
                                 </c:forEach>
                             </div>

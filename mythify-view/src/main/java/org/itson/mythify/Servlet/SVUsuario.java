@@ -27,12 +27,15 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.util.List;
+import org.itson.mythify.entidad.Comentario;
 
 import org.itson.mythify.facade.post.IPostFacade;
 import org.itson.mythify.facade.post.PostFacade;
 import org.itson.mythify.facade.usuario.IUsuarioFacade;
 import org.itson.mythify.facade.usuario.UsuarioFacade;
 import org.itson.mythify.entidad.Post;
+import org.itson.mythify.facade.comentario.ComentarioFacade;
+import org.itson.mythify.facade.comentario.IComentarioFacade;
 
 /**
  * @author Eduardo Talavera Ramos
@@ -46,12 +49,14 @@ public class SVUsuario extends HttpServlet {
 
     private IUsuarioFacade usuarioBO;
     private IPostFacade postBO;
+    private IComentarioFacade comentarioBO;
 
     @Override
     public void init() throws ServletException {
         super.init();
         usuarioBO = new UsuarioFacade();
         postBO = new PostFacade();
+        comentarioBO = new ComentarioFacade();
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -62,10 +67,14 @@ public class SVUsuario extends HttpServlet {
             response.sendRedirect("error.jsp");
         } else {
             switch (action) {
-                case "registrar" -> registrarUsuario(request, response);
-                case "iniciarSesion" -> iniciarSesion(request, response);
-                case "cerrarSesion" -> cerrarSesion(request, response);
-                case "verificarCorreo" -> verificarCorreo(request, response);
+                case "registrar" ->
+                    registrarUsuario(request, response);
+                case "iniciarSesion" ->
+                    iniciarSesion(request, response);
+                case "cerrarSesion" ->
+                    cerrarSesion(request, response);
+                case "verificarCorreo" ->
+                    verificarCorreo(request, response);
             }
         }
     }
@@ -146,6 +155,7 @@ public class SVUsuario extends HttpServlet {
         Usuario usuario = null;
         List<Post> posts = null;
         List<Post> postsLikeados = null;
+        List<Comentario> comentariosLikeados = null;
 
         try {
             usuario = usuarioBO.consultarUsuario(correo, contrasenia);
@@ -153,6 +163,8 @@ public class SVUsuario extends HttpServlet {
             if (usuario != null) {
                 postsLikeados = postBO.consultarPostLikeados(usuario.getIdUsuario());
             }
+            postsLikeados = postBO.consultarPostLikeados(usuario.getIdUsuario());
+            comentariosLikeados = comentarioBO.consultarComentariosLikeados(usuario.getIdUsuario());
         } catch (ControllerException ex) {
             Logger.getLogger(SVUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -165,7 +177,6 @@ public class SVUsuario extends HttpServlet {
             return;
         }
 
-
         assert postsLikeados != null;
         for (Post postsLikeado : postsLikeados) {
             System.out.println(postsLikeado);
@@ -174,6 +185,7 @@ public class SVUsuario extends HttpServlet {
         request.getSession().setAttribute("usuario", usuario);
         request.setAttribute("posts", posts);
         request.getSession().setAttribute("postsLikeados", postsLikeados);
+        request.getSession().setAttribute("comentariosLikeados", comentariosLikeados);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write("{\"existe\": true, \"redirect\": \"SVPost?mythology=all\"}");

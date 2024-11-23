@@ -316,6 +316,7 @@ public class SVPost extends HttpServlet {
 
     public void likearPost(HttpServletRequest request, HttpServletResponse response, String action) {
         int postId = Integer.parseInt(request.getParameter("idPost"));
+        String isView = request.getParameter("isView");
 
         Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
 
@@ -324,13 +325,18 @@ public class SVPost extends HttpServlet {
                 postBO.likearPost(usuario.getIdUsuario(), postId);
                 postBO.operacionContadorLike(postId, 1);
             } else if (action.equalsIgnoreCase("desLikearPost")) {
-                System.out.println("intenta deslikear");
                 postBO.desLikearPost(usuario.getIdUsuario(), postId);
                 postBO.operacionContadorLike(postId, -1);
             }
 
             List<Post> postsLikeados = postBO.consultarPostLikeados(usuario.getIdUsuario());
             request.getSession().setAttribute("postsLikeados", postsLikeados);
+
+            if (Boolean.parseBoolean(isView)) {
+                response.sendRedirect("SVPost?id=" + postId);
+                return;
+            }
+
             response.sendRedirect("SVPost?mythology=all");
         } catch (ControllerException | IOException ex) {
             Logger.getLogger(SVPost.class.getName()).log(Level.SEVERE, null, ex);

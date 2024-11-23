@@ -26,4 +26,14 @@ public interface IComentarioDAO {
 
     public Comentario consultarComentarioPorID(int idComentario) throws ModelException;
 
+    public void likearComentario(int idUsuario, int idComentario) throws ModelException;
+
+    public void desLikearComentario(int idUsuario, int idComentario) throws ModelException;
+
+    public void operacionContadorComentario(int idComentario, int cantidad) throws ModelException;
+
+    public int consultarCantLikes(int idComentario) throws ModelException;
+
+    public List<Comentario> consultarComentariosLikeados(int idUsuario) throws ModelException;
+
 }

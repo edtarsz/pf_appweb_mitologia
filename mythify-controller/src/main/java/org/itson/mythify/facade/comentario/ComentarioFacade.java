@@ -74,4 +74,51 @@ public class ComentarioFacade implements IComentarioFacade {
         }
         return null;
     }
+
+    @Override
+    public void likearComentario(int idUsuario, int idComentario) throws ControllerException {
+        try {
+            comentarioDAO.likearComentario(idUsuario, idComentario);
+        } catch (ModelException ex) {
+            Logger.getLogger(ComentarioFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void desLikearComentario(int idUsuario, int idComentario) throws ControllerException {
+        try {
+            comentarioDAO.desLikearComentario(idUsuario, idComentario);
+        } catch (ModelException ex) {
+            Logger.getLogger(ComentarioFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void operacionContadorComentario(int idComentario, int cantidad) throws ControllerException {
+        try {
+            comentarioDAO.operacionContadorComentario(idComentario, cantidad);
+        } catch (ModelException ex) {
+            Logger.getLogger(ComentarioFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public int consultarCantLikes(int idComentario) throws ControllerException {
+        try {
+            return comentarioDAO.consultarCantLikes(idComentario);
+        } catch (ModelException ex) {
+            Logger.getLogger(ComentarioFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+
+    @Override
+    public List<Comentario> consultarComentariosLikeados(int idUsuario) throws ControllerException {
+        try {
+            return comentarioDAO.consultarComentariosLikeados(idUsuario);
+        } catch (ModelException ex) {
+            Logger.getLogger(ComentarioFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }

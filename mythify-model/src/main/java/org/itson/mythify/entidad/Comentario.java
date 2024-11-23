@@ -6,15 +6,20 @@ package org.itson.mythify.entidad;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -32,6 +37,9 @@ public class Comentario implements Serializable {
     @Column(name = "idComentario", nullable = false)
     private int idComentario;
 
+    @Column(name = "likes", nullable = true)
+    private int cantLikes;
+
     @Column(name = "contenido", nullable = false, length = 1_000)
     private String contenido;
 
@@ -43,8 +51,11 @@ public class Comentario implements Serializable {
     private Usuario usuario; // Usuario que comentó
 
     @ManyToOne
-    @JoinColumn(name = "idComentarioPadre", referencedColumnName = "idComentario")
+    @JoinColumn(name = "idComentarioPadre", referencedColumnName = "idComentario", foreignKey = @ForeignKey(name = "FK_Comentario_idComentarioPadre"))
     private Comentario comentarioPadre;
+
+    @OneToMany(mappedBy = "comentarioPadre", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comentario> respuestas = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "idPost", nullable = false)
@@ -116,60 +127,37 @@ public class Comentario implements Serializable {
         this.post = post;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 97 * hash + this.idComentario;
-        hash = 97 * hash + Objects.hashCode(this.contenido);
-        hash = 97 * hash + Objects.hashCode(this.fechaHora);
-        hash = 97 * hash + Objects.hashCode(this.usuario);
-        hash = 97 * hash + Objects.hashCode(this.comentarioPadre);
-        hash = 97 * hash + Objects.hashCode(this.post);
-        return hash;
+    public List<Comentario> getRespuestas() {
+        return respuestas;
+    }
+
+    public void setRespuestas(List<Comentario> respuestas) {
+        this.respuestas = respuestas;
+    }
+
+    public int getCantLikes() {
+        return cantLikes;
+    }
+
+    public void setCantLikes(int cantLikes) {
+        this.cantLikes = cantLikes;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
+    public boolean equals(Object o) {
+        if (this == o) {
             return true;
         }
-        if (obj == null) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Comentario other = (Comentario) obj;
-        if (this.idComentario != other.idComentario) {
-            return false;
-        }
-        if (!Objects.equals(this.contenido, other.contenido)) {
-            return false;
-        }
-        if (!Objects.equals(this.fechaHora, other.fechaHora)) {
-            return false;
-        }
-        if (!Objects.equals(this.usuario, other.usuario)) {
-            return false;
-        }
-        if (!Objects.equals(this.comentarioPadre, other.comentarioPadre)) {
-            return false;
-        }
-        return Objects.equals(this.post, other.post);
+        Comentario comentario = (Comentario) o;
+        return Objects.equals(idComentario, comentario.idComentario);
     }
 
     @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Comentario{");
-        sb.append("idComentario=").append(idComentario);
-        sb.append(", contenido=").append(contenido);
-        sb.append(", fechaHora=").append(fechaHora);
-        sb.append(", usuario=").append(usuario);
-        sb.append(", comentarioPadre=").append(comentarioPadre);
-        sb.append(", post=").append(post);
-        sb.append('}');
-        return sb.toString();
+    public int hashCode() {
+        return Objects.hash(idComentario);
     }
 
 }

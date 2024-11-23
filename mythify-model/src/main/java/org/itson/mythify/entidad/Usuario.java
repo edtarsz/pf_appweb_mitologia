@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -91,6 +90,14 @@ public class Usuario implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "idPost") // Llave de Post
     )
     private List<Post> postsLikeados = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "Usuario_ComentarioLikes", // Tabla intermedia
+            joinColumns = @JoinColumn(name = "idUsuario"), // Llave de Usuario
+            inverseJoinColumns = @JoinColumn(name = "idComentario") // Llave de Comentario
+    )
+    private List<Comentario> comentariosLikeados = new ArrayList<>();
 
     public Usuario() {
     }
@@ -222,4 +229,11 @@ public class Usuario implements Serializable {
         this.postsLikeados = postsLikeados;
     }
 
+    public List<Comentario> getComentariosLikeados() {
+        return comentariosLikeados;
+    }
+
+    public void setComentariosLikeados(List<Comentario> comentariosLikeados) {
+        this.comentariosLikeados = comentariosLikeados;
+    }
 }

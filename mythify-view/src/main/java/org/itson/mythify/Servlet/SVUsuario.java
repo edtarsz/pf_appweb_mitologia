@@ -154,7 +154,9 @@ public class SVUsuario extends HttpServlet {
         try {
             usuario = usuarioBO.consultarUsuario(correo, contrasenia);
             posts = postBO.consultarPosts();
-            postsLikeados = postBO.consultarPostLikeados(usuario.getIdUsuario());
+            if (usuario != null) {
+                postsLikeados = postBO.consultarPostLikeados(usuario.getIdUsuario());
+            }
         } catch (ControllerException ex) {
             Logger.getLogger(SVUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -167,6 +169,8 @@ public class SVUsuario extends HttpServlet {
             return;
         }
 
+
+        assert postsLikeados != null;
         for (Post postsLikeado : postsLikeados) {
             System.out.println(postsLikeado);
         }
@@ -174,7 +178,9 @@ public class SVUsuario extends HttpServlet {
         request.getSession().setAttribute("usuario", usuario);
         request.setAttribute("posts", posts);
         request.getSession().setAttribute("postsLikeados", postsLikeados);
-        response.sendRedirect("SVPost?mythology=all");
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write("{\"existe\": true, \"redirect\": \"SVPost?mythology=all\"}");
     }
 
     private void cerrarSesion(HttpServletRequest request, HttpServletResponse response)

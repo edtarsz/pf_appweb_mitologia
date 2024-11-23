@@ -41,6 +41,7 @@
       <label for="contrasena">Contraseña</label>
       <input type="password" class="input-format" name="contrasenia" autocomplete="current-password" id="contrasena"/>
       <div id="contrasenaError" class="error-formulario"></div>
+      <div id="usuarioError" class="error-formulario-usuario"></div>
       <button type="submit" class="btn-format">Ingresar</button>
       <p>
         ¿Aun no tienes una cuenta?

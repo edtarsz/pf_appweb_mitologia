@@ -1320,6 +1320,14 @@ small {
     text-align: left;
 }
 
+.error-formulario-usuario{
+    padding: 5px;
+    color: #ffff80;
+    font-size: 14px;
+    font-weight: 400;
+    text-align: center;
+}
+
 #commentForm {
     display: none;
 }

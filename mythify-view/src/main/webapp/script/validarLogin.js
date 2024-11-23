@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelectorAll(".error-formulario").forEach((error) => {
             error.textContent = "";
         });
+        document.getElementById("usuarioError").textContent = "";
 
         // Obtener referencias de campos
         const correo = document.getElementById("correo").value.trim();
@@ -38,14 +39,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 // Si el usuario NO existe, mostrar mensaje de error sin detalles adicionales
                 if (!data.existe) {
-                    document.getElementById("contrasenaError").textContent = "Usuario no encontrado.";
+                    document.getElementById("usuarioError").textContent = "Usuario no encontrado.";
+                    console.log("Usuario no encontrado.");
                     esValido = false;
+                } else if (data.redirect) {
+                    window.location.href = data.redirect; // Redirige manualmente
                 }
-
-                // Si todo es válido, enviar el formulario
-                if (esValido) {
-                    formulario.submit(); // Enviar el formulario
-                }
+                //
+                // // Si todo es válido, enviar el formulario
+                // if (esValido) {
+                //     formulario.submit(); // Enviar el formulario
+                // }
             } catch (error) {
                 console.error("Error en la solicitud AJAX", error);
             }

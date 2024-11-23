@@ -17,6 +17,7 @@
         <link rel="stylesheet" href="<c:url value='/style/style.css' />">
         <!-- JavaScript -->
         <script defer src="script/registrar.js"></script>
+        <script defer src="script/validarRegistro.js"></script>
 
         <title>Mythify</title>
     </head>
@@ -49,7 +50,7 @@
                             <div class="input-group">
                                 <div class="label-input-g">
                                     <label for="nombre">Nombre</label>
-                                    <input type="text" class="register-input" name="nombre" id="nombre"/>
+                                    <input type="text" class="register-input" name="nombre" id="nombre" autocomplete="name"/>
                                     <small>Por favor ingrese el nombre</small>
                                 </div>
                             </div>
@@ -57,13 +58,13 @@
                             <div class="input-group">
                                 <div class="label-input-g">
                                     <label for="apellidoPaterno">Primer apellido</label>
-                                    <input type="text" class="register-input" name="apellidoPaterno" id="apellidoPaterno"/>
+                                    <input type="text" class="register-input" name="apellidoPaterno" id="apellidoPaterno" autocomplete="family-name"/>
                                     <small>Por favor ingrese el apellido paterno</small>
                                 </div>
 
                                 <div class="label-input-g">
                                     <label for="apellidoMaterno">Segundo apellido</label>
-                                    <input type="text" class="register-input" name="apellidoMaterno" id="apellidoMaterno"/>
+                                    <input type="text" class="register-input" name="apellidoMaterno" id="apellidoMaterno" autocomplete="family-name"/>
                                     <small>Por favor ingrese el apellido materno</small>
                                 </div>
                             </div>
@@ -71,13 +72,13 @@
                             <div class="input-group">
                                 <div class="label-input-g">
                                     <label for="estado">Estado</label>
-                                    <input type="text" class="register-input" name="estado" id="estado"/>
+                                    <input type="text" class="register-input" name="estado" id="estado" autocomplete="address-level1"/>
                                     <small>Por favor ingrese el estado</small>
                                 </div>
 
                                 <div class="label-input-g">
                                     <label for="ciudad">Ciudad</label>
-                                    <input type="text" class="register-input" name="ciudad" id="ciudad"/>
+                                    <input type="text" class="register-input" name="ciudad" id="ciudad" autocomplete="address-level2"/>
                                     <small>Por favor ingrese la ciudad</small>
                                 </div>
                             </div>
@@ -85,14 +86,13 @@
                             <div class="input-group">
                                 <div class="label-input-g">
                                     <label for="municipio">Municipio</label>
-                                    <input type="text" class="register-input" name="municipio" id="municipio"/>
+                                    <input type="text" class="register-input" name="municipio" id="municipio" autocomplete="address-level3"/>
                                     <small>Por favor ingrese el municipio</small>
                                 </div>
 
                                 <div class="label-input-g">
                                     <label for="fechaNacimiento">Fecha de nacimiento</label>
-                                    <input type="date" class="register-input" name="fechaNacimiento" id="fechaNacimiento"
-                                    />
+                                    <input type="date" class="register-input" name="fechaNacimiento" id="fechaNacimiento" autocomplete="bday"/>
                                     <small>Por favor ingrese la fecha de nacimiento</small>
                                 </div>
                             </div>
@@ -102,7 +102,7 @@
                             <div class="input-group">
                                 <div class="label-input-g">
                                     <label for="correo">Correo</label>
-                                    <input type="email" class="register-input" autocomplete="email" name="correo" id="correo" />
+                                    <input type="email" class="register-input" name="correo" id="correo" autocomplete="email"/>
                                     <small>Por favor ingrese el correo</small>
                                 </div>
                             </div>
@@ -110,14 +110,14 @@
                             <div class="input-group">
                                 <div class="label-input-g">
                                     <label for="contrasena">Contraseña</label>
-                                    <input type="password" class="register-input" name="contrasena" id="contrasena"/>
+                                    <input type="password" class="register-input" name="contrasena" id="contrasena" autocomplete="new-password"/>
                                     <small>Por favor ingrese la constraseña</small>
                                 </div>
 
                                 <div class="label-input-g">
                                     <label for="confirmarConstrasena">Confirmar Contraseña</label>
                                     <input type="password" class="register-input"
-                                           name="confirmarContrasena" id="confirmarConstrasena"/>
+                                           name="confirmarContrasena" id="confirmarConstrasena" autocomplete="new-password"/>
                                     <small>Por favor ingrese la misma contraseña nuevamente</small>
                                 </div>
                             </div>
@@ -138,12 +138,12 @@
                                 <div class="input-group-register">
                                     <div class="label-input-g">
                                         <label for="telefono">Telefono</label>
-                                        <input type="tel" class="register-input" name="telefono" id="telefono"/>
+                                        <input type="tel" class="register-input" name="telefono" id="telefono" autocomplete="tel"/>
                                     </div>
 
                                     <div class="label-input-g">
                                         <label for="genero">Genero</label>
-                                        <select class="register-input select-custom" id="genero" name="genero" >
+                                        <select class="register-input select-custom" id="genero" name="genero">
                                             <option value="seleccionar" disabled selected hidden>
                                                 Seleccionar género
                                             </option>
@@ -157,7 +157,7 @@
                         </div>
 
                         <div class="transition-btn">
-                            <button type= "submit" class="btn-format-black">Registrar</button>
+                            <button type="button" class="btn-format-black" id="btn-registrar">Registrar</button>
                         </div>
                     </form>
 
@@ -175,7 +175,7 @@
                             <input type="radio" name="register" id="rightRadio" />
                         </div>
 
-                        <button type="submit" class="arrow-register-right">
+                        <button type="submit" class="arrow-register-right" id="btn-right">
                             <?xml version="1.0" ?><svg class="feather feather-chevron-right" fill="none" height="34"
                                                        stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                                        stroke-width="2" viewBox="0 0 24 24" width="34" xmlns="http://www.w3.org/2000/svg">

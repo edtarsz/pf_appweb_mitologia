@@ -4,20 +4,6 @@
  */
 package org.itson.mythify.Servlet;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import org.itson.mythify.exceptions.ControllerException;
-import org.itson.mythify.entidad.Estado;
-import org.itson.mythify.entidad.Municipio;
-import org.itson.mythify.entidad.Usuario;
-import org.itson.mythify.enumeradores.TipoUsuario;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -25,17 +11,27 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.itson.mythify.entidad.Comentario;
-
+import org.itson.mythify.entidad.Estado;
+import org.itson.mythify.entidad.Municipio;
+import org.itson.mythify.entidad.Post;
+import org.itson.mythify.entidad.Usuario;
+import org.itson.mythify.enumeradores.TipoUsuario;
+import org.itson.mythify.exceptions.ControllerException;
+import org.itson.mythify.facade.comentario.ComentarioFacade;
+import org.itson.mythify.facade.comentario.IComentarioFacade;
 import org.itson.mythify.facade.post.IPostFacade;
 import org.itson.mythify.facade.post.PostFacade;
 import org.itson.mythify.facade.usuario.IUsuarioFacade;
 import org.itson.mythify.facade.usuario.UsuarioFacade;
-import org.itson.mythify.entidad.Post;
-import org.itson.mythify.facade.comentario.ComentarioFacade;
-import org.itson.mythify.facade.comentario.IComentarioFacade;
 
 /**
  * @author Eduardo Talavera Ramos
@@ -177,15 +173,11 @@ public class SVUsuario extends HttpServlet {
             return;
         }
 
-        assert postsLikeados != null;
-        for (Post postsLikeado : postsLikeados) {
-            System.out.println(postsLikeado);
-        }
-
         request.getSession().setAttribute("usuario", usuario);
         request.setAttribute("posts", posts);
         request.getSession().setAttribute("postsLikeados", postsLikeados);
         request.getSession().setAttribute("comentariosLikeados", comentariosLikeados);
+
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write("{\"existe\": true, \"redirect\": \"SVPost?mythology=all\"}");

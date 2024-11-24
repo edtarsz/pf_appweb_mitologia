@@ -109,6 +109,7 @@ public class SVPost extends HttpServlet {
     }
 
     private void handleViewPost(HttpServletRequest request, HttpServletResponse response, String postId) {
+        System.out.println("entra al handle view posts");
         int id = Integer.parseInt(postId);
         Post post;
         List<Comentario> comentarios;

@@ -1,15 +1,12 @@
 package org.itson.mythify.dao;
 
+import java.util.ArrayList;
 import org.itson.mythify.conexion.ModelException;
 import java.util.List;
 import java.util.logging.Level;
 import org.itson.mythify.conexion.IConexion;
 import javax.persistence.EntityManager;
 import java.util.logging.Logger;
-import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaDelete;
-import javax.persistence.criteria.Root;
 import org.itson.mythify.entidad.Comentario;
 import org.itson.mythify.entidad.Post;
 import org.itson.mythify.entidad.Usuario;
@@ -140,55 +137,40 @@ public class PostDAO implements IPostDAO {
     @Override
     public boolean eliminarPost(int idPost) throws ModelException {
         try {
-            logger.log(Level.INFO, "Attempting to delete post and its comments: {0}", idPost);
-
-            // Inicia la transacción
             entityManager.getTransaction().begin();
 
-            // Paso 1: Eliminar relaciones en Usuario_PostLikes
-            Query deleteLikesQuery = entityManager.createNativeQuery(
-                    "DELETE FROM Usuario_PostLikes WHERE idPost = ?");
-            deleteLikesQuery.setParameter(1, idPost); // Usa índices en lugar de nombres para parámetros
-            int likesDeleted = deleteLikesQuery.executeUpdate();
-            logger.log(Level.INFO, "Deleted {0} likes for post {1}", new Object[]{likesDeleted, idPost});
+            Post post = entityManager.find(Post.class, idPost);
+            if (post != null) {
+                // First remove all likes from the join table using native query with correct parameter binding
+                entityManager.createNativeQuery("DELETE FROM Usuario_PostLikes WHERE idPost = ?")
+                        .setParameter(1, idPost)
+                        .executeUpdate();
 
-            // Paso 2: Eliminar comentarios relacionados con el post
-            CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-            CriteriaDelete<Comentario> deleteComments = criteriaBuilder.createCriteriaDelete(Comentario.class);
-            Root<Comentario> commentRoot = deleteComments.from(Comentario.class);
-            deleteComments.where(criteriaBuilder.equal(commentRoot.get("post").get("idPost"), idPost));
-            int commentsDeleted = entityManager.createQuery(deleteComments).executeUpdate();
-            logger.log(Level.INFO, "Deleted {0} comments for post {1}", new Object[]{commentsDeleted, idPost});
+                // Then handle comments
+                for (Comentario comentario : new ArrayList<>(post.getComentarios())) {
+                    // Remove comment likes with correct parameter binding
+                    entityManager.createNativeQuery("DELETE FROM Usuario_ComentarioLikes WHERE idComentario = ?")
+                            .setParameter(1, comentario.getIdComentario())
+                            .executeUpdate();
 
-            // Paso 3: Eliminar el post
-            CriteriaDelete<Post> deletePost = criteriaBuilder.createCriteriaDelete(Post.class);
-            Root<Post> postRoot = deletePost.from(Post.class);
-            deletePost.where(criteriaBuilder.equal(postRoot.get("idPost"), idPost));
-            int postsDeleted = entityManager.createQuery(deletePost).executeUpdate();
+                    // Reset the likes count
+                    comentario.setCantLikes(0);
+                }
 
-            // Confirmar la transacción
-            entityManager.getTransaction().commit();
+                // Reset post likes count
+                post.setCantLikes(0);
 
-            if (postsDeleted > 0) {
-                logger.log(Level.INFO, "Post {0}, {1} comments, and {2} likes deleted successfully",
-                        new Object[]{idPost, commentsDeleted, likesDeleted});
-                return true;
-            } else {
-                logger.log(Level.WARNING, "Post not found: {0}", idPost);
-                return false;
+                // Finally remove the post
+                entityManager.remove(post);
             }
 
-        } catch (Exception ex) {
-            logger.log(Level.SEVERE, "Error deleting post: " + idPost, ex);
-
-            // Rollback en caso de error
+            entityManager.getTransaction().commit();
+            return true;
+        } catch (Exception e) {
             if (entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();
-                logger.warning("Transaction rolled back.");
             }
-
-            // Lanzar excepción personalizada
-            throw new ModelException("Error deleting post: " + ex.getMessage(), ex);
+            throw new ModelException("Error deleting post: " + e.getMessage(), e);
         }
     }
 

@@ -322,10 +322,6 @@
                                                         </c:otherwise>
                                                     </c:choose>
                                                 </form>
-                                                <button class="btn-footer reply-button" data-comment-id="${commentHijo.idComentario}">
-                                                    <img src="<c:url value='/img/comments-black.svg' />" alt="Comments">
-                                                    Responder
-                                                </button>
                                             </div>
                                         </article>
                                     </c:if>

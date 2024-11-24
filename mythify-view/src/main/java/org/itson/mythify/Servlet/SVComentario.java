@@ -12,6 +12,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -159,23 +161,17 @@ public class SVComentario extends HttpServlet {
         Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
 
         try {
+
             if (action.equalsIgnoreCase("likearComentario")) {
-                System.out.println("intenta likear");
                 comentarioBO.likearComentario(usuario.getIdUsuario(), comentarioId);
                 comentarioBO.operacionContadorComentario(comentarioId, 1);
             } else if (action.equalsIgnoreCase("desLikearComentario")) {
-                System.out.println("intenta deslikear");
                 comentarioBO.desLikearComentario(usuario.getIdUsuario(), comentarioId);
                 comentarioBO.operacionContadorComentario(comentarioId, -1);
             }
 
             List<Comentario> comentariosLikeados = comentarioBO.consultarComentariosLikeados(usuario.getIdUsuario());
 
-            System.out.println("imprime los likes");
-            for (Comentario comentariosLikeado : comentariosLikeados) {
-                System.out.println("imprime los likes");
-                comentariosLikeado.getCantLikes();
-            }
             request.getSession().setAttribute("comentariosLikeados", comentariosLikeados);
 
             if (Boolean.parseBoolean(isView)) {

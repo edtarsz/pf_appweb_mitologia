@@ -152,4 +152,24 @@ public class PostFacade implements IPostFacade {
         return null;
     }
 
+    @Override
+    public List<Post> consultarHotPosts() throws ControllerException {
+        try {
+            return postDAO.consultarHotPosts();
+        } catch (ModelException ex) {
+            Logger.getLogger(PostFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    @Override
+    public List<Post> consultarPostPropios(int idUsuario) throws ControllerException {
+        try {
+            return postDAO.consultarPostPropios(idUsuario);
+        } catch (ModelException ex) {
+            Logger.getLogger(PostFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
 }

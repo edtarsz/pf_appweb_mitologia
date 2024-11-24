@@ -156,32 +156,62 @@
                 </main>
                 <aside class="aside-hot">
                     <h2 class="hot-posts-title">HOT POSTS</h2>
-                    <article class="hot-post">
-                        <div class="head-article-hot-posts">
-                            <div class="left-head-article">
-                                <div class="container-pfp-post"></div>
-                                <span class="span-post-header">@user</span>
-                            </div>
-                            <div class="right-head-article">
-                                <img src="<c:url value='/img/options-post.svg' />" alt="Options">
-                            </div>
-                        </div>
-                        <div class="content-post">
-                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt culpa porro, perferendis voluptate
-                                quaerat assumenda praesentium dignissimos eius esse ratione quas sed voluptatum inventore voluptates illo
-                                optio officiis sit harum?</p>
-                        </div>
-                        <div class="footer-hot-post">
-                            <button class="btn-footer-hot-post">
-                                <img src="<c:url value='/img/heart-white.svg' />" alt="Like">
-                                4014
-                            </button>
-                            <button class="btn-footer-hot-post">
-                                <img src="<c:url value='/img/comments-white.svg' />" alt="Comments">
-                                409
-                            </button>
-                        </div>
-                    </article>
+                    <c:choose>
+                        <c:when test="${not empty hotPosts}">
+                            <c:forEach var="post" items="${hotPosts}">
+                                <article class="hot-post">
+                                    <div class="head-article-hot-posts">
+                                        <div class="left-head-article">
+                                            <div class="container-pfp-post"></div>
+                                            <span class="span-post-header">
+                                                @${empty post.usuario.nombre ? 'Anonymous' : post.usuario.nombre}
+                                            </span>
+                                        </div>
+                                        <div class="right-head-article">
+                                           
+                                        </div>
+                                    </div>
+                                    <div class="content-post">
+                                        <a href="<c:url value='/SVPost?id=${post.idPost}'/>">
+                                            <p>${post.contenido}</p>
+                                        </a>
+                                    </div>
+                                    <div class="footer-hot-post">
+                                        <form action="SVPost" method="post">
+                                            <input type="hidden" name="idPost" value="${post.idPost}">
+                                            <input type="hidden" name="isView" value="false">
+                                            <c:choose>
+                                                <%-- Verificamos si el post actual está en la lista de posts likeados --%>
+                                                <c:when test="${fn:contains(sessionScope.postsLikeados, post)}">
+                                                    <input type="hidden" name="action" value="desLikearPost">
+                                                    <button class="btn-footer-hot-post">
+                                                        <img src="<c:url value='/img/heart-white.svg' />" alt="Dislike">
+                                                        ${post.cantLikes}
+                                                    </button>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <input type="hidden" name="action" value="likearPost">
+                                                    <button class="btn-footer-hot-post">
+                                                        <img src="<c:url value='/img/heart-white.svg' />" alt="Like">
+                                                        ${post.cantLikes}
+                                                    </button>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </form>
+                                        <a href="<c:url value='/SVPost?id=${post.idPost}'/>">
+                                            <button class="btn-footer-hot-post">
+                                                <img src="<c:url value='/img/comments-white.svg' />" alt="Comments">
+                                                ${post.comentarios != null ? post.comentarios.size() : 0}
+                                            </button>
+                                        </a>
+                                    </div>
+                                </article>
+                            </c:forEach>
+                        </c:when>
+                        <c:otherwise>
+                            <p>No hay hot posts disponibles.</p>
+                        </c:otherwise>
+                    </c:choose>
                 </aside>
             </div>
         </div>

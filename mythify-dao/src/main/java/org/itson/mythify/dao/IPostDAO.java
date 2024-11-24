@@ -39,5 +39,9 @@ public interface IPostDAO {
     public int consultarCantLikes(int idPost) throws ModelException;
 
     public List<Post> consultarPostLikeados(int idUsuario) throws ModelException;
+    
+    public List<Post> consultarHotPosts() throws ModelException;
+    
+    public List<Post> consultarPostPropios(int idUsuario) throws ModelException;
 
 }

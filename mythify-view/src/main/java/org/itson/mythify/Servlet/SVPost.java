@@ -71,6 +71,8 @@ public class SVPost extends HttpServlet {
                     likearPost(request, response, action);
                 case "desLikearPost" ->
                     likearPost(request, response, action);
+                case "consultarPostsPropios" ->
+                    consultarPostsPropios(request, response);
             }
         }
     }
@@ -95,6 +97,8 @@ public class SVPost extends HttpServlet {
         }
 
         if (isValid(categoria)) {
+            
+           
             consultarPorCategoria(request, response, categoria);
             return;
         }
@@ -256,6 +260,7 @@ public class SVPost extends HttpServlet {
     private void consultarPorCategoria(HttpServletRequest request, HttpServletResponse response, String categoria)
             throws ServletException, IOException {
         List<Post> postsOrdenados = obtenerListaOrdenada(categoria);
+        consultarHotPosts(request); // Cargar los hot posts
 
         request.setAttribute("calculadorTiempo", new CalcularTiempo());
         request.setAttribute("posts", postsOrdenados);
@@ -343,4 +348,45 @@ public class SVPost extends HttpServlet {
             Logger.getLogger(SVPost.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    private void consultarPostsPropios(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+
+        try {
+            if (usuario == null) {
+                response.sendRedirect("login.jsp");
+                return;
+            }
+
+            // Consultar los posts creados por el usuario actual
+            List<Post> postsCreados = postBO.consultarPostPropios(usuario.getIdUsuario());
+
+            // Establecer los datos en el request
+            request.setAttribute("posts", postsCreados);
+
+            // **Indicador para saber que la acción fue "consultarPostsCreados"**
+            request.setAttribute("isVerPublicaciones", true);
+
+            // Redirigir al index.jsp
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        } catch (ControllerException ex) {
+            Logger.getLogger(SVPost.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("error.jsp");
+        }
+    }
+
+    private void consultarHotPosts(HttpServletRequest request) {
+        try {
+            // Consultar los 2 posts con más likes
+            List<Post> hotPosts = postBO.consultarHotPosts();
+            // Guardar los hot posts en la request para usarlos en el JSP
+            request.setAttribute("hotPosts", hotPosts);
+        } catch (ControllerException ex) {
+            Logger.getLogger(SVPost.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+
+    
 }

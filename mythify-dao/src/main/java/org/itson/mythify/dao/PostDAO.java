@@ -340,4 +340,45 @@ public class PostDAO implements IPostDAO {
         }
     }
 
+    @Override
+    public List<Post> consultarHotPosts() throws ModelException {
+        try {
+            logger.log(Level.INFO, "Attempting to query the top 2 posts with the most likes");
+
+            // Use Criteria API to fetch the top 2 posts by likes
+            CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+            CriteriaQuery<Post> cq = cb.createQuery(Post.class);
+            Root<Post> postRoot = cq.from(Post.class);
+
+            // Order by "cantLikes" in descending order
+            cq.select(postRoot).orderBy(cb.desc(postRoot.get("cantLikes")));
+
+            // Limit the query result to 2 entries
+            return entityManager.createQuery(cq).setMaxResults(2).getResultList();
+        } catch (PersistenceException ex) {
+            logger.log(Level.SEVERE, "Error querying top 2 posts with most likes", ex);
+            throw new ModelException("Error al consultar los 2 posts con más likes: " + ex.getMessage(), ex);
+        }
+    }
+
+    @Override
+    public List<Post> consultarPostPropios(int idUsuario) throws ModelException {
+        try {
+            logger.log(Level.INFO, "Attempting to query posts created by user {0}", idUsuario);
+
+            // Use Criteria API to fetch posts created by the user
+            CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+            CriteriaQuery<Post> cq = cb.createQuery(Post.class);
+            Root<Post> postRoot = cq.from(Post.class);
+
+            // Join condition: Match posts where "usuarioCreador.idUsuario" equals the given user ID
+            cq.select(postRoot).where(cb.equal(postRoot.get("usuarioCreador").get("idUsuario"), idUsuario));
+
+            return entityManager.createQuery(cq).getResultList();
+        } catch (PersistenceException ex) {
+            logger.log(Level.SEVERE, "Error querying posts created by user: " + idUsuario, ex);
+            throw new ModelException("Error al consultar los posts creados por el usuario: " + ex.getMessage(), ex);
+        }
+    }
+
 }

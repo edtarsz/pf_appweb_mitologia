@@ -37,8 +37,8 @@
             <div class="items-menu">
                 <ul>
                     <li>
-                        <form action="SVUsuario" method="get">
-                            <input type="hidden" name="action" value="verPerfil">
+                        <form action="SVPost" method="get">
+                            <input type="hidden" name="action" value="consultarPostPropios">
                             <button type="submit">Ver Publicados</button>
                         </form>
                     </li>

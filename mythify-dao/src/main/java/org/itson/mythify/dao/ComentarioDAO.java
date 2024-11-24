@@ -309,6 +309,10 @@ public class ComentarioDAO implements IComentarioDAO {
         try {
             logger.log(Level.INFO, "Attempting to query liked comments by user {0}", idUsuario);
 
+            if (entityManager == null) {
+                throw new ModelException("EntityManager is not initialized.");
+            }
+
             // Use Criteria API to fetch liked comments for the user
             CriteriaBuilder cb = entityManager.getCriteriaBuilder();
             CriteriaQuery<Comentario> cq = cb.createQuery(Comentario.class);

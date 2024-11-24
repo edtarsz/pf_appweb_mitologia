@@ -14,6 +14,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaDelete;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
@@ -559,7 +560,22 @@ public class ComentarioDAOTest {
         usuario.getComentariosLikeados().add(comentario1);
         usuario.getComentariosLikeados().add(comentario2);
 
-        when(mockEntityManager.find(Usuario.class, idUsuario)).thenReturn(usuario);
+        CriteriaBuilder mockCriteriaBuilder = mock(CriteriaBuilder.class);
+        CriteriaQuery<Comentario> mockCriteriaQuery = mock(CriteriaQuery.class);
+        Root<Usuario> mockRoot = mock(Root.class);
+        Join<Usuario, Comentario> mockJoin = mock(Join.class);
+        Predicate mockPredicate = mock(Predicate.class);
+        TypedQuery<Comentario> mockTypedQuery = mock(TypedQuery.class);
+
+        when(mockEntityManager.getCriteriaBuilder()).thenReturn(mockCriteriaBuilder);
+        when(mockCriteriaBuilder.createQuery(Comentario.class)).thenReturn(mockCriteriaQuery);
+        when(mockCriteriaQuery.from(Usuario.class)).thenReturn(mockRoot);
+        when(mockRoot.<Usuario, Comentario>join("comentariosLikeados")).thenReturn(mockJoin);
+        when(mockCriteriaBuilder.equal(mockRoot.get("idUsuario"), idUsuario)).thenReturn(mockPredicate);
+        when(mockCriteriaQuery.select(mockJoin)).thenReturn(mockCriteriaQuery);
+        when(mockCriteriaQuery.where(mockPredicate)).thenReturn(mockCriteriaQuery);
+        when(mockEntityManager.createQuery(mockCriteriaQuery)).thenReturn(mockTypedQuery);
+        when(mockTypedQuery.getResultList()).thenReturn(List.of(comentario1, comentario2));
 
         // When
         List<Comentario> comentariosLikeados = comentarioDAO.consultarComentariosLikeados(idUsuario);
@@ -576,10 +592,10 @@ public class ComentarioDAOTest {
         // Given
         int idUsuario = 1;
 
-        when(mockEntityManager.find(Usuario.class, idUsuario)).thenThrow(new PersistenceException("Error de persistencia simulado"));
+        when(mockEntityManager.getCriteriaBuilder()).thenThrow(new PersistenceException("Error de persistencia simulado"));
 
         // When/Then
-        PersistenceException exception = assertThrows(PersistenceException.class, () -> {
+        ModelException exception = assertThrows(ModelException.class, () -> {
             comentarioDAO.consultarComentariosLikeados(idUsuario);
         });
 

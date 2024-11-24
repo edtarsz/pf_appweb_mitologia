@@ -5,12 +5,6 @@
 package org.itson.mythify.Servlet;
 
 import java.io.IOException;
-
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,15 +14,22 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+
 import org.itson.mythify.auxiliar.CalcularTiempo;
 import org.itson.mythify.entidad.Comentario;
-import org.itson.mythify.exceptions.ControllerException;
-import org.itson.mythify.facade.post.IPostFacade;
-import org.itson.mythify.facade.post.PostFacade;
 import org.itson.mythify.entidad.Post;
 import org.itson.mythify.entidad.Usuario;
+import org.itson.mythify.exceptions.ControllerException;
 import org.itson.mythify.facade.comentario.ComentarioFacade;
 import org.itson.mythify.facade.comentario.IComentarioFacade;
+import org.itson.mythify.facade.post.IPostFacade;
+import org.itson.mythify.facade.post.PostFacade;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  *

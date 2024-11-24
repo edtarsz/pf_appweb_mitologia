@@ -1,13 +1,19 @@
 package org.itson.mythify.dao;
 
 import java.util.ArrayList;
-import org.itson.mythify.conexion.ModelException;
 import java.util.List;
 import java.util.logging.Level;
-import org.itson.mythify.conexion.IConexion;
-import javax.persistence.EntityManager;
 import java.util.logging.Logger;
+
+import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Root;
+
+import org.itson.mythify.conexion.IConexion;
+import org.itson.mythify.conexion.ModelException;
 import org.itson.mythify.entidad.Comentario;
 import org.itson.mythify.entidad.Post;
 import org.itson.mythify.entidad.Usuario;
@@ -320,20 +326,15 @@ public class PostDAO implements IPostDAO {
         try {
             logger.log(Level.INFO, "Attempting to query liked posts by user {0}", idUsuario);
 
-            // Buscar al usuario por ID
-            Usuario usuario = entityManager.find(Usuario.class, idUsuario);
-            if (usuario == null) {
-                throw new ModelException("No se encontró al usuario con ID: " + idUsuario);
-            }
+            // Use Criteria API to fetch liked posts for the user
+            CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+            CriteriaQuery<Post> cq = cb.createQuery(Post.class);
+            Root<Usuario> usuarioRoot = cq.from(Usuario.class);
+            Join<Usuario, Post> postJoin = usuarioRoot.join("postsLikeados");
+            cq.select(postJoin).where(cb.equal(usuarioRoot.get("idUsuario"), idUsuario));
 
-            // Obtener la lista de posts likeados desde el objeto Usuario
-            List<Post> postsLikeados = usuario.getPostsLikeados();
-
-            // Log del resultado
-            logger.log(Level.INFO, "User {0} has liked {1} posts.", new Object[]{idUsuario, postsLikeados.size()});
-
-            return postsLikeados;
-        } catch (ModelException ex) {
+            return entityManager.createQuery(cq).getResultList();
+        } catch (PersistenceException ex) {
             logger.log(Level.SEVERE, "Error querying liked posts by user: " + idUsuario, ex);
             throw new ModelException("Error al consultar los posts likeados: " + ex.getMessage(), ex);
         }

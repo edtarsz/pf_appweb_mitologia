@@ -246,10 +246,6 @@ a {
     text-decoration: none;
 }
 
-a:visited {
-    color: blueviolet;
-}
-
 ul {
     text-decoration: none;
     list-style: none;
@@ -834,7 +830,7 @@ ul {
 footer {
     margin-top: 10px;
     background-color: var(--main-color);
-    padding: 20px 0;
+    padding: 40px 0;
     text-align: center;
     border-top: 1px solid #444;
     color: #aaa;

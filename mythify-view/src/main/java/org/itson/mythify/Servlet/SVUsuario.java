@@ -4,14 +4,6 @@
  */
 package org.itson.mythify.Servlet;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.MultipartConfig;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
@@ -34,6 +26,14 @@ import org.itson.mythify.facade.post.IPostFacade;
 import org.itson.mythify.facade.post.PostFacade;
 import org.itson.mythify.facade.usuario.IUsuarioFacade;
 import org.itson.mythify.facade.usuario.UsuarioFacade;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 /**
  * @author Eduardo Talavera Ramos
@@ -65,10 +65,14 @@ public class SVUsuario extends HttpServlet {
             response.sendRedirect("error.jsp");
         } else {
             switch (action) {
-                case "registrar" -> registrarUsuario(request, response);
-                case "iniciarSesion" -> iniciarSesion(request, response);
-                case "cerrarSesion" -> cerrarSesion(request, response);
-                case "verificarCorreo" -> verificarCorreo(request, response);
+                case "registrar" ->
+                    registrarUsuario(request, response);
+                case "iniciarSesion" ->
+                    iniciarSesion(request, response);
+                case "cerrarSesion" ->
+                    cerrarSesion(request, response);
+                case "verificarCorreo" ->
+                    verificarCorreo(request, response);
             }
         }
     }

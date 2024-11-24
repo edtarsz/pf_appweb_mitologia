@@ -4,18 +4,21 @@
  */
 package org.itson.mythify.entidad;
 
-import static com.google.protobuf.JavaFeaturesProto.java;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-import javax.persistence.*;
-import java.util.List;
-import java.util.Objects;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  * @author Eduardo Talavera Ramos
@@ -173,7 +176,7 @@ public class Post implements Serializable {
             return false;
         }
         Post post = (Post) o;
-        return Objects.equals(idPost, post.idPost);
+        return idPost == post.idPost;
     }
 
     @Override

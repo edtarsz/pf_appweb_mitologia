@@ -14,6 +14,7 @@ import javax.persistence.PersistenceException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaDelete;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -308,23 +309,17 @@ public class ComentarioDAO implements IComentarioDAO {
         try {
             logger.log(Level.INFO, "Attempting to query liked comments by user {0}", idUsuario);
 
-            // Buscar al usuario por ID
-            Usuario usuario = entityManager.find(Usuario.class, idUsuario);
-            if (usuario == null) {
-                throw new ModelException("No se encontró al usuario con ID: " + idUsuario);
-            }
+            // Use Criteria API to fetch liked comments for the user
+            CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+            CriteriaQuery<Comentario> cq = cb.createQuery(Comentario.class);
+            Root<Usuario> usuarioRoot = cq.from(Usuario.class);
+            Join<Usuario, Comentario> comentarioJoin = usuarioRoot.join("comentariosLikeados");
+            cq.select(comentarioJoin).where(cb.equal(usuarioRoot.get("idUsuario"), idUsuario));
 
-            // Obtener la lista de comentarios likeados desde el objeto Usuario
-            List<Comentario> comentariosLikeados = usuario.getComentariosLikeados();
-
-            // Log del resultado
-            logger.log(Level.INFO, "User {0} has liked {1} comments.",
-                    new Object[]{idUsuario, comentariosLikeados.size()});
-
-            return comentariosLikeados;
+            return entityManager.createQuery(cq).getResultList();
         } catch (PersistenceException ex) {
             logger.log(Level.SEVERE, "Error querying liked comments by user: " + idUsuario, ex);
-            throw new PersistenceException("Error al consultar los comentarios likeados: " + ex.getMessage(), ex);
+            throw new ModelException("Error al consultar los comentarios likeados: " + ex.getMessage(), ex);
         }
     }
 }

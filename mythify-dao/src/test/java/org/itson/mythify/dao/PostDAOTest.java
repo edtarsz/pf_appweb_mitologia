@@ -320,7 +320,6 @@ public class PostDAOTest {
         verify(mockTransaction).commit();
     }
 
-
     @Test
     public void testEliminarPost_ErrorPersistencia() {
         // Given
@@ -334,7 +333,7 @@ public class PostDAOTest {
         verify(mockTransaction).rollback();
         assertTrue(exception.getMessage().contains("Error deleting post"));
     }
-    
+
     @Test
     public void testEliminarPost_NoExiste() throws ModelException {
         // Given
@@ -394,6 +393,162 @@ public class PostDAOTest {
         });
 
         assertTrue(exception.getMessage().contains("Error al consultar la cantidad de likes"));
+    }
+
+    @Test
+    public void testAnclarPost_Exito() throws ModelException {
+        // Given
+        doNothing().when(mockTransaction).begin();
+        doNothing().when(mockTransaction).commit();
+        when(mockEntityManager.merge(post)).thenReturn(post);
+
+        // When
+        Post resultado = postDAO.anclarPost(post);
+
+        // Then
+        assertNotNull(resultado);
+        assertEquals(post.getTitulo(), resultado.getTitulo());
+        verify(mockEntityManager).merge(post);
+        verify(mockTransaction).begin();
+        verify(mockTransaction).commit();
+    }
+
+    @Test
+    public void testAnclarPost_ErrorPersistencia() {
+        // Given
+        doThrow(new PersistenceException("Error de persistencia simulado"))
+                .when(mockEntityManager).merge(any(Post.class));
+
+        // When/Then
+        ModelException exception = assertThrows(ModelException.class, () -> {
+            postDAO.anclarPost(post);
+        });
+
+        verify(mockTransaction).rollback();
+        assertTrue(exception.getMessage().contains("Error pinning post"));
+    }
+
+    @Test
+    public void testLikearPost_Exito() throws ModelException {
+        // Given
+        when(mockEntityManager.find(Usuario.class, usuario.getIdUsuario())).thenReturn(usuario);
+        when(mockEntityManager.find(Post.class, post.getIdPost())).thenReturn(post);
+        doNothing().when(mockTransaction).begin();
+        doNothing().when(mockTransaction).commit();
+
+        // When
+        postDAO.likearPost(usuario.getIdUsuario(), post.getIdPost());
+
+        // Then
+        assertTrue(usuario.getPostsLikeados().contains(post));
+        verify(mockEntityManager).merge(usuario);
+        verify(mockTransaction).begin();
+        verify(mockTransaction).commit();
+    }
+
+    @Test
+    public void testLikearPost_UsuarioNoEncontrado() {
+        // Given
+        when(mockEntityManager.find(Usuario.class, usuario.getIdUsuario())).thenReturn(null);
+
+        // When/Then
+        ModelException exception = assertThrows(ModelException.class, () -> {
+            postDAO.likearPost(usuario.getIdUsuario(), post.getIdPost());
+        });
+
+        assertTrue(exception.getMessage().contains("No se encontró al usuario con ID"));
+    }
+
+    @Test
+    public void testLikearPost_PostNoEncontrado() {
+        // Given
+        when(mockEntityManager.find(Usuario.class, usuario.getIdUsuario())).thenReturn(usuario);
+        when(mockEntityManager.find(Post.class, post.getIdPost())).thenReturn(null);
+
+        // When/Then
+        ModelException exception = assertThrows(ModelException.class, () -> {
+            postDAO.likearPost(usuario.getIdUsuario(), post.getIdPost());
+        });
+
+        assertTrue(exception.getMessage().contains("No se encontró el post con ID"));
+    }
+
+
+    @Test
+    public void testDesLikearPost_Exito() throws ModelException {
+        // Given
+        usuario.getPostsLikeados().add(post);
+        when(mockEntityManager.find(Usuario.class, usuario.getIdUsuario())).thenReturn(usuario);
+        when(mockEntityManager.find(Post.class, post.getIdPost())).thenReturn(post);
+        doNothing().when(mockTransaction).begin();
+        doNothing().when(mockTransaction).commit();
+
+        // When
+        postDAO.desLikearPost(usuario.getIdUsuario(), post.getIdPost());
+
+        // Then
+        assertFalse(usuario.getPostsLikeados().contains(post));
+        verify(mockEntityManager).merge(usuario);
+        verify(mockTransaction).begin();
+        verify(mockTransaction).commit();
+    }
+
+    @Test
+    public void testDesLikearPost_UsuarioNoEncontrado() {
+        // Given
+        when(mockEntityManager.find(Usuario.class, usuario.getIdUsuario())).thenReturn(null);
+
+        // When/Then
+        ModelException exception = assertThrows(ModelException.class, () -> {
+            postDAO.desLikearPost(usuario.getIdUsuario(), post.getIdPost());
+        });
+
+        assertTrue(exception.getMessage().contains("No se encontró al usuario con ID"));
+    }
+
+    @Test
+    public void testDesLikearPost_PostNoEncontrado() {
+        // Given
+        when(mockEntityManager.find(Usuario.class, usuario.getIdUsuario())).thenReturn(usuario);
+        when(mockEntityManager.find(Post.class, post.getIdPost())).thenReturn(null);
+
+        // When/Then
+        ModelException exception = assertThrows(ModelException.class, () -> {
+            postDAO.desLikearPost(usuario.getIdUsuario(), post.getIdPost());
+        });
+
+        assertTrue(exception.getMessage().contains("No se encontró el post con ID"));
+    }
+
+    @Test
+    public void testOperacionContadorLike_Exito() throws ModelException {
+        // Given
+        post.setCantLikes(5);
+        when(mockEntityManager.find(Post.class, post.getIdPost())).thenReturn(post);
+        doNothing().when(mockTransaction).begin();
+        doNothing().when(mockTransaction).commit();
+
+        // When
+        postDAO.operacionContadorLike(post.getIdPost(), 3);
+
+        // Then
+        assertEquals(8, post.getCantLikes());
+        verify(mockEntityManager).merge(post);
+        verify(mockTransaction).begin();
+        verify(mockTransaction).commit();
+    }
+
+    @Test
+    public void testOperacionContadorLike_PostNoEncontrado() {
+        // Given
+        when(mockEntityManager.find(Post.class, post.getIdPost())).thenReturn(null);
+
+        // When/Then
+        ModelException exception = assertThrows(ModelException.class, () -> {
+            postDAO.operacionContadorLike(post.getIdPost(), 3);
+        });
+
+        assertTrue(exception.getMessage().contains("No se encontró el post con ID"));
     }
 
 }

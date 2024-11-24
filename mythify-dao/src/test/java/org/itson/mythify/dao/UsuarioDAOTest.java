@@ -35,7 +35,6 @@ class UsuarioDAOTest {
     @Mock
     private EntityTransaction mockTransaction;
 
-
     @Mock
     private CriteriaBuilder mockCriteriaBuilder; // Agrega estos mocks para los objetos de Criteria API
 
@@ -47,7 +46,6 @@ class UsuarioDAOTest {
 
     @InjectMocks
     private UsuarioDAO usuarioDAO;
-
 
     @BeforeEach
     public void setUp() {
@@ -121,7 +119,6 @@ class UsuarioDAOTest {
         verify(mockTransaction).rollback(); // Aquí verificamos que el rollback ocurrió
         verify(mockEntityManager).persist(any(Usuario.class));
     }
-
 
     @Test
     public void testConsultarUsuario_Exito() throws ModelException {
@@ -286,4 +283,3 @@ class UsuarioDAOTest {
         verify(mockQuery).getSingleResult();
     }
 }
-

@@ -4,17 +4,21 @@
  */
 package org.itson.mythify.dao;
 
-import org.itson.mythify.conexion.ModelException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaDelete;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+
 import org.itson.mythify.conexion.IConexion;
+import org.itson.mythify.conexion.ModelException;
 import org.itson.mythify.entidad.Comentario;
 import org.itson.mythify.entidad.Usuario;
 
@@ -41,23 +45,37 @@ public class ComentarioDAO implements IComentarioDAO {
 
     @Override
     public Comentario crearComentario(Comentario comentario) throws ModelException {
+        if (comentario == null) {
+            throw new ModelException("El comentario no puede ser null");
+        }
+
+        if (comentario.getContenido() == null || comentario.getContenido().isEmpty()) {
+            throw new ModelException("El contenido del comentario no puede estar vacío");
+        }
+
+        if (comentario.getUsuario() == null) {
+            throw new ModelException("El usuario del comentario no puede ser nulo");
+        }
+
+        EntityTransaction transaction = entityManager.getTransaction();
+
         try {
-            logger.log(Level.INFO, "Attempting to create post: {0}", comentario.getContenido());
-            entityManager.getTransaction().begin();
+            transaction.begin();
             entityManager.persist(comentario);
-            entityManager.getTransaction().commit();
-            logger.log(Level.INFO, "Post created successfully: {0}", comentario.getContenido());
+            transaction.commit();
+            logger.log(Level.INFO, "Comentario creado exitosamente: {0}", comentario.getContenido());
             return comentario;
-        } catch (Exception ex) {
-            logger.log(Level.SEVERE, "Error creating user: " + comentario.getContenido(), ex);
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-                logger.warning("Transaction rolled back.");
+
+        } catch (PersistenceException e) {
+            logger.log(Level.SEVERE, "Error de persistencia al crear comentario", e);
+            if (transaction.isActive()) {
+                transaction.rollback();
             }
-            return null;
+            throw new ModelException("Error al persistir el comentario en la base de datos", e);
         }
     }
 
+    @Override
     public void eliminarComentario(int idComentario) throws ModelException {
         try {
             logger.log(Level.INFO, "Attempting to delete comment with ID: {0}", idComentario);
@@ -83,30 +101,25 @@ public class ComentarioDAO implements IComentarioDAO {
 
             deletePadreQuery.where(criteriaBuilder.equal(padreRoot.get("idComentario"), idComentario));
 
-            int deletedCount = entityManager.createQuery(deletePadreQuery).executeUpdate();
-
-            if (deletedCount == 0) {
-                logger.log(Level.WARNING, "Comment with ID {0} not found for deletion", idComentario);
-                throw new ModelException("No se encontró el comentario con ID: " + idComentario);
-            }
+            // Aquí está el problema. Necesitas ejecutar este query.
+            int deletedPadreCount = entityManager.createQuery(deletePadreQuery).executeUpdate();
+            logger.log(Level.INFO, "Deleted {0} parent comment with ID: {1}", new Object[]{deletedPadreCount, idComentario});
 
             entityManager.getTransaction().commit();
             logger.log(Level.INFO, "Comment with ID {0} successfully deleted", idComentario);
 
-        } catch (Exception ex) {
-            logger.log(Level.SEVERE, "Error deleting comment with ID: " + idComentario, ex);
+        } catch (IllegalArgumentException ex) {
+            logger.log(Level.WARNING, "Comment with ID {0} not found for deletion", idComentario);
+            throw new ModelException("No se encontró el comentario con ID: " + idComentario, ex);
+        } catch (PersistenceException ex) {
+            logger.log(Level.SEVERE, "Persistence error deleting comment with ID: " + idComentario, ex);
 
             if (entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();
                 logger.warning("Transaction rolled back.");
             }
-            throw new ModelException("Error al eliminar el comentario: " + ex.getMessage(), ex);
+            throw new ModelException("Error de persistencia al eliminar el comentario: " + ex.getMessage(), ex);
         }
-    }
-
-    @Override
-    public void actualizarComentario() throws ModelException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
@@ -138,20 +151,20 @@ public class ComentarioDAO implements IComentarioDAO {
     @Override
     public Comentario consultarComentarioPorID(int idComentario) throws ModelException {
         try {
-            logger.log(Level.INFO, "Attempting to query post by ID: {0}", idComentario);
+            logger.log(Level.INFO, "Attempting to query comment by ID: {0}", idComentario);
 
             Comentario comentario = entityManager.find(Comentario.class, idComentario);
 
             if (comentario != null) {
-                logger.log(Level.INFO, "Post found: {0}", comentario.getIdComentario());
+                logger.log(Level.INFO, "Comment found: {0}", comentario.getIdComentario());
             } else {
-                logger.log(Level.WARNING, "No post found with ID: {0}", idComentario);
+                logger.log(Level.WARNING, "No comment found with ID: {0}", idComentario);
             }
 
             return comentario;
-        } catch (Exception ex) {
-            logger.log(Level.SEVERE, "Error querying post by ID: " + idComentario, ex);
-            throw new ModelException("Error al consultar el post por ID: " + ex.getMessage(), ex);
+        } catch (PersistenceException ex) {
+            logger.log(Level.SEVERE, "Error querying comment by ID: " + idComentario, ex);
+            throw new ModelException("Error al consultar el comentario por ID: " + idComentario, ex);
         }
     }
 
@@ -185,13 +198,13 @@ public class ComentarioDAO implements IComentarioDAO {
             entityManager.merge(usuario);
             entityManager.getTransaction().commit();
 
-        } catch (ModelException ex) {
+        } catch (PersistenceException ex) {
             logger.log(Level.SEVERE, "Error liking comment: " + idComentario + " by user: " + idUsuario, ex);
             if (entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();
                 logger.warning("Transaction rolled back.");
             }
-            throw new ModelException("Error al dar like al comentario: " + ex.getMessage(), ex);
+            throw new PersistenceException("Error al dar like al comentario: " + ex.getMessage(), ex);
         }
     }
 
@@ -227,13 +240,13 @@ public class ComentarioDAO implements IComentarioDAO {
             entityManager.merge(usuario);
             entityManager.getTransaction().commit();
 
-        } catch (ModelException ex) {
+        } catch (PersistenceException ex) {
             logger.log(Level.SEVERE, "Error unliking comment: " + idComentario + " by user: " + idUsuario, ex);
             if (entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();
                 logger.warning("Transaction rolled back.");
             }
-            throw new ModelException("Error al quitar el like del comentario: " + ex.getMessage(), ex);
+            throw new PersistenceException("Error al quitar el like del comentario: " + ex.getMessage(), ex);
         }
     }
 
@@ -258,13 +271,13 @@ public class ComentarioDAO implements IComentarioDAO {
             entityManager.merge(comentario);
             entityManager.getTransaction().commit();
 
-        } catch (ModelException ex) {
+        } catch (PersistenceException ex) {
             logger.log(Level.SEVERE, "Error incrementing like count for comment: " + idComentario, ex);
             if (entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();
                 logger.warning("Transaction rolled back.");
             }
-            throw new ModelException("Error al aumentar el contador de likes: " + ex.getMessage(), ex);
+            throw new PersistenceException("Error al aumentar el contador de likes: " + ex.getMessage(), ex);
         }
     }
 
@@ -284,9 +297,9 @@ public class ComentarioDAO implements IComentarioDAO {
 
             // Retornar la cantidad de likes
             return comentario.getCantLikes();
-        } catch (ModelException ex) {
+        } catch (PersistenceException ex) {
             logger.log(Level.SEVERE, "Error retrieving like count for comment: " + idComentario, ex);
-            throw new ModelException("Error al consultar la cantidad de likes: " + ex.getMessage(), ex);
+            throw new PersistenceException("Error al consultar la cantidad de likes: " + ex.getMessage(), ex);
         }
     }
 
@@ -309,9 +322,9 @@ public class ComentarioDAO implements IComentarioDAO {
                     new Object[]{idUsuario, comentariosLikeados.size()});
 
             return comentariosLikeados;
-        } catch (ModelException ex) {
+        } catch (PersistenceException ex) {
             logger.log(Level.SEVERE, "Error querying liked comments by user: " + idUsuario, ex);
-            throw new ModelException("Error al consultar los comentarios likeados: " + ex.getMessage(), ex);
+            throw new PersistenceException("Error al consultar los comentarios likeados: " + ex.getMessage(), ex);
         }
     }
 }

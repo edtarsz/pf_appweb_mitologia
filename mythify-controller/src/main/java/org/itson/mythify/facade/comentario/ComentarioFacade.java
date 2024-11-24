@@ -51,11 +51,6 @@ public class ComentarioFacade implements IComentarioFacade {
     }
 
     @Override
-    public void actualizarComentario() throws ControllerException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
     public List<Comentario> consultarComentarios(int idPost) throws ControllerException {
         try {
             return comentarioDAO.consultarComentarios(idPost);

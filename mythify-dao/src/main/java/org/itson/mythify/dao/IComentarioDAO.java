@@ -20,8 +20,6 @@ public interface IComentarioDAO {
 
     public void eliminarComentario(int idComentario) throws ModelException;
 
-    public void actualizarComentario() throws ModelException;
-
     public List<Comentario> consultarComentarios(int idPost) throws ModelException;
 
     public Comentario consultarComentarioPorID(int idComentario) throws ModelException;

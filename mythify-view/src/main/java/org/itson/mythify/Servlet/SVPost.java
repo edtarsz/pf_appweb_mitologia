@@ -163,12 +163,11 @@ public class SVPost extends HttpServlet {
         }
 
         try {
-            post = postBO.crearPost(post);
+          postBO.crearPost(post);
         } catch (ControllerException ex) {
             Logger.getLogger(SVPost.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        posts.add(post);
         request.setAttribute("posts", posts);
         response.sendRedirect("SVPost?mythology=all");
     }

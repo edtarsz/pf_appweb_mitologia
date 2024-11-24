@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import org.itson.mythify.conexion.IConexion;
 import javax.persistence.EntityManager;
 import java.util.logging.Logger;
+import javax.persistence.PersistenceException;
 import org.itson.mythify.entidad.Comentario;
 import org.itson.mythify.entidad.Post;
 import org.itson.mythify.entidad.Usuario;
@@ -34,6 +35,9 @@ public class PostDAO implements IPostDAO {
 
     @Override
     public Post crearPost(Post post) throws ModelException {
+        if (post == null) {
+            throw new ModelException("El post no puede ser null");
+        }
         try {
             logger.log(Level.INFO, "Attempting to create post: {0}", post.getTitulo());
             entityManager.getTransaction().begin();
@@ -41,18 +45,21 @@ public class PostDAO implements IPostDAO {
             entityManager.getTransaction().commit();
             logger.log(Level.INFO, "Post created successfully: {0}", post.getTitulo());
             return post;
-        } catch (Exception ex) {
+        } catch (PersistenceException ex) {
             logger.log(Level.SEVERE, "Error creating user: " + post.getTitulo(), ex);
             if (entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();
                 logger.warning("Transaction rolled back.");
             }
-            return null;
+            throw new ModelException("Error creating post", ex);
         }
     }
-
+    
     @Override
     public Post actualizarPost(Post post) throws ModelException {
+        if (post == null) {
+            throw new ModelException("El post no puede ser null");
+        }
         try {
             logger.log(Level.INFO, "Attempting to update post: {0}", post.getTitulo());
             entityManager.getTransaction().begin();
@@ -60,7 +67,7 @@ public class PostDAO implements IPostDAO {
             entityManager.getTransaction().commit();
             logger.log(Level.INFO, "Post updated successfully: {0}", updatedPost.getTitulo());
             return updatedPost;
-        } catch (Exception ex) {
+        } catch (PersistenceException  ex) {
             logger.log(Level.SEVERE, "Error updating post: " + post.getTitulo(), ex);
             if (entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();
@@ -137,6 +144,7 @@ public class PostDAO implements IPostDAO {
     @Override
     public boolean eliminarPost(int idPost) throws ModelException {
         try {
+        logger.log(Level.INFO, "Attempting to delete post with ID: {0}", idPost);
             entityManager.getTransaction().begin();
 
             Post post = entityManager.find(Post.class, idPost);
@@ -162,8 +170,11 @@ public class PostDAO implements IPostDAO {
 
                 // Finally remove the post
                 entityManager.remove(post);
+            } else{
+            logger.log(Level.WARNING, "Post with ID {0} not found", idPost);
+            entityManager.getTransaction().commit(); // Asegurar que la transacción se cierra.
+            return false;
             }
-
             entityManager.getTransaction().commit();
             return true;
         } catch (Exception e) {
@@ -291,19 +302,16 @@ public class PostDAO implements IPostDAO {
         try {
             logger.log(Level.INFO, "Attempting to get like count for post {0}", idPost);
 
-            // Buscar el post por ID
             Post post = entityManager.find(Post.class, idPost);
             if (post == null) {
                 throw new ModelException("No se encontró el post con ID: " + idPost);
             }
 
             logger.log(Level.INFO, "Like count for post {0} is {1}", new Object[]{idPost, post.getCantLikes()});
-
-            // Retornar la cantidad de likes
             return post.getCantLikes();
-        } catch (ModelException ex) {
+        } catch (PersistenceException ex) {
             logger.log(Level.SEVERE, "Error retrieving like count for post: " + idPost, ex);
-            throw new ModelException("Error al consultar la cantidad de likes: " + ex.getMessage(), ex);
+            throw new ModelException("Error al consultar la cantidad de likes", ex);
         }
     }
 

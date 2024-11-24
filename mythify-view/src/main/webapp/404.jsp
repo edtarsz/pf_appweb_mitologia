@@ -32,10 +32,11 @@
                     <p>El recurso solicitado no fue encontrado dentro del servidor.</p>
                     <br>
                     <img src="<c:url value='/img/404.jpg' />" alt="404">
-                    <div></div>
+                    </div>
                 </main>
             </div>
         </div>
     </body>
+    <%@ include file="partials/footer.jsp" %>
 
 </html>

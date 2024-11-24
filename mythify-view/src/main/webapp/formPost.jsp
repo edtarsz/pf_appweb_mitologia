@@ -130,18 +130,6 @@
       </article>
     </main>
   </div>
-  <footer>
-    <div class="footer-content">
-      <div class="social-icons">
-        <a href="#"><i class="fab fa-facebook"></i></a>
-        <a href="#"><i class="fab fa-instagram"></i></a>
-        <a href="#"><i class="fab fa-twitter"></i></a>
-        <a href="#"><i class="fab fa-twitch"></i></a>
-        <a href="#"><i class="fab fa-discord"></i></a>
-      </div>
-      <p>Copyright 2024 © Mythify Team</p>
-    </div>
-  </footer>
 </div>
 </body>
 

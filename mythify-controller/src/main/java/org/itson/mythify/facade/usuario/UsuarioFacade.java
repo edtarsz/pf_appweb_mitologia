@@ -39,7 +39,7 @@ public class UsuarioFacade implements IUsuarioFacade {
         try {
             usuarioDAO.crearUsuario(usuario);
         } catch (ModelException ex) {
-            Logger.getLogger(UsuarioFacade.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ControllerException("Error al crear usuario", ex);
         }
     }
 
@@ -48,9 +48,8 @@ public class UsuarioFacade implements IUsuarioFacade {
         try {
             return usuarioDAO.consultarUsuario(correo, password);
         } catch (ModelException ex) {
-            Logger.getLogger(UsuarioFacade.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ControllerException("Usuario no encontrado", ex);
         }
-        return null;
     }
 
     @Override
@@ -58,9 +57,8 @@ public class UsuarioFacade implements IUsuarioFacade {
         try {
             return usuarioDAO.verificarCorreoExistente(correo);
         } catch (ModelException ex) {
-            Logger.getLogger(UsuarioFacade.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ControllerException("Error al verificar correo", ex);
         }
-        return false;
     }
 
 }

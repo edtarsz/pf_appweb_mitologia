@@ -11,9 +11,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.itson.mythify.conexion.InitialConfig;
 import org.itson.mythify.exceptions.ControllerException;
 import org.itson.mythify.facade.usuario.IUsuarioFacade;
@@ -34,6 +36,7 @@ public class SVMain extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
     private IUsuarioFacade usuarioBO;
+    private static final Logger logger = Logger.getLogger(SVMain.class.getName());
 
     @Override
     public void init() throws ServletException {
@@ -49,13 +52,14 @@ public class SVMain extends HttpServlet {
 
     private void crearAdminSiNoExiste() {
         try {
-            if (usuarioBO.consultarUsuario("admin@gmail.com", "admin") != null) {
-                return;
-            }
-            Usuario adminDefault = crearUsuarioAdmin();
-            usuarioBO.crearUsuario(adminDefault);
+            usuarioBO.consultarUsuario("admin@gmail.com", "admin");
         } catch (ControllerException ex) {
-            Logger.getLogger(SVMain.class.getName()).log(Level.SEVERE, null, ex);
+            Usuario adminDefault = crearUsuarioAdmin();
+            try {
+                usuarioBO.crearUsuario(adminDefault);
+            } catch (ControllerException e) {
+                logger.log(Level.SEVERE, "Error al crear el usuario administrador por defecto: {0}", e.getMessage());
+            }
         }
     }
 

@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
@@ -19,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.itson.mythify.entidad.Comentario;
 import org.itson.mythify.entidad.Estado;
 import org.itson.mythify.entidad.Municipio;
@@ -63,14 +65,10 @@ public class SVUsuario extends HttpServlet {
             response.sendRedirect("error.jsp");
         } else {
             switch (action) {
-                case "registrar" ->
-                    registrarUsuario(request, response);
-                case "iniciarSesion" ->
-                    iniciarSesion(request, response);
-                case "cerrarSesion" ->
-                    cerrarSesion(request, response);
-                case "verificarCorreo" ->
-                    verificarCorreo(request, response);
+                case "registrar" -> registrarUsuario(request, response);
+                case "iniciarSesion" -> iniciarSesion(request, response);
+                case "cerrarSesion" -> cerrarSesion(request, response);
+                case "verificarCorreo" -> verificarCorreo(request, response);
             }
         }
     }
@@ -148,25 +146,17 @@ public class SVUsuario extends HttpServlet {
         String correo = request.getParameter("correo");
         String contrasenia = request.getParameter("contrasenia");
 
-        Usuario usuario = null;
-        List<Post> posts = null;
-        List<Post> postsLikeados = null;
-        List<Comentario> comentariosLikeados = null;
+        Usuario usuario;
+        List<Post> posts;
+        List<Post> postsLikeados;
+        List<Comentario> comentariosLikeados;
 
         try {
             usuario = usuarioBO.consultarUsuario(correo, contrasenia);
             posts = postBO.consultarPosts();
-            if (usuario != null) {
-                postsLikeados = postBO.consultarPostLikeados(usuario.getIdUsuario());
-            }
             postsLikeados = postBO.consultarPostLikeados(usuario.getIdUsuario());
             comentariosLikeados = comentarioBO.consultarComentariosLikeados(usuario.getIdUsuario());
         } catch (ControllerException ex) {
-            Logger.getLogger(SVUsuario.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        if (usuario == null) {
-            // Si no se encuentra el usuario, respondemos con un JSON que indica que no existe
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write("{\"existe\": false}");

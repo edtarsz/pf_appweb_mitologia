@@ -80,9 +80,9 @@
                     </execution>
                 </executions>
                 <configuration>
-<!--                    <targetClasses>-->
-<!--                        <param>org.itson.mythify</param>-->
-<!--                    </targetClasses>-->
+                    <targetClasses>
+                        <param>org.itson.mythify.*</param>
+                    </targetClasses>
                     <targetTests>
                         <param>org.itson.mythify.*</param>
                     </targetTests>
@@ -115,5 +115,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>21</maven.compiler.release>
+        <!--comentarear esto para que se ejecuten los test-->
+        <skipTests>true</skipTests>
     </properties>
 </project>

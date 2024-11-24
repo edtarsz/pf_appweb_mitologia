@@ -15,6 +15,9 @@ import org.itson.mythify.conexion.ModelException;
  */
 public class DAOFactory {
 
+    private DAOFactory() {
+    }
+
     public static UsuarioDAO instanciaUsuarioDAO(IConexion conexion) throws ModelException {
         return new UsuarioDAO(conexion);
     }

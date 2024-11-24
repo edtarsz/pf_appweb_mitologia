@@ -121,6 +121,39 @@ class UsuarioDAOTest {
     }
 
     @Test
+    void testCrearUsuario_FalloSinTransaccionActiva() {
+        // Configuración del mock para simular la excepción y una transacción inactiva
+        when(mockConexion.crearConexion()).thenReturn(mockEntityManager);
+        when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
+        when(mockTransaction.isActive()).thenReturn(false); // Simular transacción inactiva
+        doThrow(new RuntimeException("Error persistiendo usuario"))
+                .when(mockEntityManager).persist(any(Usuario.class));
+
+        // Inicializa el DAO
+        UsuarioDAO dao = new UsuarioDAO(mockConexion);
+
+        // Act: Intenta crear un usuario
+        Usuario usuario = new Usuario();
+        usuario.setCorreo("test@example.com");
+        usuario.setContrasenia("password");
+
+        Usuario resultado = null;
+        try {
+            resultado = dao.crearUsuario(usuario);
+            fail("Debería haber lanzado una excepción");
+        } catch (ModelException ex) {
+            Logger.getLogger(UsuarioDAOTest.class.getName()).info("Excepción esperada: " + ex.getMessage());
+        }
+
+        // Assert
+        assertNull(resultado, "El usuario debería ser nulo al fallar la creación");
+        verify(mockTransaction).begin();
+        verify(mockTransaction, never()).rollback(); // Asegurarse de que no se llama a rollback
+        verify(mockEntityManager).persist(any(Usuario.class));
+    }
+
+
+    @Test
     public void testConsultarUsuario_Exito() throws ModelException {
         // Datos de prueba
         String correo = "test@example.com";
@@ -198,6 +231,72 @@ class UsuarioDAOTest {
         }
 
     }
+
+    @Test
+    public void testConsultarUsuario_ContrasenaIncorrecta() throws ModelException {
+        // Datos de prueba
+        String correo = "test@example.com";
+        String passwordIncorrecta = "wrongpassword";
+        String passwordCorrecta = "correctpassword";
+
+        // Mock del encryptor para verificar contraseñas
+        StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
+        String contraseniaEncriptada = passwordEncryptor.encryptPassword(passwordCorrecta);
+
+        // Mock de un usuario con correo válido pero contraseña encriptada
+        Usuario mockUsuario = new Usuario();
+        mockUsuario.setCorreo(correo);
+        mockUsuario.setContrasenia(contraseniaEncriptada);
+
+        // Configuración del mock para la consulta
+        when(mockEntityManager.getCriteriaBuilder()).thenReturn(mockCriteriaBuilder);
+        when(mockCriteriaBuilder.createQuery(Usuario.class)).thenReturn(mockCriteriaQuery);
+        when(mockCriteriaQuery.from(Usuario.class)).thenReturn(mockRoot);
+        when(mockCriteriaQuery.select(mockRoot)).thenReturn(mockCriteriaQuery);
+
+        // Mock del Predicate para el where
+        Predicate mockPredicate = mock(Predicate.class);
+        when(mockCriteriaBuilder.equal(mockRoot.get("correo"), correo)).thenReturn(mockPredicate);
+        when(mockCriteriaQuery.where(mockPredicate)).thenReturn(mockCriteriaQuery);
+
+        // Configuramos el mock de la consulta
+        TypedQuery<Usuario> mockQuery = mock(TypedQuery.class);
+        when(mockEntityManager.createQuery(mockCriteriaQuery)).thenReturn(mockQuery);
+        when(mockQuery.getSingleResult()).thenReturn(mockUsuario);
+
+        // Invoca el método a probar con una contraseña incorrecta
+        Usuario resultado = usuarioDAO.consultarUsuario(correo, passwordIncorrecta);
+
+        // Verificaciones
+        assertNull(resultado); // Debe devolver null porque la contraseña es incorrecta
+        verify(mockEntityManager).getCriteriaBuilder(); // Asegurarse de que se consultó el usuario
+        Logger.getLogger(UsuarioDAOTest.class.getName()).info("Contraseña incorrecta correctamente identificada.");
+    }
+
+    @Test
+    public void testConsultarUsuario_ErrorInesperado() {
+        // Datos de prueba
+        String correo = "test@example.com";
+        String password = "password123";
+
+        // Configuración del mock para provocar una excepción
+        when(mockEntityManager.getCriteriaBuilder()).thenThrow(new RuntimeException("Unexpected error"));
+
+        // Invoca el método a probar y verifica que lanza una ModelException
+        try {
+            usuarioDAO.consultarUsuario(correo, password);
+            fail("Expected ModelException to be thrown");
+        } catch (ModelException e) {
+            // Verificar que la ModelException contiene el mensaje adecuado
+            assertTrue(e.getMessage().contains("Error querying user"));
+            assertTrue(e.getMessage().contains("Unexpected error"));
+            Logger.getLogger(UsuarioDAOTest.class.getName()).info("Excepción inesperada correctamente manejada.");
+        }
+
+        // Verificación de que se intentó construir la consulta antes del fallo
+        verify(mockEntityManager).getCriteriaBuilder();
+    }
+
 
     @Test
     public void testVerificarCorreoExistente_Exito() throws ModelException {
@@ -282,4 +381,28 @@ class UsuarioDAOTest {
         verify(mockEntityManager).createQuery(mockCriteriaQuery);
         verify(mockQuery).getSingleResult();
     }
+
+    @Test
+    public void testVerificarCorreoExistente_ErrorInesperado() {
+        // Datos de prueba
+        String correo = "error@example.com";
+
+        // Configuración del mock para provocar una excepción
+        when(mockEntityManager.getCriteriaBuilder()).thenThrow(new RuntimeException("Unexpected error"));
+
+        // Invoca el método a probar y verifica que lanza una ModelException
+        try {
+            usuarioDAO.verificarCorreoExistente(correo);
+            fail("Expected ModelException to be thrown");
+        } catch (ModelException e) {
+            // Verificar que la ModelException contiene el mensaje adecuado
+            assertTrue(e.getMessage().contains("Error verifying email"));
+            assertTrue(e.getMessage().contains("Unexpected error"));
+            Logger.getLogger(UsuarioDAOTest.class.getName()).info("Excepción inesperada correctamente manejada.");
+        }
+
+        // Verificar que se intentó obtener el CriteriaBuilder antes del fallo
+        verify(mockEntityManager).getCriteriaBuilder();
+    }
+
 }

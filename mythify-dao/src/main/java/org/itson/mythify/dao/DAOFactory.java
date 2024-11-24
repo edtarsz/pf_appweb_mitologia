@@ -5,6 +5,7 @@
 package org.itson.mythify.dao;
 
 import org.itson.mythify.conexion.IConexion;
+import org.itson.mythify.conexion.ModelException;
 
 /**
  * @author Eduardo Talavera Ramos
@@ -14,15 +15,15 @@ import org.itson.mythify.conexion.IConexion;
  */
 public class DAOFactory {
 
-    public static UsuarioDAO instanciaUsuarioDAO(IConexion conexion) {
+    public static UsuarioDAO instanciaUsuarioDAO(IConexion conexion) throws ModelException {
         return new UsuarioDAO(conexion);
     }
 
-    public static PostDAO instanciaPostDAO(IConexion conexion) {
+    public static PostDAO instanciaPostDAO(IConexion conexion) throws ModelException {
         return new PostDAO(conexion);
     }
 
-    public static ComentarioDAO instanciaComentarioDAO(IConexion conexion) {
+    public static ComentarioDAO instanciaComentarioDAO(IConexion conexion) throws ModelException {
         return new ComentarioDAO(conexion);
     }
 }

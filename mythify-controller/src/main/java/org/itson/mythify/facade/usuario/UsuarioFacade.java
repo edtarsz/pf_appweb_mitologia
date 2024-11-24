@@ -23,11 +23,15 @@ import org.itson.mythify.exceptions.ControllerException;
 public class UsuarioFacade implements IUsuarioFacade {
 
     IConexion conexion;
-    private final IUsuarioDAO usuarioDAO;
+    private IUsuarioDAO usuarioDAO;
 
     public UsuarioFacade() {
         conexion = new Conexion();
-        this.usuarioDAO = DAOFactory.instanciaUsuarioDAO(conexion);
+        try {
+            this.usuarioDAO = DAOFactory.instanciaUsuarioDAO(conexion);
+        } catch (ModelException ex) {
+            Logger.getLogger(UsuarioFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
@@ -38,7 +42,6 @@ public class UsuarioFacade implements IUsuarioFacade {
             Logger.getLogger(UsuarioFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
 
     @Override
     public Usuario consultarUsuario(String correo, String password) throws ControllerException {

@@ -23,12 +23,16 @@ import org.itson.mythify.exceptions.ControllerException;
  */
 public class ComentarioFacade implements IComentarioFacade {
 
-    private final IComentarioDAO comentarioDAO;
+    private IComentarioDAO comentarioDAO;
     IConexion conexion;
 
     public ComentarioFacade() {
         conexion = new Conexion();
-        this.comentarioDAO = DAOFactory.instanciaComentarioDAO(conexion);
+        try {
+            this.comentarioDAO = DAOFactory.instanciaComentarioDAO(conexion);
+        } catch (ModelException ex) {
+            Logger.getLogger(ComentarioFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override

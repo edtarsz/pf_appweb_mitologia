@@ -24,11 +24,15 @@ import org.itson.mythify.exceptions.ControllerException;
 public class PostFacade implements IPostFacade {
 
     private final IConexion conexion;
-    private final IPostDAO postDAO;
+    private IPostDAO postDAO;
 
     public PostFacade() {
         conexion = new Conexion();
-        this.postDAO = DAOFactory.instanciaPostDAO(conexion);
+        try {
+            this.postDAO = DAOFactory.instanciaPostDAO(conexion);
+        } catch (ModelException ex) {
+            Logger.getLogger(PostFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override

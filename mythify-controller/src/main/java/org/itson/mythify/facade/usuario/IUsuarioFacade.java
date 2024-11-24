@@ -17,10 +17,6 @@ public interface IUsuarioFacade {
 
     public void crearUsuario(Usuario usuario) throws ControllerException;
 
-    public void eliminarUsuario() throws ControllerException;
-
-    public void actualizarUsuario() throws ControllerException;
-
     public Usuario consultarUsuario(String correo, String password) throws ControllerException;
 
     public boolean verificarCorreoExistente(String correo) throws ControllerException;

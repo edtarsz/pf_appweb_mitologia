@@ -17,10 +17,6 @@ public interface IUsuarioDAO {
 
     public Usuario crearUsuario(Usuario usuario) throws ModelException;
 
-    public Usuario eliminarUsuario() throws ModelException;
-
-    public Usuario actualizarUsuario() throws ModelException;
-
     public Usuario consultarUsuario(String correo, String password) throws ModelException;
 
     public boolean verificarCorreoExistente(String correo) throws ModelException;

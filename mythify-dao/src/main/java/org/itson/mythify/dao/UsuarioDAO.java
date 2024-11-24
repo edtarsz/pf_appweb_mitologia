@@ -11,6 +11,8 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.jasypt.util.password.PasswordEncryptor;
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
 /**
@@ -40,7 +42,6 @@ public class UsuarioDAO implements IUsuarioDAO {
     public Usuario crearUsuario(Usuario usuario) throws ModelException {
         try {
             logger.log(Level.INFO, "Attempting to create user: {0}", usuario.getCorreo());
-
             // Encripta la contraseña antes de persistirla
             String encryptedPassword = passwordEncryptor.encryptPassword(usuario.getContrasenia());
             usuario.setContrasenia(encryptedPassword);
@@ -51,23 +52,12 @@ public class UsuarioDAO implements IUsuarioDAO {
             logger.log(Level.INFO, "User created successfully: {0}", usuario.getCorreo());
             return usuario;
         } catch (Exception ex) {
-            logger.log(Level.SEVERE, "Error creating user: " + usuario.getCorreo(), ex);
             if (entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();
                 logger.warning("Transaction rolled back.");
             }
-            return null;
+            throw new ModelException("Error creating user: " + ex.getMessage());
         }
-    }
-
-    @Override
-    public Usuario eliminarUsuario() throws ModelException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public Usuario actualizarUsuario() throws ModelException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
@@ -81,7 +71,6 @@ public class UsuarioDAO implements IUsuarioDAO {
             criteriaQuery.select(root).where(correoPredicate);
 
             Usuario usuario = entityManager.createQuery(criteriaQuery).getSingleResult();
-
             // Comprueba la contraseña usando una comparación encriptada
             if (passwordEncryptor.checkPassword(password, usuario.getContrasenia())) {
                 logger.log(Level.INFO, "Successful login for user: {0}", usuario.getCorreo());
@@ -92,11 +81,9 @@ public class UsuarioDAO implements IUsuarioDAO {
             }
 
         } catch (NoResultException e) {
-            logger.log(Level.WARNING, "No user found with email: {0}", correo);
-            return null;
+            throw new ModelException("User not found: " + correo);
         } catch (Exception ex) {
-            logger.log(Level.SEVERE, "Error during user login: {0}", ex.getMessage());
-            return null;
+            throw new ModelException("Error querying user: " + ex.getMessage());
         }
     }
 
@@ -113,8 +100,8 @@ public class UsuarioDAO implements IUsuarioDAO {
             Long count = entityManager.createQuery(criteriaQuery).getSingleResult();
             return count > 0;
         } catch (Exception ex) {
-            logger.log(Level.SEVERE, "Error verifying email: {0}", ex.getMessage());
-            return false;
+            throw new ModelException("Error verifying email: " + ex.getMessage());
         }
     }
+
 }

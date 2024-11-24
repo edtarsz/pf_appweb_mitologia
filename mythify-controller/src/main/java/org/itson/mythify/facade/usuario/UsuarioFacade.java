@@ -39,23 +39,6 @@ public class UsuarioFacade implements IUsuarioFacade {
         }
     }
 
-    @Override
-    public void eliminarUsuario() throws ControllerException {
-        try {
-            usuarioDAO.eliminarUsuario();
-        } catch (ModelException ex) {
-            Logger.getLogger(UsuarioFacade.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    @Override
-    public void actualizarUsuario() throws ControllerException {
-        try {
-            usuarioDAO.actualizarUsuario();
-        } catch (ModelException ex) {
-            Logger.getLogger(UsuarioFacade.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 
     @Override
     public Usuario consultarUsuario(String correo, String password) throws ControllerException {

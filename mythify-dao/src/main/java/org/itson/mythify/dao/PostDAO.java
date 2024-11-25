@@ -371,8 +371,8 @@ public class PostDAO implements IPostDAO {
             CriteriaQuery<Post> cq = cb.createQuery(Post.class);
             Root<Post> postRoot = cq.from(Post.class);
 
-            // Join condition: Match posts where "usuarioCreador.idUsuario" equals the given user ID
-            cq.select(postRoot).where(cb.equal(postRoot.get("usuarioCreador").get("idUsuario"), idUsuario));
+            // Join condition: Match posts where "usuario.idUsuario" equals the given user ID
+            cq.select(postRoot).where(cb.equal(postRoot.get("usuario").get("idUsuario"), idUsuario));
 
             return entityManager.createQuery(cq).getResultList();
         } catch (PersistenceException ex) {

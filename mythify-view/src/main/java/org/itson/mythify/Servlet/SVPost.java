@@ -71,8 +71,6 @@ public class SVPost extends HttpServlet {
                     likearPost(request, response, action);
                 case "desLikearPost" ->
                     likearPost(request, response, action);
-                case "consultarPostsPropios" ->
-                    consultarPostsPropios(request, response);
             }
         }
     }
@@ -97,8 +95,6 @@ public class SVPost extends HttpServlet {
         }
 
         if (isValid(categoria)) {
-            
-           
             consultarPorCategoria(request, response, categoria);
             return;
         }
@@ -107,6 +103,11 @@ public class SVPost extends HttpServlet {
         if (isValid(postId)) {
             handleViewPost(request, response, postId);
         }
+        
+        if(isValid(action) && action.equals("consultarPostPropios")){
+        consultarPostsPropios( request, response);
+        }
+        
     }
 
     private boolean isValid(String action) {
@@ -364,12 +365,8 @@ public class SVPost extends HttpServlet {
 
             // Establecer los datos en el request
             request.setAttribute("posts", postsCreados);
+            request.getRequestDispatcher("userPosts.jsp").forward(request, response);
 
-            // **Indicador para saber que la acción fue "consultarPostsCreados"**
-            request.setAttribute("isVerPublicaciones", true);
-
-            // Redirigir al index.jsp
-            request.getRequestDispatcher("index.jsp").forward(request, response);
         } catch (ControllerException ex) {
             Logger.getLogger(SVPost.class.getName()).log(Level.SEVERE, null, ex);
             response.sendRedirect("error.jsp");

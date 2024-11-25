@@ -4,7 +4,11 @@
  */
 package org.itson.mythify.Servlet;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,15 +30,24 @@ import org.itson.mythify.facade.post.IPostFacade;
 import org.itson.mythify.facade.post.PostFacade;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 
 /**
- *
- * @author user
+ * @author Eduardo Talavera Ramos
+ * @author Ana Cristina Castro Noriega
+ * @author Eliana Monge Camara
+ * @author Jesús Roberto García Armenta
  */
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024, // 1 MB
+        maxFileSize = 1024 * 1024 * 5, // 5 MB
+        maxRequestSize = 1024 * 1024 * 10 // 10 MB
+)
 @WebServlet(name = "SVPost", urlPatterns = {"/SVPost"})
 public class SVPost extends HttpServlet {
 
@@ -51,7 +64,6 @@ public class SVPost extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action");
-        System.out.println(action);
 
         if (action == null) {
             response.sendRedirect("error.jsp");
@@ -182,14 +194,82 @@ public class SVPost extends HttpServlet {
         String contenido = request.getParameter("content");
         String anclado = request.getParameter("anclar");
         String link = request.getParameter("link");
+        String imagen;
 
         boolean esAnclado = !(anclado == null);
 
         Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
 
-        Post post = new Post(titulo, contenido, categoria.toUpperCase(), link, LocalDateTime.now(), esAnclado, usuario);
+        Post post = new Post(titulo, contenido, categoria.toUpperCase(), LocalDateTime.now(), esAnclado, usuario);
+
+        if (link != null) {
+            post.setLink(link);
+        }
+
+        imagen = saveImagen(request);
+
+        if (imagen != null) {
+            post.setImagen(imagen);
+        }
 
         return post;
+    }
+
+    private String saveImagen(HttpServletRequest request) {
+        String uniqueFileName = null;
+        try {
+            // Obtener el Part del archivo
+            Part filePart = request.getPart("imagen");
+            String fileName = getSubmittedFileName(filePart);
+
+            if (fileName != null && !fileName.isEmpty()) {
+                // Generar un nombre único para el archivo
+                uniqueFileName = System.currentTimeMillis() + "_" + fileName;
+
+                // Obtener la ruta del proyecto
+                String projectPath = request.getServletContext().getRealPath("");
+                Logger.getLogger(SVPost.class.getName()).log(Level.INFO, "Project path: {0}", projectPath);
+
+                // Definir la ruta de la carpeta imgPosts en el directorio principal del proyecto
+                String uploadPath = new File(projectPath).getParentFile().getParent() + File.separator + "src" + File.separator + "main" + File.separator + "webapp" + File.separator + "imgPosts";
+                Logger.getLogger(SVPost.class.getName()).log(Level.INFO, "Upload path: {0}", uploadPath);
+
+                // Crear el directorio si no existe
+                File uploadDir = new File(uploadPath);
+                if (!uploadDir.exists()) {
+                    boolean dirCreated = uploadDir.mkdirs(); // Usar mkdirs() en lugar de mkdir() para crear directorios padres si no existen
+                    Logger.getLogger(SVPost.class.getName()).log(Level.INFO, "Directory created: {0}", dirCreated);
+                }
+
+                // Ruta completa del archivo
+                String filePath = uploadPath + File.separator + uniqueFileName;
+                Logger.getLogger(SVPost.class.getName()).log(Level.INFO, "File path: {0}", filePath);
+
+                // Guardar el archivo
+                try (InputStream input = filePart.getInputStream(); OutputStream output = new FileOutputStream(new File(filePath))) {
+                    byte[] buffer = new byte[1024];
+                    int length;
+                    while ((length = input.read(buffer)) > 0) {
+                        output.write(buffer, 0, length);
+                    }
+                    Logger.getLogger(SVPost.class.getName()).log(Level.INFO, "File saved successfully");
+                }
+            }
+        } catch (IOException | ServletException ex) {
+            Logger.getLogger(SVPost.class.getName()).log(Level.SEVERE, "Error al procesar el archivo", ex);
+        }
+        return uniqueFileName;
+    }
+
+    private String getSubmittedFileName(Part part) {
+        String contentDisp = part.getHeader("content-disposition");
+        String[] tokens = contentDisp.split(";");
+        for (String token : tokens) {
+            if (token.trim().startsWith("filename")) {
+                return token.substring(token.indexOf("=") + 2, token.length() - 1);
+            }
+        }
+        return "";
     }
 
     private void editarPost(HttpServletRequest request, HttpServletResponse response) throws IOException {

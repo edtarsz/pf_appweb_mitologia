@@ -32,7 +32,7 @@
                 <%@ include file="partials/aside.jspf" %>
                 <main>
                     <div class="container-crear-post">
-                        <form action="<c:url value='/SVPost' />" method="post" id="form-post">
+                        <form action="<c:url value='/SVPost' />" method="post" id="form-post" enctype="multipart/form-data">
                             <div class="anclar-crear-titles">
                                 <input type="hidden" name="action" value="publicarPost">
 
@@ -73,7 +73,7 @@
                             <div class="error-formulario" id="tituloError"></div>
                             <label for="imgGet" id="drop-area">
                                 <input type="file" accept="image/jpeg, image/png" id="imgGet"
-                                       name="avatar"/>
+                                       name="imagen"/>
                                 <div id="img-view">
                                     <p>Arrastrar o subir imagen</p>
                                 </div>

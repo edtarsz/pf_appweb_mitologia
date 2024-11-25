@@ -135,11 +135,11 @@ public class SVUsuario extends HttpServlet {
         String fechaNacimiento = request.getParameter("fechaNacimiento");
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         Date fecha = null;
-        String uniqueFileName = null;
+        String avatar;
 
+        avatar = saveAvatar(request);
         try {
             fecha = formato.parse(fechaNacimiento);
-            uniqueFileName = saveAvatar(request);
         } catch (ParseException ex) {
             Logger.getLogger(SVUsuario.class.getName()).log(Level.SEVERE, "Error al procesar la fecha", ex);
         }
@@ -151,7 +151,7 @@ public class SVUsuario extends HttpServlet {
                 correo,
                 contrasena,
                 telefono,
-                uniqueFileName,
+                avatar,
                 ciudad,
                 fecha,
                 genero,

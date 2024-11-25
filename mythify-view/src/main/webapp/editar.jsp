@@ -92,9 +92,17 @@
                         </div>
 
                         <h3>${post.titulo}</h3>
+                        
                         <div class="content-post">
                             <p>${post.contenido}</p>
                         </div>
+
+                        <c:if test="${post.imagen != null}">
+                            <div id="img-view">
+                                <img src="imgPosts/${post.imagen}" alt="alt"/>
+                            </div>
+                        </c:if>
+
 
                         <c:if test="${not empty post.link}">
                             <a href="${fn:escapeXml(post.link)}" id="preview-link">

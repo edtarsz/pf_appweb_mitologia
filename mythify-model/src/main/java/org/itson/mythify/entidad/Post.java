@@ -53,6 +53,9 @@ public class Post implements Serializable {
     @Column(name = "link", nullable = true)
     private String link;
 
+    @Column(name = "imagen", nullable = true)
+    private String imagen;
+
     @Column(name = "fechaHoraCreacion", nullable = false, updatable = false)
     private LocalDateTime fechaHoraCreacion;
 
@@ -69,11 +72,10 @@ public class Post implements Serializable {
     public Post() {
     }
 
-    public Post(String titulo, String contenido, String categoria, String link, LocalDateTime fechaHoraCreacion, boolean anclado, Usuario usuario) {
+    public Post(String titulo, String contenido, String categoria, LocalDateTime fechaHoraCreacion, boolean anclado, Usuario usuario) {
         this.titulo = titulo;
         this.contenido = contenido;
         this.categoria = categoria;
-        this.link = link;
         this.fechaHoraCreacion = fechaHoraCreacion;
         this.anclado = anclado;
         this.usuario = usuario;
@@ -165,6 +167,14 @@ public class Post implements Serializable {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 
     @Override

@@ -106,6 +106,12 @@
                             <p>${post.contenido}</p>
                         </div>
 
+                        <c:if test="${post.imagen != null}">
+                            <div id="img-view">
+                                <img src="imgPosts/${post.imagen}" alt="alt"/>
+                            </div>
+                        </c:if>
+
                         <c:if test="${not empty post.link}">
                             <a href="${fn:escapeXml(post.link)}" id="preview-link">
                                 ${fn:escapeXml(post.link)}
@@ -266,7 +272,7 @@
                                             <div class="head-article-post">
                                                 <div class="left-head-article">
                                                     <img src="${pageContext.request.contextPath}/imgUsers/${commentHijo.usuario.avatar}" alt="Profile Picture" class="profile-pic" />
-                                                    
+
                                                     <c:set var="tiempoTranscurrido" value="${calculadorTiempo.tiempoTranscurridoDesde(commentHijo.fechaHora)}" />
                                                     <span class="span-post-header">
                                                         @${empty commentHijo.usuario.nombre ? 'Anonymous' : commentHijo.usuario.nombre} •

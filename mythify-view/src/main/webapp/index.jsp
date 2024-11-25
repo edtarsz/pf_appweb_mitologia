@@ -41,7 +41,7 @@
                                                 <a href="<c:url value='/SVPost?id=${post.idPost}'/>">
                                                 </c:if>
                                                 <div class="left-head-article">
-                                                    <div class="container-pfp-post"></div>
+                                                    <img src="${pageContext.request.contextPath}/imgUsers/${post.usuario.avatar}" alt="Profile Picture" class="profile-pic" />
 
                                                     <c:choose>
                                                         <c:when test="${not empty post.fechaHoraEdicion}">
@@ -162,13 +162,14 @@
                                 <article class="hot-post">
                                     <div class="head-article-hot-posts">
                                         <div class="left-head-article">
-                                            <div class="container-pfp-post"></div>
+                                            <img src="${pageContext.request.contextPath}/imgUsers/${post.usuario.avatar}" alt="Profile Picture" class="profile-pic" />
+
                                             <span class="span-post-header">
                                                 @${empty post.usuario.nombre ? 'Anonymous' : post.usuario.nombre}
                                             </span>
                                         </div>
                                         <div class="right-head-article">
-                                           
+
                                         </div>
                                     </div>
                                     <div class="content-post">

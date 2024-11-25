@@ -71,7 +71,7 @@ public class SVMain extends HttpServlet {
                 "admin@gmail.com", // email
                 "admin", // password
                 "", // telefono
-                "", // foto
+                "maluma.webp", // foto
                 "", // descripcion
                 new Date(), // fechaNacimiento
                 "otro", // genero

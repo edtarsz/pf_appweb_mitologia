@@ -42,7 +42,7 @@
                     <article class="article-post">
                         <div class="head-article-post">
                             <div class="left-head-article">
-                                <div class="container-pfp-post"></div>
+                                <img src="${pageContext.request.contextPath}/imgUsers/${sessionScope.usuario.avatar}" alt="Profile Picture" class="profile-pic" />
 
                                 <c:choose>
                                     <c:when test="${not empty post.fechaHoraEdicion}">
@@ -118,6 +118,7 @@
                                 <input type="hidden" name="isView" value="true">
                                 <input type="hidden" name="idPost" value="${post.idPost}">
                                 <c:choose>
+
                                     <%-- Verificamos si el post actual está en la lista de posts likeados --%>
                                     <c:when test="${fn:contains(postLikeados, post)}">
                                         <input type="hidden" name="action" value="desLikearPost">
@@ -174,7 +175,8 @@
                             <article class="article-post">
                                 <div class="head-article-post">
                                     <div class="left-head-article">
-                                        <div class="container-pfp-post"></div>
+                                        <img src="${pageContext.request.contextPath}/imgUsers/${commentPadre.usuario.avatar}" alt="Profile Picture" class="profile-pic" />
+
                                         <c:set var="tiempoTranscurrido" value="${calculadorTiempo.tiempoTranscurridoDesde(commentPadre.fechaHora)}" />
                                         <span class="span-post-header">
                                             @${empty commentPadre.usuario.nombre ? 'Anonymous' : commentPadre.usuario.nombre} •
@@ -263,7 +265,8 @@
                                         <article class="article-post">
                                             <div class="head-article-post">
                                                 <div class="left-head-article">
-                                                    <div class="container-pfp-post"></div>
+                                                    <img src="${pageContext.request.contextPath}/imgUsers/${commentHijo.usuario.avatar}" alt="Profile Picture" class="profile-pic" />
+                                                    
                                                     <c:set var="tiempoTranscurrido" value="${calculadorTiempo.tiempoTranscurridoDesde(commentHijo.fechaHora)}" />
                                                     <span class="span-post-header">
                                                         @${empty commentHijo.usuario.nombre ? 'Anonymous' : commentHijo.usuario.nombre} •

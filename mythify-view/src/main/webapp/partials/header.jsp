@@ -32,7 +32,7 @@
                         <p>Usuario no autenticado</p>
                     </c:otherwise>
                 </c:choose>
-                <img src="${pageContext.request.contextPath}/img/profile-pic.svg" alt="Profile Picture" class="profile-pic" />
+                <img src="${pageContext.request.contextPath}/imgUsers/${sessionScope.usuario.avatar}" alt="Profile Picture" class="profile-pic" />
             </div>
             <div class="items-menu">
                 <ul>

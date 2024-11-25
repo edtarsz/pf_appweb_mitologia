@@ -4,14 +4,20 @@
  */
 package org.itson.mythify.Servlet;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 import org.itson.mythify.entidad.Comentario;
 import org.itson.mythify.entidad.Estado;
@@ -34,6 +40,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
 
 /**
  * @author Eduardo Talavera Ramos
@@ -41,7 +48,11 @@ import jakarta.servlet.http.HttpSession;
  * @author Eliana Monge Camara
  * @author Jesús Roberto García Armenta
  */
-@MultipartConfig
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024, // 1 MB
+        maxFileSize = 1024 * 1024 * 5, // 5 MB
+        maxRequestSize = 1024 * 1024 * 10 // 10 MB
+)
 @WebServlet(name = "SVUsuario", urlPatterns = {"/SVUsuario"})
 public class SVUsuario extends HttpServlet {
 
@@ -55,6 +66,12 @@ public class SVUsuario extends HttpServlet {
         usuarioBO = new UsuarioFacade();
         postBO = new PostFacade();
         comentarioBO = new ComentarioFacade();
+
+        // Configure logger to output to console
+        Logger logger = Logger.getLogger(SVUsuario.class.getName());
+        ConsoleHandler handler = new ConsoleHandler();
+        handler.setFormatter(new SimpleFormatter());
+        logger.addHandler(handler);
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -105,7 +122,6 @@ public class SVUsuario extends HttpServlet {
 
     public Usuario buildUsuario(HttpServletRequest request, HttpServletResponse response) {
         Usuario usuario;
-
         String nombre = request.getParameter("nombre");
         String apellidoPaterno = request.getParameter("apellidoPaterno");
         String apellidoMaterno = request.getParameter("apellidoMaterno");
@@ -116,16 +132,16 @@ public class SVUsuario extends HttpServlet {
         String contrasena = request.getParameter("contrasena");
         String telefono = request.getParameter("telefono");
         String genero = request.getParameter("genero");
-
-        String avatar = "";
         String fechaNacimiento = request.getParameter("fechaNacimiento");
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         Date fecha = null;
+        String uniqueFileName = null;
 
         try {
             fecha = formato.parse(fechaNacimiento);
+            uniqueFileName = saveAvatar(request);
         } catch (ParseException ex) {
-            Logger.getLogger(SVUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SVUsuario.class.getName()).log(Level.SEVERE, "Error al procesar la fecha", ex);
         }
 
         usuario = new Usuario(
@@ -135,7 +151,7 @@ public class SVUsuario extends HttpServlet {
                 correo,
                 contrasena,
                 telefono,
-                avatar,
+                uniqueFileName,
                 ciudad,
                 fecha,
                 genero,
@@ -143,6 +159,63 @@ public class SVUsuario extends HttpServlet {
                 new Municipio(municipio, new Estado(estado.toLowerCase())));
 
         return usuario;
+    }
+
+    private String saveAvatar(HttpServletRequest request) {
+        String uniqueFileName = null;
+        try {
+            // Obtener el Part del archivo
+            Part filePart = request.getPart("avatar");
+            String fileName = getSubmittedFileName(filePart);
+
+            if (fileName != null && !fileName.isEmpty()) {
+                // Generar un nombre único para el archivo
+                uniqueFileName = System.currentTimeMillis() + "_" + fileName;
+
+                // Obtener la ruta del proyecto
+                String projectPath = request.getServletContext().getRealPath("");
+                Logger.getLogger(SVUsuario.class.getName()).log(Level.INFO, "Project path: {0}", projectPath);
+
+                // Definir la ruta de la carpeta imgUsers en el directorio principal del proyecto
+                String uploadPath = new File(projectPath).getParentFile().getParent() + File.separator + "src" + File.separator + "main" + File.separator + "webapp" + File.separator + "imgUsers";
+                Logger.getLogger(SVUsuario.class.getName()).log(Level.INFO, "Upload path: {0}", uploadPath);
+
+                // Crear el directorio si no existe
+                File uploadDir = new File(uploadPath);
+                if (!uploadDir.exists()) {
+                    boolean dirCreated = uploadDir.mkdirs(); // Usar mkdirs() en lugar de mkdir() para crear directorios padres si no existen
+                    Logger.getLogger(SVUsuario.class.getName()).log(Level.INFO, "Directory created: {0}", dirCreated);
+                }
+
+                // Ruta completa del archivo
+                String filePath = uploadPath + File.separator + uniqueFileName;
+                Logger.getLogger(SVUsuario.class.getName()).log(Level.INFO, "File path: {0}", filePath);
+
+                // Guardar el archivo
+                try (InputStream input = filePart.getInputStream(); OutputStream output = new FileOutputStream(new File(filePath))) {
+                    byte[] buffer = new byte[1024];
+                    int length;
+                    while ((length = input.read(buffer)) > 0) {
+                        output.write(buffer, 0, length);
+                    }
+                    Logger.getLogger(SVUsuario.class.getName()).log(Level.INFO, "File saved successfully");
+                }
+            }
+        } catch (IOException | ServletException ex) {
+            Logger.getLogger(SVUsuario.class.getName()).log(Level.SEVERE, "Error al procesar el archivo", ex);
+        }
+        return uniqueFileName;
+    }
+
+    private String getSubmittedFileName(Part part) {
+        String contentDisp = part.getHeader("content-disposition");
+        String[] tokens = contentDisp.split(";");
+        for (String token : tokens) {
+            if (token.trim().startsWith("filename")) {
+                return token.substring(token.indexOf("=") + 2, token.length() - 1);
+            }
+        }
+        return "";
     }
 
     private void iniciarSesion(HttpServletRequest request, HttpServletResponse response)
@@ -206,5 +279,4 @@ public class SVUsuario extends HttpServlet {
         out.print("{\"existe\": " + correoExistente + "}");
         out.flush();
     }
-
 }

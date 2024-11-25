@@ -11,6 +11,12 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Order;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import org.itson.mythify.conexion.IConexion;
 import org.itson.mythify.conexion.ModelException;
 import org.itson.mythify.entidad.Comentario;
@@ -550,5 +556,195 @@ public class PostDAOTest {
 
         assertTrue(exception.getMessage().contains("No se encontró el post con ID"));
     }
+  
+@Test
+public void testConsultarHotPosts_Exito() throws ModelException {
+    // Given
+    Post post1 = new Post();
+    post1.setIdPost(1);
+    post1.setTitulo("Post 1");
+    post1.setCantLikes(100);
+
+    Post post2 = new Post();
+    post2.setIdPost(2);
+    post2.setTitulo("Post 2");
+    post2.setCantLikes(90);
+
+    List<Post> hotPosts = List.of(post1, post2);
+
+    CriteriaBuilder mockCriteriaBuilder = mock(CriteriaBuilder.class);
+    CriteriaQuery<Post> mockCriteriaQuery = mock(CriteriaQuery.class);
+    Root<Post> mockRoot = mock(Root.class);
+    Order mockOrder = mock(Order.class); // Mock explícito para "orderBy"
+    TypedQuery<Post> mockTypedQuery = mock(TypedQuery.class);
+
+    when(mockEntityManager.getCriteriaBuilder()).thenReturn(mockCriteriaBuilder);
+    when(mockCriteriaBuilder.createQuery(Post.class)).thenReturn(mockCriteriaQuery);
+    when(mockCriteriaQuery.from(Post.class)).thenReturn(mockRoot);
+    when(mockCriteriaBuilder.desc(mockRoot.get("cantLikes"))).thenReturn(mockOrder); // Orden descendente
+    when(mockCriteriaQuery.select(mockRoot)).thenReturn(mockCriteriaQuery);
+    when(mockCriteriaQuery.orderBy(mockOrder)).thenReturn(mockCriteriaQuery);
+    when(mockEntityManager.createQuery(mockCriteriaQuery)).thenReturn(mockTypedQuery);
+    when(mockTypedQuery.setMaxResults(2)).thenReturn(mockTypedQuery);
+    when(mockTypedQuery.getResultList()).thenReturn(hotPosts);
+
+    // When
+    List<Post> resultado = postDAO.consultarHotPosts();
+
+    // Then
+    assertNotNull(resultado);
+    assertEquals(2, resultado.size());
+    assertEquals("Post 1", resultado.get(0).getTitulo());
+    assertEquals("Post 2", resultado.get(1).getTitulo());
+}
+
+@Test
+public void testConsultarHotPosts_ErrorPersistencia() {
+    // Given
+    CriteriaBuilder mockCriteriaBuilder = mock(CriteriaBuilder.class);
+    when(mockEntityManager.getCriteriaBuilder()).thenReturn(mockCriteriaBuilder);
+    when(mockCriteriaBuilder.createQuery(Post.class))
+            .thenThrow(new PersistenceException("Error de persistencia simulado"));
+
+    // When/Then
+    ModelException exception = assertThrows(ModelException.class, () -> {
+        postDAO.consultarHotPosts();
+    });
+
+    assertTrue(exception.getMessage().contains("Error al consultar los 2 posts con más likes"));
+}
+
+
+@Test
+public void testConsultarHotPosts_SinResultados() throws ModelException {
+    // Given
+    List<Post> hotPosts = new ArrayList<>();
+
+    CriteriaBuilder mockCriteriaBuilder = mock(CriteriaBuilder.class);
+    CriteriaQuery<Post> mockCriteriaQuery = mock(CriteriaQuery.class);
+    Root<Post> mockRoot = mock(Root.class);
+    Order mockOrder = mock(Order.class); // Mock explícito para "orderBy"
+    TypedQuery<Post> mockTypedQuery = mock(TypedQuery.class);
+
+    // Mock CriteriaBuilder y CriteriaQuery
+    when(mockEntityManager.getCriteriaBuilder()).thenReturn(mockCriteriaBuilder);
+    when(mockCriteriaBuilder.createQuery(Post.class)).thenReturn(mockCriteriaQuery);
+    when(mockCriteriaQuery.from(Post.class)).thenReturn(mockRoot);
+    when(mockCriteriaBuilder.desc(mockRoot.get("cantLikes"))).thenReturn(mockOrder);
+    when(mockCriteriaQuery.select(mockRoot)).thenReturn(mockCriteriaQuery);
+    when(mockCriteriaQuery.orderBy(mockOrder)).thenReturn(mockCriteriaQuery);
+
+    // Mock TypedQuery para devolver una lista vacía
+    when(mockEntityManager.createQuery(mockCriteriaQuery)).thenReturn(mockTypedQuery);
+    when(mockTypedQuery.setMaxResults(2)).thenReturn(mockTypedQuery);
+    when(mockTypedQuery.getResultList()).thenReturn(hotPosts);
+
+    // When
+    List<Post> resultado = postDAO.consultarHotPosts();
+
+    // Then
+    assertNotNull(resultado);
+    assertTrue(resultado.isEmpty());
+}
+
+@Test
+public void testConsultarPostPropios_Exito() throws ModelException {
+    // Given
+    List<Post> userPosts = List.of(post);
+
+    // Mocks necesarios
+    CriteriaBuilder mockCriteriaBuilder = mock(CriteriaBuilder.class);
+    CriteriaQuery<Post> mockCriteriaQuery = mock(CriteriaQuery.class);
+    Root<Post> mockRoot = mock(Root.class);
+    Path<Object> mockPathUsuario = mock(Path.class);
+    Path<Object> mockPathIdUsuario = mock(Path.class);
+    Predicate mockPredicate = mock(Predicate.class);
+    TypedQuery<Post> mockTypedQuery = mock(TypedQuery.class);
+
+    // Configuración del mock de CriteriaBuilder y CriteriaQuery
+    when(mockEntityManager.getCriteriaBuilder()).thenReturn(mockCriteriaBuilder);
+    when(mockCriteriaBuilder.createQuery(Post.class)).thenReturn(mockCriteriaQuery);
+    when(mockCriteriaQuery.from(Post.class)).thenReturn(mockRoot);
+
+    // Configuración para los métodos de "Path"
+    when(mockRoot.get("usuario")).thenReturn(mockPathUsuario);
+    when(mockPathUsuario.get("idUsuario")).thenReturn(mockPathIdUsuario);
+
+    // Configuración para Predicate y CriteriaQuery
+    when(mockCriteriaBuilder.equal(mockPathIdUsuario, usuario.getIdUsuario())).thenReturn(mockPredicate);
+    when(mockCriteriaQuery.select(mockRoot)).thenReturn(mockCriteriaQuery);
+    when(mockCriteriaQuery.where(mockPredicate)).thenReturn(mockCriteriaQuery);
+
+    // Configuración del TypedQuery
+    when(mockEntityManager.createQuery(mockCriteriaQuery)).thenReturn(mockTypedQuery);
+    when(mockTypedQuery.getResultList()).thenReturn(userPosts);
+
+    // When
+    List<Post> resultado = postDAO.consultarPostPropios(usuario.getIdUsuario());
+
+    // Then
+    assertNotNull(resultado);
+    assertEquals(1, resultado.size());
+    assertEquals(post, resultado.get(0));
+}
+
+
+
+@Test
+public void testConsultarPostPropios_ErrorPersistencia() {
+    // Given
+    CriteriaBuilder mockCriteriaBuilder = mock(CriteriaBuilder.class);
+    when(mockEntityManager.getCriteriaBuilder()).thenReturn(mockCriteriaBuilder);
+    when(mockCriteriaBuilder.createQuery(Post.class))
+            .thenThrow(new PersistenceException("Error de persistencia simulado"));
+
+    // When/Then
+    ModelException exception = assertThrows(ModelException.class, () -> {
+        postDAO.consultarPostPropios(usuario.getIdUsuario());
+    });
+
+    assertTrue(exception.getMessage().contains("Error al consultar los posts creados por el usuario"));
+}
+
+@Test
+public void testConsultarPostPropios_SinResultados() throws ModelException {
+    // Given
+    List<Post> userPosts = new ArrayList<>();
+
+    // Mocks necesarios
+    CriteriaBuilder mockCriteriaBuilder = mock(CriteriaBuilder.class);
+    CriteriaQuery<Post> mockCriteriaQuery = mock(CriteriaQuery.class);
+    Root<Post> mockRoot = mock(Root.class);
+    Path<Object> mockPathUsuario = mock(Path.class);
+    Path<Object> mockPathIdUsuario = mock(Path.class);
+    Predicate mockPredicate = mock(Predicate.class);
+    TypedQuery<Post> mockTypedQuery = mock(TypedQuery.class);
+
+    // Configuración del mock de CriteriaBuilder y CriteriaQuery
+    when(mockEntityManager.getCriteriaBuilder()).thenReturn(mockCriteriaBuilder);
+    when(mockCriteriaBuilder.createQuery(Post.class)).thenReturn(mockCriteriaQuery);
+    when(mockCriteriaQuery.from(Post.class)).thenReturn(mockRoot);
+
+    // Configuración para los métodos de "Path"
+    when(mockRoot.get("usuario")).thenReturn(mockPathUsuario);
+    when(mockPathUsuario.get("idUsuario")).thenReturn(mockPathIdUsuario);
+
+    // Configuración para Predicate y CriteriaQuery
+    when(mockCriteriaBuilder.equal(mockPathIdUsuario, usuario.getIdUsuario())).thenReturn(mockPredicate);
+    when(mockCriteriaQuery.select(mockRoot)).thenReturn(mockCriteriaQuery);
+    when(mockCriteriaQuery.where(mockPredicate)).thenReturn(mockCriteriaQuery);
+
+    // Configuración del TypedQuery
+    when(mockEntityManager.createQuery(mockCriteriaQuery)).thenReturn(mockTypedQuery);
+    when(mockTypedQuery.getResultList()).thenReturn(userPosts);
+
+    // When
+    List<Post> resultado = postDAO.consultarPostPropios(usuario.getIdUsuario());
+
+    // Then
+    assertNotNull(resultado);
+    assertTrue(resultado.isEmpty());
+}
+
 
 }

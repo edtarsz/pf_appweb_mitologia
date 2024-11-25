@@ -123,7 +123,8 @@
                                         <div class="footer-post">
                                             <form action="SVPost" method="post">
                                                 <input type="hidden" name="idPost" value="${post.idPost}">
-                                                <input type="hidden" name="isView" value="false">
+                                                <input type="hidden" name="isView" value="userView">
+
                                                 <c:choose>
                                                     <%-- Verificamos si el post actual está en la lista de posts likeados --%>
                                                     <c:when test="${fn:contains(postLikeados, post)}">

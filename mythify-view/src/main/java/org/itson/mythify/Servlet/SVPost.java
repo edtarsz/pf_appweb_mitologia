@@ -429,8 +429,13 @@ public class SVPost extends HttpServlet {
                 return;
             }
 
+            if (isView.equalsIgnoreCase("userView")) {
+                consultarPostsPropios(request, response);
+                return;
+            }
+
             response.sendRedirect("SVPost?mythology=all");
-        } catch (ControllerException | IOException ex) {
+        } catch (ControllerException | IOException | ServletException ex) {
             Logger.getLogger(SVPost.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

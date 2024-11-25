@@ -25,11 +25,11 @@
     </head>
 
     <body>
-        <%@ include file="partials/header.jsp" %>
+        <%@ include file="partials/header.jspf" %>
         <div class="main-page">
             <div class="post-container">
                 <div></div>
-                <%@ include file="partials/aside.jsp" %>
+                <%@ include file="partials/aside.jspf" %>
                 <main>
                     <div class="container-crear-post">
                         <form action="<c:url value='/SVPost' />" method="post" id="form-post">
@@ -131,7 +131,7 @@
                 </main>
             </div>
         </div>
-        <%@ include file="partials/footer.jsp" %>
+        <%@ include file="partials/footer.jspf" %>
     </body>
 
 </html>

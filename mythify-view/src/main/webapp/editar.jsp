@@ -30,18 +30,18 @@
         <title>Mythify</title>
     </head>
     <body>
-        <%@ include file="partials/header.jsp" %>
+        <%@ include file="partials/header.jspf" %>
         <div class="main-page">
 
             <div class="post-container">
                 <div></div>
-                <%@ include file="partials/aside.jsp" %>
+                <%@ include file="partials/aside.jspf" %>
                 <main>
                     <c:set var="post" value="${requestScope.post}" />
                     <article class="article-post">
                         <div class="head-article-post">
                             <div class="left-head-article">
-                                <div class="container-pfp-post"></div>
+                                <img src="${pageContext.request.contextPath}/imgUsers/${post.usuario.avatar}" alt="Profile Picture" class="profile-pic" />
 
                                 <span class="span-post-header">
                                     @${empty post.usuario.nombre ? 'Anonymous' : post.usuario.nombre} •
@@ -102,17 +102,30 @@
                             </a>
                         </c:if>
 
+                        <c:set var="postLikeados" value="${sessionScope.postsLikeados}" />
                         <div class="footer-post">
-                            <button class="btn-footer">
-                                <img src="<c:url value='/img/heart-black.svg' />" alt="Like">
-                                19
-                            </button>
-                            <c:if test="${!post.anclado}">
-                                <button class="btn-footer">
-                                    <img src="<c:url value='/img/comments-black.svg' />" alt="Comments">
-                                    2 comments
-                                </button>
-                            </c:if>
+                            <form action="SVPost" method="post">
+                                <input type="hidden" name="isView" value="editView">
+                                <input type="hidden" name="idPost" value="${post.idPost}">
+                                <c:choose>
+
+                                    <%-- Verificamos si el post actual está en la lista de posts likeados --%>
+                                    <c:when test="${fn:contains(postLikeados, post)}">
+                                        <input type="hidden" name="action" value="desLikearPost">
+                                        <button class="btn-footer">
+                                            <img src="<c:url value='/img/heart-red.svg' />" alt="Dislike">
+                                            ${post.cantLikes}
+                                        </button>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <input type="hidden" name="action" value="likearPost">
+                                        <button class="btn-footer">
+                                            <img src="<c:url value='/img/heart-black.svg' />" alt="Like">
+                                            ${post.cantLikes}
+                                        </button>
+                                    </c:otherwise>
+                                </c:choose>
+                            </form>
                         </div>
                     </article>
                     <!-- Formulario de edición -->
@@ -154,7 +167,7 @@
                 </main>
             </div>
         </div>
-        <%@ include file="partials/footer.jsp" %>
+        <%@ include file="partials/footer.jspf" %>
     </body>
 
 </html>

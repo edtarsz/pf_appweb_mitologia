@@ -103,11 +103,11 @@ public class SVPost extends HttpServlet {
         if (isValid(postId)) {
             handleViewPost(request, response, postId);
         }
-        
-        if(isValid(action) && action.equals("consultarPostPropios")){
-        consultarPostsPropios( request, response);
+
+        if (isValid(action) && action.equals("consultarPostPropios")) {
+            consultarPostsPropios(request, response);
         }
-        
+
     }
 
     private boolean isValid(String action) {
@@ -115,7 +115,6 @@ public class SVPost extends HttpServlet {
     }
 
     private void handleViewPost(HttpServletRequest request, HttpServletResponse response, String postId) {
-        System.out.println("entra al handle view posts");
         int id = Integer.parseInt(postId);
         Post post;
         List<Comentario> comentarios;
@@ -168,7 +167,7 @@ public class SVPost extends HttpServlet {
         }
 
         try {
-          postBO.crearPost(post);
+            postBO.crearPost(post);
         } catch (ControllerException ex) {
             Logger.getLogger(SVPost.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -323,6 +322,7 @@ public class SVPost extends HttpServlet {
 
     public void likearPost(HttpServletRequest request, HttpServletResponse response, String action) {
         int postId = Integer.parseInt(request.getParameter("idPost"));
+        String stringPostId = request.getParameter("idPost");
         String isView = request.getParameter("isView");
 
         Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
@@ -341,6 +341,11 @@ public class SVPost extends HttpServlet {
 
             if (Boolean.parseBoolean(isView)) {
                 response.sendRedirect("SVPost?id=" + postId);
+                return;
+            }
+
+            if (isView.equalsIgnoreCase("editView")) {
+                handleEditPost(request, response, stringPostId);
                 return;
             }
 
@@ -384,6 +389,4 @@ public class SVPost extends HttpServlet {
         }
     }
 
-
-    
 }

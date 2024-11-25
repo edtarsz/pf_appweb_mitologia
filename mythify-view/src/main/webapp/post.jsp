@@ -31,18 +31,18 @@
     </head>
 
     <body>
-        <%@ include file="partials/header.jsp" %>
+        <%@ include file="partials/header.jspf" %>
         <div class="main-page">
 
             <div class="post-container">
                 <div></div>
-                <%@ include file="partials/aside.jsp" %>
+                <%@ include file="partials/aside.jspf" %>
                 <main>
                     <c:set var="post" value="${requestScope.post}" />
                     <article class="article-post">
                         <div class="head-article-post">
                             <div class="left-head-article">
-                                <img src="${pageContext.request.contextPath}/imgUsers/${sessionScope.usuario.avatar}" alt="Profile Picture" class="profile-pic" />
+                                <img src="${pageContext.request.contextPath}/imgUsers/${post.usuario.avatar}" alt="Profile Picture" class="profile-pic" />
 
                                 <c:choose>
                                     <c:when test="${not empty post.fechaHoraEdicion}">
@@ -335,7 +335,7 @@
                 </main>
             </div>
         </div>
-        <%@ include file="partials/footer.jsp" %>
+        <%@ include file="partials/footer.jspf" %>
     </body>
 
 </html>

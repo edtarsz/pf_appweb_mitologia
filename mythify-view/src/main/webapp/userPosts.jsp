@@ -25,13 +25,13 @@
     </head>
 
     <body>
-        <%@ include file="partials/header.jsp" %>
+        <%@ include file="partials/header.jspf" %>
         <div class="main-page">
             <div class="post-container">
                 <div></div>
-                <%@ include file="partials/aside.jsp" %>
+                <%@ include file="partials/aside.jspf" %>
                 <main>
-                    <h2>Mis Publicaciones</h2>
+                    <h2 class="mis-publicaciones">Mis Publicaciones</h2>
                     <c:choose>
                         <c:when test="${not empty posts}">
                             <c:forEach var="post" items="${posts}">
@@ -42,7 +42,7 @@
                                                 <a href="<c:url value='/SVPost?id=${post.idPost}'/>">
                                                 </c:if>
                                                 <div class="left-head-article">
-                                                    <div class="container-pfp-post"></div>
+                                                    <img src="${pageContext.request.contextPath}/imgUsers/${post.usuario.avatar}" alt="Profile Picture" class="profile-pic" />
 
                                                     <c:choose>
                                                         <c:when test="${not empty post.fechaHoraEdicion}">
@@ -154,6 +154,6 @@
                 </main>
             </div>
         </div>
-        <%@ include file="partials/footer.jsp" %>
+        <%@ include file="partials/footer.jspf" %>
     </body>
 </html>

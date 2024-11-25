@@ -109,6 +109,11 @@
                                             <div class="content-post">
                                                 <p>${post.contenido}</p>
                                             </div>
+                                            <c:if test="${post.imagen != null}">
+                                                <div id="img-view">
+                                                    <img src="imgPosts/${post.imagen}" alt="alt"/>
+                                                </div>
+                                            </c:if>
                                             <c:if test="${!post.anclado}">
                                             </a>
                                         </c:if>

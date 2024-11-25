@@ -452,9 +452,10 @@ public class SVPost extends HttpServlet {
 
             // Consultar los posts creados por el usuario actual
             List<Post> postsCreados = postBO.consultarPostPropios(usuario.getIdUsuario());
+            List<Post> postsOrdenados = separarYOrdenarPosts(postsCreados);
 
             // Establecer los datos en el request
-            request.setAttribute("posts", postsCreados);
+            request.setAttribute("posts", postsOrdenados);
             request.getRequestDispatcher("userPosts.jsp").forward(request, response);
 
         } catch (ControllerException ex) {

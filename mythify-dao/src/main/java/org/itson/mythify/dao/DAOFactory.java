@@ -16,6 +16,7 @@ import org.itson.mythify.conexion.ModelException;
 public class DAOFactory {
 
     private DAOFactory() {
+        throw new UnsupportedOperationException("Esta es una clase utilitaria y no debe ser instanciada.");
     }
 
     public static UsuarioDAO instanciaUsuarioDAO(IConexion conexion) throws ModelException {

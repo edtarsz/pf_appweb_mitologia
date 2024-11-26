@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 
 import org.itson.mythify.conexion.Conexion;
+import org.itson.mythify.conexion.IConexion;
 import org.itson.mythify.dao.UsuarioDAO;
 import org.itson.mythify.entidad.Estado;
 import org.itson.mythify.entidad.Municipio;
@@ -20,12 +21,13 @@ import org.junit.jupiter.api.Test;
 
 public class UsuarioDAOIntegracionTest {
 
+    private IConexion conexion;
     private UsuarioDAO usuarioDAO;
     private EntityManager entityManager;
 
     @BeforeEach
     public void setUp() {
-        Conexion conexion = new Conexion(Persistence.createEntityManagerFactory("mythifyPU"));
+        conexion = new Conexion(Persistence.createEntityManagerFactory("mythifyPU"));
         entityManager = conexion.crearConexion();
         usuarioDAO = new UsuarioDAO(conexion);
     }

@@ -70,8 +70,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (ciudad === "") {
             document.getElementById("ciudadError").textContent = "La ciudad es obligatoria.";
             esValido = false;
-        } else if (ciudad.length > 30) {
-            document.getElementById("ciudadError").textContent = "Debe tener máximo 30 caracteres.";
+        } else if (ciudad.length > 50) {
+            document.getElementById("ciudadError").textContent = "Debe tener máximo 50 caracteres.";
             esValido = false;
         }
 

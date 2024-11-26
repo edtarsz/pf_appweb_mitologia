@@ -62,7 +62,7 @@ public class Usuario implements Serializable {
     @Column(name = "telefono", nullable = false, length = 10)
     private String telefono;
 
-    @Column(name = "avatar", nullable = false)
+    @Column(name = "avatar", nullable = true)
     private String avatar;
 
     @Column(name = "ciudad", nullable = false, length = 50)

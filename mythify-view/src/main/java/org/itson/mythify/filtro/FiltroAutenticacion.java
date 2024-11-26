@@ -5,6 +5,7 @@
 package org.itson.mythify.filtro;
 
 import java.io.IOException;
+
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -35,7 +36,9 @@ public class FiltroAutenticacion implements Filter {
             "/img/icon.svg",
             "/script/validarRegistro.js",
             "/script/validarPost.js",
-            "/script/validarLogin.js"};
+            "/script/validarLogin.js",
+            "/script/validarComentario.js",
+    };
 
     public FiltroAutenticacion() {
     }

@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("comentError").textContent = "El comentario es obligatorio.";
             esValido = false;
         } else if (comentario.length > 5000) {
-            document.getElementById("comentError").textContent = "Debe tener máximo 500 caracteres.";
+            document.getElementById("comentError").textContent = "Debe tener máximo 5000 caracteres.";
             esValido = false;
         }
 

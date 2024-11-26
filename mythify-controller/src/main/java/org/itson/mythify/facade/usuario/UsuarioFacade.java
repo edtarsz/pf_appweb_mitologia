@@ -63,7 +63,4 @@ public class UsuarioFacade implements IUsuarioFacade {
             throw new ControllerException("Error al verificar correo", ex);
         }
     }
-
-
-
 }

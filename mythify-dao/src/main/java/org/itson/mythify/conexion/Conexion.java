@@ -16,16 +16,11 @@ import javax.persistence.Persistence;
  */
 public class Conexion implements IConexion {
 
-    private static EntityManagerFactory emFactory;
+    private final EntityManagerFactory emFactory;
 
-    static {
-        try {
-            emFactory = Persistence.createEntityManagerFactory("mythifyPU");
-        } catch (Exception e) {
-            throw new RuntimeException("No se pudo inicializar EntityManagerFactory");
-        }
+    public Conexion(EntityManagerFactory emFactory) {
+        this.emFactory = emFactory;
     }
-
     /**
      * Crea y devuelve una nueva conexión a la base de datos utilizando JPA.
      *

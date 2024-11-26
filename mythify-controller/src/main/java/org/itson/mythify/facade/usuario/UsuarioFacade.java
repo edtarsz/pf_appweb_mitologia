@@ -14,6 +14,8 @@ import org.itson.mythify.dao.IUsuarioDAO;
 import org.itson.mythify.conexion.ModelException;
 import org.itson.mythify.exceptions.ControllerException;
 
+import javax.persistence.Persistence;
+
 /**
  * @author Eduardo Talavera Ramos
  * @author Ana Cristina Castro Noriega
@@ -27,7 +29,7 @@ public class UsuarioFacade implements IUsuarioFacade {
 
     // Constructor con inyección de dependencias para facilitar pruebas
     public UsuarioFacade() {
-        this.conexion = new Conexion();
+        this.conexion = new Conexion(Persistence.createEntityManagerFactory("mythifyPU"));
         try {
             this.usuarioDAO = DAOFactory.instanciaUsuarioDAO(conexion);
         } catch (ModelException ex) {

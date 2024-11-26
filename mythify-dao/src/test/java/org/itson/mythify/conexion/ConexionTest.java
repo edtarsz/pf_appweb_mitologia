@@ -1,58 +1,82 @@
 package org.itson.mythify.conexion;
 
-import org.itson.mythify.conexion.Conexion;
-import org.junit.jupiter.api.*;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
-
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-class ConexionTest {
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 
-    private static final String ENTITY_MANAGER_FACTORY_FIELD = "emFactory";
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.*;
+
+public class ConexionTest {
+
+    @Mock
+    private EntityManagerFactory mockEmFactory;  // Mock de EntityManagerFactory
+
+    @Mock
+    private EntityManager mockEntityManager;    // Mock de EntityManager
+
+    private Conexion conexion;  // Objeto bajo prueba
 
     @BeforeEach
-    void setUp() throws Exception {
-        // Restablecer emFactory a su estado inicial usando reflexión
-        var field = Conexion.class.getDeclaredField(ENTITY_MANAGER_FACTORY_FIELD);
-        field.setAccessible(true);
-        field.set(null, null);
+    public void setUp() {
+        // Inicializar los mocks antes de cada prueba
+        MockitoAnnotations.openMocks(this);
+        conexion = new Conexion(mockEmFactory);  // Inyectamos el mock en la clase Conexion
     }
 
-
     @Test
-    @DisplayName("cerrarConexion: No realiza ninguna acción si emFactory es null")
-    void testCerrarConexionWithNullFactory() throws Exception {
-        // Configurar emFactory como null
-        var field = Conexion.class.getDeclaredField(ENTITY_MANAGER_FACTORY_FIELD);
-        field.setAccessible(true);
-        field.set(null, null);
+    public void testCrearConexion() {
+        // Simulamos que createEntityManager() devuelve el mockEntityManager
+        when(mockEmFactory.createEntityManager()).thenReturn(mockEntityManager);
 
-        Conexion conexion = new Conexion();
-        assertDoesNotThrow(conexion::cerrarConexion, "No debería lanzar excepciones cuando emFactory es null");
+        // Llamamos al método bajo prueba
+        EntityManager result = conexion.crearConexion();
+
+        // Verificamos que el método createEntityManager() fue llamado
+        verify(mockEmFactory).createEntityManager();
+
+        // Verificamos que el resultado no es null y es la instancia esperada
+        assertNotNull(result);
+        assertEquals(mockEntityManager, result);
     }
 
-
     @Test
-    @DisplayName("cerrarConexion: No realiza ninguna acción si emFactory no está abierto")
-    void testCerrarConexionWithClosedFactory() throws Exception {
-        // Crear un mock de EntityManagerFactory que no está abierto
-        EntityManagerFactory emFactoryMock = mock(EntityManagerFactory.class);
-        when(emFactoryMock.isOpen()).thenReturn(false);
+    public void testCerrarConexion_EntidadManagerFactoryAbierto() {
+        // Simulamos que el EntityManagerFactory está abierto
+        when(mockEmFactory.isOpen()).thenReturn(true);
 
-        // Inyectar el mock en el campo estático
-        var field = Conexion.class.getDeclaredField(ENTITY_MANAGER_FACTORY_FIELD);
-        field.setAccessible(true);
-        field.set(null, emFactoryMock);
-
-        Conexion conexion = new Conexion();
+        // Llamamos al método bajo prueba
         conexion.cerrarConexion();
 
-        verify(emFactoryMock, times(1)).isOpen();
-        verify(emFactoryMock, never()).close();
+        // Verificamos que se haya llamado al método close() en el EntityManagerFactory
+        verify(mockEmFactory).close();
+    }
+
+    @Test
+    public void testCerrarConexion_EntidadManagerFactoryCerrado() {
+        // Simulamos que el EntityManagerFactory no está abierto
+        when(mockEmFactory.isOpen()).thenReturn(false);
+
+        // Llamamos al método bajo prueba
+        conexion.cerrarConexion();
+
+        // Verificamos que no se haya llamado al método close()
+        verify(mockEmFactory, never()).close();
+    }
+
+    @Test
+    public void testCerrarConexion_EntidadManagerFactoryNull() {
+        // Simulamos que el EntityManagerFactory es null
+        conexion = new Conexion(null);
+
+        // Llamamos al método bajo prueba
+        conexion.cerrarConexion();
+
+        // Verificamos que no se llame a ningún método, porque el emFactory es null
+        verify(mockEmFactory, never()).close();
     }
 }
+

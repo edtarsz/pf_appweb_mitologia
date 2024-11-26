@@ -15,6 +15,8 @@ import org.itson.mythify.dao.IComentarioDAO;
 import org.itson.mythify.entidad.Comentario;
 import org.itson.mythify.exceptions.ControllerException;
 
+import javax.persistence.Persistence;
+
 /**
  * @author Eduardo Talavera Ramos
  * @author Ana Cristina Castro Noriega
@@ -27,7 +29,7 @@ public class ComentarioFacade implements IComentarioFacade {
     IConexion conexion;
 
     public ComentarioFacade() {
-        conexion = new Conexion();
+        conexion = new Conexion(Persistence.createEntityManagerFactory("mythifyPU"));
         try {
             this.comentarioDAO = DAOFactory.instanciaComentarioDAO(conexion);
         } catch (ModelException ex) {

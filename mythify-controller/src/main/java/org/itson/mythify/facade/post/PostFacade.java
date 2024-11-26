@@ -15,6 +15,8 @@ import org.itson.mythify.conexion.ModelException;
 import org.itson.mythify.entidad.Post;
 import org.itson.mythify.exceptions.ControllerException;
 
+import javax.persistence.Persistence;
+
 /**
  * @author Eduardo Talavera Ramos
  * @author Ana Cristina Castro Noriega
@@ -27,7 +29,7 @@ public class PostFacade implements IPostFacade {
     private IPostDAO postDAO;
 
     public PostFacade() {
-        conexion = new Conexion();
+        conexion = new Conexion(Persistence.createEntityManagerFactory("mythifyPU"));
         try {
             this.postDAO = DAOFactory.instanciaPostDAO(conexion);
         } catch (ModelException ex) {

@@ -5,6 +5,7 @@
 package org.itson.mythify.dao;
 
 import java.util.List;
+import java.util.logging.Level;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -564,6 +565,92 @@ public class ComentarioDAOTest {
 
         assertTrue(exception.getMessage().contains("Error al quitar el like del comentario"));
     }
+
+    @Test
+    public void testDesLikearComentario_UsuarioNoEncontrado() {
+        // Given
+        int idUsuario = 1;
+        int idComentario = 1;
+
+        // Simular que el usuario no existe en la base de datos
+        when(mockEntityManager.find(Usuario.class, idUsuario)).thenReturn(null);
+
+        // When/Then
+        ModelException exception = assertThrows(ModelException.class, () -> {
+            comentarioDAO.desLikearComentario(idUsuario, idComentario);
+        });
+
+        // Verificar que el mensaje de la excepción es el esperado
+        assertEquals("No se encontró al usuario con ID: " + idUsuario, exception.getMessage());
+    }
+
+    @Test
+    public void testDesLikearComentario_ComentarioNoEncontrado() {
+        // Given
+        int idUsuario = 1;
+        int idComentario = 1;
+        Usuario usuario = new Usuario();
+        usuario.setIdUsuario(idUsuario);
+
+        // Simular que el usuario existe pero el comentario no
+        when(mockEntityManager.find(Usuario.class, idUsuario)).thenReturn(usuario);
+        when(mockEntityManager.find(Comentario.class, idComentario)).thenReturn(null);
+
+        // When/Then
+        ModelException exception = assertThrows(ModelException.class, () -> {
+            comentarioDAO.desLikearComentario(idUsuario, idComentario);
+        });
+
+        // Verificar que el mensaje de la excepción es el esperado
+        assertEquals("No se encontró el comentario con ID: " + idComentario, exception.getMessage());
+    }
+
+    @Test
+    public void testDesLikearComentario_UsuarioNoHaDadoLike() throws ModelException {
+        // Given
+        int idUsuario = 1;
+        int idComentario = 1;
+        Usuario usuario = new Usuario();
+        usuario.setIdUsuario(idUsuario);
+        Comentario comentario = new Comentario();
+        comentario.setIdComentario(idComentario);
+
+        // Simular que el usuario y el comentario existen, pero el usuario no ha dado like al comentario
+        when(mockEntityManager.find(Usuario.class, idUsuario)).thenReturn(usuario);
+        when(mockEntityManager.find(Comentario.class, idComentario)).thenReturn(comentario);
+        doNothing().when(mockTransaction).begin();
+        doNothing().when(mockTransaction).commit();
+
+        // When
+        comentarioDAO.desLikearComentario(idUsuario, idComentario);
+
+        // Then
+        // Verificar que no se modificó la lista de comentarios likeados
+        assertFalse(usuario.getComentariosLikeados().contains(comentario));
+        verify(mockEntityManager).merge(usuario);
+        verify(mockTransaction).begin();
+        verify(mockTransaction).commit();
+    }
+
+    @Test
+    public void testDesLikearComentario_TransaccionNoActiva() {
+        // Given
+        int idUsuario = 1;
+        int idComentario = 1;
+
+        // Simular que ocurre una excepción de persistencia
+        when(mockEntityManager.find(Usuario.class, idUsuario)).thenThrow(new PersistenceException("Error de persistencia simulado"));
+        when(mockTransaction.isActive()).thenReturn(false);
+
+        // When/Then
+        PersistenceException exception = assertThrows(PersistenceException.class, () -> {
+            comentarioDAO.desLikearComentario(idUsuario, idComentario);
+        });
+
+        // Verificar que no se intentó hacer rollback porque la transacción no estaba activa
+        verify(mockTransaction, never()).rollback();
+    }
+
 
     @Test
     public void testOperacionContadorComentario_Exito() throws ModelException {

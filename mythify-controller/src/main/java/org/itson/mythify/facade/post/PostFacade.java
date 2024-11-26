@@ -7,15 +7,16 @@ package org.itson.mythify.facade.post;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.itson.mythify.conexion.Conexion;
-import org.itson.mythify.conexion.IConexion;
-import org.itson.mythify.dao.DAOFactory;
-import org.itson.mythify.dao.IPostDAO;
-import org.itson.mythify.conexion.ModelException;
-import org.itson.mythify.entidad.Post;
-import org.itson.mythify.exceptions.ControllerException;
 
 import javax.persistence.Persistence;
+
+import org.itson.mythify.conexion.Conexion;
+import org.itson.mythify.conexion.IConexion;
+import org.itson.mythify.conexion.ModelException;
+import org.itson.mythify.dao.DAOFactory;
+import org.itson.mythify.dao.IPostDAO;
+import org.itson.mythify.entidad.Post;
+import org.itson.mythify.exceptions.ControllerException;
 
 /**
  * @author Eduardo Talavera Ramos
@@ -26,7 +27,7 @@ import javax.persistence.Persistence;
 public class PostFacade implements IPostFacade {
 
     private final IConexion conexion;
-    private IPostDAO postDAO;
+    IPostDAO postDAO;
 
     public PostFacade() {
         conexion = new Conexion(Persistence.createEntityManagerFactory("mythifyPU"));
@@ -43,8 +44,8 @@ public class PostFacade implements IPostFacade {
             return postDAO.crearPost(post);
         } catch (ModelException ex) {
             Logger.getLogger(PostFacade.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ControllerException("Error creating post", ex);
         }
-        return null;
     }
 
     @Override
@@ -53,8 +54,8 @@ public class PostFacade implements IPostFacade {
             return postDAO.eliminarPost(idPost);
         } catch (ModelException ex) {
             Logger.getLogger(PostFacade.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ControllerException("Error deleting post", ex);
         }
-        return true;
     }
 
     @Override
@@ -63,8 +64,8 @@ public class PostFacade implements IPostFacade {
             return postDAO.actualizarPost(post);
         } catch (ModelException ex) {
             Logger.getLogger(PostFacade.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ControllerException("Error updating post", ex);
         }
-        return null;
     }
 
     @Override
@@ -73,8 +74,8 @@ public class PostFacade implements IPostFacade {
             return postDAO.anclarPost(post);
         } catch (ModelException ex) {
             Logger.getLogger(PostFacade.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ControllerException("Error pinning post", ex);
         }
-        return null;
     }
 
     @Override
@@ -83,8 +84,8 @@ public class PostFacade implements IPostFacade {
             return postDAO.consultarPosts();
         } catch (ModelException ex) {
             Logger.getLogger(PostFacade.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ControllerException("Error fetching posts", ex);
         }
-        return null;
     }
 
     @Override
@@ -93,8 +94,8 @@ public class PostFacade implements IPostFacade {
             return postDAO.consultarPostsCategoria(categoria);
         } catch (ModelException ex) {
             Logger.getLogger(PostFacade.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ControllerException("Error fetching posts by category", ex);
         }
-        return null;
     }
 
     @Override
@@ -103,8 +104,8 @@ public class PostFacade implements IPostFacade {
             return postDAO.consultarPostPorID(id);
         } catch (ModelException ex) {
             Logger.getLogger(PostFacade.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ControllerException("Error fetching post by ID", ex);
         }
-        return null;
     }
 
     @Override
@@ -113,17 +114,18 @@ public class PostFacade implements IPostFacade {
             postDAO.likearPost(idUsuario, idPost);
         } catch (ModelException ex) {
             Logger.getLogger(PostFacade.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ControllerException("Error liking post", ex);
         }
     }
 
     @Override
     public int consultarCantLikes(int idPost) throws ControllerException {
         try {
-            postDAO.consultarCantLikes(idPost);
+            return postDAO.consultarCantLikes(idPost);
         } catch (ModelException ex) {
             Logger.getLogger(PostFacade.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ControllerException("Error fetching like count", ex);
         }
-        return 0;
     }
 
     @Override
@@ -132,6 +134,7 @@ public class PostFacade implements IPostFacade {
             postDAO.desLikearPost(idUsuario, idPost);
         } catch (ModelException ex) {
             Logger.getLogger(PostFacade.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ControllerException("Error unliking post", ex);
         }
     }
 
@@ -141,6 +144,7 @@ public class PostFacade implements IPostFacade {
             postDAO.operacionContadorLike(idPost, cantidad);
         } catch (ModelException ex) {
             Logger.getLogger(PostFacade.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ControllerException("Error updating like count", ex);
         }
     }
 
@@ -150,8 +154,8 @@ public class PostFacade implements IPostFacade {
             return postDAO.consultarPostLikeados(idUsuario);
         } catch (ModelException ex) {
             Logger.getLogger(PostFacade.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ControllerException("Error fetching liked posts", ex);
         }
-        return null;
     }
 
     @Override
@@ -160,8 +164,8 @@ public class PostFacade implements IPostFacade {
             return postDAO.consultarHotPosts();
         } catch (ModelException ex) {
             Logger.getLogger(PostFacade.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ControllerException("Error fetching hot posts", ex);
         }
-        return null;
     }
 
     @Override
@@ -170,8 +174,8 @@ public class PostFacade implements IPostFacade {
             return postDAO.consultarPostPropios(idUsuario);
         } catch (ModelException ex) {
             Logger.getLogger(PostFacade.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ControllerException("Error fetching own posts", ex);
         }
-        return null;
     }
 
 }

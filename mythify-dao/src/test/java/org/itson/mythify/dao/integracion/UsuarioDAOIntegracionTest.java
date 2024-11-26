@@ -47,10 +47,10 @@ public class UsuarioDAOIntegracionTest {
         municipio.setEstado(estado);
         Usuario usuario = new Usuario("Jorge", "Avitia", "Gutierez", "jorge@example.com", "password123", "1234567890", "avatar.png", "Pueblo Yaqui", new Date(), "Masculino", TipoUsuario.NORMAL, municipio);
         try {
-            if (!usuarioDAO.verificarCorreoExistente(usuario.getCorreo())) {
+            if (!verificarCorreoExistente(usuario.getCorreo())) {
                 Usuario createdUser = usuarioDAO.crearUsuario(usuario);
                 assertNotNull(createdUser);
-                assertEquals("john.doe@example.com", createdUser.getCorreo());
+                assertEquals("jorge@example.com", createdUser.getCorreo());
             } else {
                 System.out.println("User with email " + usuario.getCorreo() + " already exists.");
             }
@@ -68,14 +68,42 @@ public class UsuarioDAOIntegracionTest {
         municipio.setEstado(estado);
         Usuario usuario = new Usuario("María", "Gonzales", "Gutierez", "maria@example.com", "password123", "1234567890", "avatar.png", "Pueblo Yaqui", new Date(), "Masculino", TipoUsuario.NORMAL, municipio);
         try {
-            if (!usuarioDAO.verificarCorreoExistente(usuario.getCorreo())) {
+            if (!verificarCorreoExistente(usuario.getCorreo())) {
                 usuarioDAO.crearUsuario(usuario);
             }
-            Usuario queriedUser = usuarioDAO.consultarUsuario("jane.doe@example.com", "password123");
+            Usuario queriedUser = usuarioDAO.consultarUsuario("maria@example.com", "password123");
             assertNotNull(queriedUser);
-            assertEquals("jorge@example.com", queriedUser.getCorreo());
+            assertEquals("maria@example.com", queriedUser.getCorreo());
         } catch (Exception e) {
             fail("Exception should not be thrown: " + e.getMessage());
+        }
+    }
+
+    @Test
+    public void testVerificarCorreoExistente() {
+        Municipio municipio = new Municipio();
+        municipio.setNombre("Cajeme");
+        Estado estado = new Estado();
+        estado.setNombre("Sonora");
+        municipio.setEstado(estado);
+        Usuario usuario = new Usuario("Carlos", "Perez", "Lopez", "carlos@example.com", "password123", "1234567890", "avatar.png", "Pueblo Yaqui", new Date(), "Masculino", TipoUsuario.NORMAL, municipio);
+        try {
+            if (!verificarCorreoExistente(usuario.getCorreo())) {
+                usuarioDAO.crearUsuario(usuario);
+            }
+            boolean exists = verificarCorreoExistente("carlos@example.com");
+            assertEquals(true, exists);
+        } catch (Exception e) {
+            fail("Exception should not be thrown: " + e.getMessage());
+        }
+    }
+
+    private boolean verificarCorreoExistente(String correo) {
+        try {
+            return usuarioDAO.verificarCorreoExistente(correo);
+        } catch (Exception e) {
+            fail("Exception should not be thrown: " + e.getMessage());
+            return false;
         }
     }
 }

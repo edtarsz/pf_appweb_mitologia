@@ -25,8 +25,9 @@ public class UsuarioFacade implements IUsuarioFacade {
     IConexion conexion;
     private IUsuarioDAO usuarioDAO;
 
+    // Constructor con inyección de dependencias para facilitar pruebas
     public UsuarioFacade() {
-        conexion = new Conexion();
+        this.conexion = new Conexion();
         try {
             this.usuarioDAO = DAOFactory.instanciaUsuarioDAO(conexion);
         } catch (ModelException ex) {
@@ -60,5 +61,7 @@ public class UsuarioFacade implements IUsuarioFacade {
             throw new ControllerException("Error al verificar correo", ex);
         }
     }
+
+
 
 }

@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.itson.mythify.conexion.Conexion;
 import org.itson.mythify.conexion.InitialConfig;
 import org.itson.mythify.exceptions.ControllerException;
 import org.itson.mythify.facade.usuario.IUsuarioFacade;

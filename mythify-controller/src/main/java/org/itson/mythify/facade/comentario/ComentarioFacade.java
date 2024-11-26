@@ -41,8 +41,8 @@ public class ComentarioFacade implements IComentarioFacade {
             return comentarioDAO.crearComentario(comentario);
         } catch (ModelException ex) {
             Logger.getLogger(ComentarioFacade.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ControllerException("Error creating comment", ex);
         }
-        return null;
     }
 
     @Override
@@ -51,6 +51,7 @@ public class ComentarioFacade implements IComentarioFacade {
             comentarioDAO.eliminarComentario(idComentario);
         } catch (ModelException ex) {
             Logger.getLogger(ComentarioFacade.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ControllerException("Error deleting comment", ex);
         }
     }
 
@@ -60,8 +61,8 @@ public class ComentarioFacade implements IComentarioFacade {
             return comentarioDAO.consultarComentarios(idPost);
         } catch (ModelException ex) {
             Logger.getLogger(ComentarioFacade.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ControllerException("Error fetching comments", ex);
         }
-        return null;
     }
 
     @Override
@@ -70,8 +71,8 @@ public class ComentarioFacade implements IComentarioFacade {
             return comentarioDAO.consultarComentarioPorID(idComentario);
         } catch (ModelException ex) {
             Logger.getLogger(ComentarioFacade.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ControllerException("Error fetching comment by ID", ex);
         }
-        return null;
     }
 
     @Override
@@ -80,6 +81,7 @@ public class ComentarioFacade implements IComentarioFacade {
             comentarioDAO.likearComentario(idUsuario, idComentario);
         } catch (ModelException ex) {
             Logger.getLogger(ComentarioFacade.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ControllerException("Error liking comment", ex);
         }
     }
 
@@ -89,6 +91,7 @@ public class ComentarioFacade implements IComentarioFacade {
             comentarioDAO.desLikearComentario(idUsuario, idComentario);
         } catch (ModelException ex) {
             Logger.getLogger(ComentarioFacade.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ControllerException("Error unliking comment", ex);
         }
     }
 
@@ -98,6 +101,7 @@ public class ComentarioFacade implements IComentarioFacade {
             comentarioDAO.operacionContadorComentario(idComentario, cantidad);
         } catch (ModelException ex) {
             Logger.getLogger(ComentarioFacade.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ControllerException("Error updating like count", ex);
         }
     }
 
@@ -107,8 +111,8 @@ public class ComentarioFacade implements IComentarioFacade {
             return comentarioDAO.consultarCantLikes(idComentario);
         } catch (ModelException ex) {
             Logger.getLogger(ComentarioFacade.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ControllerException("Error fetching like count", ex);
         }
-        return 0;
     }
 
     @Override
@@ -117,7 +121,7 @@ public class ComentarioFacade implements IComentarioFacade {
             return comentarioDAO.consultarComentariosLikeados(idUsuario);
         } catch (ModelException ex) {
             Logger.getLogger(ComentarioFacade.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ControllerException("Error fetching liked comments", ex);
         }
-        return null;
     }
 }

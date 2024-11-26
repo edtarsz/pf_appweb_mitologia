@@ -116,6 +116,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>21</maven.compiler.release>
         <!--comentarear esto para que se ejecuten los test-->
-        <skipTests>true</skipTests>
+<!--        <skipTests>true</skipTests>-->
     </properties>
 </project>

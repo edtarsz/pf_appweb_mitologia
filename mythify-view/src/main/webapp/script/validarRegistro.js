@@ -143,11 +143,11 @@ document.addEventListener("DOMContentLoaded", () => {
         if (telefono === "") {
             document.getElementById("telefonoError").textContent = "El teléfono es obligatorio.";
             esValido = false;
-        } else if (telefono.length < 10 || telefono.length > 10) {
-            document.getElementById("telefonoError").textContent = "El teléfono debe tener 10 dígitos.";
-            esValido = false;
         } else if (isNaN(telefono)) {
             document.getElementById("telefonoError").textContent = "El teléfono debe ser numérico.";
+            esValido = false;
+        } else if (telefono.length < 10 || telefono.length > 10) {
+            document.getElementById("telefonoError").textContent = "El teléfono debe tener 10 dígitos.";
             esValido = false;
         }
 

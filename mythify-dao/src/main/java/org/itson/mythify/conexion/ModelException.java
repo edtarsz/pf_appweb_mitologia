@@ -12,12 +12,6 @@ package org.itson.mythify.conexion;
  */
 public class ModelException extends Exception {
 
-    /**
-     * Crea una nueva {@code ModelException} sin mensaje.
-     */
-    public ModelException() {
-        super();
-    }
 
     /**
      * Crea una {@code ModelException} con el mensaje especificado.
@@ -38,12 +32,4 @@ public class ModelException extends Exception {
         super(message, cause);
     }
 
-    /**
-     * Crea una {@code ModelException} con la causa especificada.
-     *
-     * @param cause La causa de la excepción.
-     */
-    public ModelException(Throwable cause) {
-        super(cause);
-    }
 }

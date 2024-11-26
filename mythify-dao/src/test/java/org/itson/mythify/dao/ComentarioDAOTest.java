@@ -24,26 +24,25 @@ import org.itson.mythify.conexion.ModelException;
 import org.itson.mythify.entidad.Comentario;
 import org.itson.mythify.entidad.Post;
 import org.itson.mythify.entidad.Usuario;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 
 /**
- *
  * @author user
  */
 public class ComentarioDAOTest {
@@ -431,6 +430,96 @@ public class ComentarioDAOTest {
             comentarioDAO.likearComentario(idUsuario, idComentario);
         });
 
+        assertTrue(exception.getMessage().contains("Error al dar like al comentario"));
+    }
+
+    @Test
+    public void testLikearComentario_UsuarioNoEncontrado() {
+        // Given
+        int idUsuario = 1;
+        int idComentario = 1;
+
+        // Simula que el EntityManager no encuentra al usuario
+        when(mockEntityManager.find(Usuario.class, idUsuario)).thenReturn(null);
+
+        // When/Then
+        ModelException exception = assertThrows(ModelException.class, () -> {
+            comentarioDAO.likearComentario(idUsuario, idComentario);
+        });
+
+        // Verifica que el mensaje de la excepción es el esperado
+        assertEquals("No se encontró al usuario con ID: " + idUsuario, exception.getMessage());
+    }
+
+    @Test
+    public void testLikearComentario_ComentarioNoEncontrado() {
+        // Given
+        int idUsuario = 1;
+        int idComentario = 1;
+        Usuario usuario = new Usuario();
+        usuario.setIdUsuario(idUsuario);
+
+        // Configurar mocks
+        when(mockEntityManager.find(Usuario.class, idUsuario)).thenReturn(usuario);
+        when(mockEntityManager.find(Comentario.class, idComentario)).thenReturn(null);
+
+        // When/Then
+        ModelException exception = assertThrows(ModelException.class, () -> {
+            comentarioDAO.likearComentario(idUsuario, idComentario);
+        });
+
+        // Verifica que el mensaje de la excepción es el esperado
+        assertEquals("No se encontró el comentario con ID: " + idComentario, exception.getMessage());
+
+    }
+
+    @Test
+    public void testLikearComentario_ComentarioYaLikeado() throws ModelException {
+        // Given
+        int idUsuario = 1;
+        int idComentario = 1;
+
+        Usuario usuario = new Usuario();
+        usuario.setIdUsuario(idUsuario);
+
+        Comentario comentario = new Comentario();
+        comentario.setIdComentario(idComentario);
+
+        // Simula que el comentario ya fue likeado por el usuario
+        usuario.getComentariosLikeados().add(comentario);
+
+        // Configurar mocks
+        when(mockEntityManager.find(Usuario.class, idUsuario)).thenReturn(usuario);
+        when(mockEntityManager.find(Comentario.class, idComentario)).thenReturn(comentario);
+
+        doNothing().when(mockTransaction).begin();
+        doNothing().when(mockTransaction).commit();
+
+        // When
+        comentarioDAO.likearComentario(idUsuario, idComentario);
+
+        // Then
+        // Verifica que no se agregó el comentario nuevamente
+        assertEquals(1, usuario.getComentariosLikeados().size());
+
+    }
+
+    @Test
+    public void testLikearComentario_TransaccionNoActiva() {
+        // Given
+        int idUsuario = 1;
+        int idComentario = 1;
+
+        // Configurar mocks
+        when(mockEntityManager.find(Usuario.class, idUsuario)).thenThrow(new PersistenceException("Error simulado"));
+        when(mockTransaction.isActive()).thenReturn(false);
+
+        // When/Then
+        PersistenceException exception = assertThrows(PersistenceException.class, () -> {
+            comentarioDAO.likearComentario(idUsuario, idComentario);
+        });
+
+        // Verifica que el mensaje de la excepción es el esperado
         assertTrue(exception.getMessage().contains("Error al dar like al comentario"));
     }
 

@@ -30,7 +30,7 @@
     <h1>Iniciar Sesión</h1>
 
     <p class="description">
-      Lorem ipsum dolor sit amet consectetur adipiscing elit augue ornare
+      Mythify es un blog para compartir posts con temática de mitologías
     </p>
 
     <form action="SVUsuario" method="post" id="form-iniciar-sesion" novalidate>

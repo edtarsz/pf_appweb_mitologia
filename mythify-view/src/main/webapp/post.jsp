@@ -93,12 +93,6 @@
                                         </form>
 
                                         <a href="<c:url value='/SVPost?id=${post.idPost}&action=editarPost' />">EDITAR</a>
-
-                                        <form action="SVPost" method="post">
-                                            <input type="hidden" name="idPost" value="${post.idPost}">
-                                            <input type="hidden" name="action" value="borrarPost">
-                                            <button type="submit">ELIMINAR</button>
-                                        </form>
                                     </div>
                                 </div>
                             </c:if>

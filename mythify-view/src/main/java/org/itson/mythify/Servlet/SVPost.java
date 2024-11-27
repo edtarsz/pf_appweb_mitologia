@@ -328,8 +328,12 @@ public class SVPost extends HttpServlet {
     private void borrarPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int postId = Integer.parseInt(request.getParameter("idPost"));
 
+        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+
         try {
             postBO.eliminarPost(postId);
+            List<Post> postsLikeados = postBO.consultarPostLikeados(usuario.getIdUsuario());
+            request.getSession().setAttribute("postsLikeados", postsLikeados);
         } catch (ControllerException ex) {
             Logger.getLogger(SVPost.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -27,8 +27,7 @@ public class UsuarioFacade implements IUsuarioFacade {
     IConexion conexion;
     private IUsuarioDAO usuarioDAO;
 
-    // Constructor con inyección de dependencias para facilitar pruebas
-    public UsuarioFacade() {
+     public UsuarioFacade() {
         this.conexion = new Conexion(Persistence.createEntityManagerFactory("mythifyPU"));
         try {
             this.usuarioDAO = DAOFactory.instanciaUsuarioDAO(conexion);

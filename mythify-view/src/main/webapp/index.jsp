@@ -180,26 +180,22 @@
                                                                     </c:choose>
                                                                 </form>
                                                             </div>
-                                                            <div class="confirm-delete"
-                                                                id="confirm-delete-${post.idPost}"
-                                                                style="display: none;">
-                                                                <p>¿Estás seguro de que deseas eliminar
-                                                                    este post?</p>
-                                                                <button type="button" class="btn-confirm-delete"
-                                                                    data-post-id="${post.idPost}">Sí</button>
-                                                                <button type="button" class="btn-cancel-delete"
-                                                                    data-post-id="${post.idPost}">No</button>
-                                                            </div>
-                                                            <form id="confirm-delete-form-${post.idPost}" action="SVPost"
-                                                                method="post" style="display: none;">
-                                                                <input type="hidden" name="idPost"
-                                                                    value="${post.idPost}">
-                                                                <input type="hidden" name="action" value="borrarPost">
-                                                            </form>
                                                         </article>
+                                                        <div class="confirm-delete" id="confirm-delete-${post.idPost}">
+                                                            <p>¿Estás seguro de que deseas eliminar
+                                                                este post?</p>
+                                                            <button type="button" class="btn-confirm-delete"
+                                                                data-post-id="${post.idPost}">Sí</button>
+                                                            <button type="button" class="btn-cancel-delete"
+                                                                data-post-id="${post.idPost}">No</button>
+                                                        </div>
+                                                        <form id="confirm-delete-form-${post.idPost}" action="SVPost"
+                                                            method="post" style="display: none;">
+                                                            <input type="hidden" name="idPost" value="${post.idPost}">
+                                                            <input type="hidden" name="action" value="borrarPost">
+                                                        </form>
                                                     </c:if>
                                                 </c:forEach>
-
                                             </c:when>
                                             <c:otherwise>
                                                 <p>Aún no hay posts para mostrar.</p>

@@ -9,6 +9,15 @@ document.addEventListener("click", function (event) {
         const isVisible = dropdown.style.display === "block";
         closeAllDropdowns(); // Cierra todos los menús antes de abrir el actual
         dropdown.style.display = isVisible ? "none" : "block";
+    } else if (event.target.closest(".btn-delete")) {
+        const postId = event.target.dataset.postId;
+        document.getElementById(`confirm-delete-${postId}`).style.display = "flex";
+    } else if (event.target.closest(".btn-confirm-delete")) {
+        const postId = event.target.dataset.postId;
+        document.getElementById(`confirm-delete-form-${postId}`).submit();
+    } else if (event.target.closest(".btn-cancel-delete")) {
+        const postId = event.target.dataset.postId;
+        document.getElementById(`confirm-delete-${postId}`).style.display = "none";
     } else {
         // Cierra todos los menús si se hace clic fuera
         closeAllDropdowns();

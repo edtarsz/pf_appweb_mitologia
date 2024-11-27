@@ -1334,3 +1334,39 @@ small {
 .mis-publicaciones{
     margin: 20px 0 0 0;
 }
+
+.confirm-delete {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    z-index: 1000;
+    color: white;
+}
+
+.confirm-delete p {
+    margin-bottom: 20px;
+}
+
+.confirm-delete button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.confirm-delete .btn-confirm-delete {
+    background-color: #d9534f;
+    color: white;
+}
+
+.confirm-delete .btn-cancel-delete {
+    background-color: #5bc0de;
+    color: white;
+}

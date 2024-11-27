@@ -76,8 +76,7 @@ public class UsuarioDAO implements IUsuarioDAO {
                 logger.log(Level.INFO, "Successful login for user: {0}", usuario.getCorreo());
                 return usuario;
             } else {
-                logger.log(Level.WARNING, "Incorrect password for user: {0}", correo);
-                return null;
+                throw new ModelException("Incorrect password for user: " + correo);
             }
 
         } catch (NoResultException e) {

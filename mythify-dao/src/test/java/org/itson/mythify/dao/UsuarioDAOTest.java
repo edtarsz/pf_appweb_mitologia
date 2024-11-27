@@ -264,13 +264,11 @@ class UsuarioDAOTest {
         when(mockEntityManager.createQuery(mockCriteriaQuery)).thenReturn(mockQuery);
         when(mockQuery.getSingleResult()).thenReturn(mockUsuario);
 
-        // Invoca el método a probar con una contraseña incorrecta
-        Usuario resultado = usuarioDAO.consultarUsuario(correo, passwordIncorrecta);
-
-        // Verificaciones
-        assertNull(resultado); // Debe devolver null porque la contraseña es incorrecta
+        assertThrows(ModelException.class, () -> {
+            usuarioDAO.consultarUsuario(correo, passwordIncorrecta);
+        });
         verify(mockEntityManager).getCriteriaBuilder(); // Asegurarse de que se consultó el usuario
-        Logger.getLogger(UsuarioDAOTest.class.getName()).info("Contraseña incorrecta correctamente identificada.");
+
     }
 
     @Test

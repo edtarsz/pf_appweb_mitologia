@@ -21,7 +21,7 @@
     </head>
 
     <body>
-        <%@ include file="partials/header.jsp" %>
+        <%@ include file="partials/header.jspf" %>
         <div class="main-page">
             <div class="post-container">
                 <div></div>
@@ -37,6 +37,6 @@
             </div>
         </div>
     </body>
-    <%@ include file="partials/footer.jsp" %>
+    <%@ include file="partials/footer.jspf" %>
 
 </html>

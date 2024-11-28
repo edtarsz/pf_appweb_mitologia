@@ -8,9 +8,7 @@
             <span class="header-text">Mythify</span>
         </button>
     </form>
-    <div class="search-bar-container">
-        <input type="text" class="search-bar" placeholder="Buscar..." />
-        <img src="${pageContext.request.contextPath}/img/search-icon.svg" alt="Buscar" class="search-icon" />
+    <div >
     </div>
     <div class="container-avatar-header">
         <div class="clicking">

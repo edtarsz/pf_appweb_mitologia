@@ -31,6 +31,7 @@ public class FiltroAutenticacion implements Filter {
             "iniciarSesion.jsp",
             "/style/style.css",
             "/img/statue.png",
+            "/img/excepcion.jpg",
             "/script/registrar.js",
             "/SVUsuario",
             "/img/icon.svg",

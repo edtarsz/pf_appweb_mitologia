@@ -25,6 +25,7 @@
         <%@ include file="partials/header.jspf" %>
         <div class="main-page">
             <div class="post-container">
+                <div></div>
                 <main>
                     <div class="error-content">
                         <h1>Uh oh!!</h1>
@@ -34,6 +35,7 @@
                         <img src="<c:url value='/img/excepcion.jpg' />" alt="exception">
                     </div>
                 </main>
+                <div></div>
             </div>
         </div>
     </body>

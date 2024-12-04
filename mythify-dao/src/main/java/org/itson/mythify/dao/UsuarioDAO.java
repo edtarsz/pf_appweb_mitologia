@@ -11,8 +11,8 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityTransaction;
 
-import org.jasypt.util.password.PasswordEncryptor;
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
 /**
@@ -103,5 +103,87 @@ public class UsuarioDAO implements IUsuarioDAO {
         }
     }
 
-    
+    public boolean actualizarUsuario(Usuario usuario) throws ModelException {
+        try {
+            if (usuario == null) {
+                logger.warning("Intento de actualizar usuario nulo");
+                return false;
+            }
+
+            entityManager.getTransaction().begin();
+
+            Usuario usuarioExistente = entityManager.find(Usuario.class, usuario.getIdUsuario());
+
+            if (usuarioExistente == null) {
+                entityManager.getTransaction().rollback();
+                logger.warning("Usuario no encontrado para actualización");
+                return false;
+            }
+
+            if (usuario.getNombre() != null) {
+                usuarioExistente.setNombre(usuario.getNombre());
+            }
+
+            if (usuario.getApellidoPaterno() != null) {
+                usuarioExistente.setApellidoPaterno(usuario.getApellidoPaterno());
+            }
+
+            if (usuario.getApellidoMaterno() != null) {
+                usuarioExistente.setApellidoMaterno(usuario.getApellidoMaterno());
+            }
+
+            if (usuario.getCorreo() != null) {
+                usuarioExistente.setCorreo(usuario.getCorreo());
+            }
+
+            if (usuario.getContrasenia() != null) {
+                usuarioExistente.setContrasenia(
+                        passwordEncryptor.encryptPassword(usuario.getContrasenia())
+                );
+            }
+
+            if (usuario.getTelefono() != null) {
+                usuarioExistente.setTelefono(usuario.getTelefono());
+            }
+
+            if (usuario.getAvatar() != null) {
+                usuarioExistente.setAvatar(usuario.getAvatar());
+            }
+
+            if (usuario.getCiudad() != null) {
+                usuarioExistente.setCiudad(usuario.getCiudad());
+            }
+
+            if (usuario.getFechaNacimiento() != null) {
+                usuarioExistente.setFechaNacimiento(usuario.getFechaNacimiento());
+            }
+
+            if (usuario.getGenero() != null) {
+                usuarioExistente.setGenero(usuario.getGenero());
+            }
+
+            if (usuario.getTipoUsuario() != null) {
+                usuarioExistente.setTipoUsuario(usuario.getTipoUsuario());
+            }
+
+            if (usuario.getMunicipio() != null) {
+                usuarioExistente.setMunicipio(usuario.getMunicipio());
+            }
+
+            entityManager.merge(usuarioExistente);
+
+            entityManager.getTransaction().commit();
+
+            logger.info("Usuario actualizado exitosamente");
+            return true;
+
+        } catch (Exception ex) {
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
+
+            logger.log(Level.SEVERE, "Error al actualizar usuario", ex);
+            throw new ModelException("Error en actualización de usuario: " + ex.getMessage());
+        }
+    }
 }

@@ -63,4 +63,13 @@ public class UsuarioFacade implements IUsuarioFacade {
             throw new ControllerException("Error al verificar correo", ex);
         }
     }
+
+    public boolean actualizarUsuario(Usuario usuario) throws ControllerException {
+        try {
+            usuarioDAO.actualizarUsuario(usuario);
+            return true;
+        } catch (ModelException ex) {
+            throw new ControllerException("Error al actualizar usuario", ex);
+        }
+    }
 }

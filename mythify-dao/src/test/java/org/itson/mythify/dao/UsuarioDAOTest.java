@@ -1,14 +1,6 @@
 package org.itson.mythify.dao;
 
-import org.itson.mythify.conexion.IConexion;
-import org.itson.mythify.conexion.ModelException;
-import org.itson.mythify.entidad.Usuario;
-import org.jasypt.util.password.StrongPasswordEncryptor;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -19,10 +11,30 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import java.util.logging.Logger;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import org.itson.mythify.conexion.IConexion;
+import org.itson.mythify.conexion.ModelException;
+import org.itson.mythify.entidad.Usuario;
+import org.jasypt.util.password.StrongPasswordEncryptor;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.mockito.ArgumentMatchers.any;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import org.mockito.MockitoAnnotations;
 
 class UsuarioDAOTest {
 
@@ -151,7 +163,6 @@ class UsuarioDAOTest {
         verify(mockTransaction, never()).rollback(); // Asegurarse de que no se llama a rollback
         verify(mockEntityManager).persist(any(Usuario.class));
     }
-
 
     @Test
     public void testConsultarUsuario_Exito() throws ModelException {
@@ -295,7 +306,6 @@ class UsuarioDAOTest {
         verify(mockEntityManager).getCriteriaBuilder();
     }
 
-
     @Test
     public void testVerificarCorreoExistente_Exito() throws ModelException {
         // Datos de prueba
@@ -403,4 +413,50 @@ class UsuarioDAOTest {
         verify(mockEntityManager).getCriteriaBuilder();
     }
 
+    @Test
+    public void testActualizarUsuario_Exitoso() throws ModelException {
+        Usuario usuarioExistente = new Usuario();
+        usuarioExistente.setIdUsuario(50);
+        usuarioExistente.setCorreo("test@gmail.com");
+        usuarioExistente.setContrasenia("Password123");
+
+        Usuario usuarioActualizacion = new Usuario();
+        usuarioActualizacion.setIdUsuario(50);
+        usuarioActualizacion.setCorreo("nuevoCorreo@gmail.com");
+        usuarioActualizacion.setContrasenia("NewPassword123");
+
+        when(mockEntityManager.find(Usuario.class, usuarioExistente.getIdUsuario()))
+                .thenReturn(usuarioExistente);
+        when(mockTransaction.isActive()).thenReturn(true);
+        doNothing().when(mockTransaction).begin();
+        doNothing().when(mockTransaction).commit();
+
+        boolean resultado = usuarioDAO.actualizarUsuario(usuarioActualizacion);
+
+        assertTrue(resultado);
+        verify(mockEntityManager).merge(any(Usuario.class));
+        verify(mockTransaction).begin();
+        verify(mockTransaction).commit();
+    }
+
+    @Test
+    public void testActualizarUsuario_FalloUsuarioNoEncontrado() throws ModelException {
+        Usuario usuarioActualizacion = new Usuario();
+        usuarioActualizacion.setIdUsuario(50);
+        usuarioActualizacion.setCorreo("nuevoCorreo@gmail.com");
+        usuarioActualizacion.setContrasenia("NewPassword123");
+
+        when(mockEntityManager.find(Usuario.class, usuarioActualizacion.getIdUsuario()))
+                .thenReturn(null);
+        when(mockTransaction.isActive()).thenReturn(true);
+        doNothing().when(mockTransaction).begin();
+        doNothing().when(mockTransaction).rollback();
+
+        boolean resultado = usuarioDAO.actualizarUsuario(usuarioActualizacion);
+
+        assertFalse(resultado);
+        verify(mockEntityManager, never()).merge(any(Usuario.class));
+        verify(mockTransaction).begin();
+        verify(mockTransaction).rollback();
+    }
 }

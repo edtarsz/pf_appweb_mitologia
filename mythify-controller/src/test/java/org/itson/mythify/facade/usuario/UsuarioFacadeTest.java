@@ -9,14 +9,21 @@ import org.itson.mythify.conexion.ModelException;
 import org.itson.mythify.dao.IUsuarioDAO;
 import org.itson.mythify.entidad.Usuario;
 import org.itson.mythify.exceptions.ControllerException;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 class UsuarioFacadeTest {
 
@@ -59,8 +66,8 @@ class UsuarioFacadeTest {
         Usuario usuarioEsperado = new Usuario();
         when(usuarioDAOMock.consultarUsuario("correo@test.com", "password123")).thenReturn(usuarioEsperado);
 
-        Usuario usuarioResultado = assertDoesNotThrow(() ->
-                usuarioFacade.consultarUsuario("correo@test.com", "password123"));
+        Usuario usuarioResultado = assertDoesNotThrow(()
+                -> usuarioFacade.consultarUsuario("correo@test.com", "password123"));
 
         assertEquals(usuarioEsperado, usuarioResultado);
         verify(usuarioDAOMock, times(1)).consultarUsuario("correo@test.com", "password123");
@@ -100,7 +107,6 @@ class UsuarioFacadeTest {
         verify(usuarioDAOMock, times(1)).verificarCorreoExistente("correo@test.com");
     }
 
-
     @Test
     void testVerificarCorreoExistenteLanzaControllerException() throws Exception {
         when(usuarioDAOMock.verificarCorreoExistente("correo@test.com"))
@@ -112,5 +118,34 @@ class UsuarioFacadeTest {
         assertEquals("Error al verificar correo", exception.getMessage());
         verify(usuarioDAOMock, times(1)).verificarCorreoExistente("correo@test.com");
     }
-}
 
+    @Test
+    void testActualizarUsuario_Exito() throws Exception {
+        Usuario usuario = new Usuario();
+        usuario.setIdUsuario(50);
+        usuario.setNombre("Test User");
+        usuario.setCorreo("test@example.com");
+
+        when(usuarioDAOMock.actualizarUsuario(usuario)).thenReturn(true);
+
+        assertDoesNotThrow(() -> usuarioFacade.actualizarUsuario(usuario));
+
+        verify(usuarioDAOMock, times(1)).actualizarUsuario(usuario);
+    }
+
+    @Test
+    void testActualizarUsuarioLanzaControllerException() throws Exception {
+        Usuario usuario = new Usuario();
+        usuario.setIdUsuario(50);
+        usuario.setNombre("Test User");
+        usuario.setCorreo("test@example.com");
+
+        doThrow(new ModelException("Error al actualizar usuario")).when(usuarioDAOMock).actualizarUsuario(usuario);
+
+        ControllerException exception = assertThrows(ControllerException.class,
+                () -> usuarioFacade.actualizarUsuario(usuario));
+
+        assertEquals("Error al actualizar usuario", exception.getMessage());
+        verify(usuarioDAOMock, times(1)).actualizarUsuario(usuario);
+    }
+}

@@ -21,4 +21,6 @@ public interface IUsuarioDAO {
 
     public boolean verificarCorreoExistente(String correo) throws ModelException;
 
+    public boolean actualizarUsuario(Usuario usuario) throws ModelException;
+
 }

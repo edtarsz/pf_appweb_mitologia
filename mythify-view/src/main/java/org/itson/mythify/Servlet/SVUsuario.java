@@ -19,7 +19,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-import org.itson.mythify.conexion.Conexion;
 import org.itson.mythify.entidad.Comentario;
 import org.itson.mythify.entidad.Estado;
 import org.itson.mythify.entidad.Municipio;
